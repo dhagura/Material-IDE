@@ -1,145 +1,266 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 9 — HTTP, recursos, solicitudes, respuestas y fundamentos de servicios geoespaciales</title><style>
-:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
-a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_09_HTTP_Recursos_Solicitudes_Respuestas.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo-con-curl">Ejemplo con curl</a><a class="" href="#9-1-2xx-exito">9.1. 2xx — Éxito</a><a class="" href="#9-2-4xx-problemas-asociados-a-la-solicitud">9.2. 4xx — Problemas asociados a la solicitud</a><a class="" href="#9-3-5xx-error-de-servidor">9.3. 5xx — Error de servidor</a><a class="sub" href="#ejemplo-conceptual">Ejemplo conceptual</a><a class="" href="#json-y-geojson">JSON y GeoJSON</a><a class="" href="#xml-y-gml">XML y GML</a><a class="" href="#imagenes">Imágenes</a><a class="sub" href="#ejemplo">Ejemplo</a><a class="" href="#21-1-solicitud-basica">21.1. Solicitud básica</a><a class="" href="#21-2-getcapabilities">21.2. GetCapabilities</a><a class="" href="#21-3-error-controlado">21.3. Error controlado</a><a class="" href="#21-4-formatos">21.4. Formatos</a><a class="" href="#21-5-evidencia">21.5. Evidencia</a><a class="" href="#un-200-significa-siempre-que-el-dato-es-correcto">¿Un 200 significa siempre que el dato es correcto?</a><a class="" href="#para-que-sirve-content-type">¿Para qué sirve Content-Type?</a><a class="" href="#por-que-estudiar-http-si-qgis-ya-consume-servicios">¿Por qué estudiar HTTP si QGIS ya consume servicios?</a></aside><main><h1>Semana 9 — HTTP, recursos, solicitudes, respuestas y fundamentos de servicios geoespaciales</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 3 — Publicación de servicios interoperables y APIs geoespaciales</div></div>
-
-
-<h1>1. Marco de la semana</h1>
-<p>La Semana 9 inicia la Unidad 3 con los principios HTTP, recursos, solicitudes, respuestas, formatos, codificación, documentos de capacidades y manejo de errores. El objetivo es construir una base web común antes de estudiar WMS, WFS y OGC API.</p>
-<p>Muchos estudiantes pueden haber consumido servicios desde QGIS sin observar qué ocurre en la red. Esta semana abre esa “caja negra”.</p>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito">2. Propósito</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-modelo-cliente-servidor">4. Modelo cliente-servidor</a><a class="" href="#5-anatomía-de-una-url">5. Anatomía de una URL</a><a class="" href="#6-métodos-http">6. Métodos HTTP</a><a class="" href="#7-solicitudes">7. Solicitudes</a><a class="" href="#8-respuestas">8. Respuestas</a><a class="" href="#9-códigos-de-estado">9. Códigos de estado</a><a class="sub" href="#91-2xx--éxito">9.1. 2xx — Éxito</a><a class="sub" href="#92-4xx--problemas-asociados-a-la-solicitud">9.2. 4xx — Problemas
+asociados a la solicitud</a><a class="sub" href="#93-5xx--error-de-servidor">9.3. 5xx — Error de servidor</a><a class="" href="#10-cabeceras">10. Cabeceras</a><a class="" href="#11-tipos-de-contenido">11. Tipos de contenido</a><a class="" href="#12-parámetros-de-consulta-y-codificación">12. Parámetros de
+consulta y codificación</a><a class="" href="#13-documentos-de-capacidades">13. Documentos de capacidades</a><a class="" href="#14-descubrimiento-en-ogc-api">14. Descubrimiento en OGC API</a><a class="" href="#15-formatos-geoespaciales-en-web">15. Formatos geoespaciales en
+web</a><a class="sub" href="#json-y-geojson">JSON y GeoJSON</a><a class="sub" href="#xml-y-gml">XML y GML</a><a class="sub" href="#imágenes">Imágenes</a><a class="" href="#16-errores-geoespaciales-versus-errores-http">16. Errores
+geoespaciales versus errores HTTP</a><a class="" href="#17-idempotencia-y-caché">17. Idempotencia y caché</a><a class="" href="#18-https">18. HTTPS</a><a class="" href="#19-herramientas-de-inspección">19. Herramientas de
+inspección</a><a class="" href="#20-caso-de-diagnóstico">20. Caso de diagnóstico</a><a class="" href="#casos-técnicos-guiados--http-aplicado-a-servicios-geoespaciales">Casos
+técnicos guiados — HTTP aplicado a servicios geoespaciales</a><a class="sub" href="#ejemplo-1--inspeccionar-cabeceras-y-estado">Ejemplo 1 —
+Inspeccionar cabeceras y estado</a><a class="sub" href="#ejemplo-2--negociación-de-representación">Ejemplo 2 —
+Negociación de representación</a><a class="sub" href="#ejemplo-3--query-parameters">Ejemplo 3 — Query parameters</a><a class="sub" href="#ejemplo-4--codificación-de-caracteres">Ejemplo 4 — Codificación
+de caracteres</a><a class="sub" href="#ejemplo-5--geojson-como-respuesta">Ejemplo 5 — GeoJSON como
+respuesta</a><a class="sub" href="#ejemplo-6--errores-http-que-deben-interpretarse">Ejemplo 6 —
+Errores HTTP que deben interpretarse</a><a class="sub" href="#ejemplo-7--medir-tiempos-con-curl">Ejemplo 7 — Medir tiempos con
+curl</a><a class="sub" href="#ejemplo-8--probar-contenido-inválido">Ejemplo 8 — Probar
+contenido inválido</a><a class="sub" href="#ejemplo-9--openapi-como-contrato-de-api">Ejemplo 9 — OpenAPI
+como contrato de API</a><a class="sub" href="#ejercicio-guiado">Ejercicio guiado</a><a class="" href="#21-laboratorio-9--inspección-http">21. Laboratorio 9 —
+Inspección HTTP</a><a class="sub" href="#211-solicitud-básica">21.1. Solicitud básica</a><a class="sub" href="#212-getcapabilities">21.2. GetCapabilities</a><a class="sub" href="#213-error-controlado">21.3. Error controlado</a><a class="sub" href="#214-formatos">21.4. Formatos</a><a class="sub" href="#215-evidencia">21.5. Evidencia</a><a class="" href="#22-entregable">22. Entregable</a><a class="" href="#23-secuencia-sugerida">23. Secuencia sugerida</a><a class="" href="#24-preguntas-de-cierre">24. Preguntas de cierre</a><a class="sub" href="#un-200-significa-siempre-que-el-dato-es-correcto">¿Un 200
+significa siempre que el dato es correcto?</a><a class="sub" href="#para-qué-sirve-content-type">¿Para qué sirve Content-Type?</a><a class="sub" href="#por-qué-estudiar-http-si-qgis-ya-consume-servicios">¿Por qué
+estudiar HTTP si QGIS ya consume servicios?</a><a class="" href="#25-errores-frecuentes">25. Errores frecuentes</a><a class="" href="#26-glosario">26. Glosario</a><a class="" href="#27-trabajo-autónomo">27. Trabajo autónomo</a><a class="" href="#28-referencias">28. Referencias</a><a class="sub" href="#r4-openapi-initiative-openapi-specification-httpsspecopenapisorgoaslatesthtml">[R4] OpenAPI Initiative. OpenAPI Specification . https://spec.openapis.org/oas/latest.html</a><a class="" href="#29-síntesis">29. Síntesis</a></aside><main><h1>Semana 9 — HTTP, recursos, solicitudes, respuestas y fundamentos de servicios geoespaciales</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales  </div><div class="label">Código</div><div>12436  </div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática  </div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental  </div><div class="label">Unidad</div><div>Unidad 3 — Publicación de servicios interoperables y APIs geoespaciales</div></div><h1 id="1-marco-de-la-semana">1. Marco de la semana</h1>
+<p>La Semana 9 inicia la Unidad 3 con los principios HTTP, recursos,
+solicitudes, respuestas, formatos, codificación, documentos de
+capacidades y manejo de errores. El objetivo es construir una base web
+común antes de estudiar WMS, WFS y OGC API.</p>
+<p>Muchos estudiantes pueden haber consumido servicios desde QGIS sin
+observar qué ocurre en la red. Esta semana abre esa “caja negra”.</p>
 <hr/>
-<h1>2. Propósito</h1>
-<p>Comprender HTTP permite interpretar servicios OGC clásicos y APIs modernas. Una URL WMS, una petición a <code>collections/{id}/items</code> y un error 404 son manifestaciones de los mismos fundamentos web.</p>
-<p>La meta no es convertir el curso en desarrollo web general, sino dar al estudiante herramientas para diagnosticar interoperabilidad sin depender exclusivamente de una interfaz gráfica.</p>
+<h1 id="2-propósito">2. Propósito</h1>
+<p>Comprender HTTP permite interpretar servicios OGC clásicos y APIs
+modernas. Una URL WMS, una petición a
+<code>collections/{id}/items</code> y un error 404 son manifestaciones
+de los mismos fundamentos web.</p>
+<p>La meta no es convertir el curso en desarrollo web general, sino dar
+al estudiante herramientas para diagnosticar interoperabilidad sin
+depender exclusivamente de una interfaz gráfica.</p>
 <hr/>
-<h1>3. Resultados de aprendizaje</h1>
-<p>Al finalizar la semana, el estudiante deberá reconocer componentes de una URL, métodos HTTP, códigos de estado, cabeceras, tipos de contenido, parámetros, codificación y estructura general de solicitudes/respuestas.</p>
-<p>También deberá utilizar navegador, <code>curl</code> o una herramienta equivalente para inspeccionar servicios y diferenciar errores de cliente, servidor, autenticación, formato y recurso inexistente.</p>
+<h1 id="3-resultados-de-aprendizaje">3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá reconocer componentes de
+una URL, métodos HTTP, códigos de estado, cabeceras, tipos de contenido,
+parámetros, codificación y estructura general de
+solicitudes/respuestas.</p>
+<p>También deberá utilizar navegador, <code>curl</code> o una
+herramienta equivalente para inspeccionar servicios y diferenciar
+errores de cliente, servidor, autenticación, formato y recurso
+inexistente.</p>
 <hr/>
-<h1>4. Modelo cliente-servidor</h1>
-<div class="mermaid">sequenceDiagram
+<h1 id="4-modelo-cliente-servidor">4. Modelo cliente-servidor</h1>
+<pre class="mermaid">sequenceDiagram
     participant C as Cliente
     participant S as Servidor
     C-&gt;&gt;S: Solicitud HTTP
-    S-&gt;&gt;C: Respuesta HTTP
-</div>
-<p>El cliente puede ser QGIS, un navegador, una aplicación web o un script. El servidor procesa la solicitud y responde con datos, una imagen, un documento o un error.</p>
-<p>La interoperabilidad depende de que ambas partes compartan reglas de comunicación suficientemente precisas.</p>
+    S-&gt;&gt;C: Respuesta HTTP</pre>
+<p>El cliente puede ser QGIS, un navegador, una aplicación web o un
+script. El servidor procesa la solicitud y responde con datos, una
+imagen, un documento o un error.</p>
+<p>La interoperabilidad depende de que ambas partes compartan reglas de
+comunicación suficientemente precisas.</p>
 <hr/>
-<h1>5. Anatomía de una URL</h1>
-<p>Una URL puede contener esquema, host, puerto, ruta, consulta y fragmento.</p>
-<pre><code class="language-text">https://geo.ejemplo.cl/geoserver/wms?service=WMS&amp;request=GetCapabilities
-</code></pre>
+<h1 id="5-anatomía-de-una-url">5. Anatomía de una URL</h1>
+<p>Una URL puede contener esquema, host, puerto, ruta, consulta y
+fragmento.</p>
+<pre class="text"><code>https://geo.ejemplo.cl/geoserver/wms?service=WMS&amp;request=GetCapabilities</code></pre>
 <ul>
-<li><strong>Esquema.</strong> <code>https</code> indica el protocolo y protección de la comunicación.</li>
-<li><strong>Host.</strong> <code>geo.ejemplo.cl</code> identifica el servidor o dominio.</li>
-<li><strong>Ruta.</strong> <code>/geoserver/wms</code> identifica un recurso o endpoint.</li>
-<li><strong>Query string.</strong> Los parámetros posteriores a <code>?</code> entregan información adicional.</li>
+<li><strong>Esquema.</strong> <code>https</code> indica el protocolo y
+protección de la comunicación.</li>
+<li><strong>Host.</strong> <code>geo.ejemplo.cl</code> identifica el
+servidor o dominio.</li>
+<li><strong>Ruta.</strong> <code>/geoserver/wms</code> identifica un
+recurso o endpoint.</li>
+<li><strong>Query string.</strong> Los parámetros posteriores a
+<code>?</code> entregan información adicional.</li>
 </ul>
-<p>Comprender esta estructura permite diagnosticar si el problema está en dominio, ruta o parámetros.</p>
+<p>Comprender esta estructura permite diagnosticar si el problema está
+en dominio, ruta o parámetros.</p>
 <hr/>
-<h1>6. Métodos HTTP</h1>
+<h1 id="6-métodos-http">6. Métodos HTTP</h1>
 <p>Los métodos indican la intención de la solicitud.</p>
 <ul>
-<li><strong>GET.</strong> Recupera una representación o recurso y es frecuente en consultas de servicios geoespaciales.</li>
-<li><strong>POST.</strong> Envía una representación o solicitud en el cuerpo; puede utilizarse para consultas complejas o creación según la API.</li>
-<li><strong>PUT/PATCH.</strong> Se utilizan en APIs que permiten actualizar recursos.</li>
-<li><strong>DELETE.</strong> Solicita eliminación cuando la interfaz lo soporta.</li>
+<li><strong>GET.</strong> Recupera una representación o recurso y es
+frecuente en consultas de servicios geoespaciales.</li>
+<li><strong>POST.</strong> Envía una representación o solicitud en el
+cuerpo; puede utilizarse para consultas complejas o creación según la
+API.</li>
+<li><strong>PUT/PATCH.</strong> Se utilizan en APIs que permiten
+actualizar recursos.</li>
+<li><strong>DELETE.</strong> Solicita eliminación cuando la interfaz lo
+soporta.</li>
 </ul>
-<p>Los servicios OGC de publicación vistos en el curso se concentrarán principalmente en lectura, pero comprender el modelo ayuda a interpretar APIs.</p>
+<p>Los servicios OGC de publicación vistos en el curso se concentrarán
+principalmente en lectura, pero comprender el modelo ayuda a interpretar
+APIs.</p>
 <hr/>
-<h1>7. Solicitudes</h1>
-<p>Una solicitud HTTP contiene método, URL, cabeceras y, en algunos casos, cuerpo.</p>
+<h1 id="7-solicitudes">7. Solicitudes</h1>
+<p>Una solicitud HTTP contiene método, URL, cabeceras y, en algunos
+casos, cuerpo.</p>
 <h3 id="ejemplo-con-curl">Ejemplo con curl</h3>
-<pre><code class="language-bash">curl -i "https://servidor.example/endpoint"
-</code></pre>
-<p>La opción <code>-i</code> permite observar cabeceras de respuesta. Durante el laboratorio se utilizarán endpoints reales disponibles para el curso.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-i</span> <span class="st">"https://servidor.example/endpoint"</span></span></code></pre></div>
+<p>La opción <code>-i</code> permite observar cabeceras de respuesta.
+Durante el laboratorio se utilizarán endpoints reales disponibles para
+el curso.</p>
 <hr/>
-<h1>8. Respuestas</h1>
+<h1 id="8-respuestas">8. Respuestas</h1>
 <p>Una respuesta contiene código de estado, cabeceras y cuerpo.</p>
-<pre><code class="language-text">HTTP/1.1 200 OK
+<pre class="text"><code>HTTP/1.1 200 OK
 Content-Type: application/json
 
-{ ... }
-</code></pre>
-<p>El cliente debe interpretar no solo el cuerpo. El código y tipo de contenido indican qué ocurrió y cómo procesar la respuesta.</p>
+{ ... }</code></pre>
+<p>El cliente debe interpretar no solo el cuerpo. El código y tipo de
+contenido indican qué ocurrió y cómo procesar la respuesta.</p>
 <hr/>
-<h1>9. Códigos de estado</h1>
-<h2 id="9-1-2xx-exito">9.1. 2xx — Éxito</h2>
-<p><code>200 OK</code> indica que la solicitud se procesó correctamente. Otros códigos pueden expresar creación o ausencia de cuerpo según la operación.</p>
-<h2 id="9-2-4xx-problemas-asociados-a-la-solicitud">9.2. 4xx — Problemas asociados a la solicitud</h2>
-<p><code>400</code> suele indicar una petición inválida; <code>401</code> falta de autenticación válida; <code>403</code> acceso prohibido; <code>404</code> recurso no encontrado.</p>
-<h2 id="9-3-5xx-error-de-servidor">9.3. 5xx — Error de servidor</h2>
-<p>Indican que el servidor no pudo completar una solicitud que llegó hasta él. Un <code>500</code> no debe resolverse simplemente reintentando indefinidamente; requiere revisar logs o configuración.</p>
-<p>Los códigos ayudan a dirigir diagnóstico hacia cliente, permisos, rutas o servidor.</p>
+<h1 id="9-códigos-de-estado">9. Códigos de estado</h1>
+<h2 id="91-2xx--éxito">9.1. 2xx — Éxito</h2>
+<p>Los códigos 2xx indican que el servidor procesó satisfactoriamente la
+solicitud, aunque cada código puede expresar un resultado distinto.
+<code>200 OK</code> es habitual para consultas que devuelven contenido;
+<code>201 Created</code> puede utilizarse cuando se crea un recurso y
+<code>204 No Content</code> cuando la operación fue exitosa pero no
+necesita devolver cuerpo.</p>
+<p>En una IDE, observar solamente que “no hubo error” es insuficiente.
+El cliente también debe verificar <code>Content-Type</code>, estructura
+y contenido esperado. Una API puede devolver <code>200</code> con una
+colección vacía porque el BBOX no intersecta datos, lo cual es diferente
+de una falla.</p>
+<h2 id="92-4xx--problemas-asociados-a-la-solicitud">9.2. 4xx — Problemas
+asociados a la solicitud</h2>
+<p>Los códigos 4xx indican que el servidor recibió la solicitud, pero
+existe un problema relacionado con lo que el cliente pidió o con sus
+credenciales. <code>400 Bad Request</code> suele representar parámetros
+mal formados; <code>401 Unauthorized</code>, falta de autenticación
+válida; <code>403 Forbidden</code>, identidad autenticada sin permiso; y
+<code>404 Not Found</code>, recurso inexistente.</p>
+<p>El diagnóstico debe comenzar por revisar URL, parámetros, formato,
+autenticación y autorización antes de atribuir el problema a una caída
+del servidor. Una respuesta bien diseñada debería aportar suficiente
+contexto para corregir la solicitud.</p>
+<h2 id="93-5xx--error-de-servidor">9.3. 5xx — Error de servidor</h2>
+<p>Los códigos 5xx indican que el servidor o alguna dependencia impidió
+completar una solicitud. <code>500 Internal Server Error</code> suele
+reflejar una excepción no controlada, mientras <code>502</code>,
+<code>503</code> o <code>504</code> pueden aparecer cuando intervienen
+proxies, servicios no disponibles o tiempos de espera agotados.</p>
+<p>Un <code>500</code> no debe resolverse simplemente reintentando
+indefinidamente. El administrador debe revisar logs, estado de base de
+datos, conectividad y cambios recientes. La clasificación HTTP ayuda a
+orientar el diagnóstico hacia solicitud, permisos, rutas o
+infraestructura.</p>
 <hr/>
-<h1>10. Cabeceras</h1>
+<h1 id="10-cabeceras">10. Cabeceras</h1>
 <p>Las cabeceras transmiten metainformación de la comunicación.</p>
 <p>Ejemplos:</p>
 <ul>
 <li><code>Content-Type</code> indica el tipo del cuerpo.</li>
 <li><code>Accept</code> expresa formatos que el cliente prefiere.</li>
-<li><code>Authorization</code> puede transportar credenciales o tokens.</li>
+<li><code>Authorization</code> puede transportar credenciales o
+tokens.</li>
 <li>Cabeceras de caché controlan reutilización de respuestas.</li>
 </ul>
-<p>Una API bien diseñada permite negociar representaciones sin inferir formatos solo por extensiones de archivo.</p>
+<p>Una API bien diseñada permite negociar representaciones sin inferir
+formatos solo por extensiones de archivo.</p>
 <hr/>
-<h1>11. Tipos de contenido</h1>
-<p>Los servicios geoespaciales pueden devolver XML, JSON, GeoJSON, PNG, JPEG, GML u otros formatos.</p>
-<p>El <code>Content-Type</code> debe ser coherente con el contenido. Un problema común es recibir una página HTML de error cuando el cliente esperaba JSON; observar la cabecera ayuda a identificarlo rápidamente.</p>
+<h1 id="11-tipos-de-contenido">11. Tipos de contenido</h1>
+<p>Los servicios geoespaciales pueden devolver XML, JSON, GeoJSON, PNG,
+JPEG, GML u otros formatos.</p>
+<p>El <code>Content-Type</code> debe ser coherente con el contenido. Un
+problema común es recibir una página HTML de error cuando el cliente
+esperaba JSON; observar la cabecera ayuda a identificarlo
+rápidamente.</p>
 <hr/>
-<h1>12. Parámetros de consulta y codificación</h1>
-<p>Los parámetros viajan con frecuencia en la query string. Caracteres especiales deben codificarse adecuadamente.</p>
+<h1 id="12-parámetros-de-consulta-y-codificación">12. Parámetros de
+consulta y codificación</h1>
+<p>Los parámetros viajan con frecuencia en la query string. Caracteres
+especiales deben codificarse adecuadamente.</p>
 <h3 id="ejemplo-conceptual">Ejemplo conceptual</h3>
-<pre><code class="language-text">?service=WMS&amp;request=GetMap&amp;layers=municipio:areas_verdes
-</code></pre>
-<p>El orden puede no ser importante según el protocolo, pero nombres, valores y codificación sí lo son.</p>
+<pre class="text"><code>?service=WMS&amp;request=GetMap&amp;layers=municipio:areas_verdes</code></pre>
+<p>El orden puede no ser importante según el protocolo, pero nombres,
+valores y codificación sí lo son.</p>
 <hr/>
-<h1>13. Documentos de capacidades</h1>
-<p>Los servicios OGC clásicos suelen ofrecer documentos de capacidades que describen operaciones, formatos, capas, CRS y otros elementos.</p>
-<p>En lugar de adivinar qué soporta un servidor, el cliente consulta sus capacidades.</p>
-<div class="mermaid">sequenceDiagram
+<h1 id="13-documentos-de-capacidades">13. Documentos de capacidades</h1>
+<p>Los servicios OGC clásicos suelen ofrecer documentos de capacidades
+que describen operaciones, formatos, capas, CRS y otros elementos.</p>
+<p>En lugar de adivinar qué soporta un servidor, el cliente consulta sus
+capacidades.</p>
+<pre class="mermaid">sequenceDiagram
     participant C as Cliente
     participant S as Servidor OGC
     C-&gt;&gt;S: GetCapabilities
     S-&gt;&gt;C: Documento XML de capacidades
-    C-&gt;&gt;C: Descubre capas, formatos y operaciones
-</div>
+    C-&gt;&gt;C: Descubre capas, formatos y operaciones</pre>
 <p>La Semana 10 profundizará el caso de WMS.</p>
 <hr/>
-<h1>14. Descubrimiento en OGC API</h1>
-<p>Las APIs modernas tienden a proporcionar recursos como landing page, declaración de conformidad y colecciones.</p>
-<p>El principio es similar al documento de capacidades: el cliente necesita descubrir qué ofrece el servidor, pero la organización de la interfaz se alinea con patrones web contemporáneos.</p>
-<p>OGC API - Common define bloques compartidos para esta familia [R2].</p>
+<h1 id="14-descubrimiento-en-ogc-api">14. Descubrimiento en OGC API</h1>
+<p>Las APIs modernas tienden a proporcionar recursos como landing page,
+declaración de conformidad y colecciones.</p>
+<p>El principio es similar al documento de capacidades: el cliente
+necesita descubrir qué ofrece el servidor, pero la organización de la
+interfaz se alinea con patrones web contemporáneos.</p>
+<p>OGC API - Common define bloques compartidos para esta familia
+[R2].</p>
 <hr/>
-<h1>15. Formatos geoespaciales en web</h1>
+<h1 id="15-formatos-geoespaciales-en-web">15. Formatos geoespaciales en
+web</h1>
 <h2 id="json-y-geojson">JSON y GeoJSON</h2>
-<p>Son comunes en APIs y aplicaciones web. GeoJSON representa features, geometrías y propiedades en una estructura ampliamente soportada.</p>
+<p>JSON es un formato de intercambio estructurado muy utilizado por APIs
+web. GeoJSON define una convención específica para representar
+<code>Feature</code>, <code>FeatureCollection</code>, geometrías y
+propiedades geográficas. Su legibilidad y compatibilidad con bibliotecas
+web lo hacen especialmente útil para aplicaciones ligeras y OGC API -
+Features.</p>
+<p>Sin embargo, no debe asumirse que GeoJSON es óptimo para cualquier
+volumen. Colecciones muy grandes pueden requerir paginación, otras
+representaciones o mecanismos de descarga más eficientes.</p>
 <h2 id="xml-y-gml">XML y GML</h2>
-<p>Han sido fundamentales en servicios OGC clásicos y continúan presentes en interoperabilidad existente.</p>
-<h2 id="imagenes">Imágenes</h2>
-<p>PNG y JPEG son comunes en servicios de mapas. PNG soporta transparencia, mientras JPEG puede ser más apropiado para imágenes continuas cuando no se necesita canal alfa.</p>
-<p>El formato debe seleccionarse por propósito, no por preferencia personal.</p>
+<p>XML continúa siendo fundamental en numerosos servicios OGC clásicos.
+GML utiliza XML para representar features, geometrías, sistemas de
+referencia y estructuras complejas. Documentos
+<code>GetCapabilities</code>, esquemas y respuestas WFS tradicionales
+pueden depender de esta familia.</p>
+<p>El estudiante no necesita memorizar toda la sintaxis, pero sí
+identificar namespaces, elementos principales y mensajes de excepción
+para diagnosticar interoperabilidad.</p>
+<h2 id="imágenes">Imágenes</h2>
+<p>PNG y JPEG son comunes en servicios de mapas. PNG soporta
+transparencia y preserva bien líneas y simbología discreta, mientras
+JPEG puede reducir tamaño en ortofotos o imágenes continuas cuando se
+acepta compresión con pérdida y no se necesita canal alfa.</p>
+<p>El formato debe seleccionarse por propósito. Una capa temática
+destinada a superponerse sobre un mapa base suele beneficiarse de PNG
+transparente; una ortofoto de fondo puede ser más eficiente en JPEG.</p>
 <hr/>
-<h1>16. Errores geoespaciales versus errores HTTP</h1>
-<p>Un servicio puede devolver <code>200 OK</code> y contener una respuesta de excepción en el cuerpo según el protocolo. También puede devolver un código HTTP de error.</p>
-<p>Por eso el diagnóstico debe revisar ambos niveles: transporte HTTP y semántica del estándar geoespacial.</p>
+<h1 id="16-errores-geoespaciales-versus-errores-http">16. Errores
+geoespaciales versus errores HTTP</h1>
+<p>Un servicio puede devolver <code>200 OK</code> y contener una
+respuesta de excepción en el cuerpo según el protocolo. También puede
+devolver un código HTTP de error.</p>
+<p>Por eso el diagnóstico debe revisar ambos niveles: transporte HTTP y
+semántica del estándar geoespacial.</p>
 <h3 id="ejemplo">Ejemplo</h3>
-<p>Una capa inexistente puede generar un documento XML de excepción. QGIS puede mostrar un mensaje genérico; inspeccionar la respuesta ayuda a conocer la causa real.</p>
+<p>Una capa inexistente puede generar un documento XML de excepción.
+QGIS puede mostrar un mensaje genérico; inspeccionar la respuesta ayuda
+a conocer la causa real.</p>
 <hr/>
-<h1>17. Idempotencia y caché</h1>
-<p>Una operación de consulta debería poder repetirse sin modificar el estado del servidor. Esta propiedad facilita pruebas y caché.</p>
-<p>La caché reutiliza respuestas cuando siguen siendo válidas y puede reducir carga de servicios cartográficos. Sin embargo, debe controlarse vigencia: una respuesta almacenada puede mostrar una versión antigua después de actualizar la fuente.</p>
+<h1 id="17-idempotencia-y-caché">17. Idempotencia y caché</h1>
+<p>Una operación de consulta debería poder repetirse sin modificar el
+estado del servidor. Esta propiedad facilita pruebas y caché.</p>
+<p>La caché reutiliza respuestas cuando siguen siendo válidas y puede
+reducir carga de servicios cartográficos. Sin embargo, debe controlarse
+vigencia: una respuesta almacenada puede mostrar una versión antigua
+después de actualizar la fuente.</p>
 <p>Estos conceptos se profundizarán en Semana 12.</p>
 <hr/>
-<h1>18. HTTPS</h1>
-<p>HTTPS protege la comunicación mediante TLS. Debe utilizarse para evitar exposición de credenciales y contenido en tránsito, especialmente en servicios autenticados.</p>
-<p>La seguridad no depende solo de “tener el candado”. Certificados deben ser válidos, renovarse, utilizar configuraciones apropiadas y combinarse con autenticación/autorización adecuadas.</p>
+<h1 id="18-https">18. HTTPS</h1>
+<p>HTTPS protege la comunicación mediante TLS. Debe utilizarse para
+evitar exposición de credenciales y contenido en tránsito, especialmente
+en servicios autenticados.</p>
+<p>La seguridad no depende solo de “tener el candado”. Certificados
+deben ser válidos, renovarse, utilizar configuraciones apropiadas y
+combinarse con autenticación/autorización adecuadas.</p>
 <p>Semana 14 profundizará estos aspectos.</p>
 <hr/>
-<h1>19. Herramientas de inspección</h1>
-<p>El estudiante debe aprender a observar la red utilizando herramientas simples:</p>
+<h1 id="19-herramientas-de-inspección">19. Herramientas de
+inspección</h1>
+<p>El estudiante debe aprender a observar la red utilizando herramientas
+simples:</p>
 <ul>
 <li>Navegador y barra de direcciones;</li>
 <li>Herramientas de desarrollo del navegador;</li>
@@ -147,12 +268,13 @@ Content-Type: application/json
 <li>Cliente API como Postman/Insomnia si está disponible;</li>
 <li>QGIS para comparar comportamiento de un cliente SIG.</li>
 </ul>
-<p>La herramienta es secundaria. La habilidad importante es poder leer solicitud y respuesta.</p>
+<p>La herramienta es secundaria. La habilidad importante es poder leer
+solicitud y respuesta.</p>
 <hr/>
-<h1>20. Caso de diagnóstico</h1>
+<h1 id="20-caso-de-diagnóstico">20. Caso de diagnóstico</h1>
 <p>QGIS no carga una capa WMS.</p>
 <p>El estudiante debe revisar:</p>
-<ol>
+<ol type="1">
 <li>¿resuelve el dominio?;</li>
 <li>¿responde HTTPS?;</li>
 <li>¿GetCapabilities devuelve contenido?;</li>
@@ -164,97 +286,294 @@ Content-Type: application/json
 </ol>
 <p>Este flujo es más efectivo que cambiar configuraciones al azar.</p>
 <hr/>
-<h1>21. Laboratorio 9 — Inspección HTTP</h1>
-<h2 id="21-1-solicitud-basica">21.1. Solicitud básica</h2>
-<p>Consultar un endpoint y registrar URL, método, código, cabeceras y cuerpo.</p>
-<h2 id="21-2-getcapabilities">21.2. GetCapabilities</h2>
-<p>Solicitar capacidades de un servicio OGC disponible y localizar versión, operaciones y capas.</p>
-<h2 id="21-3-error-controlado">21.3. Error controlado</h2>
-<p>Modificar deliberadamente un parámetro o nombre de recurso para observar el error.</p>
-<h2 id="21-4-formatos">21.4. Formatos</h2>
-<p>Comparar una respuesta XML y JSON cuando existan endpoints apropiados.</p>
-<h2 id="21-5-evidencia">21.5. Evidencia</h2>
-<p>Guardar comandos y resultados relevantes, evitando capturas que contengan credenciales.</p>
-<hr/>
-<h1>22. Entregable</h1>
-<p>Informe breve de inspección de al menos dos servicios/endpoints, con anatomía de solicitudes, códigos, formatos, errores y diagnóstico. Debe incluir comandos reproducibles.</p>
-<hr/>
-<h1>23. Secuencia sugerida</h1>
-<ul>
-<li><strong>Bloque 1 — 40 minutos.</strong> Cliente-servidor, URL y solicitud/respuesta.</li>
-<li><strong>Bloque 2 — 45 minutos.</strong> Métodos, códigos y cabeceras.</li>
-<li><strong>Bloque 3 — 45 minutos.</strong> Tipos de contenido y formatos geoespaciales.</li>
-<li><strong>Bloque 4 — 45 minutos.</strong> Capacidades OGC y descubrimiento OGC API.</li>
-<li><strong>Bloque 5 — 30 minutos.</strong> Errores y diagnóstico.</li>
-<li><strong>Bloque 6 — 35 minutos.</strong> Laboratorio con curl/navegador/QGIS.</li>
-</ul>
-<hr/>
-<h1>24. Preguntas de cierre</h1>
-<h2 id="un-200-significa-siempre-que-el-dato-es-correcto">¿Un 200 significa siempre que el dato es correcto?</h2>
-<p>No. Indica éxito HTTP, pero el contenido puede ser incorrecto desde la perspectiva geoespacial o del usuario.</p>
-<h2 id="para-que-sirve-content-type">¿Para qué sirve Content-Type?</h2>
-<p>Permite al cliente conocer la representación recibida y decidir cómo interpretarla.</p>
-<h2 id="por-que-estudiar-http-si-qgis-ya-consume-servicios">¿Por qué estudiar HTTP si QGIS ya consume servicios?</h2>
-<p>Porque permite diagnosticar problemas, comprender interoperabilidad y trabajar con APIs y clientes distintos.</p>
-<hr/>
-<h1>25. Errores frecuentes</h1>
-<ul>
-<li><strong>“404 Significa que internet no funciona”.</strong> Significa que el servidor no encontró el recurso solicitado; la red puede estar funcionando perfectamente.</li>
-<li><strong>“XML es un error”.</strong> Muchos estándares OGC clásicos utilizan XML como representación normal.</li>
-<li><strong>“Si QGIS falla, el servidor está caído”.</strong> Deben inspeccionarse solicitud, permisos, formato y respuesta antes de concluir.</li>
-</ul>
-<hr/>
-<h1>26. Glosario</h1>
+<h1 id="casos-técnicos-guiados--http-aplicado-a-servicios-geoespaciales">Casos
+técnicos guiados — HTTP aplicado a servicios geoespaciales</h1>
+<p>Comprender HTTP resulta mucho más sencillo cuando se observa una
+solicitud real y se separan sus componentes. Los ejemplos utilizan
+<code>curl</code> porque permite visualizar la interacción sin ocultarla
+detrás de una interfaz gráfica.</p>
+<h2 id="ejemplo-1--inspeccionar-cabeceras-y-estado">Ejemplo 1 —
+Inspeccionar cabeceras y estado</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-i</span> https://api.ejemplo.cl/collections</span></code></pre></div>
+<p>Una respuesta típica comienza con información semejante a:</p>
+<pre class="text"><code>HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1842
+Cache-Control: max-age=60</code></pre>
+<p>El código <code>200</code> indica que la solicitud fue atendida.
+<code>Content-Type</code> comunica cómo interpretar el cuerpo. Un
+cliente no debería asumir que toda respuesta es JSON.</p>
+<h2 id="ejemplo-2--negociación-de-representación">Ejemplo 2 —
+Negociación de representación</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-H</span> <span class="st">"Accept: application/json"</span> <span class="dt">\</span></span>
+<span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a>  https://api.ejemplo.cl/collections</span></code></pre></div>
+<p>En una API que también ofrece HTML, un navegador podría recibir una
+página legible por personas y un cliente automatizado solicitar JSON.
+Esta capacidad ayuda a servir diferentes consumidores desde un mismo
+recurso conceptual.</p>
+<h2 id="ejemplo-3--query-parameters">Ejemplo 3 — Query parameters</h2>
+<pre class="text"><code>https://api.ejemplo.cl/collections/areas_verdes/items?limit=10&amp;bbox=-70.70,-33.55,-70.55,-33.40</code></pre>
+<p>La URL contiene:</p>
+<pre class="text"><code>Esquema:  https
+Host:     api.ejemplo.cl
+Ruta:     /collections/areas_verdes/items
+Query:    limit=10&amp;bbox=...</code></pre>
+<p>Los parámetros modifican la selección o representación, pero el
+recurso principal sigue siendo la colección de items.</p>
+<h2 id="ejemplo-4--codificación-de-caracteres">Ejemplo 4 — Codificación
+de caracteres</h2>
+<p>Una búsqueda <code>áreas verdes</code> no debería insertarse
+manualmente con espacios y caracteres especiales. Puede codificarse
+como:</p>
+<pre class="text"><code>q=%C3%A1reas%20verdes</code></pre>
+<p>Las librerías HTTP realizan normalmente esta codificación, pero
+comprenderla ayuda a diagnosticar URLs que fallan.</p>
+<h2 id="ejemplo-5--geojson-como-respuesta">Ejemplo 5 — GeoJSON como
+respuesta</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb13-1"><a aria-hidden="true" href="#cb13-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a aria-hidden="true" href="#cb13-2" tabindex="-1"></a>  <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"FeatureCollection"</span><span class="fu">,</span></span>
+<span id="cb13-3"><a aria-hidden="true" href="#cb13-3" tabindex="-1"></a>  <span class="dt">"features"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb13-4"><a aria-hidden="true" href="#cb13-4" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb13-5"><a aria-hidden="true" href="#cb13-5" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"Feature"</span><span class="fu">,</span></span>
+<span id="cb13-6"><a aria-hidden="true" href="#cb13-6" tabindex="-1"></a>      <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"AV-0001"</span><span class="fu">,</span></span>
+<span id="cb13-7"><a aria-hidden="true" href="#cb13-7" tabindex="-1"></a>      <span class="dt">"geometry"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-8"><a aria-hidden="true" href="#cb13-8" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"Point"</span><span class="fu">,</span></span>
+<span id="cb13-9"><a aria-hidden="true" href="#cb13-9" tabindex="-1"></a>        <span class="dt">"coordinates"</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">-70.6501</span><span class="ot">,</span> <span class="fl">-33.4412</span><span class="ot">]</span></span>
+<span id="cb13-10"><a aria-hidden="true" href="#cb13-10" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb13-11"><a aria-hidden="true" href="#cb13-11" tabindex="-1"></a>      <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-12"><a aria-hidden="true" href="#cb13-12" tabindex="-1"></a>        <span class="dt">"nombre"</span><span class="fu">:</span> <span class="st">"Plaza Ejemplo"</span><span class="fu">,</span></span>
+<span id="cb13-13"><a aria-hidden="true" href="#cb13-13" tabindex="-1"></a>        <span class="dt">"tipo"</span><span class="fu">:</span> <span class="st">"PLAZA"</span></span>
+<span id="cb13-14"><a aria-hidden="true" href="#cb13-14" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb13-15"><a aria-hidden="true" href="#cb13-15" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb13-16"><a aria-hidden="true" href="#cb13-16" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb13-17"><a aria-hidden="true" href="#cb13-17" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>El formato permite distinguir colección, feature, geometría y
+propiedades. El cliente debe verificar además el CRS definido por el
+estándar o anunciado por la API.</p>
+<h2 id="ejemplo-6--errores-http-que-deben-interpretarse">Ejemplo 6 —
+Errores HTTP que deben interpretarse</h2>
 <table>
 <thead>
-<tr>
+<tr class="header">
+<th>Código</th>
+<th>Significado general</th>
+<th>Ejemplo IDE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>200</td>
+<td>Solicitud exitosa</td>
+<td>Colección devuelta</td>
+</tr>
+<tr class="even">
+<td>400</td>
+<td>Solicitud inválida</td>
+<td>BBOX mal formado</td>
+</tr>
+<tr class="odd">
+<td>401</td>
+<td>Falta autenticación válida</td>
+<td>Token ausente</td>
+</tr>
+<tr class="even">
+<td>403</td>
+<td>Identidad sin autorización</td>
+<td>Usuario autenticado intenta recurso restringido</td>
+</tr>
+<tr class="odd">
+<td>404</td>
+<td>Recurso no encontrado</td>
+<td><code>collectionId</code> inexistente</td>
+</tr>
+<tr class="even">
+<td>406</td>
+<td>Representación no aceptable</td>
+<td><code>Accept</code> no soportado</td>
+</tr>
+<tr class="odd">
+<td>429</td>
+<td>Demasiadas solicitudes</td>
+<td>Límite de uso excedido</td>
+</tr>
+<tr class="even">
+<td>500</td>
+<td>Error interno</td>
+<td>Fallo no controlado en servidor</td>
+</tr>
+<tr class="odd">
+<td>503</td>
+<td>Servicio no disponible</td>
+<td>Backend temporalmente fuera de operación</td>
+</tr>
+</tbody>
+</table>
+<p>La distinción <code>401</code> versus <code>403</code> será retomada
+en seguridad: el primero se relaciona con autenticación; el segundo con
+autorización.</p>
+<h2 id="ejemplo-7--medir-tiempos-con-curl">Ejemplo 7 — Medir tiempos con
+curl</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a aria-hidden="true" href="#cb14-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="dt">\</span></span>
+<span id="cb14-2"><a aria-hidden="true" href="#cb14-2" tabindex="-1"></a>  <span class="at">-w</span> <span class="st">"status=%{http_code} total=%{time_total}s size=%{size_download}B\n"</span> <span class="dt">\</span></span>
+<span id="cb14-3"><a aria-hidden="true" href="#cb14-3" tabindex="-1"></a>  <span class="st">"https://api.ejemplo.cl/collections/areas_verdes/items?limit=100"</span></span></code></pre></div>
+<p>Este comando produce evidencia cuantitativa para pruebas de
+rendimiento básicas.</p>
+<h2 id="ejemplo-8--probar-contenido-inválido">Ejemplo 8 — Probar
+contenido inválido</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a aria-hidden="true" href="#cb15-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-i</span> <span class="dt">\</span></span>
+<span id="cb15-2"><a aria-hidden="true" href="#cb15-2" tabindex="-1"></a>  <span class="st">"https://api.ejemplo.cl/collections/areas_verdes/items?limit=-1"</span></span></code></pre></div>
+<p>El objetivo no es provocar fallas destructivas, sino verificar que el
+servidor rechaza parámetros fuera de rango con un error comprensible y
+no con una excepción genérica.</p>
+<h2 id="ejemplo-9--openapi-como-contrato-de-api">Ejemplo 9 — OpenAPI
+como contrato de API</h2>
+<p>Una API moderna puede exponer una definición OpenAPI donde se
+describen rutas, parámetros, respuestas y esquemas. El estudiante debe
+aprender a distinguir entre:</p>
+<ul>
+<li><strong>Documentación legible por personas.</strong> Explica con
+lenguaje y ejemplos cómo debería utilizarse la API y qué significado
+tienen sus recursos.</li>
+<li><strong>Definición legible por herramientas.</strong> Una
+especificación OpenAPI puede ser utilizada por interfaces Swagger,
+generadores de clientes y validadores automáticos.</li>
+<li><strong>Comportamiento real del servidor.</strong> La implementación
+debe responder de acuerdo con lo documentado; una definición perfecta no
+compensa endpoints que devuelven otra estructura o códigos
+inesperados.</li>
+</ul>
+<p>Las tres deben ser coherentes. Durante la validación conviene
+comparar una operación documentada con la respuesta real del
+servidor.</p>
+<h2 id="ejercicio-guiado">Ejercicio guiado</h2>
+<p>Para un endpoint del laboratorio, ejecutar cinco solicitudes: una
+exitosa, una con BBOX, una con <code>Accept</code>, una con parámetro
+inválido y una a un recurso inexistente. Guardar comando, código HTTP,
+<code>Content-Type</code>, tiempo y una interpretación de la
+respuesta.</p>
+<hr/>
+<h1 id="21-laboratorio-9--inspección-http">21. Laboratorio 9 —
+Inspección HTTP</h1>
+<h2 id="211-solicitud-básica">21.1. Solicitud básica</h2>
+<p>Consultar un endpoint y registrar URL, método, código, cabeceras y
+cuerpo.</p>
+<h2 id="212-getcapabilities">21.2. GetCapabilities</h2>
+<p>Solicitar capacidades de un servicio OGC disponible y localizar
+versión, operaciones y capas.</p>
+<h2 id="213-error-controlado">21.3. Error controlado</h2>
+<p>Modificar deliberadamente un parámetro o nombre de recurso para
+observar el error.</p>
+<h2 id="214-formatos">21.4. Formatos</h2>
+<p>Comparar una respuesta XML y JSON cuando existan endpoints
+apropiados.</p>
+<h2 id="215-evidencia">21.5. Evidencia</h2>
+<p>Guardar comandos y resultados relevantes, evitando capturas que
+contengan credenciales.</p>
+<hr/>
+<h1 id="22-entregable">22. Entregable</h1>
+<p>Informe breve de inspección de al menos dos servicios/endpoints, con
+anatomía de solicitudes, códigos, formatos, errores y diagnóstico. Debe
+incluir comandos reproducibles.</p>
+<hr/>
+<h1 id="23-secuencia-sugerida">23. Secuencia sugerida</h1>
+<ul>
+<li><strong>Bloque 1 — 40 minutos.</strong> Cliente-servidor, URL y
+solicitud/respuesta.</li>
+<li><strong>Bloque 2 — 45 minutos.</strong> Métodos, códigos y
+cabeceras.</li>
+<li><strong>Bloque 3 — 45 minutos.</strong> Tipos de contenido y
+formatos geoespaciales.</li>
+<li><strong>Bloque 4 — 45 minutos.</strong> Capacidades OGC y
+descubrimiento OGC API.</li>
+<li><strong>Bloque 5 — 30 minutos.</strong> Errores y diagnóstico.</li>
+<li><strong>Bloque 6 — 35 minutos.</strong> Laboratorio con
+curl/navegador/QGIS.</li>
+</ul>
+<hr/>
+<h1 id="24-preguntas-de-cierre">24. Preguntas de cierre</h1>
+<h2 id="un-200-significa-siempre-que-el-dato-es-correcto">¿Un 200
+significa siempre que el dato es correcto?</h2>
+<p>No. Indica éxito HTTP, pero el contenido puede ser incorrecto desde
+la perspectiva geoespacial o del usuario.</p>
+<h2 id="para-qué-sirve-content-type">¿Para qué sirve Content-Type?</h2>
+<p>Permite al cliente conocer la representación recibida y decidir cómo
+interpretarla.</p>
+<h2 id="por-qué-estudiar-http-si-qgis-ya-consume-servicios">¿Por qué
+estudiar HTTP si QGIS ya consume servicios?</h2>
+<p>Porque permite diagnosticar problemas, comprender interoperabilidad y
+trabajar con APIs y clientes distintos.</p>
+<hr/>
+<h1 id="25-errores-frecuentes">25. Errores frecuentes</h1>
+<ul>
+<li><strong>“404 Significa que internet no funciona”.</strong> Significa
+que el servidor no encontró el recurso solicitado; la red puede estar
+funcionando perfectamente.</li>
+<li><strong>“XML es un error”.</strong> Muchos estándares OGC clásicos
+utilizan XML como representación normal.</li>
+<li><strong>“Si QGIS falla, el servidor está caído”.</strong> Deben
+inspeccionarse solicitud, permisos, formato y respuesta antes de
+concluir.</li>
+</ul>
+<hr/>
+<h1 id="26-glosario">26. Glosario</h1>
+<table>
+<thead>
+<tr class="header">
 <th>Concepto</th>
 <th>Definición</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>HTTP</td>
 <td>Protocolo de comunicación web</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Método</td>
 <td>Intención de una solicitud HTTP</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Cabecera</td>
 <td>Metainformación de solicitud/respuesta</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Content-Type</td>
 <td>Tipo de representación del cuerpo</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Código de estado</td>
 <td>Resultado HTTP de la solicitud</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Endpoint</td>
 <td>URL que expone una capacidad o recurso</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>GetCapabilities</td>
 <td>Operación de descubrimiento en servicios OGC clásicos</td>
 </tr>
 </tbody>
 </table>
 <hr/>
-<h1>27. Trabajo autónomo</h1>
-<p>Revisar la especificación WMS 1.3.0 a nivel de operaciones y preparar ejemplos de GetCapabilities, GetMap y GetFeatureInfo para Semana 10.</p>
+<h1 id="27-trabajo-autónomo">27. Trabajo autónomo</h1>
+<p>Revisar la especificación WMS 1.3.0 a nivel de operaciones y preparar
+ejemplos de GetCapabilities, GetMap y GetFeatureInfo para Semana 10.</p>
 <hr/>
-<h1>28. Referencias</h1>
+<h1 id="28-referencias">28. Referencias</h1>
 <p><strong>[R1]</strong> IETF. <em>RFC 9110 — HTTP Semantics</em>.<br/>
 <a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a></p>
-<p><strong>[R2]</strong> Open Geospatial Consortium. <em>OGC API — Common</em>.<br/>
+<p><strong>[R2]</strong> Open Geospatial Consortium. <em>OGC API —
+Common</em>.<br/>
 <a href="https://www.ogc.org/standards/ogcapi-common/">https://www.ogc.org/standards/ogcapi-common/</a></p>
-<p><strong>[R3]</strong> Open Geospatial Consortium. <em>WMS 1.3.0</em>.<br/>
+<p><strong>[R3]</strong> Open Geospatial Consortium. <em>WMS
+1.3.0</em>.<br/>
 <a href="https://www.ogc.org/standards/wms/">https://www.ogc.org/standards/wms/</a></p>
-<hr/>
-<h1>29. Síntesis</h1>
-<p>La Semana 9 entrega un lenguaje común para todo lo que sigue. WMS, WFS y OGC API son más fáciles de comprender cuando el estudiante puede leer una URL, interpretar una respuesta y distinguir errores de transporte, protocolo y recurso.</p>
-<div class="weeknav"><a href="Semana_08_Hito_Integracion_Conformidad_Trazabilidad.html">← Semana 8</a><a href="../index.html">Índice del curso</a><a href="Semana_10_WMS_Mapas_Estilos_CRS.html">Semana 10 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
+<h2 id="r4-openapi-initiative-openapi-specification-httpsspecopenapisorgoaslatesthtml"><strong>[R4]</strong>
+OpenAPI Initiative. <em>OpenAPI Specification</em>.<br/>
+<a href="https://spec.openapis.org/oas/latest.html">https://spec.openapis.org/oas/latest.html</a></h2>
+<h1 id="29-síntesis">29. Síntesis</h1>
+<p>La Semana 9 entrega un lenguaje común para todo lo que sigue. WMS,
+WFS y OGC API son más fáciles de comprender cuando el estudiante puede
+leer una URL, interpretar una respuesta y distinguir errores de
+transporte, protocolo y recurso.</p>
+<div class="weeknav"><a href="Semana_08_Hito_Integracion_Conformidad_Trazabilidad.html">← Semana 08</a><a href="Semana_10_WMS_Mapas_Estilos_CRS.html">Semana 10 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

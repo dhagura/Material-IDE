@@ -1,27 +1,58 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 16 — Validación operativa, interoperabilidad, documentación y defensa de la IDE</title><style>
-:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
-a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_16_Validacion_Interoperabilidad_Documentacion_Defensa.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="" href="#que-diferencia-existe-entre-que-funcione-y-que-este-validado">¿Qué diferencia existe entre que “funcione” y que esté validado?</a><a class="" href="#por-que-probar-clientes-independientes">¿Por qué probar clientes independientes?</a><a class="" href="#que-debe-ocurrir-si-una-prueba-final-falla">¿Qué debe ocurrir si una prueba final falla?</a></aside><main><h1>Semana 16 — Validación operativa, interoperabilidad, documentación y defensa de la IDE</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 4 — Despliegue, administración y validación operativa</div></div>
-
-
-<h1>1. Marco de la semana</h1>
-<p>La semana final integra pruebas de interoperabilidad y consumo desde SIG de escritorio, aplicaciones web o móviles; documentación de arquitectura, administración, operación, usuario y API; entrega y defensa de una IDE mínima operativa con datos, catálogo, WMS, servicio de objetos o API, seguridad y evidencia de mantenimiento.</p>
-<p>La evaluación sumativa del programa exige precisamente evidencia verificable del conjunto y dominio individual durante la defensa.</p>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito">2. Propósito</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-qué-significa-una-ide-mínima-operativa">4. ¿Qué significa una
+IDE mínima operativa?</a><a class="" href="#5-validación-versus-demostración">5. Validación versus
+demostración</a><a class="" href="#6-plan-de-pruebas-final">6. Plan de pruebas final</a><a class="" href="#7-pruebas-de-descubrimiento">7. Pruebas de descubrimiento</a><a class="" href="#8-pruebas-wms">8. Pruebas WMS</a><a class="" href="#9-pruebas-de-objetosapi">9. Pruebas de objetos/API</a><a class="" href="#10-interoperabilidad-entre-clientes">10. Interoperabilidad entre
+clientes</a><a class="" href="#11-pruebas-de-seguridad">11. Pruebas de seguridad</a><a class="" href="#12-pruebas-de-monitoreo">12. Pruebas de monitoreo</a><a class="" href="#13-prueba-de-recuperación">13. Prueba de recuperación</a><a class="" href="#14-documentación-de-arquitectura">14. Documentación de
+arquitectura</a><a class="" href="#15-documentación-de-administración">15. Documentación de
+administración</a><a class="" href="#16-documentación-de-operación">16. Documentación de
+operación</a><a class="" href="#17-documentación-de-usuario">17. Documentación de usuario</a><a class="" href="#18-documentación-de-api">18. Documentación de API</a><a class="" href="#19-expediente-de-evidencia">19. Expediente de evidencia</a><a class="" href="#20-defensa-técnica">20. Defensa técnica</a><a class="" href="#21-limitaciones-y-deuda-técnica">21. Limitaciones y deuda
+técnica</a><a class="" href="#22-roadmap-de-evolución">22. Roadmap de evolución</a><a class="" href="#caso-técnico-guiado--validación-final-extremo-a-extremo">Caso
+técnico guiado — Validación final extremo a extremo</a><a class="sub" href="#ejemplo-1--recorrido-de-un-recurso-desde-catálogo-hasta-cliente">Ejemplo
+1 — Recorrido de un recurso desde catálogo hasta cliente</a><a class="sub" href="#ejemplo-2--script-de-smoke-tests">Ejemplo 2 — Script de smoke
+tests</a><a class="sub" href="#ejemplo-3--prueba-negativa-de-autorización">Ejemplo 3 — Prueba
+negativa de autorización</a><a class="sub" href="#ejemplo-4--matriz-final-de-aceptación">Ejemplo 4 — Matriz final
+de aceptación</a><a class="sub" href="#ejemplo-5--estructura-de-documentación-final">Ejemplo 5 —
+Estructura de documentación final</a><a class="sub" href="#ejemplo-6--preguntas-de-defensa-individual">Ejemplo 6 —
+Preguntas de defensa individual</a><a class="sub" href="#ejemplo-7--incidencia-durante-la-defensa">Ejemplo 7 — Incidencia
+durante la defensa</a><a class="sub" href="#ejemplo-8--demostración-desde-dos-clientes-independientes">Ejemplo 8
+— Demostración desde dos clientes independientes</a><a class="sub" href="#criterio-final-de-calidad">Criterio final de calidad</a><a class="" href="#23-demostración-sugerida">23. Demostración sugerida</a><a class="" href="#24-entregable-final">24. Entregable final</a><a class="" href="#25-rúbrica-final-sugerida">25. Rúbrica final sugerida</a><a class="" href="#26-secuencia-sugerida-de-la-semana">26. Secuencia sugerida de la
+semana</a><a class="" href="#27-preguntas-de-cierre">27. Preguntas de cierre</a><a class="sub" href="#qué-diferencia-existe-entre-que-funcione-y-que-esté-validado">¿Qué
+diferencia existe entre que “funcione” y que esté validado?</a><a class="sub" href="#por-qué-probar-clientes-independientes">¿Por qué probar clientes
+independientes?</a><a class="sub" href="#qué-debe-ocurrir-si-una-prueba-final-falla">¿Qué debe ocurrir si
+una prueba final falla?</a><a class="" href="#28-errores-frecuentes">28. Errores frecuentes</a><a class="" href="#29-glosario-final">29. Glosario final</a><a class="" href="#30-referencias">30. Referencias</a><a class="" href="#31-síntesis-final-de-la-asignatura">31. Síntesis final de la
+asignatura</a></aside><main><h1>Semana 16 — Validación operativa, interoperabilidad, documentación y defensa de la IDE</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales  </div><div class="label">Código</div><div>12436  </div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática  </div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental  </div><div class="label">Unidad</div><div>Unidad 4 — Despliegue, administración y validación operativa</div></div><h1 id="1-marco-de-la-semana">1. Marco de la semana</h1>
+<p>La semana final integra pruebas de interoperabilidad y consumo desde
+SIG de escritorio, aplicaciones web o móviles; documentación de
+arquitectura, administración, operación, usuario y API; entrega y
+defensa de una IDE mínima operativa con datos, catálogo, WMS, servicio
+de objetos o API, seguridad y evidencia de mantenimiento.</p>
+<p>La evaluación sumativa del programa exige precisamente evidencia
+verificable del conjunto y dominio individual durante la defensa.</p>
 <hr/>
-<h1>2. Propósito</h1>
-<p>La Semana 16 no debe convertirse en una presentación de diapositivas sobre lo que “debería” funcionar. La IDE debe demostrarse mediante casos de uso reales, clientes independientes y evidencias de operación.</p>
-<p>El objetivo es cerrar la cadena completa construida durante el semestre:</p>
-<pre><code class="language-text">Gobernanza → Datos → Metadatos → Catálogo → Servicios → Seguridad → Operación → Usuario
-</code></pre>
-<p>La defensa debe explicar decisiones y limitaciones, no únicamente mostrar resultados exitosos.</p>
+<h1 id="2-propósito">2. Propósito</h1>
+<p>La Semana 16 no debe convertirse en una presentación de diapositivas
+sobre lo que “debería” funcionar. La IDE debe demostrarse mediante casos
+de uso reales, clientes independientes y evidencias de operación.</p>
+<p>El objetivo es cerrar la cadena completa construida durante el
+semestre:</p>
+<pre class="text"><code>Gobernanza → Datos → Metadatos → Catálogo → Servicios → Seguridad → Operación → Usuario</code></pre>
+<p>La defensa debe explicar decisiones y limitaciones, no únicamente
+mostrar resultados exitosos.</p>
 <hr/>
-<h1>3. Resultados de aprendizaje</h1>
-<p>Al finalizar la asignatura, el estudiante deberá demostrar una IDE mínima operativa, probar interoperabilidad desde clientes distintos, entregar documentación suficiente para operación y mantenimiento, analizar riesgos/limitaciones y defender técnicamente sus decisiones.</p>
-<p>También deberá demostrar dominio individual de conceptos y capacidad para diagnosticar un problema simple durante la defensa.</p>
+<h1 id="3-resultados-de-aprendizaje">3. Resultados de aprendizaje</h1>
+<p>Al finalizar la asignatura, el estudiante deberá demostrar una IDE
+mínima operativa, probar interoperabilidad desde clientes distintos,
+entregar documentación suficiente para operación y mantenimiento,
+analizar riesgos/limitaciones y defender técnicamente sus
+decisiones.</p>
+<p>También deberá demostrar dominio individual de conceptos y capacidad
+para diagnosticar un problema simple durante la defensa.</p>
 <hr/>
-<h1>4. ¿Qué significa una IDE mínima operativa?</h1>
-<p>Para el proyecto del curso, una IDE mínima operativa debe articular como mínimo:</p>
+<h1 id="4-qué-significa-una-ide-mínima-operativa">4. ¿Qué significa una
+IDE mínima operativa?</h1>
+<p>Para el proyecto del curso, una IDE mínima operativa debe articular
+como mínimo:</p>
 <ul>
 <li>Alcance y gobernanza;</li>
 <li>Base o recursos publicables;</li>
@@ -35,15 +66,22 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Documentación;</li>
 <li>Consumo desde clientes independientes.</li>
 </ul>
-<p>“Mínima” significa que cubre el conjunto esencial de capacidades, no que pueda omitir calidad u operación.</p>
+<p>“Mínima” significa que cubre el conjunto esencial de capacidades, no
+que pueda omitir calidad u operación.</p>
 <hr/>
-<h1>5. Validación versus demostración</h1>
-<p>Una demostración muestra que algo funciona una vez. La validación verifica que cumple requisitos definidos.</p>
+<h1 id="5-validación-versus-demostración">5. Validación versus
+demostración</h1>
+<p>Una demostración muestra que algo funciona una vez. La validación
+verifica que cumple requisitos definidos.</p>
 <h3 id="ejemplo">Ejemplo</h3>
-<p>Mostrar un mapa en el navegador es una demostración. Confirmar que el WMS cumple el caso de uso, puede ser consumido desde QGIS, utiliza la capa correcta, tiene metadatos y mantiene acceso previsto es una validación más completa.</p>
-<p>Por eso la defensa debe seguir la matriz de trazabilidad construida desde Semana 4.</p>
+<p>Mostrar un mapa en el navegador es una demostración. Confirmar que el
+WMS cumple el caso de uso, puede ser consumido desde QGIS, utiliza la
+capa correcta, tiene metadatos y mantiene acceso previsto es una
+validación más completa.</p>
+<p>Por eso la defensa debe seguir la matriz de trazabilidad construida
+desde Semana 4.</p>
 <hr/>
-<h1>6. Plan de pruebas final</h1>
+<h1 id="6-plan-de-pruebas-final">6. Plan de pruebas final</h1>
 <p>El equipo debe preparar un plan que incluya:</p>
 <ul>
 <li>Identificador de prueba;</li>
@@ -55,11 +93,14 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Evidencia;</li>
 <li>Estado.</li>
 </ul>
-<h3 id="ejemplo-2">Ejemplo</h3>
-<p><code>T-WMS-01</code>: usuario público consume áreas verdes desde QGIS sin autenticación. El resultado esperado es que la capa se muestre y GetFeatureInfo solo exponga atributos autorizados.</p>
+<h3 id="ejemplo-1">Ejemplo</h3>
+<p><code>T-WMS-01</code>: usuario público consume áreas verdes desde
+QGIS sin autenticación. El resultado esperado es que la capa se muestre
+y GetFeatureInfo solo exponga atributos autorizados.</p>
 <hr/>
-<h1>7. Pruebas de descubrimiento</h1>
-<p>El usuario debe poder comenzar desde una necesidad y encontrar el recurso en catálogo.</p>
+<h1 id="7-pruebas-de-descubrimiento">7. Pruebas de descubrimiento</h1>
+<p>El usuario debe poder comenzar desde una necesidad y encontrar el
+recurso en catálogo.</p>
 <p>Validar:</p>
 <ul>
 <li>Búsqueda temática;</li>
@@ -69,9 +110,10 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Enlace al servicio;</li>
 <li>Relación con el dato correcto.</li>
 </ul>
-<p>La prueba no debería utilizar un bookmark directo que evite el catálogo.</p>
+<p>La prueba no debería utilizar un bookmark directo que evite el
+catálogo.</p>
 <hr/>
-<h1>8. Pruebas WMS</h1>
+<h1 id="8-pruebas-wms">8. Pruebas WMS</h1>
 <p>Validar:</p>
 <ul>
 <li>GetCapabilities;</li>
@@ -83,9 +125,10 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Consumo en QGIS;</li>
 <li>Consumo en cliente web cuando corresponda.</li>
 </ul>
-<p>También debe probarse al menos un error controlado para demostrar capacidad de diagnóstico.</p>
+<p>También debe probarse al menos un error controlado para demostrar
+capacidad de diagnóstico.</p>
 <hr/>
-<h1>9. Pruebas de objetos/API</h1>
+<h1 id="9-pruebas-de-objetosapi">9. Pruebas de objetos/API</h1>
 <p>Validar:</p>
 <ul>
 <li>Descubrimiento de colección;</li>
@@ -96,10 +139,13 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Permisos;</li>
 <li>Atributos publicados.</li>
 </ul>
-<p>La prueba debe comprobar que campos internos no aparecen si fueron excluidos por política.</p>
+<p>La prueba debe comprobar que campos internos no aparecen si fueron
+excluidos por política.</p>
 <hr/>
-<h1>10. Interoperabilidad entre clientes</h1>
-<p>El mismo servicio debe ser consumible desde más de un cliente apropiado.</p>
+<h1 id="10-interoperabilidad-entre-clientes">10. Interoperabilidad entre
+clientes</h1>
+<p>El mismo servicio debe ser consumible desde más de un cliente
+apropiado.</p>
 <p>Ejemplos:</p>
 <ul>
 <li>QGIS;</li>
@@ -107,9 +153,10 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Curl/navegador;</li>
 <li>Script sencillo.</li>
 </ul>
-<p>La prueba demuestra que el resultado no depende de una única aplicación propietaria o interfaz administrativa.</p>
+<p>La prueba demuestra que el resultado no depende de una única
+aplicación propietaria o interfaz administrativa.</p>
 <hr/>
-<h1>11. Pruebas de seguridad</h1>
+<h1 id="11-pruebas-de-seguridad">11. Pruebas de seguridad</h1>
 <p>Demostrar al menos:</p>
 <ul>
 <li>Recurso público accesible;</li>
@@ -118,24 +165,31 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Usuario no autorizado recibe rechazo;</li>
 <li>Administración no está expuesta innecesariamente.</li>
 </ul>
-<p>No es necesario realizar pruebas ofensivas avanzadas. El foco es verificar controles implementados.</p>
+<p>No es necesario realizar pruebas ofensivas avanzadas. El foco es
+verificar controles implementados.</p>
 <hr/>
-<h1>12. Pruebas de monitoreo</h1>
-<p>Provocar una falla controlada o utilizar una simulación para demostrar que:</p>
+<h1 id="12-pruebas-de-monitoreo">12. Pruebas de monitoreo</h1>
+<p>Provocar una falla controlada o utilizar una simulación para
+demostrar que:</p>
 <ul>
 <li>Se detecta la indisponibilidad;</li>
 <li>Existe evidencia en logs;</li>
 <li>Se genera la alerta o registro esperado;</li>
 <li>El equipo puede identificar componente afectado.</li>
 </ul>
-<p>Esto demuestra que la operación no depende únicamente de reportes de usuarios.</p>
+<p>Esto demuestra que la operación no depende únicamente de reportes de
+usuarios.</p>
 <hr/>
-<h1>13. Prueba de recuperación</h1>
+<h1 id="13-prueba-de-recuperación">13. Prueba de recuperación</h1>
 <p>Seleccionar un componente y restaurarlo desde un respaldo.</p>
-<p>Puede ser una base o configuración, siempre que se demuestre recuperación funcional posterior.</p>
-<p>Registrar tiempo real y comparar con el RTO definido. Si no se cumple, no se oculta el resultado: se documenta como brecha y se propone mejora.</p>
+<p>Puede ser una base o configuración, siempre que se demuestre
+recuperación funcional posterior.</p>
+<p>Registrar tiempo real y comparar con el RTO definido. Si no se
+cumple, no se oculta el resultado: se documenta como brecha y se propone
+mejora.</p>
 <hr/>
-<h1>14. Documentación de arquitectura</h1>
+<h1 id="14-documentación-de-arquitectura">14. Documentación de
+arquitectura</h1>
 <p>Debe incluir:</p>
 <ul>
 <li>Contexto;</li>
@@ -148,9 +202,11 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Decisiones relevantes;</li>
 <li>Riesgos y limitaciones.</li>
 </ul>
-<p>El documento debe permitir a un nuevo integrante comprender el sistema sin reconstruirlo desde conversaciones informales.</p>
+<p>El documento debe permitir a un nuevo integrante comprender el
+sistema sin reconstruirlo desde conversaciones informales.</p>
 <hr/>
-<h1>15. Documentación de administración</h1>
+<h1 id="15-documentación-de-administración">15. Documentación de
+administración</h1>
 <p>Debe explicar tareas de administrador:</p>
 <ul>
 <li>Cuentas y roles;</li>
@@ -162,10 +218,13 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Monitoreo;</li>
 <li>Recuperación.</li>
 </ul>
-<p>No debe incluir secretos reales. Debe indicar cómo se obtienen de forma segura.</p>
+<p>No debe incluir secretos reales. Debe indicar cómo se obtienen de
+forma segura.</p>
 <hr/>
-<h1>16. Documentación de operación</h1>
-<p>La documentación operacional se centra en tareas recurrentes y respuesta a incidentes.</p>
+<h1 id="16-documentación-de-operación">16. Documentación de
+operación</h1>
+<p>La documentación operacional se centra en tareas recurrentes y
+respuesta a incidentes.</p>
 <p>Ejemplos:</p>
 <ul>
 <li>Qué revisar ante WMS caído;</li>
@@ -176,8 +235,9 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 </ul>
 <p>Un runbook operativo debe ser accionable y ordenado.</p>
 <hr/>
-<h1>17. Documentación de usuario</h1>
-<p>Debe explicar cómo descubrir y consumir recursos sin exponer complejidad interna innecesaria.</p>
+<h1 id="17-documentación-de-usuario">17. Documentación de usuario</h1>
+<p>Debe explicar cómo descubrir y consumir recursos sin exponer
+complejidad interna innecesaria.</p>
 <p>Puede incluir:</p>
 <ul>
 <li>Búsqueda en catálogo;</li>
@@ -188,9 +248,10 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Contacto;</li>
 <li>Limitaciones conocidas.</li>
 </ul>
-<p>La documentación de usuario debe probarse con alguien que no haya configurado la IDE.</p>
+<p>La documentación de usuario debe probarse con alguien que no haya
+configurado la IDE.</p>
 <hr/>
-<h1>18. Documentación de API</h1>
+<h1 id="18-documentación-de-api">18. Documentación de API</h1>
 <p>Una API debe informar:</p>
 <ul>
 <li>Base URL;</li>
@@ -202,10 +263,14 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Errores;</li>
 <li>Ejemplos.</li>
 </ul>
-<p>Cuando la implementación proporciona OpenAPI u otra descripción automática, puede utilizarse como base, pero debe complementarse con contexto y casos de uso.</p>
+<p>Cuando la implementación proporciona OpenAPI u otra descripción
+automática, puede utilizarse como base, pero debe complementarse con
+contexto y casos de uso.</p>
 <hr/>
-<h1>19. Expediente de evidencia</h1>
-<p>El proyecto debe organizar evidencias para que la evaluación no dependa de una demostración en vivo que podría fallar por causas externas.</p>
+<h1 id="19-expediente-de-evidencia">19. Expediente de evidencia</h1>
+<p>El proyecto debe organizar evidencias para que la evaluación no
+dependa de una demostración en vivo que podría fallar por causas
+externas.</p>
 <p>El expediente puede incluir:</p>
 <ul>
 <li>Matrices;</li>
@@ -220,8 +285,10 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 </ul>
 <p>La evidencia debe ser rastreable hacia requisitos.</p>
 <hr/>
-<h1>20. Defensa técnica</h1>
-<p>La defensa no consiste en repartir secciones memorizadas. Cada integrante debe comprender la arquitectura completa y poder responder por sus decisiones.</p>
+<h1 id="20-defensa-técnica">20. Defensa técnica</h1>
+<p>La defensa no consiste en repartir secciones memorizadas. Cada
+integrante debe comprender la arquitectura completa y poder responder
+por sus decisiones.</p>
 <p>Preguntas posibles:</p>
 <ul>
 <li>¿Por qué WMS y no descarga directa para este caso?;</li>
@@ -232,37 +299,226 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>¿Qué cambiaría para escalar a diez veces la demanda?;</li>
 <li>¿Qué componente sustituiría si cambia el proveedor?</li>
 </ul>
-<p>La calidad de la respuesta depende del razonamiento, no de recordar términos aislados.</p>
+<p>La calidad de la respuesta depende del razonamiento, no de recordar
+términos aislados.</p>
 <hr/>
-<h1>21. Limitaciones y deuda técnica</h1>
-<p>Un proyecto académico no necesita resolver todo. Debe reconocer límites de manera profesional.</p>
-<h3 id="ejemplo-3">Ejemplo</h3>
-<p>“El monitoreo actual verifica disponibilidad cada minuto, pero no incluye trazas distribuidas. Para una operación a mayor escala se recomienda incorporar correlación avanzada”.</p>
-<p>Documentar deuda técnica demuestra comprensión y evita presentar prototipos como soluciones perfectas.</p>
+<h1 id="21-limitaciones-y-deuda-técnica">21. Limitaciones y deuda
+técnica</h1>
+<p>Un proyecto académico no necesita resolver todo. Debe reconocer
+límites de manera profesional.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p>“El monitoreo actual verifica disponibilidad cada minuto, pero no
+incluye trazas distribuidas. Para una operación a mayor escala se
+recomienda incorporar correlación avanzada”.</p>
+<p>Documentar deuda técnica demuestra comprensión y evita presentar
+prototipos como soluciones perfectas.</p>
 <hr/>
-<h1>22. Roadmap de evolución</h1>
+<h1 id="22-roadmap-de-evolución">22. Roadmap de evolución</h1>
 <p>La defensa puede cerrar con un roadmap priorizado:</p>
 <ul>
 <li>Corto plazo: resolver brechas críticas;</li>
 <li>Mediano plazo: automatizar despliegue y pruebas;</li>
-<li>Largo plazo: federar catálogos, escalar infraestructura o incorporar nuevas APIs.</li>
+<li>Largo plazo: federar catálogos, escalar infraestructura o incorporar
+nuevas APIs.</li>
 </ul>
-<p>Cada mejora debe relacionarse con una necesidad, no con tendencias tecnológicas genéricas.</p>
+<p>Cada mejora debe relacionarse con una necesidad, no con tendencias
+tecnológicas genéricas.</p>
 <hr/>
-<h1>23. Demostración sugerida</h1>
-<div class="mermaid">flowchart LR
+<h1 id="caso-técnico-guiado--validación-final-extremo-a-extremo">Caso
+técnico guiado — Validación final extremo a extremo</h1>
+<p>La defensa debe demostrar una cadena funcional completa. El siguiente
+guion puede utilizarse como base para la prueba final.</p>
+<h2 id="ejemplo-1--recorrido-de-un-recurso-desde-catálogo-hasta-cliente">Ejemplo
+1 — Recorrido de un recurso desde catálogo hasta cliente</h2>
+<ol type="1">
+<li>Buscar <code>Áreas verdes</code> en el catálogo.</li>
+<li>Abrir el metadato y verificar custodio, fecha, CRS y licencia.</li>
+<li>Seguir el enlace WMS.</li>
+<li>Cargar el servicio en QGIS.</li>
+<li>Mostrar la capa dentro del territorio esperado.</li>
+<li>Seguir el enlace OGC API - Features.</li>
+<li>Consultar 10 features dentro de un BBOX.</li>
+<li>Comparar un identificador entre API y base.</li>
+<li>Mostrar que el usuario público no puede acceder a un recurso
+restringido.</li>
+<li>Mostrar dashboard/logs de la operación.</li>
+</ol>
+<p>Este recorrido demuestra que las piezas están conectadas y no son
+entregables independientes.</p>
+<h2 id="ejemplo-2--script-de-smoke-tests">Ejemplo 2 — Script de smoke
+tests</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span></span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a><span class="va">WMS</span><span class="op">=</span><span class="st">"https://geo.ejemplo.cl/geoserver/municipio/wms"</span></span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a><span class="va">API</span><span class="op">=</span><span class="st">"https://geo.ejemplo.cl/api"</span></span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a aria-hidden="true" href="#cb2-7" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsS</span> <span class="dt">\</span></span>
+<span id="cb2-8"><a aria-hidden="true" href="#cb2-8" tabindex="-1"></a>  <span class="st">"</span><span class="va">$WMS</span><span class="st">?service=WMS&amp;request=GetCapabilities&amp;version=1.3.0"</span> <span class="dt">\</span></span>
+<span id="cb2-9"><a aria-hidden="true" href="#cb2-9" tabindex="-1"></a>  <span class="op">&gt;</span> /tmp/wms-capabilities.xml</span>
+<span id="cb2-10"><a aria-hidden="true" href="#cb2-10" tabindex="-1"></a></span>
+<span id="cb2-11"><a aria-hidden="true" href="#cb2-11" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsS</span> <span class="dt">\</span></span>
+<span id="cb2-12"><a aria-hidden="true" href="#cb2-12" tabindex="-1"></a>  <span class="st">"</span><span class="va">$API</span><span class="st">/collections"</span> <span class="dt">\</span></span>
+<span id="cb2-13"><a aria-hidden="true" href="#cb2-13" tabindex="-1"></a>  <span class="op">&gt;</span> /tmp/collections.json</span>
+<span id="cb2-14"><a aria-hidden="true" href="#cb2-14" tabindex="-1"></a></span>
+<span id="cb2-15"><a aria-hidden="true" href="#cb2-15" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsS</span> <span class="dt">\</span></span>
+<span id="cb2-16"><a aria-hidden="true" href="#cb2-16" tabindex="-1"></a>  <span class="st">"</span><span class="va">$API</span><span class="st">/collections/areas_verdes/items?limit=1"</span> <span class="dt">\</span></span>
+<span id="cb2-17"><a aria-hidden="true" href="#cb2-17" tabindex="-1"></a>  <span class="op">&gt;</span> /tmp/area.json</span>
+<span id="cb2-18"><a aria-hidden="true" href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a aria-hidden="true" href="#cb2-19" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Pruebas básicas completadas"</span></span></code></pre></div>
+<p>El script es deliberadamente simple. Puede ampliarse verificando
+códigos HTTP, contenido esperado o tiempo máximo.</p>
+<h2 id="ejemplo-3--prueba-negativa-de-autorización">Ejemplo 3 — Prueba
+negativa de autorización</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-i</span> https://geo.ejemplo.cl/api/collections/predios/items<span class="pp">?</span>limit=1</span></code></pre></div>
+<p>El usuario no autenticado debería recibir una respuesta coherente con
+la política de acceso. Luego se repite con un perfil autorizado.</p>
+<p>La defensa debe explicar dónde se aplica el control y por qué.</p>
+<h2 id="ejemplo-4--matriz-final-de-aceptación">Ejemplo 4 — Matriz final
+de aceptación</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Requisito</th>
+<th>Prueba</th>
+<th>Resultado esperado</th>
+<th>Evidencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Catálogo permite descubrir recurso</td>
+<td>Buscar por palabra clave</td>
+<td>Registro encontrado</td>
+<td>Captura + URL</td>
+</tr>
+<tr class="even">
+<td>WMS interoperable</td>
+<td>QGIS GetCapabilities/GetMap</td>
+<td>Capa visible</td>
+<td>Proyecto/captura</td>
+</tr>
+<tr class="odd">
+<td>API consulta objetos</td>
+<td><code>/items?limit=10</code></td>
+<td>GeoJSON válido</td>
+<td>Respuesta guardada</td>
+</tr>
+<tr class="even">
+<td>Acceso restringido</td>
+<td>Usuario público/analista</td>
+<td>403/200 según perfil</td>
+<td>curl/log</td>
+</tr>
+<tr class="odd">
+<td>Backup recuperable</td>
+<td>Restore en BD temporal</td>
+<td>Conteos y servicio correctos</td>
+<td>log restore</td>
+</tr>
+<tr class="even">
+<td>Monitoreo activo</td>
+<td>Simular caída</td>
+<td>Alerta generada</td>
+<td>captura/log</td>
+</tr>
+</tbody>
+</table>
+<p>La matriz debe utilizar requisitos definidos desde la Semana 4,
+evitando inventar criterios al final.</p>
+<h2 id="ejemplo-5--estructura-de-documentación-final">Ejemplo 5 —
+Estructura de documentación final</h2>
+<pre class="text"><code>docs/
+├── 01_arquitectura/
+│   ├── arquitectura_logica.md
+│   └── arquitectura_despliegue.md
+├── 02_gobernanza/
+│   ├── roles.md
+│   └── politica_publicacion.md
+├── 03_datos/
+│   ├── diccionario.md
+│   └── calidad.md
+├── 04_metadatos_catalogo/
+│   └── registros.md
+├── 05_servicios_api/
+│   ├── wms.md
+│   └── api.md
+├── 06_operacion/
+│   ├── monitoreo.md
+│   ├── backup_restore.md
+│   └── incidencias.md
+└── 07_usuario/
+    └── consumo_qgis_web.md</code></pre>
+<p>La documentación debe ser suficientemente clara para que otro equipo
+pueda operar la solución.</p>
+<h2 id="ejemplo-6--preguntas-de-defensa-individual">Ejemplo 6 —
+Preguntas de defensa individual</h2>
+<p>El docente puede seleccionar aleatoriamente preguntas como:</p>
+<ul>
+<li>¿Por qué esta capa se publica como WMS y también como API?</li>
+<li>¿Qué ocurre si cambia el CRS de la fuente?</li>
+<li>¿Cómo sabe un usuario qué versión está usando?</li>
+<li>¿Dónde se define la licencia?</li>
+<li>¿Qué evidencia demuestra que el backup sirve?</li>
+<li>¿Por qué el usuario público recibe 403 en este recurso?</li>
+<li>¿Cómo identificaría una degradación de rendimiento?</li>
+<li>¿Qué componente reemplazaría primero si debiera migrar de
+proveedor?</li>
+</ul>
+<p>La respuesta debe relacionar conceptos con la implementación concreta
+del equipo.</p>
+<h2 id="ejemplo-7--incidencia-durante-la-defensa">Ejemplo 7 — Incidencia
+durante la defensa</h2>
+<p>Una prueba de dominio individual puede introducir una falla
+controlada:</p>
+<blockquote>
+<p>“La API responde 500, pero WMS continúa funcionando”.</p>
+</blockquote>
+<p>El estudiante debería proponer una secuencia:</p>
+<ol type="1">
+<li>confirmar alcance de la falla;</li>
+<li>revisar estado de API;</li>
+<li>consultar logs;</li>
+<li>comprobar conexión a DB;</li>
+<li>revisar cambios recientes;</li>
+<li>recuperar si corresponde;</li>
+<li>documentar incidente.</li>
+</ol>
+<p>No se evalúa rapidez de adivinación, sino razonamiento y uso de
+evidencias.</p>
+<h2 id="ejemplo-8--demostración-desde-dos-clientes-independientes">Ejemplo 8
+— Demostración desde dos clientes independientes</h2>
+<p>Una buena evidencia de interoperabilidad puede utilizar:</p>
+<pre class="text"><code>Cliente 1: QGIS
+  → WMS
+  → WFS u OGC API si el cliente lo soporta
+
+Cliente 2: Navegador / curl / aplicación web
+  → OGC API - Features
+  → catálogo</code></pre>
+<p>El objetivo es demostrar que la infraestructura no depende de un
+único cliente propietario.</p>
+<h2 id="criterio-final-de-calidad">Criterio final de calidad</h2>
+<p>La defensa es satisfactoria cuando cada componente puede vincularse
+con una necesidad y existe evidencia de funcionamiento, seguridad,
+mantenimiento y limitaciones conocidas. Una IDE “bonita” pero imposible
+de recuperar, documentar o consumir desde otro cliente no cumple el
+resultado de aprendizaje completo.</p>
+<hr/>
+<h1 id="23-demostración-sugerida">23. Demostración sugerida</h1>
+<pre class="mermaid">flowchart LR
     A["1. Usuario busca"] --&gt; B["2. Revisa metadato"]
     B --&gt; C["3. Consume WMS"]
     C --&gt; D["4. Consulta API"]
     D --&gt; E["5. Prueba acceso"]
     E --&gt; F["6. Observa monitoreo"]
-    F --&gt; G["7. Muestra recuperación"]
-</div>
-<p>Este orden narra la IDE desde la perspectiva del usuario hacia la operación, evitando una demostración fragmentada por productos.</p>
+    F --&gt; G["7. Muestra recuperación"]</pre>
+<p>Este orden narra la IDE desde la perspectiva del usuario hacia la
+operación, evitando una demostración fragmentada por productos.</p>
 <hr/>
-<h1>24. Entregable final</h1>
+<h1 id="24-entregable-final">24. Entregable final</h1>
 <p>El expediente final debe contener:</p>
-<ol>
+<ol type="1">
 <li>Resumen ejecutivo del problema y solución.</li>
 <li>Gobernanza y políticas.</li>
 <li>Arquitectura lógica y física.</li>
@@ -279,127 +535,155 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Evidencia de defensa/demostración.</li>
 </ol>
 <hr/>
-<h1>25. Rúbrica final sugerida</h1>
+<h1 id="25-rúbrica-final-sugerida">25. Rúbrica final sugerida</h1>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Dimensión</th>
 <th>Evidencia principal</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Gobernanza</td>
 <td>Roles, custodios, políticas</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Datos</td>
 <td>Modelo, calidad, trazabilidad</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Metadatos</td>
 <td>Registros completos y vigentes</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Catálogo</td>
 <td>Descubrimiento real</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Interoperabilidad</td>
 <td>WMS + servicio/API + clientes</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Seguridad</td>
 <td>Acceso diferenciado</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Operación</td>
 <td>Monitoreo y diagnóstico</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Continuidad</td>
 <td>Backup y restore probado</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Documentación</td>
 <td>Arquitectura, operación, usuario, API</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Dominio individual</td>
 <td>Defensa técnica</td>
 </tr>
 </tbody>
 </table>
-<p>La ponderación concreta debe ser definida por el docente de acuerdo con el sistema de evaluación institucional.</p>
+<p>La ponderación concreta debe ser definida por el docente de acuerdo
+con el sistema de evaluación institucional.</p>
 <hr/>
-<h1>26. Secuencia sugerida de la semana</h1>
+<h1 id="26-secuencia-sugerida-de-la-semana">26. Secuencia sugerida de la
+semana</h1>
 <ul>
-<li><strong>Bloque 1 — 30 minutos.</strong> Revisión del plan de pruebas y criterios de aceptación.</li>
-<li><strong>Bloque 2 — 30 minutos.</strong> Preparación de documentación y expediente.</li>
-<li><strong>Bloque 3 — 60 minutos.</strong> Pruebas finales y resolución de brechas críticas.</li>
-<li><strong>Bloque 4 — 60 minutos.</strong> Demostraciones de equipos.</li>
-<li><strong>Bloque 5 — 60 minutos.</strong> Defensas técnicas y preguntas individuales.</li>
+<li><strong>Bloque 1 — 30 minutos.</strong> Revisión del plan de pruebas
+y criterios de aceptación.</li>
+<li><strong>Bloque 2 — 30 minutos.</strong> Preparación de documentación
+y expediente.</li>
+<li><strong>Bloque 3 — 60 minutos.</strong> Pruebas finales y resolución
+de brechas críticas.</li>
+<li><strong>Bloque 4 — 60 minutos.</strong> Demostraciones de
+equipos.</li>
+<li><strong>Bloque 5 — 60 minutos.</strong> Defensas técnicas y
+preguntas individuales.</li>
 </ul>
 <p>La organización exacta dependerá del número de grupos.</p>
 <hr/>
-<h1>27. Preguntas de cierre</h1>
-<h2 id="que-diferencia-existe-entre-que-funcione-y-que-este-validado">¿Qué diferencia existe entre que “funcione” y que esté validado?</h2>
-<p>La validación compara el comportamiento con requisitos y criterios de aceptación previamente definidos.</p>
-<h2 id="por-que-probar-clientes-independientes">¿Por qué probar clientes independientes?</h2>
-<p>Porque demuestra interoperabilidad y reduce dependencia de una única herramienta.</p>
-<h2 id="que-debe-ocurrir-si-una-prueba-final-falla">¿Qué debe ocurrir si una prueba final falla?</h2>
-<p>Debe registrarse evidencia, analizar causa, decidir criticidad y documentar corrección o limitación. Ocultar la falla elimina aprendizaje y trazabilidad.</p>
+<h1 id="27-preguntas-de-cierre">27. Preguntas de cierre</h1>
+<h2 id="qué-diferencia-existe-entre-que-funcione-y-que-esté-validado">¿Qué
+diferencia existe entre que “funcione” y que esté validado?</h2>
+<p>La validación compara el comportamiento con requisitos y criterios de
+aceptación previamente definidos.</p>
+<h2 id="por-qué-probar-clientes-independientes">¿Por qué probar clientes
+independientes?</h2>
+<p>Porque demuestra interoperabilidad y reduce dependencia de una única
+herramienta.</p>
+<h2 id="qué-debe-ocurrir-si-una-prueba-final-falla">¿Qué debe ocurrir si
+una prueba final falla?</h2>
+<p>Debe registrarse evidencia, analizar causa, decidir criticidad y
+documentar corrección o limitación. Ocultar la falla elimina aprendizaje
+y trazabilidad.</p>
 <hr/>
-<h1>28. Errores frecuentes</h1>
+<h1 id="28-errores-frecuentes">28. Errores frecuentes</h1>
 <ul>
-<li><strong>“La defensa es una demo de interfaz”.</strong> Debe demostrar toda la infraestructura y decisiones.</li>
-<li><strong>“Si el proyecto académico tiene una limitación, significa que está mal”.</strong> Reconocer límites y proponer mitigación demuestra madurez.</li>
-<li><strong>“La documentación puede escribirse después sin probarla”.</strong> Debe verificarse con usuarios/administradores que no participaron en su redacción.</li>
+<li><strong>“La defensa es una demo de interfaz”.</strong> Debe
+demostrar toda la infraestructura y decisiones.</li>
+<li><strong>“Si el proyecto académico tiene una limitación, significa
+que está mal”.</strong> Reconocer límites y proponer mitigación
+demuestra madurez.</li>
+<li><strong>“La documentación puede escribirse después sin
+probarla”.</strong> Debe verificarse con usuarios/administradores que no
+participaron en su redacción.</li>
 </ul>
 <hr/>
-<h1>29. Glosario final</h1>
+<h1 id="29-glosario-final">29. Glosario final</h1>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Concepto</th>
 <th>Definición</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Validación</td>
 <td>Confirmación de cumplimiento respecto de requisitos</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Plan de pruebas</td>
 <td>Conjunto organizado de verificaciones</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Runbook</td>
 <td>Procedimiento operativo accionable</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Expediente de evidencia</td>
 <td>Conjunto trazable de pruebas y productos</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Deuda técnica</td>
 <td>Decisiones pendientes que aumentan costo/riesgo futuro</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Roadmap</td>
 <td>Secuencia priorizada de evolución</td>
 </tr>
 </tbody>
 </table>
 <hr/>
-<h1>30. Referencias</h1>
-<p><strong>[R1]</strong> Programa de asignatura 12436 — Evaluación y evidencia final.</p>
-<p><strong>[R2]</strong> Open Geospatial Consortium. <em>Compliance and Interoperability resources</em>.<br/>
+<h1 id="30-referencias">30. Referencias</h1>
+<p><strong>[R1]</strong> Programa de asignatura 12436 — Evaluación y
+evidencia final.</p>
+<p><strong>[R2]</strong> Open Geospatial Consortium. <em>Compliance and
+Interoperability resources</em>.<br/>
 <a href="https://www.ogc.org/">https://www.ogc.org/</a></p>
-<p><strong>[R3]</strong> ISO/IEC/IEEE 42010:2022. <em>Architecture description</em>.<br/>
+<p><strong>[R3]</strong> ISO/IEC/IEEE 42010:2022. <em>Architecture
+description</em>.<br/>
 <a href="https://www.iso.org/standard/74393.html">https://www.iso.org/standard/74393.html</a></p>
 <hr/>
-<h1>31. Síntesis final de la asignatura</h1>
-<p>La IDE final debe demostrar que gobernanza, datos, metadatos, catálogo, servicios, seguridad y operación forman una cadena coherente. El resultado más importante no es conocer una herramienta específica, sino ser capaz de diseñar, publicar, validar y mantener información geoespacial mediante principios de interoperabilidad y responsabilidad institucional.</p>
-<div class="weeknav"><a href="Semana_15_Monitoreo_Logs_Backup_Recuperacion.html">← Semana 15</a><a href="../index.html">Índice del curso</a><span></span></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
+<h1 id="31-síntesis-final-de-la-asignatura">31. Síntesis final de la
+asignatura</h1>
+<p>La IDE final debe demostrar que gobernanza, datos, metadatos,
+catálogo, servicios, seguridad y operación forman una cadena coherente.
+El resultado más importante no es conocer una herramienta específica,
+sino ser capaz de diseñar, publicar, validar y mantener información
+geoespacial mediante principios de interoperabilidad y responsabilidad
+institucional.</p>
+<div class="weeknav"><a href="Semana_15_Monitoreo_Logs_Backup_Recuperacion.html">← Semana 15</a><span></span></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

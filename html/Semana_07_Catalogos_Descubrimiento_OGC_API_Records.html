@@ -1,155 +1,276 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 7 — Catálogos, descubrimiento, cosecha, federación y OGC API - Records</title><style>
-:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
-a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_07_Catalogos_Descubrimiento_OGC_API_Records.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#ejemplo-didactico">Ejemplo didáctico</a><a class="sub" href="#idea-clave">Idea clave</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="sub" href="#ejemplo-4">Ejemplo</a><a class="sub" href="#ejemplo-5">Ejemplo</a><a class="" href="#21-1-incorporacion-de-registros">21.1. Incorporación de registros</a><a class="" href="#21-2-busqueda">21.2. Búsqueda</a><a class="" href="#21-3-relaciones">21.3. Relaciones</a><a class="" href="#21-4-identificadores">21.4. Identificadores</a><a class="" href="#21-5-cosecha-o-simulacion">21.5. Cosecha o simulación</a><a class="" href="#21-6-prueba-ciega">21.6. Prueba ciega</a><a class="" href="#un-catalogo-almacena-necesariamente-los-datos">¿Un catálogo almacena necesariamente los datos?</a><a class="" href="#cosecha-y-federacion-son-identicas">¿Cosecha y federación son idénticas?</a><a class="" href="#por-que-utilizar-identificadores-persistentes">¿Por qué utilizar identificadores persistentes?</a><a class="" href="#que-ocurre-si-el-catalogo-encuentra-un-recurso-cuyo-servicio-esta-caido">¿Qué ocurre si el catálogo encuentra un recurso cuyo servicio está caído?</a></aside><main><h1>Semana 7 — Catálogos, descubrimiento, cosecha, federación y OGC API - Records</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 2 — Metadatos, catálogo y preparación para publicación</div></div>
-
-
-<h1>1. Marco de la semana</h1>
-<p>La Semana 7 trabaja catálogos, búsqueda, cosecha y federación; CSW y OGC API - Records como mecanismos de descubrimiento; vocabularios, catálogos de objetos, identificadores persistentes y correspondencia entre datos, metadatos y servicios.</p>
-<p>La semana se apoya directamente en las fichas creadas durante la Semana 6. Ahora esos registros dejan de ser documentos aislados y se convierten en un sistema de descubrimiento capaz de integrar recursos de distintos productores.</p>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-qué-es-un-catálogo-geoespacial">4. ¿Qué es un catálogo
+geoespacial?</a><a class="" href="#5-del-registro-a-la-experiencia-de-descubrimiento">5. Del
+registro a la experiencia de descubrimiento</a><a class="" href="#6-indexación-y-búsqueda">6. Indexación y búsqueda</a><a class="" href="#7-identificadores-persistentes">7. Identificadores
+persistentes</a><a class="" href="#8-relaciones-entre-recursos">8. Relaciones entre recursos</a><a class="" href="#9-cosecha-de-metadatos">9. Cosecha de metadatos</a><a class="" href="#10-problemas-de-cosecha">10. Problemas de cosecha</a><a class="" href="#11-federación">11. Federación</a><a class="" href="#12-csw">12. CSW</a><a class="" href="#13-ogc-api---records">13. OGC API - Records</a><a class="" href="#14-csw-y-ogc-api---records">14. CSW y OGC API - Records</a><a class="" href="#15-vocabularios-controlados">15. Vocabularios controlados</a><a class="" href="#16-catálogo-de-objetos-y-catálogo-de-metadatos">16. Catálogo de
+objetos y catálogo de metadatos</a><a class="" href="#17-versiones-e-históricos">17. Versiones e históricos</a><a class="" href="#18-calidad-de-un-catálogo">18. Calidad de un catálogo</a><a class="" href="#19-catálogo-como-punto-de-integración-de-una-ide-distribuida">19.
+Catálogo como punto de integración de una IDE distribuida</a><a class="" href="#20-caso-integrador">20. Caso integrador</a><a class="" href="#casos-técnicos-guiados--búsqueda-csw-y-ogc-api---records">Casos
+técnicos guiados — Búsqueda, CSW y OGC API - Records</a><a class="sub" href="#ejemplo-1--consulta-conceptual-por-palabras-clave">Ejemplo 1 —
+Consulta conceptual por palabras clave</a><a class="sub" href="#ejemplo-2--buscar-registros-que-intersectan-un-territorio">Ejemplo 2
+— Buscar registros que intersectan un territorio</a><a class="sub" href="#ejemplo-3--combinar-texto-y-tiempo">Ejemplo 3 — Combinar texto y
+tiempo</a><a class="sub" href="#ejemplo-4--estructura-simplificada-de-un-registro">Ejemplo 4 —
+Estructura simplificada de un registro</a><a class="sub" href="#ejemplo-5--operaciones-csw-clásicas">Ejemplo 5 — Operaciones CSW
+clásicas</a><a class="sub" href="#ejemplo-6--cosecha-entre-instituciones">Ejemplo 6 — Cosecha
+entre instituciones</a><a class="sub" href="#ejemplo-7--identificador-persistente-y-cambio-de-url">Ejemplo 7
+— Identificador persistente y cambio de URL</a><a class="sub" href="#ejemplo-8--prueba-de-descubrimiento-sin-conocimiento-previo">Ejemplo
+8 — Prueba de descubrimiento sin conocimiento previo</a><a class="" href="#21-laboratorio-7--catálogo-y-descubrimiento">21. Laboratorio 7 —
+Catálogo y descubrimiento</a><a class="sub" href="#211-incorporación-de-registros">21.1. Incorporación de
+registros</a><a class="sub" href="#212-búsqueda">21.2. Búsqueda</a><a class="sub" href="#213-relaciones">21.3. Relaciones</a><a class="sub" href="#214-identificadores">21.4. Identificadores</a><a class="sub" href="#215-cosecha-o-simulación">21.5. Cosecha o simulación</a><a class="sub" href="#216-prueba-ciega">21.6. Prueba ciega</a><a class="" href="#22-entregable-de-la-semana-7">22. Entregable de la Semana 7</a><a class="" href="#23-secuencia-sugerida">23. Secuencia sugerida</a><a class="" href="#24-preguntas-de-cierre">24. Preguntas de cierre</a><a class="sub" href="#un-catálogo-almacena-necesariamente-los-datos">¿Un catálogo
+almacena necesariamente los datos?</a><a class="sub" href="#cosecha-y-federación-son-idénticas">¿Cosecha y federación son
+idénticas?</a><a class="sub" href="#por-qué-utilizar-identificadores-persistentes">¿Por qué utilizar
+identificadores persistentes?</a><a class="sub" href="#qué-ocurre-si-el-catálogo-encuentra-un-recurso-cuyo-servicio-está-caído">¿Qué
+ocurre si el catálogo encuentra un recurso cuyo servicio está
+caído?</a><a class="" href="#25-errores-frecuentes">25. Errores frecuentes</a><a class="" href="#26-glosario">26. Glosario</a><a class="" href="#27-trabajo-autónomo">27. Trabajo autónomo</a><a class="" href="#28-referencias">28. Referencias</a><a class="sub" href="#r5-ogc-ogc-api---records---part-1-core-ogc-20-004r1-httpsdocsogcorgis20-004r120-004r1html">[R5] OGC. OGC API - Records - Part 1: Core (OGC 20-004r1) . https://docs.ogc.org/is/20-004r1/20-004r1.html</a><a class="" href="#29-síntesis-final">29. Síntesis final</a></aside><main><h1>Semana 7 — Catálogos, descubrimiento, cosecha, federación y OGC API - Records</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales  </div><div class="label">Código</div><div>12436  </div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática  </div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental  </div><div class="label">Unidad</div><div>Unidad 2 — Metadatos, catálogo y preparación para publicación</div></div><h1 id="1-marco-de-la-semana">1. Marco de la semana</h1>
+<p>La Semana 7 trabaja catálogos, búsqueda, cosecha y federación; CSW y
+OGC API - Records como mecanismos de descubrimiento; vocabularios,
+catálogos de objetos, identificadores persistentes y correspondencia
+entre datos, metadatos y servicios.</p>
+<p>La semana se apoya directamente en las fichas creadas durante la
+Semana 6. Ahora esos registros dejan de ser documentos aislados y se
+convierten en un sistema de descubrimiento capaz de integrar recursos de
+distintos productores.</p>
 <hr/>
-<h1>2. Propósito de la semana</h1>
-<p>Crear metadatos no es suficiente si los usuarios no pueden encontrarlos. Un catálogo organiza registros, permite búsqueda, expone interfaces y puede integrar fuentes externas.</p>
-<p>La finalidad de esta semana es que el estudiante comprenda la diferencia entre <strong>almacenar metadatos</strong> y <strong>construir una capacidad de descubrimiento</strong>. Un catálogo útil debe permitir encontrar recursos sin conocer previamente su nombre exacto, evaluar resultados y navegar hacia mecanismos de acceso válidos.</p>
+<h1 id="2-propósito-de-la-semana">2. Propósito de la semana</h1>
+<p>Crear metadatos no es suficiente si los usuarios no pueden
+encontrarlos. Un catálogo organiza registros, permite búsqueda, expone
+interfaces y puede integrar fuentes externas.</p>
+<p>La finalidad de esta semana es que el estudiante comprenda la
+diferencia entre <strong>almacenar metadatos</strong> y
+<strong>construir una capacidad de descubrimiento</strong>. Un catálogo
+útil debe permitir encontrar recursos sin conocer previamente su nombre
+exacto, evaluar resultados y navegar hacia mecanismos de acceso
+válidos.</p>
 <hr/>
-<h1>3. Resultados de aprendizaje</h1>
-<p>Al finalizar la semana, el estudiante deberá ser capaz de organizar registros en un catálogo, configurar criterios de búsqueda, explicar cosecha y federación, comparar CSW con OGC API - Records, definir identificadores persistentes y construir relaciones entre dataset, metadato, servicio y distribución.</p>
-<p>También deberá evaluar la calidad operativa de un catálogo mediante búsquedas reales y no únicamente mediante el número total de registros almacenados.</p>
+<h1 id="3-resultados-de-aprendizaje">3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá ser capaz de organizar
+registros en un catálogo, configurar criterios de búsqueda, explicar
+cosecha y federación, comparar CSW con OGC API - Records, definir
+identificadores persistentes y construir relaciones entre dataset,
+metadato, servicio y distribución.</p>
+<p>También deberá evaluar la calidad operativa de un catálogo mediante
+búsquedas reales y no únicamente mediante el número total de registros
+almacenados.</p>
 <hr/>
-<h1>4. ¿Qué es un catálogo geoespacial?</h1>
-<p>Un catálogo es un sistema que registra, indexa y permite descubrir recursos. Puede contener metadatos de datasets, servicios, mapas, APIs, documentos, estilos u otros objetos relevantes.</p>
-<p>El catálogo no necesita almacenar físicamente todos los datos. Su función principal es ofrecer un punto de descubrimiento y relacionar al usuario con las fuentes distribuidas.</p>
+<h1 id="4-qué-es-un-catálogo-geoespacial">4. ¿Qué es un catálogo
+geoespacial?</h1>
+<p>Un catálogo es un sistema que registra, indexa y permite descubrir
+recursos. Puede contener metadatos de datasets, servicios, mapas, APIs,
+documentos, estilos u otros objetos relevantes.</p>
+<p>El catálogo no necesita almacenar físicamente todos los datos. Su
+función principal es ofrecer un punto de descubrimiento y relacionar al
+usuario con las fuentes distribuidas.</p>
 <h3 id="ejemplo">Ejemplo</h3>
-<p>Un catálogo nacional puede describir una capa mantenida por una institución regional. El usuario encuentra el registro de forma central, pero el servicio continúa siendo operado por la institución productora.</p>
+<p>Un catálogo nacional puede describir una capa mantenida por una
+institución regional. El usuario encuentra el registro de forma central,
+pero el servicio continúa siendo operado por la institución
+productora.</p>
 <hr/>
-<h1>5. Del registro a la experiencia de descubrimiento</h1>
+<h1 id="5-del-registro-a-la-experiencia-de-descubrimiento">5. Del
+registro a la experiencia de descubrimiento</h1>
 <p>Un buen catálogo debe responder preguntas reales del usuario.</p>
 <ul>
-<li><strong>¿Qué información existe sobre un tema?</strong> La búsqueda temática depende de títulos, resúmenes, palabras clave y vocabularios consistentes.</li>
-<li><strong>¿Qué recursos cubren mi área de interés?</strong> La extensión espacial permite filtrar por territorio y evita revisar manualmente resultados irrelevantes.</li>
-<li><strong>¿Cuál es la versión más reciente?</strong> Las fechas y estados deben ayudar a distinguir registros vigentes de históricos.</li>
-<li><strong>¿Quién mantiene la fuente?</strong> El responsable permite evaluar autoridad y solicitar aclaraciones.</li>
-<li><strong>¿Cómo accedo?</strong> El catálogo debe conducir a un servicio, API, descarga u otro mecanismo válido.</li>
+<li><strong>¿Qué información existe sobre un tema?</strong> La búsqueda
+temática depende de títulos, resúmenes, palabras clave y vocabularios
+consistentes.</li>
+<li><strong>¿Qué recursos cubren mi área de interés?</strong> La
+extensión espacial permite filtrar por territorio y evita revisar
+manualmente resultados irrelevantes.</li>
+<li><strong>¿Cuál es la versión más reciente?</strong> Las fechas y
+estados deben ayudar a distinguir registros vigentes de históricos.</li>
+<li><strong>¿Quién mantiene la fuente?</strong> El responsable permite
+evaluar autoridad y solicitar aclaraciones.</li>
+<li><strong>¿Cómo accedo?</strong> El catálogo debe conducir a un
+servicio, API, descarga u otro mecanismo válido.</li>
 </ul>
-<p>La calidad del descubrimiento depende directamente de la calidad de los metadatos.</p>
+<p>La calidad del descubrimiento depende directamente de la calidad de
+los metadatos.</p>
 <hr/>
-<h1>6. Indexación y búsqueda</h1>
-<p>El catálogo transforma determinados campos en índices consultables. Puede incorporar texto completo, palabras clave, categorías, fechas y geometrías de extensión.</p>
-<p>Un registro puede estar técnicamente completo y aun ser difícil de descubrir si utiliza términos diferentes de los que emplean los usuarios. Por eso vocabularios, sinónimos y diseño de búsqueda son aspectos importantes.</p>
-<h3 id="ejemplo-2">Ejemplo</h3>
-<p>Si una capa utiliza únicamente la palabra clave <code>infraestructura vial</code> y los usuarios buscan <code>calles</code>, el catálogo puede necesitar vocabularios relacionados o un buen índice de texto para devolver resultados útiles.</p>
+<h1 id="6-indexación-y-búsqueda">6. Indexación y búsqueda</h1>
+<p>El catálogo transforma determinados campos en índices consultables.
+Puede incorporar texto completo, palabras clave, categorías, fechas y
+geometrías de extensión.</p>
+<p>Un registro puede estar técnicamente completo y aun ser difícil de
+descubrir si utiliza términos diferentes de los que emplean los
+usuarios. Por eso vocabularios, sinónimos y diseño de búsqueda son
+aspectos importantes.</p>
+<h3 id="ejemplo-1">Ejemplo</h3>
+<p>Si una capa utiliza únicamente la palabra clave
+<code>infraestructura vial</code> y los usuarios buscan
+<code>calles</code>, el catálogo puede necesitar vocabularios
+relacionados o un buen índice de texto para devolver resultados
+útiles.</p>
 <hr/>
-<h1>7. Identificadores persistentes</h1>
-<p>Un registro debería poseer una identidad estable que no dependa exclusivamente de una URL. Las plataformas, dominios y rutas pueden cambiar; el recurso conceptual puede permanecer.</p>
-<h3 id="ejemplo-didactico">Ejemplo didáctico</h3>
-<pre><code class="language-text">recurso: urn:ide:municipio:areas_verdes
-version: 2026-09
-</code></pre>
-<p>La sintaxis concreta puede variar. Lo importante es distinguir identidad del recurso, versión y ubicación actual.</p>
-<p>Los identificadores facilitan relaciones entre dataset, registro, servicio y productos derivados.</p>
+<h1 id="7-identificadores-persistentes">7. Identificadores
+persistentes</h1>
+<p>Un registro debería poseer una identidad estable que no dependa
+exclusivamente de una URL. Las plataformas, dominios y rutas pueden
+cambiar; el recurso conceptual puede permanecer.</p>
+<h3 id="ejemplo-didáctico">Ejemplo didáctico</h3>
+<pre class="text"><code>recurso: urn:ide:municipio:areas_verdes
+version: 2026-09</code></pre>
+<p>La sintaxis concreta puede variar. Lo importante es distinguir
+identidad del recurso, versión y ubicación actual.</p>
+<p>Los identificadores facilitan relaciones entre dataset, registro,
+servicio y productos derivados.</p>
 <hr/>
-<h1>8. Relaciones entre recursos</h1>
-<div class="mermaid">flowchart LR
+<h1 id="8-relaciones-entre-recursos">8. Relaciones entre recursos</h1>
+<pre class="mermaid">flowchart LR
     D["Dataset"] --&gt; M["Metadato"]
     M --&gt; S["Servicio WMS"]
     M --&gt; A["API"]
     M --&gt; F["Descarga"]
-    M --&gt; V["Versión histórica"]
-</div>
-<p>El registro debería permitir navegar hacia mecanismos de acceso y, cuando corresponde, relacionar versiones o recursos asociados.</p>
-<p>Esta relación no debe ser únicamente visual. Las URLs y referencias deben mantenerse válidas y actualizarse cuando cambia la infraestructura.</p>
+    M --&gt; V["Versión histórica"]</pre>
+<p>El registro debería permitir navegar hacia mecanismos de acceso y,
+cuando corresponde, relacionar versiones o recursos asociados.</p>
+<p>Esta relación no debe ser únicamente visual. Las URLs y referencias
+deben mantenerse válidas y actualizarse cuando cambia la
+infraestructura.</p>
 <hr/>
-<h1>9. Cosecha de metadatos</h1>
-<p>La cosecha permite que un catálogo recopile registros desde una fuente externa de manera periódica. Esto es especialmente útil en IDE distribuidas donde cada organismo mantiene su catálogo.</p>
-<div class="mermaid">flowchart LR
+<h1 id="9-cosecha-de-metadatos">9. Cosecha de metadatos</h1>
+<p>La cosecha permite que un catálogo recopile registros desde una
+fuente externa de manera periódica. Esto es especialmente útil en IDE
+distribuidas donde cada organismo mantiene su catálogo.</p>
+<pre class="mermaid">flowchart LR
     A["Catálogo A"] --&gt; H["Cosechador"]
     B["Catálogo B"] --&gt; H
     C["Catálogo C"] --&gt; H
-    H --&gt; N["Catálogo agregador"]
-</div>
-<p>El catálogo agregador no se convierte necesariamente en custodio del dato. Reproduce registros para facilitar descubrimiento. Por ello necesita una estrategia para actualizar, detectar eliminaciones y evitar duplicados.</p>
+    H --&gt; N["Catálogo agregador"]</pre>
+<p>El catálogo agregador no se convierte necesariamente en custodio del
+dato. Reproduce registros para facilitar descubrimiento. Por ello
+necesita una estrategia para actualizar, detectar eliminaciones y evitar
+duplicados.</p>
 <hr/>
-<h1>10. Problemas de cosecha</h1>
+<h1 id="10-problemas-de-cosecha">10. Problemas de cosecha</h1>
 <p>La cosecha introduce desafíos que deben analizarse.</p>
 <ul>
-<li><strong>Duplicados.</strong> El mismo recurso puede aparecer desde varias fuentes si no existen identificadores consistentes.</li>
-<li><strong>Registros obsoletos.</strong> Si una fuente deja de responder o cambia un registro, el agregador debe definir cómo mantener o retirar la copia.</li>
-<li><strong>Calidad heterogénea.</strong> Distintos productores pueden completar metadatos con niveles muy diferentes de detalle.</li>
-<li><strong>Conflictos de vocabulario.</strong> Categorías incompatibles reducen la utilidad de búsqueda integrada.</li>
-<li><strong>Disponibilidad externa.</strong> El catálogo central puede mostrar un recurso cuyo servicio de origen está caído, por lo que descubrimiento y operación siguen siendo responsabilidades relacionadas.</li>
+<li><strong>Duplicados.</strong> El mismo recurso puede aparecer desde
+varias fuentes si no existen identificadores consistentes.</li>
+<li><strong>Registros obsoletos.</strong> Si una fuente deja de
+responder o cambia un registro, el agregador debe definir cómo mantener
+o retirar la copia.</li>
+<li><strong>Calidad heterogénea.</strong> Distintos productores pueden
+completar metadatos con niveles muy diferentes de detalle.</li>
+<li><strong>Conflictos de vocabulario.</strong> Categorías incompatibles
+reducen la utilidad de búsqueda integrada.</li>
+<li><strong>Disponibilidad externa.</strong> El catálogo central puede
+mostrar un recurso cuyo servicio de origen está caído, por lo que
+descubrimiento y operación siguen siendo responsabilidades
+relacionadas.</li>
 </ul>
 <hr/>
-<h1>11. Federación</h1>
-<p>La federación permite realizar búsquedas sobre múltiples fuentes distribuidas sin que necesariamente todos los registros se almacenen permanentemente en un repositorio central.</p>
-<p>La implementación concreta depende de la plataforma, pero el concepto es importante: la IDE puede ofrecer una experiencia integrada aunque los recursos permanezcan distribuidos.</p>
-<p>La federación exige definir latencia, disponibilidad, normalización de resultados y mecanismos para manejar fuentes que no responden.</p>
+<h1 id="11-federación">11. Federación</h1>
+<p>La federación permite realizar búsquedas sobre múltiples fuentes
+distribuidas sin que necesariamente todos los registros se almacenen
+permanentemente en un repositorio central.</p>
+<p>La implementación concreta depende de la plataforma, pero el concepto
+es importante: la IDE puede ofrecer una experiencia integrada aunque los
+recursos permanezcan distribuidos.</p>
+<p>La federación exige definir latencia, disponibilidad, normalización
+de resultados y mecanismos para manejar fuentes que no responden.</p>
 <hr/>
-<h1>12. CSW</h1>
-<p>Catalog Service for the Web (CSW) es un estándar OGC clásico para publicar y consultar registros de catálogo [R2]. Ha sido ampliamente utilizado dentro de IDE y continúa siendo relevante en ecosistemas existentes.</p>
-<p>El estudiante debe comprender su papel como interfaz de descubrimiento interoperable, sin necesidad de memorizar toda la especificación en esta semana.</p>
-<p>Conceptualmente, un cliente puede consultar registros mediante criterios y obtener metadatos que luego conducen a recursos distribuidos.</p>
+<h1 id="12-csw">12. CSW</h1>
+<p>Catalog Service for the Web (CSW) es un estándar OGC clásico para
+publicar y consultar registros de catálogo [R2]. Ha sido ampliamente
+utilizado dentro de IDE y continúa siendo relevante en ecosistemas
+existentes.</p>
+<p>El estudiante debe comprender su papel como interfaz de
+descubrimiento interoperable, sin necesidad de memorizar toda la
+especificación en esta semana.</p>
+<p>Conceptualmente, un cliente puede consultar registros mediante
+criterios y obtener metadatos que luego conducen a recursos
+distribuidos.</p>
 <hr/>
-<h1>13. OGC API - Records</h1>
-<p>OGC API - Records adopta un enfoque basado en recursos web y APIs modernas. La Parte 1 Core define bloques para publicar y consultar registros, colecciones y mecanismos de búsqueda [R1].</p>
-<p>Su diseño busca integrarse mejor con prácticas actuales de desarrollo web, ofreciendo representaciones y patrones más familiares para clientes HTTP modernos.</p>
+<h1 id="13-ogc-api---records">13. OGC API - Records</h1>
+<p>OGC API - Records adopta un enfoque basado en recursos web y APIs
+modernas. La Parte 1 Core define bloques para publicar y consultar
+registros, colecciones y mecanismos de búsqueda [R1].</p>
+<p>Su diseño busca integrarse mejor con prácticas actuales de desarrollo
+web, ofreciendo representaciones y patrones más familiares para clientes
+HTTP modernos.</p>
 <h3 id="idea-clave">Idea clave</h3>
-<p>OGC API - Records no cambia la necesidad fundamental: descubrir recursos. Cambia la forma técnica de exponer y consultar esa capacidad.</p>
+<p>OGC API - Records no cambia la necesidad fundamental: descubrir
+recursos. Cambia la forma técnica de exponer y consultar esa
+capacidad.</p>
 <hr/>
-<h1>14. CSW y OGC API - Records</h1>
+<h1 id="14-csw-y-ogc-api---records">14. CSW y OGC API - Records</h1>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Aspecto</th>
 <th>CSW</th>
 <th>OGC API - Records</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Enfoque</td>
 <td>Servicio OGC clásico</td>
 <td>API web moderna</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Interacción</td>
 <td>Operaciones de catálogo</td>
 <td>Recursos y colecciones</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Ecosistema</td>
 <td>Amplio legado IDE</td>
 <td>Evolución de la familia OGC API</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Uso docente</td>
 <td>Comprender infraestructuras existentes</td>
 <td>Preparar integración web moderna</td>
 </tr>
 </tbody>
 </table>
-<p>No debe presentarse como una dicotomía “antiguo malo / nuevo bueno”. Muchas organizaciones necesitan interoperar con ambos durante transiciones prolongadas.</p>
+<p>No debe presentarse como una dicotomía “antiguo malo / nuevo bueno”.
+Muchas organizaciones necesitan interoperar con ambos durante
+transiciones prolongadas.</p>
 <hr/>
-<h1>15. Vocabularios controlados</h1>
-<p>Un catálogo funciona mejor cuando temas, categorías y palabras clave se utilizan de manera consistente. Un vocabulario controlado puede definir términos preferidos, sinónimos y relaciones jerárquicas.</p>
+<h1 id="15-vocabularios-controlados">15. Vocabularios controlados</h1>
+<p>Un catálogo funciona mejor cuando temas, categorías y palabras clave
+se utilizan de manera consistente. Un vocabulario controlado puede
+definir términos preferidos, sinónimos y relaciones jerárquicas.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p><code>vialidad</code>, <code>red vial</code>, <code>calles</code> y
+<code>transporte terrestre</code> pueden representar conceptos
+relacionados, pero no idénticos. Un vocabulario permite organizar estas
+relaciones y mejorar recuperación.</p>
+<p>El vocabulario debe ser mantenible y suficientemente simple para que
+los productores realmente lo utilicen.</p>
+<hr/>
+<h1 id="16-catálogo-de-objetos-y-catálogo-de-metadatos">16. Catálogo de
+objetos y catálogo de metadatos</h1>
+<p>Un catálogo de objetos describe clases, atributos, relaciones y
+dominios de un modelo geográfico. Un catálogo de metadatos describe
+recursos concretos disponibles.</p>
 <h3 id="ejemplo-3">Ejemplo</h3>
-<p><code>vialidad</code>, <code>red vial</code>, <code>calles</code> y <code>transporte terrestre</code> pueden representar conceptos relacionados, pero no idénticos. Un vocabulario permite organizar estas relaciones y mejorar recuperación.</p>
-<p>El vocabulario debe ser mantenible y suficientemente simple para que los productores realmente lo utilicen.</p>
+<p>El catálogo de objetos puede explicar qué significa la clase
+<code>AreaVerde</code> y sus atributos. El catálogo de metadatos
+registra la existencia de
+<code>Áreas verdes públicas — comuna X — 2026</code>.</p>
+<p>Confundir ambos instrumentos produce documentación incompleta: uno
+explica la estructura conceptual; el otro permite descubrir instancias
+publicadas.</p>
 <hr/>
-<h1>16. Catálogo de objetos y catálogo de metadatos</h1>
-<p>Un catálogo de objetos describe clases, atributos, relaciones y dominios de un modelo geográfico. Un catálogo de metadatos describe recursos concretos disponibles.</p>
+<h1 id="17-versiones-e-históricos">17. Versiones e históricos</h1>
+<p>Un recurso puede mantener un identificador estable y múltiples
+versiones. El catálogo debe decidir si muestra únicamente la versión
+vigente o permite navegar históricos.</p>
+<p>Los históricos pueden ser necesarios para reproducibilidad, análisis
+temporal o auditoría. Sin embargo, deben marcarse claramente para evitar
+que un usuario utilice una versión antigua creyendo que es la
+actual.</p>
 <h3 id="ejemplo-4">Ejemplo</h3>
-<p>El catálogo de objetos puede explicar qué significa la clase <code>AreaVerde</code> y sus atributos. El catálogo de metadatos registra la existencia de <code>Áreas verdes públicas — comuna X — 2026</code>.</p>
-<p>Confundir ambos instrumentos produce documentación incompleta: uno explica la estructura conceptual; el otro permite descubrir instancias publicadas.</p>
+<p>El registro vigente puede enlazar versiones anteriores como recursos
+relacionados, indicando fecha de corte y estado <code>retirado</code> o
+equivalente según el sistema.</p>
 <hr/>
-<h1>17. Versiones e históricos</h1>
-<p>Un recurso puede mantener un identificador estable y múltiples versiones. El catálogo debe decidir si muestra únicamente la versión vigente o permite navegar históricos.</p>
-<p>Los históricos pueden ser necesarios para reproducibilidad, análisis temporal o auditoría. Sin embargo, deben marcarse claramente para evitar que un usuario utilice una versión antigua creyendo que es la actual.</p>
-<h3 id="ejemplo-5">Ejemplo</h3>
-<p>El registro vigente puede enlazar versiones anteriores como recursos relacionados, indicando fecha de corte y estado <code>retirado</code> o equivalente según el sistema.</p>
-<hr/>
-<h1>18. Calidad de un catálogo</h1>
-<p>La calidad no se mide únicamente por cantidad de registros. Pueden utilizarse indicadores como:</p>
+<h1 id="18-calidad-de-un-catálogo">18. Calidad de un catálogo</h1>
+<p>La calidad no se mide únicamente por cantidad de registros. Pueden
+utilizarse indicadores como:</p>
 <ul>
 <li>Porcentaje de registros con campos obligatorios completos;</li>
 <li>Enlaces de distribución válidos;</li>
@@ -159,124 +280,341 @@ version: 2026-09
 <li>Tiempo de respuesta;</li>
 <li>Cobertura temática e institucional.</li>
 </ul>
-<p>Un catálogo con miles de registros rotos puede ser menos útil que uno pequeño pero mantenido.</p>
+<p>Un catálogo con miles de registros rotos puede ser menos útil que uno
+pequeño pero mantenido.</p>
 <hr/>
-<h1>19. Catálogo como punto de integración de una IDE distribuida</h1>
-<p>En una arquitectura distribuida, el catálogo puede actuar como índice común mientras los productores mantienen datos y servicios.</p>
-<div class="mermaid">flowchart TB
+<h1 id="19-catálogo-como-punto-de-integración-de-una-ide-distribuida">19.
+Catálogo como punto de integración de una IDE distribuida</h1>
+<p>En una arquitectura distribuida, el catálogo puede actuar como índice
+común mientras los productores mantienen datos y servicios.</p>
+<pre class="mermaid">flowchart TB
     A["Medio Ambiente"] --&gt; A1["Catálogo local"]
     B["Tránsito"] --&gt; B1["Catálogo local"]
     C["Catastro"] --&gt; C1["Catálogo local"]
     A1 --&gt; H["Catálogo IDE"]
     B1 --&gt; H
     C1 --&gt; H
-    H --&gt; U["Usuarios"]
-</div>
-<p>El valor del catálogo central depende de reglas compartidas de metadatos e identificadores. La federación técnica sin armonización semántica produce resultados difíciles de interpretar.</p>
+    H --&gt; U["Usuarios"]</pre>
+<p>El valor del catálogo central depende de reglas compartidas de
+metadatos e identificadores. La federación técnica sin armonización
+semántica produce resultados difíciles de interpretar.</p>
 <hr/>
-<h1>20. Caso integrador</h1>
-<p>Tres unidades mantienen datos y metadatos. El proyecto define un catálogo común que cosecha los registros y ofrece un buscador único.</p>
-<p>Para que funcione, cada unidad debe utilizar identificadores, perfil de metadatos y palabras clave suficientemente compatibles. El catálogo agrega visibilidad, pero no reemplaza la responsabilidad del productor por vigencia y calidad.</p>
-<p>La prueba final consiste en entregar al usuario una necesidad temática, no el nombre exacto del dataset, y comprobar si puede encontrar un recurso pertinente y acceder a él.</p>
+<h1 id="20-caso-integrador">20. Caso integrador</h1>
+<p>Tres unidades mantienen datos y metadatos. El proyecto define un
+catálogo común que cosecha los registros y ofrece un buscador único.</p>
+<p>Para que funcione, cada unidad debe utilizar identificadores, perfil
+de metadatos y palabras clave suficientemente compatibles. El catálogo
+agrega visibilidad, pero no reemplaza la responsabilidad del productor
+por vigencia y calidad.</p>
+<p>La prueba final consiste en entregar al usuario una necesidad
+temática, no el nombre exacto del dataset, y comprobar si puede
+encontrar un recurso pertinente y acceder a él.</p>
 <hr/>
-<h1>21. Laboratorio 7 — Catálogo y descubrimiento</h1>
-<h2 id="21-1-incorporacion-de-registros">21.1. Incorporación de registros</h2>
-<p>Cargar los metadatos creados en Semana 6 y revisar cómo se indexan los campos.</p>
-<h2 id="21-2-busqueda">21.2. Búsqueda</h2>
-<p>Probar consultas por título, palabra clave, organización, fecha y extensión espacial. Documentar búsquedas que no funcionen bien y explicar por qué.</p>
-<h2 id="21-3-relaciones">21.3. Relaciones</h2>
-<p>Añadir enlaces a servicios o descargas, aunque algunos endpoints se completen definitivamente durante las semanas de publicación.</p>
-<h2 id="21-4-identificadores">21.4. Identificadores</h2>
-<p>Definir identificadores estables para recursos y versiones. Evitar utilizar exclusivamente nombres de archivo como identidad.</p>
-<h2 id="21-5-cosecha-o-simulacion">21.5. Cosecha o simulación</h2>
-<p>Configurar una fuente externa cuando la plataforma lo permita o simular conceptualmente el flujo de cosecha y resolución de duplicados.</p>
-<h2 id="21-6-prueba-ciega">21.6. Prueba ciega</h2>
-<p>Otro grupo debe encontrar un recurso a partir de un problema planteado, sin conocer su título exacto. Registrar tiempo, consultas utilizadas y obstáculos.</p>
-<hr/>
-<h1>22. Entregable de la Semana 7</h1>
-<p>El entregable debe incluir catálogo funcional o evidencia equivalente, registros, identificadores, pruebas de búsqueda, enlaces válidos, análisis de cosecha/federación y comparación conceptual entre CSW y OGC API - Records.</p>
-<p>Además, debe contener una pequeña evaluación de calidad del catálogo utilizando al menos cuatro indicadores propuestos por el equipo.</p>
-<hr/>
-<h1>23. Secuencia sugerida</h1>
+<h1 id="casos-técnicos-guiados--búsqueda-csw-y-ogc-api---records">Casos
+técnicos guiados — Búsqueda, CSW y OGC API - Records</h1>
+<p>Esta sección muestra cómo un catálogo pasa desde “tener registros” a
+ofrecer una interfaz de descubrimiento que puede ser utilizada por
+personas y aplicaciones.</p>
+<h2 id="ejemplo-1--consulta-conceptual-por-palabras-clave">Ejemplo 1 —
+Consulta conceptual por palabras clave</h2>
+<p>Un usuario quiere encontrar información sobre áreas verdes sin
+conocer el nombre exacto del dataset. Una búsqueda de texto debería ser
+capaz de recuperar registros cuyo título, resumen o palabras clave
+contengan términos relacionados.</p>
+<p>En OGC API - Records, el parámetro <code>q</code> proporciona una
+capacidad de búsqueda textual básica en endpoints buscables. Un ejemplo
+genérico sería:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="dt">\</span></span>
+<span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a>  <span class="st">"https://catalogo.ejemplo.cl/collections/metadata:main/items?q=areas%20verdes&amp;limit=10"</span></span></code></pre></div>
+<p>El nombre de la colección y el dominio son ilustrativos; cada
+implementación define sus recursos. El estándar también contempla
+parámetros como <code>bbox</code>, <code>datetime</code>,
+<code>limit</code>, <code>type</code> e <code>ids</code>.</p>
+<h2 id="ejemplo-2--buscar-registros-que-intersectan-un-territorio">Ejemplo 2
+— Buscar registros que intersectan un territorio</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="dt">\</span></span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>  <span class="st">"https://catalogo.ejemplo.cl/collections/metadata:main/items?bbox=-70.70,-33.55,-70.55,-33.40&amp;limit=20"</span></span></code></pre></div>
+<p>La búsqueda no solicita features del dataset; solicita
+<strong>registros de catálogo cuyo alcance espacial intersecta el
+BBOX</strong>. Esta distinción es importante: OGC API - Records descubre
+recursos, mientras OGC API - Features accede a los objetos del
+recurso.</p>
+<h2 id="ejemplo-3--combinar-texto-y-tiempo">Ejemplo 3 — Combinar texto y
+tiempo</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="dt">\</span></span>
+<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a>  <span class="st">"https://catalogo.ejemplo.cl/collections/metadata:main/items?q=vialidad&amp;datetime=2026-01-01/2026-12-31&amp;limit=10"</span></span></code></pre></div>
+<p>Este tipo de consulta permite construir portales donde el usuario
+filtra por tema y vigencia.</p>
+<h2 id="ejemplo-4--estructura-simplificada-de-un-registro">Ejemplo 4 —
+Estructura simplificada de un registro</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a>  <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"Feature"</span><span class="fu">,</span></span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"urn:usach:ide:municipio-x:areas-verdes"</span><span class="fu">,</span></span>
+<span id="cb8-4"><a aria-hidden="true" href="#cb8-4" tabindex="-1"></a>  <span class="dt">"geometry"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb8-5"><a aria-hidden="true" href="#cb8-5" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"Polygon"</span><span class="fu">,</span></span>
+<span id="cb8-6"><a aria-hidden="true" href="#cb8-6" tabindex="-1"></a>    <span class="dt">"coordinates"</span><span class="fu">:</span> <span class="ot">[[[</span> <span class="fl">-70.70</span><span class="ot">,</span> <span class="fl">-33.55</span> <span class="ot">],</span> <span class="ot">[</span> <span class="fl">-70.55</span><span class="ot">,</span> <span class="fl">-33.55</span> <span class="ot">],</span> <span class="ot">[</span> <span class="fl">-70.55</span><span class="ot">,</span> <span class="fl">-33.40</span> <span class="ot">],</span> <span class="ot">[</span> <span class="fl">-70.70</span><span class="ot">,</span> <span class="fl">-33.40</span> <span class="ot">],</span> <span class="ot">[</span> <span class="fl">-70.70</span><span class="ot">,</span> <span class="fl">-33.55</span> <span class="ot">]]]</span></span>
+<span id="cb8-7"><a aria-hidden="true" href="#cb8-7" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb8-8"><a aria-hidden="true" href="#cb8-8" tabindex="-1"></a>  <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb8-9"><a aria-hidden="true" href="#cb8-9" tabindex="-1"></a>    <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Áreas verdes públicas — septiembre 2026"</span><span class="fu">,</span></span>
+<span id="cb8-10"><a aria-hidden="true" href="#cb8-10" tabindex="-1"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Catastro municipal de parques, plazas y bandejones."</span><span class="fu">,</span></span>
+<span id="cb8-11"><a aria-hidden="true" href="#cb8-11" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"dataset"</span><span class="fu">,</span></span>
+<span id="cb8-12"><a aria-hidden="true" href="#cb8-12" tabindex="-1"></a>    <span class="dt">"keywords"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"áreas verdes"</span><span class="ot">,</span> <span class="st">"planificación"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb8-13"><a aria-hidden="true" href="#cb8-13" tabindex="-1"></a>    <span class="dt">"datetime"</span><span class="fu">:</span> <span class="st">"2026-09-20T00:00:00Z"</span></span>
+<span id="cb8-14"><a aria-hidden="true" href="#cb8-14" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb8-15"><a aria-hidden="true" href="#cb8-15" tabindex="-1"></a>  <span class="dt">"links"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb8-16"><a aria-hidden="true" href="#cb8-16" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb8-17"><a aria-hidden="true" href="#cb8-17" tabindex="-1"></a>      <span class="dt">"rel"</span><span class="fu">:</span> <span class="st">"enclosure"</span><span class="fu">,</span></span>
+<span id="cb8-18"><a aria-hidden="true" href="#cb8-18" tabindex="-1"></a>      <span class="dt">"href"</span><span class="fu">:</span> <span class="st">"https://datos.ejemplo.cl/areas_verdes.gpkg"</span><span class="fu">,</span></span>
+<span id="cb8-19"><a aria-hidden="true" href="#cb8-19" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"application/geopackage+sqlite3"</span></span>
+<span id="cb8-20"><a aria-hidden="true" href="#cb8-20" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb8-21"><a aria-hidden="true" href="#cb8-21" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb8-22"><a aria-hidden="true" href="#cb8-22" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>El ejemplo ayuda a observar que el catálogo no contiene
+necesariamente el dataset; contiene una <strong>descripción
+enlazada</strong> al recurso o servicio.</p>
+<h2 id="ejemplo-5--operaciones-csw-clásicas">Ejemplo 5 — Operaciones CSW
+clásicas</h2>
+<p>En infraestructuras existentes todavía es común encontrar Catalogue
+Service for the Web (CSW). Una consulta inicial típica es
+<code>GetCapabilities</code>:</p>
+<pre class="text"><code>https://catalogo.ejemplo.cl/csw?
+service=CSW&amp;
+request=GetCapabilities</code></pre>
+<p>Una operación <code>GetRecords</code> puede recuperar registros que
+cumplan determinados criterios. La sintaxis exacta depende de versión y
+perfil, por lo que el ejercicio debe realizarse contra el catálogo
+instalado en el laboratorio y no memorizar una URL fija.</p>
+<h3 id="qué-observar-en-getcapabilities">Qué observar en
+<code>GetCapabilities</code></h3>
 <ul>
-<li><strong>Bloque 1 — 45 minutos.</strong> Del metadato al descubrimiento, mostrando por qué registrar no equivale a encontrar.</li>
-<li><strong>Bloque 2 — 45 minutos.</strong> Indexación, búsqueda, extensión y palabras clave mediante ejemplos concretos.</li>
-<li><strong>Bloque 3 — 45 minutos.</strong> Cosecha, federación y problemas de duplicidad/actualización.</li>
-<li><strong>Bloque 4 — 45 minutos.</strong> CSW y OGC API - Records, comparando enfoques sin declarar obsoleto el ecosistema existente.</li>
-<li><strong>Bloque 5 — 30 minutos.</strong> Vocabularios, identificadores persistentes y relaciones entre recursos.</li>
-<li><strong>Bloque 6 — 30 minutos.</strong> Laboratorio y definición de prueba ciega.</li>
+<li><strong>Versión del servicio.</strong> Permite saber qué
+especificación está implementando el catálogo y evita construir
+solicitudes con parámetros pertenecientes a otra versión.</li>
+<li><strong>Operaciones soportadas.</strong> Indica qué capacidades
+pueden invocarse realmente, por ejemplo búsqueda, obtención de registros
+o descripción del servicio.</li>
+<li><strong>Restricciones.</strong> Comunica límites, parámetros
+obligatorios o condiciones que un cliente debe respetar antes de
+formular consultas.</li>
+<li><strong>Formatos de salida.</strong> Permite identificar cómo se
+serializan las respuestas y qué representación puede consumir cada
+cliente.</li>
+<li><strong>Endpoints disponibles.</strong> Informa las direcciones
+efectivas a las que deben enviarse las operaciones, evitando asumir que
+todas utilizan exactamente la misma URL base.</li>
+</ul>
+<h2 id="ejemplo-6--cosecha-entre-instituciones">Ejemplo 6 — Cosecha
+entre instituciones</h2>
+<p>Supongamos tres catálogos:</p>
+<pre class="mermaid">flowchart LR
+    A["Catálogo Medio Ambiente"] --&gt; H["Cosecha periódica"]
+    B["Catálogo Tránsito"] --&gt; H
+    C["Catálogo Catastro"] --&gt; H
+    H --&gt; N["Catálogo institucional"]</pre>
+<p>El catálogo institucional puede programar una cosecha cada noche. Si
+Medio Ambiente corrige su metadato, el cambio debe propagarse en la
+siguiente ejecución. La responsabilidad del contenido permanece en la
+fuente.</p>
+<h3 id="controles-que-deben-verificarse">Controles que deben
+verificarse</h3>
+<ul>
+<li><strong>Identificador estable.</strong> Evita crear un duplicado en
+cada cosecha.</li>
+<li><strong>Fecha de modificación.</strong> Permite detectar registros
+que cambiaron.</li>
+<li><strong>Origen.</strong> Debe poder saberse de qué catálogo proviene
+el registro.</li>
+<li><strong>Conflictos.</strong> Dos fuentes no deberían publicar el
+mismo identificador con contenido contradictorio.</li>
+</ul>
+<h2 id="ejemplo-7--identificador-persistente-y-cambio-de-url">Ejemplo 7
+— Identificador persistente y cambio de URL</h2>
+<p>Un recurso puede conservar:</p>
+<pre class="text"><code>urn:usach:ide:municipio-x:areas-verdes</code></pre>
+<p>mientras su distribución cambia de:</p>
+<pre class="text"><code>https://geo-antiguo.ejemplo.cl/wms</code></pre>
+<p>a:</p>
+<pre class="text"><code>https://geo.ejemplo.cl/geoserver/municipio/wms</code></pre>
+<p>La identidad conceptual no cambia aunque cambie la
+infraestructura.</p>
+<h2 id="ejemplo-8--prueba-de-descubrimiento-sin-conocimiento-previo">Ejemplo
+8 — Prueba de descubrimiento sin conocimiento previo</h2>
+<p>Un grupo debe entregar al otro solo estas condiciones:</p>
+<blockquote>
+<p>“Necesito un dataset de áreas verdes, actualizado durante 2026, que
+cubra la comuna X y tenga un servicio disponible”.</p>
+</blockquote>
+<p>El segundo grupo debe encontrarlo únicamente mediante el catálogo y
+demostrar:</p>
+<ol type="1">
+<li>consulta utilizada;</li>
+<li>registro encontrado;</li>
+<li>evaluación del metadato;</li>
+<li>acceso al servicio o descarga;</li>
+<li>identificación del custodio.</li>
+</ol>
+<p>Si el recurso solo puede encontrarse conociendo de antemano su URL
+exacta, el sistema de descubrimiento no está cumpliendo adecuadamente su
+función.</p>
+<p><strong>Referencia técnica:</strong> OGC API - Records Part 1 Core
+define, entre otros, los parámetros <code>bbox</code>,
+<code>datetime</code>, <code>limit</code>, <code>q</code>,
+<code>type</code> e <code>ids</code> para endpoints de búsqueda.</p>
+<hr/>
+<h1 id="21-laboratorio-7--catálogo-y-descubrimiento">21. Laboratorio 7 —
+Catálogo y descubrimiento</h1>
+<h2 id="211-incorporación-de-registros">21.1. Incorporación de
+registros</h2>
+<p>Cargar los metadatos creados en Semana 6 y revisar cómo se indexan
+los campos.</p>
+<h2 id="212-búsqueda">21.2. Búsqueda</h2>
+<p>Probar consultas por título, palabra clave, organización, fecha y
+extensión espacial. Documentar búsquedas que no funcionen bien y
+explicar por qué.</p>
+<h2 id="213-relaciones">21.3. Relaciones</h2>
+<p>Añadir enlaces a servicios o descargas, aunque algunos endpoints se
+completen definitivamente durante las semanas de publicación.</p>
+<h2 id="214-identificadores">21.4. Identificadores</h2>
+<p>Definir identificadores estables para recursos y versiones. Evitar
+utilizar exclusivamente nombres de archivo como identidad.</p>
+<h2 id="215-cosecha-o-simulación">21.5. Cosecha o simulación</h2>
+<p>Configurar una fuente externa cuando la plataforma lo permita o
+simular conceptualmente el flujo de cosecha y resolución de
+duplicados.</p>
+<h2 id="216-prueba-ciega">21.6. Prueba ciega</h2>
+<p>Otro grupo debe encontrar un recurso a partir de un problema
+planteado, sin conocer su título exacto. Registrar tiempo, consultas
+utilizadas y obstáculos.</p>
+<hr/>
+<h1 id="22-entregable-de-la-semana-7">22. Entregable de la Semana 7</h1>
+<p>El entregable debe incluir catálogo funcional o evidencia
+equivalente, registros, identificadores, pruebas de búsqueda, enlaces
+válidos, análisis de cosecha/federación y comparación conceptual entre
+CSW y OGC API - Records.</p>
+<p>Además, debe contener una pequeña evaluación de calidad del catálogo
+utilizando al menos cuatro indicadores propuestos por el equipo.</p>
+<hr/>
+<h1 id="23-secuencia-sugerida">23. Secuencia sugerida</h1>
+<ul>
+<li><strong>Bloque 1 — 45 minutos.</strong> Del metadato al
+descubrimiento, mostrando por qué registrar no equivale a
+encontrar.</li>
+<li><strong>Bloque 2 — 45 minutos.</strong> Indexación, búsqueda,
+extensión y palabras clave mediante ejemplos concretos.</li>
+<li><strong>Bloque 3 — 45 minutos.</strong> Cosecha, federación y
+problemas de duplicidad/actualización.</li>
+<li><strong>Bloque 4 — 45 minutos.</strong> CSW y OGC API - Records,
+comparando enfoques sin declarar obsoleto el ecosistema existente.</li>
+<li><strong>Bloque 5 — 30 minutos.</strong> Vocabularios,
+identificadores persistentes y relaciones entre recursos.</li>
+<li><strong>Bloque 6 — 30 minutos.</strong> Laboratorio y definición de
+prueba ciega.</li>
 </ul>
 <hr/>
-<h1>24. Preguntas de cierre</h1>
-<h2 id="un-catalogo-almacena-necesariamente-los-datos">¿Un catálogo almacena necesariamente los datos?</h2>
-<p>No. Puede almacenar registros y enlaces a recursos distribuidos. Esta separación es fundamental en IDE federadas.</p>
-<h2 id="cosecha-y-federacion-son-identicas">¿Cosecha y federación son idénticas?</h2>
-<p>No necesariamente. La cosecha suele copiar o sincronizar registros hacia un agregador; la federación puede resolver consultas distribuidas sin mantener todas las copias de forma permanente.</p>
-<h2 id="por-que-utilizar-identificadores-persistentes">¿Por qué utilizar identificadores persistentes?</h2>
-<p>Porque URLs, plataformas y versiones pueden cambiar mientras la identidad conceptual del recurso permanece. El identificador facilita relaciones y sincronización.</p>
-<h2 id="que-ocurre-si-el-catalogo-encuentra-un-recurso-cuyo-servicio-esta-caido">¿Qué ocurre si el catálogo encuentra un recurso cuyo servicio está caído?</h2>
-<p>El descubrimiento sigue funcionando, pero la capacidad de uso falla. El catálogo debe monitorear o, al menos, permitir detectar enlaces inválidos y mantener contacto con el productor.</p>
+<h1 id="24-preguntas-de-cierre">24. Preguntas de cierre</h1>
+<h2 id="un-catálogo-almacena-necesariamente-los-datos">¿Un catálogo
+almacena necesariamente los datos?</h2>
+<p>No. Puede almacenar registros y enlaces a recursos distribuidos. Esta
+separación es fundamental en IDE federadas.</p>
+<h2 id="cosecha-y-federación-son-idénticas">¿Cosecha y federación son
+idénticas?</h2>
+<p>No necesariamente. La cosecha suele copiar o sincronizar registros
+hacia un agregador; la federación puede resolver consultas distribuidas
+sin mantener todas las copias de forma permanente.</p>
+<h2 id="por-qué-utilizar-identificadores-persistentes">¿Por qué utilizar
+identificadores persistentes?</h2>
+<p>Porque URLs, plataformas y versiones pueden cambiar mientras la
+identidad conceptual del recurso permanece. El identificador facilita
+relaciones y sincronización.</p>
+<h2 id="qué-ocurre-si-el-catálogo-encuentra-un-recurso-cuyo-servicio-está-caído">¿Qué
+ocurre si el catálogo encuentra un recurso cuyo servicio está
+caído?</h2>
+<p>El descubrimiento sigue funcionando, pero la capacidad de uso falla.
+El catálogo debe monitorear o, al menos, permitir detectar enlaces
+inválidos y mantener contacto con el productor.</p>
 <hr/>
-<h1>25. Errores frecuentes</h1>
+<h1 id="25-errores-frecuentes">25. Errores frecuentes</h1>
 <ul>
-<li><strong>“Más registros significa mejor catálogo”.</strong> La vigencia, completitud y validez de enlaces son igualmente importantes.</li>
-<li><strong>“Palabras clave libres siempre son suficientes”.</strong> Los vocabularios mejoran consistencia y búsqueda entre productores.</li>
-<li><strong>“Catálogo de objetos es catálogo de metadatos”.</strong> El primero describe clases y estructuras; el segundo recursos concretos.</li>
-<li><strong>“Un identificador es la URL”.</strong> La URL es una ubicación; la identidad debería poder sobrevivir a cambios de plataforma.</li>
+<li><strong>“Más registros significa mejor catálogo”.</strong> La
+vigencia, completitud y validez de enlaces son igualmente
+importantes.</li>
+<li><strong>“Palabras clave libres siempre son suficientes”.</strong>
+Los vocabularios mejoran consistencia y búsqueda entre productores.</li>
+<li><strong>“Catálogo de objetos es catálogo de metadatos”.</strong> El
+primero describe clases y estructuras; el segundo recursos
+concretos.</li>
+<li><strong>“Un identificador es la URL”.</strong> La URL es una
+ubicación; la identidad debería poder sobrevivir a cambios de
+plataforma.</li>
 </ul>
 <hr/>
-<h1>26. Glosario</h1>
+<h1 id="26-glosario">26. Glosario</h1>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Concepto</th>
 <th>Definición</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Catálogo</td>
 <td>Sistema de registro y descubrimiento</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Cosecha</td>
 <td>Recolección/sincronización de registros desde otra fuente</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Federación</td>
 <td>Integración de búsquedas distribuidas</td>
 </tr>
-<tr>
+<tr class="even">
 <td>CSW</td>
 <td>Estándar OGC clásico de catálogo</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>OGC API - Records</td>
 <td>API moderna para descubrimiento de registros</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Identificador persistente</td>
 <td>Identidad estable independiente de URL</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Vocabulario controlado</td>
 <td>Conjunto normalizado de términos</td>
 </tr>
 </tbody>
 </table>
 <hr/>
-<h1>27. Trabajo autónomo</h1>
-<p>Preparar el primer hito integrado de las unidades 1 y 2: arquitectura, gobernanza, datos preparados, metadatos y catálogo funcionando de forma coherente. Cada equipo debe preparar una demostración que comience desde una necesidad de usuario y termine en un recurso identificado y evaluado.</p>
+<h1 id="27-trabajo-autónomo">27. Trabajo autónomo</h1>
+<p>Preparar el primer hito integrado de las unidades 1 y 2:
+arquitectura, gobernanza, datos preparados, metadatos y catálogo
+funcionando de forma coherente. Cada equipo debe preparar una
+demostración que comience desde una necesidad de usuario y termine en un
+recurso identificado y evaluado.</p>
 <hr/>
-<h1>28. Referencias</h1>
-<p><strong>[R1]</strong> Open Geospatial Consortium. <em>OGC API — Records — Part 1: Core</em>.<br/>
+<h1 id="28-referencias">28. Referencias</h1>
+<p><strong>[R1]</strong> Open Geospatial Consortium. <em>OGC API —
+Records — Part 1: Core</em>.<br/>
 <a href="https://docs.ogc.org/is/20-004r1/20-004r1.html">https://docs.ogc.org/is/20-004r1/20-004r1.html</a></p>
-<p><strong>[R2]</strong> Open Geospatial Consortium. <em>Catalogue Service for the Web (CSW)</em>.<br/>
+<p><strong>[R2]</strong> Open Geospatial Consortium. <em>Catalogue
+Service for the Web (CSW)</em>.<br/>
 <a href="https://www.ogc.org/standards/cat/">https://www.ogc.org/standards/cat/</a></p>
 <p><strong>[R3]</strong> GeoNetwork Documentation.<br/>
 <a href="https://docs.geonetwork-opensource.org/">https://docs.geonetwork-opensource.org/</a></p>
-<p><strong>[R4]</strong> Corti, P., Lewis, B., &amp; Kralidis, A. T. (2018). Hypermap registry: an open source, standards-based geospatial registry and search platform. <em>Open Geospatial Data, Software and Standards, 3</em>, 8.</p>
-<hr/>
-<h1>29. Síntesis final</h1>
-<p>La Semana 7 convierte metadatos aislados en un sistema de descubrimiento. Una IDE útil no obliga a los usuarios a saber previamente dónde está cada recurso; debe permitir encontrarlo, evaluarlo, relacionarlo con su fuente y acceder a mecanismos de distribución válidos.</p>
-<div class="weeknav"><a href="Semana_06_Metadatos_ISO19115_Perfil_Chileno.html">← Semana 6</a><a href="../index.html">Índice del curso</a><a href="Semana_08_Hito_Integracion_Conformidad_Trazabilidad.html">Semana 8 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
+<p><strong>[R4]</strong> Corti, P., Lewis, B., &amp; Kralidis, A. T.
+(2018). Hypermap registry: an open source, standards-based geospatial
+registry and search platform. <em>Open Geospatial Data, Software and
+Standards, 3</em>, 8.</p>
+<h2 id="r5-ogc-ogc-api---records---part-1-core-ogc-20-004r1-httpsdocsogcorgis20-004r120-004r1html"><strong>[R5]</strong>
+OGC. <em>OGC API - Records - Part 1: Core (OGC 20-004r1)</em>.<br/>
+<a href="https://docs.ogc.org/is/20-004r1/20-004r1.html">https://docs.ogc.org/is/20-004r1/20-004r1.html</a></h2>
+<h1 id="29-síntesis-final">29. Síntesis final</h1>
+<p>La Semana 7 convierte metadatos aislados en un sistema de
+descubrimiento. Una IDE útil no obliga a los usuarios a saber
+previamente dónde está cada recurso; debe permitir encontrarlo,
+evaluarlo, relacionarlo con su fuente y acceder a mecanismos de
+distribución válidos.</p>
+<div class="weeknav"><a href="Semana_06_Metadatos_ISO19115_Perfil_Chileno.html">← Semana 06</a><a href="Semana_08_Hito_Integracion_Conformidad_Trazabilidad.html">Semana 08 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

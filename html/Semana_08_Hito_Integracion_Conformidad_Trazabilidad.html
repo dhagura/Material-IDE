@@ -1,36 +1,82 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 8 — Hito de integración: conformidad, trazabilidad y preparación para publicación</title><style>
-:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
-a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_08_Hito_Integracion_Conformidad_Trazabilidad.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#prueba">Prueba</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="" href="#17-1-intercambio-entre-grupos">17.1. Intercambio entre grupos</a><a class="" href="#17-2-pruebas-de-coherencia">17.2. Pruebas de coherencia</a><a class="" href="#17-3-matriz-de-brechas">17.3. Matriz de brechas</a><a class="" href="#17-4-correccion">17.4. Corrección</a><a class="" href="#17-5-linea-base">17.5. Línea base</a><a class="" href="#un-proyecto-puede-tener-todos-los-entregables-y-seguir-siendo-incoherente">¿Un proyecto puede tener todos los entregables y seguir siendo incoherente?</a><a class="" href="#la-linea-base-impide-cambios">¿La línea base impide cambios?</a><a class="" href="#toda-brecha-debe-resolverse-antes-de-avanzar">¿Toda brecha debe resolverse antes de avanzar?</a></aside><main><h1>Semana 8 — Hito de integración: conformidad, trazabilidad y preparación para publicación</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 2 — Metadatos, catálogo y preparación para publicación</div></div>
-
-
-<h1>1. Marco de la semana</h1>
-<p>La Semana 8 integra gobernanza, arquitectura, políticas, datos, metadatos y catálogo en un control de conformidad previo a la publicación de servicios interoperables. El hito verifica que los componentes desarrollados formen un sistema coherente, que las decisiones tomadas en las unidades anteriores estén reflejadas en los productos técnicos y que las brechas pendientes queden identificadas antes de continuar.</p>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito">2. Propósito</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-qué-significa-conformidad">4. ¿Qué significa conformidad?</a><a class="" href="#5-línea-base">5. Línea base</a><a class="" href="#6-trazabilidad-extremo-a-extremo">6. Trazabilidad extremo a
+extremo</a><a class="" href="#7-coherencia-entre-gobernanza-y-datos">7. Coherencia entre
+gobernanza y datos</a><a class="" href="#8-coherencia-entre-política-y-producto-de-publicación">8.
+Coherencia entre política y producto de publicación</a><a class="" href="#9-coherencia-entre-dato-y-metadato">9. Coherencia entre dato y
+metadato</a><a class="" href="#10-coherencia-entre-metadato-y-catálogo">10. Coherencia entre
+metadato y catálogo</a><a class="" href="#11-control-previo-de-publicación">11. Control previo de
+publicación</a><a class="" href="#12-gestión-de-brechas">12. Gestión de brechas</a><a class="" href="#13-priorización">13. Priorización</a><a class="" href="#14-prueba-de-caso-de-uso-completo">14. Prueba de caso de uso
+completo</a><a class="" href="#15-revisión-de-arquitectura">15. Revisión de arquitectura</a><a class="" href="#16-evidencia-y-reproducibilidad">16. Evidencia y
+reproducibilidad</a><a class="" href="#caso-técnico-guiado--auditoría-previa-a-publicación">Caso
+técnico guiado — Auditoría previa a publicación</a><a class="sub" href="#ejemplo-1--matriz-de-conformidad-por-recurso">Ejemplo 1 — Matriz
+de conformidad por recurso</a><a class="sub" href="#ejemplo-2--script-de-controles-mínimos">Ejemplo 2 — Script de
+controles mínimos</a><a class="sub" href="#ejemplo-3--verificación-datometadato">Ejemplo 3 — Verificación
+dato–metadato</a><a class="sub" href="#ejemplo-4--estructura-de-evidencias-del-proyecto">Ejemplo 4 —
+Estructura de evidencias del proyecto</a><a class="sub" href="#ejemplo-5--criterio-de-aceptación-antes-de-unidad-3">Ejemplo 5 —
+Criterio de aceptación antes de Unidad 3</a><a class="sub" href="#ejemplo-6--revisión-cruzada-tipo-contraparte-técnica">Ejemplo 6
+— Revisión cruzada tipo contraparte técnica</a><a class="" href="#17-laboratorio-8--auditoría-interna-del-hito">17. Laboratorio 8
+— Auditoría interna del hito</a><a class="sub" href="#171-intercambio-entre-grupos">17.1. Intercambio entre
+grupos</a><a class="sub" href="#172-pruebas-de-coherencia">17.2. Pruebas de coherencia</a><a class="sub" href="#173-matriz-de-brechas">17.3. Matriz de brechas</a><a class="sub" href="#174-corrección">17.4. Corrección</a><a class="sub" href="#175-línea-base">17.5. Línea base</a><a class="" href="#18-entregable-de-la-semana-8">18. Entregable de la Semana 8</a><a class="" href="#19-secuencia-sugerida">19. Secuencia sugerida</a><a class="" href="#20-preguntas-de-cierre">20. Preguntas de cierre</a><a class="sub" href="#un-proyecto-puede-tener-todos-los-entregables-y-seguir-siendo-incoherente">¿Un
+proyecto puede tener todos los entregables y seguir siendo
+incoherente?</a><a class="sub" href="#la-línea-base-impide-cambios">¿La línea base impide
+cambios?</a><a class="sub" href="#toda-brecha-debe-resolverse-antes-de-avanzar">¿Toda brecha debe
+resolverse antes de avanzar?</a><a class="" href="#21-errores-frecuentes">21. Errores frecuentes</a><a class="" href="#22-glosario">22. Glosario</a><a class="" href="#23-trabajo-autónomo">23. Trabajo autónomo</a><a class="" href="#24-referencias">24. Referencias</a><a class="" href="#25-síntesis">25. Síntesis</a></aside><main><h1>Semana 8 — Hito de integración: conformidad, trazabilidad y preparación para publicación</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales  </div><div class="label">Código</div><div>12436  </div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática  </div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental  </div><div class="label">Unidad</div><div>Unidad 2 — Metadatos, catálogo y preparación para publicación</div></div><h1 id="1-marco-de-la-semana">1. Marco de la semana</h1>
+<p>La Semana 8 integra gobernanza, arquitectura, políticas, datos,
+metadatos y catálogo en un control de conformidad previo a la
+publicación de servicios interoperables. El hito verifica que los
+componentes desarrollados formen un sistema coherente, que las
+decisiones tomadas en las unidades anteriores estén reflejadas en los
+productos técnicos y que las brechas pendientes queden identificadas
+antes de continuar.</p>
 <blockquote>
-<p><strong>Idea central:</strong> No avanzar hacia servicios si la fuente, el metadato, el catálogo y las responsabilidades todavía se contradicen.</p>
+<p><strong>Idea central:</strong> No avanzar hacia servicios si la
+fuente, el metadato, el catálogo y las responsabilidades todavía se
+contradicen.</p>
 </blockquote>
 <hr/>
-<h1>2. Propósito</h1>
-<p>Una IDE puede acumular entregables técnicamente correctos y seguir siendo incoherente. Por ejemplo, la arquitectura puede indicar que un dataset es restringido mientras el catálogo lo describe como público; el metadato puede señalar una frecuencia mensual y el custodio no tener procedimiento de actualización; la vista de publicación puede contener atributos que la política de privacidad había decidido suprimir.</p>
-<p>La Semana 8 busca detectar esas contradicciones mediante pruebas cruzadas y una matriz de trazabilidad integrada.</p>
+<h1 id="2-propósito">2. Propósito</h1>
+<p>Una IDE puede acumular entregables técnicamente correctos y seguir
+siendo incoherente. Por ejemplo, la arquitectura puede indicar que un
+dataset es restringido mientras el catálogo lo describe como público; el
+metadato puede señalar una frecuencia mensual y el custodio no tener
+procedimiento de actualización; la vista de publicación puede contener
+atributos que la política de privacidad había decidido suprimir.</p>
+<p>La Semana 8 busca detectar esas contradicciones mediante pruebas
+cruzadas y una matriz de trazabilidad integrada.</p>
 <hr/>
-<h1>3. Resultados de aprendizaje</h1>
-<p>Al finalizar la semana, el estudiante deberá ser capaz de verificar coherencia entre problema, gobernanza, política, arquitectura, datos, metadatos y catálogo; identificar brechas antes de publicar; establecer criterios de aceptación y construir una línea base del proyecto.</p>
-<p>También deberá distinguir <strong>conformidad documental</strong>, <strong>conformidad técnica</strong> y <strong>conformidad operacional</strong>.</p>
+<h1 id="3-resultados-de-aprendizaje">3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá ser capaz de verificar
+coherencia entre problema, gobernanza, política, arquitectura, datos,
+metadatos y catálogo; identificar brechas antes de publicar; establecer
+criterios de aceptación y construir una línea base del proyecto.</p>
+<p>También deberá distinguir <strong>conformidad documental</strong>,
+<strong>conformidad técnica</strong> y <strong>conformidad
+operacional</strong>.</p>
 <hr/>
-<h1>4. ¿Qué significa conformidad?</h1>
-<p>La conformidad consiste en verificar si un producto cumple requisitos definidos. No equivale a “se ve bien” ni a “funciona en mi computador”.</p>
+<h1 id="4-qué-significa-conformidad">4. ¿Qué significa conformidad?</h1>
+<p>La conformidad consiste en verificar si un producto cumple requisitos
+definidos. No equivale a “se ve bien” ni a “funciona en mi
+computador”.</p>
 <p>Puede analizarse en tres niveles:</p>
 <ul>
-<li><strong>Conformidad documental.</strong> Las decisiones y registros existen, son consistentes y describen correctamente el sistema.</li>
-<li><strong>Conformidad técnica.</strong> Datos, esquemas, CRS, metadatos y componentes cumplen reglas comprobables.</li>
-<li><strong>Conformidad operacional.</strong> Los usuarios pueden ejecutar casos de uso completos y la infraestructura responde como se espera.</li>
+<li><strong>Conformidad documental.</strong> Las decisiones y registros
+existen, son consistentes y describen correctamente el sistema.</li>
+<li><strong>Conformidad técnica.</strong> Datos, esquemas, CRS,
+metadatos y componentes cumplen reglas comprobables.</li>
+<li><strong>Conformidad operacional.</strong> Los usuarios pueden
+ejecutar casos de uso completos y la infraestructura responde como se
+espera.</li>
 </ul>
-<p>Esta separación ayuda a identificar proyectos con documentación excelente pero implementación incompleta, o implementaciones funcionales sin trazabilidad suficiente.</p>
+<p>Esta separación ayuda a identificar proyectos con documentación
+excelente pero implementación incompleta, o implementaciones funcionales
+sin trazabilidad suficiente.</p>
 <hr/>
-<h1>5. Línea base</h1>
-<p>Una línea base es el estado aprobado del proyecto contra el cual se evaluarán cambios posteriores. No significa congelar toda evolución, sino establecer qué decisiones están vigentes en un momento determinado.</p>
+<h1 id="5-línea-base">5. Línea base</h1>
+<p>Una línea base es el estado aprobado del proyecto contra el cual se
+evaluarán cambios posteriores. No significa congelar toda evolución,
+sino establecer qué decisiones están vigentes en un momento
+determinado.</p>
 <p>La línea base de Semana 8 debería incluir:</p>
 <ul>
 <li>Alcance y usuarios;</li>
@@ -43,31 +89,48 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Catálogo;</li>
 <li>Riesgos abiertos.</li>
 </ul>
-<p>A partir de esta línea, cambios importantes deben registrarse y justificarse.</p>
+<p>A partir de esta línea, cambios importantes deben registrarse y
+justificarse.</p>
 <hr/>
-<h1>6. Trazabilidad extremo a extremo</h1>
-<div class="mermaid">flowchart LR
+<h1 id="6-trazabilidad-extremo-a-extremo">6. Trazabilidad extremo a
+extremo</h1>
+<pre class="mermaid">flowchart LR
     N["Necesidad"] --&gt; R["Requisito"]
     R --&gt; D["Dato / componente"]
     D --&gt; M["Metadato"]
     M --&gt; C["Catálogo"]
     C --&gt; E["Evidencia"]
-    E --&gt; A["Aceptación"]
-</div>
-<p>La trazabilidad permite responder por qué existe un componente y cómo se verifica. Si una capa aparece en el catálogo pero no puede relacionarse con una necesidad o responsable, debe revisarse su lugar en el proyecto.</p>
+    E --&gt; A["Aceptación"]</pre>
+<p>La trazabilidad permite responder por qué existe un componente y cómo
+se verifica. Si una capa aparece en el catálogo pero no puede
+relacionarse con una necesidad o responsable, debe revisarse su lugar en
+el proyecto.</p>
 <hr/>
-<h1>7. Coherencia entre gobernanza y datos</h1>
-<p>Para cada dataset debe verificarse que productor, custodio, administrador y publicador coincidan con la matriz aprobada.</p>
+<h1 id="7-coherencia-entre-gobernanza-y-datos">7. Coherencia entre
+gobernanza y datos</h1>
+<p>Para cada dataset debe verificarse que productor, custodio,
+administrador y publicador coincidan con la matriz aprobada.</p>
 <h3 id="ejemplo">Ejemplo</h3>
-<p>Si <code>predios</code> fue clasificado como restringido y el custodio es Catastro, no debería existir una vista pública completa ni un registro de catálogo que indique acceso abierto. Una contradicción entre documentos y configuración es una brecha de gobernanza aplicada.</p>
+<p>Si <code>predios</code> fue clasificado como restringido y el
+custodio es Catastro, no debería existir una vista pública completa ni
+un registro de catálogo que indique acceso abierto. Una contradicción
+entre documentos y configuración es una brecha de gobernanza
+aplicada.</p>
 <hr/>
-<h1>8. Coherencia entre política y producto de publicación</h1>
-<p>La Semana 3 pudo decidir que ciertos campos deben eliminarse o generalizarse. Ahora se debe comprobar que la vista o producto de publicación realmente aplica esas decisiones.</p>
+<h1 id="8-coherencia-entre-política-y-producto-de-publicación">8.
+Coherencia entre política y producto de publicación</h1>
+<p>La Semana 3 pudo decidir que ciertos campos deben eliminarse o
+generalizarse. Ahora se debe comprobar que la vista o producto de
+publicación realmente aplica esas decisiones.</p>
 <h3 id="prueba">Prueba</h3>
-<p>Comparar esquema interno y esquema publicado. Documentar campos eliminados, transformaciones y justificación.</p>
-<p>La revisión debe realizarse antes de configurar servicios porque una vez expuestos, los datos pueden ser consumidos o almacenados por terceros.</p>
+<p>Comparar esquema interno y esquema publicado. Documentar campos
+eliminados, transformaciones y justificación.</p>
+<p>La revisión debe realizarse antes de configurar servicios porque una
+vez expuestos, los datos pueden ser consumidos o almacenados por
+terceros.</p>
 <hr/>
-<h1>9. Coherencia entre dato y metadato</h1>
+<h1 id="9-coherencia-entre-dato-y-metadato">9. Coherencia entre dato y
+metadato</h1>
 <p>El metadato debe corresponder con la versión actual.</p>
 <p>Verificar:</p>
 <ul>
@@ -81,190 +144,435 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Frecuencia;</li>
 <li>Enlaces disponibles.</li>
 </ul>
-<p>El ejercicio debe buscar discrepancias deliberadamente, no asumir que el formulario es correcto porque fue completado por el mismo grupo.</p>
+<p>El ejercicio debe buscar discrepancias deliberadamente, no asumir que
+el formulario es correcto porque fue completado por el mismo grupo.</p>
 <hr/>
-<h1>10. Coherencia entre metadato y catálogo</h1>
-<p>El catálogo debe indexar correctamente los elementos necesarios y permitir encontrar el recurso.</p>
-<p>Una prueba simple consiste en pedir a un usuario externo que encuentre el dataset a partir de una necesidad temática. Si solo puede encontrarlo con el nombre exacto, puede existir un problema de palabras clave o descripción.</p>
-<p>Los enlaces de distribución deben comprobarse automáticamente o manualmente.</p>
+<h1 id="10-coherencia-entre-metadato-y-catálogo">10. Coherencia entre
+metadato y catálogo</h1>
+<p>El catálogo debe indexar correctamente los elementos necesarios y
+permitir encontrar el recurso.</p>
+<p>Una prueba simple consiste en pedir a un usuario externo que
+encuentre el dataset a partir de una necesidad temática. Si solo puede
+encontrarlo con el nombre exacto, puede existir un problema de palabras
+clave o descripción.</p>
+<p>Los enlaces de distribución deben comprobarse automáticamente o
+manualmente.</p>
 <hr/>
-<h1>11. Control previo de publicación</h1>
-<p>Antes de comenzar la Unidad 3, cada recurso candidato debe pasar una lista de control.</p>
+<h1 id="11-control-previo-de-publicación">11. Control previo de
+publicación</h1>
+<p>Antes de comenzar la Unidad 3, cada recurso candidato debe pasar una
+lista de control.</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Dimensión</th>
 <th>Pregunta de control</th>
 <th>Evidencia</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Gobernanza</td>
 <td>¿Existe custodio?</td>
 <td>Matriz</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Calidad</td>
 <td>¿Cumple reglas mínimas?</td>
 <td>Consultas/reportes</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Privacidad</td>
 <td>¿Se aplicó minimización?</td>
 <td>Vista/esquema</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Metadatos</td>
 <td>¿Registro actualizado?</td>
 <td>Ficha</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Catálogo</td>
 <td>¿Puede descubrirse?</td>
 <td>Búsqueda</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Arquitectura</td>
 <td>¿Está definido cómo se publicará?</td>
 <td>Diagrama</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Seguridad</td>
 <td>¿Nivel de acceso definido?</td>
 <td>Política/roles</td>
 </tr>
 </tbody>
 </table>
-<p>El resultado puede ser <strong>Aprobado</strong>, <strong>Aprobado con observaciones</strong> o <strong>No listo para publicación</strong>.</p>
+<p>El resultado puede ser <strong>Aprobado</strong>, <strong>Aprobado
+con observaciones</strong> o <strong>No listo para
+publicación</strong>.</p>
 <hr/>
-<h1>12. Gestión de brechas</h1>
+<h1 id="12-gestión-de-brechas">12. Gestión de brechas</h1>
 <p>Una brecha debe describirse de manera accionable.</p>
 <p><strong>Débil:</strong> “Falta mejorar metadato”.</p>
-<p><strong>Mejor:</strong> “El registro de áreas verdes declara actualización mensual, pero el custodio confirmó actualización trimestral. Responsable: Medio Ambiente. Acción: corregir frecuencia y fecha antes de publicación”.</p>
-<p>Cada brecha debería tener responsable, prioridad y condición de cierre.</p>
+<p><strong>Mejor:</strong> “El registro de áreas verdes declara
+actualización mensual, pero el custodio confirmó actualización
+trimestral. Responsable: Medio Ambiente. Acción: corregir frecuencia y
+fecha antes de publicación”.</p>
+<p>Cada brecha debería tener responsable, prioridad y condición de
+cierre.</p>
 <hr/>
-<h1>13. Priorización</h1>
-<p>No todas las brechas impiden avanzar. Puede utilizarse una clasificación simple:</p>
+<h1 id="13-priorización">13. Priorización</h1>
+<p>No todas las brechas impiden avanzar. Puede utilizarse una
+clasificación simple:</p>
 <ul>
-<li><strong>Crítica.</strong> Impide publicación o expone riesgo relevante.</li>
-<li><strong>Alta.</strong> Puede producir errores de uso o incumplimiento importante.</li>
-<li><strong>Media.</strong> Reduce calidad o mantenibilidad pero admite solución programada.</li>
-<li><strong>Baja.</strong> Mejora deseable sin impacto inmediato significativo.</li>
+<li><strong>Crítica.</strong> Impide publicación o expone riesgo
+relevante.</li>
+<li><strong>Alta.</strong> Puede producir errores de uso o
+incumplimiento importante.</li>
+<li><strong>Media.</strong> Reduce calidad o mantenibilidad pero admite
+solución programada.</li>
+<li><strong>Baja.</strong> Mejora deseable sin impacto inmediato
+significativo.</li>
 </ul>
-<p>La prioridad debe justificarse por efecto, no por preferencia del equipo.</p>
+<p>La prioridad debe justificarse por efecto, no por preferencia del
+equipo.</p>
 <hr/>
-<h1>14. Prueba de caso de uso completo</h1>
-<p>Seleccionar un caso de uso de Semana 4 y ejecutarlo hasta donde llega la implementación actual.</p>
-<h3 id="ejemplo-2">Ejemplo</h3>
-<p>El usuario necesita encontrar áreas verdes oficiales. Busca en catálogo, revisa metadato, identifica responsable y obtiene la distribución preparada. El servicio aún no existe, pero la arquitectura y enlace reservado deben estar definidos.</p>
-<p>La prueba permite detectar saltos lógicos antes de incorporar WMS y APIs.</p>
+<h1 id="14-prueba-de-caso-de-uso-completo">14. Prueba de caso de uso
+completo</h1>
+<p>Seleccionar un caso de uso de Semana 4 y ejecutarlo hasta donde llega
+la implementación actual.</p>
+<h3 id="ejemplo-1">Ejemplo</h3>
+<p>El usuario necesita encontrar áreas verdes oficiales. Busca en
+catálogo, revisa metadato, identifica responsable y obtiene la
+distribución preparada. El servicio aún no existe, pero la arquitectura
+y enlace reservado deben estar definidos.</p>
+<p>La prueba permite detectar saltos lógicos antes de incorporar WMS y
+APIs.</p>
 <hr/>
-<h1>15. Revisión de arquitectura</h1>
-<p>La arquitectura debe actualizarse con aprendizajes de datos y catálogo. Es común descubrir en implementación que una separación inicial no era adecuada.</p>
+<h1 id="15-revisión-de-arquitectura">15. Revisión de arquitectura</h1>
+<p>La arquitectura debe actualizarse con aprendizajes de datos y
+catálogo. Es común descubrir en implementación que una separación
+inicial no era adecuada.</p>
 <p>La revisión debe comprobar:</p>
 <ul>
 <li>Si existen componentes sin requisito;</li>
 <li>Si faltan controles de acceso;</li>
 <li>Si el catálogo está conectado con productores;</li>
 <li>Si existe un repositorio de respaldo;</li>
-<li>Si las interfaces previstas son suficientes para los casos de uso.</li>
+<li>Si las interfaces previstas son suficientes para los casos de
+uso.</li>
 </ul>
-<p>Cambiar la arquitectura no representa fracaso; representa aprendizaje del proyecto incremental.</p>
+<p>Cambiar la arquitectura no representa fracaso; representa aprendizaje
+del proyecto incremental.</p>
 <hr/>
-<h1>16. Evidencia y reproducibilidad</h1>
-<p>Los productos deben poder revisarse por otra persona. La evidencia puede incluir consultas SQL, exportaciones de metadatos, capturas, scripts, diagramas versionados y checklists.</p>
-<p>El objetivo no es acumular capturas de pantalla, sino demostrar resultados verificables. Cuando sea posible, preferir evidencia reproducible a evidencia puramente visual.</p>
-<h3 id="ejemplo-3">Ejemplo</h3>
-<p>Un script que ejecuta cinco controles de calidad y produce un resumen es más útil que cinco capturas manuales de resultados aislados.</p>
+<h1 id="16-evidencia-y-reproducibilidad">16. Evidencia y
+reproducibilidad</h1>
+<p>Los productos deben poder revisarse por otra persona. La evidencia
+puede incluir consultas SQL, exportaciones de metadatos, capturas,
+scripts, diagramas versionados y checklists.</p>
+<p>El objetivo no es acumular capturas de pantalla, sino demostrar
+resultados verificables. Cuando sea posible, preferir evidencia
+reproducible a evidencia puramente visual.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p>Un script que ejecuta cinco controles de calidad y produce un resumen
+es más útil que cinco capturas manuales de resultados aislados.</p>
 <hr/>
-<h1>17. Laboratorio 8 — Auditoría interna del hito</h1>
-<h2 id="17-1-intercambio-entre-grupos">17.1. Intercambio entre grupos</h2>
-<p>Cada grupo revisa el proyecto de otro utilizando un checklist común. La revisión externa reduce sesgo de familiaridad.</p>
-<h2 id="17-2-pruebas-de-coherencia">17.2. Pruebas de coherencia</h2>
-<p>Comparar arquitectura, clasificación, base, metadato y catálogo para al menos tres recursos.</p>
-<h2 id="17-3-matriz-de-brechas">17.3. Matriz de brechas</h2>
-<p>Registrar brecha, criticidad, responsable, acción y evidencia de cierre.</p>
-<h2 id="17-4-correccion">17.4. Corrección</h2>
-<p>Resolver las brechas críticas y altas posibles durante el laboratorio.</p>
-<h2 id="17-5-linea-base">17.5. Línea base</h2>
-<p>Generar una versión identificada del proyecto que servirá como entrada a la publicación de servicios.</p>
-<hr/>
-<h1>18. Entregable de la Semana 8</h1>
-<p>El entregable debe contener matriz de conformidad, listado de brechas, versión corregida de arquitectura, línea base, evidencia de pruebas cruzadas y acta breve de aceptación interna.</p>
-<p>También debe indicar claramente qué elementos quedan pendientes y si impiden o no comenzar la Unidad 3.</p>
-<hr/>
-<h1>19. Secuencia sugerida</h1>
-<ul>
-<li><strong>Bloque 1 — 40 minutos.</strong> Concepto de conformidad y línea base.</li>
-<li><strong>Bloque 2 — 45 minutos.</strong> Trazabilidad extremo a extremo.</li>
-<li><strong>Bloque 3 — 45 minutos.</strong> Coherencia entre política, datos, metadatos y catálogo.</li>
-<li><strong>Bloque 4 — 35 minutos.</strong> Brechas, criticidad y criterios de aceptación.</li>
-<li><strong>Bloque 5 — 30 minutos.</strong> Evidencia y reproducibilidad.</li>
-<li><strong>Bloque 6 — 45 minutos.</strong> Revisión cruzada y laboratorio.</li>
-</ul>
-<hr/>
-<h1>20. Preguntas de cierre</h1>
-<h2 id="un-proyecto-puede-tener-todos-los-entregables-y-seguir-siendo-incoherente">¿Un proyecto puede tener todos los entregables y seguir siendo incoherente?</h2>
-<p>Sí. Los documentos pueden contradecirse. La integración verifica relaciones y no solo existencia de archivos.</p>
-<h2 id="la-linea-base-impide-cambios">¿La línea base impide cambios?</h2>
-<p>No. Permite saber desde qué estado se cambia y documentar el impacto de modificaciones posteriores.</p>
-<h2 id="toda-brecha-debe-resolverse-antes-de-avanzar">¿Toda brecha debe resolverse antes de avanzar?</h2>
-<p>No. Las críticas sí deberían bloquear publicación; otras pueden gestionarse con responsable y plazo si no comprometen la siguiente etapa.</p>
-<hr/>
-<h1>21. Errores frecuentes</h1>
-<ul>
-<li><strong>“Checklist completado significa conformidad”.</strong> La evidencia debe respaldar cada respuesta.</li>
-<li><strong>“Si yo mismo lo revisé, está validado”.</strong> La revisión por pares ayuda a detectar supuestos implícitos.</li>
-<li><strong>“Cambiar arquitectura es retroceder”.</strong> La arquitectura debe evolucionar con evidencia del proyecto.</li>
-</ul>
-<hr/>
-<h1>22. Glosario</h1>
+<h1 id="caso-técnico-guiado--auditoría-previa-a-publicación">Caso
+técnico guiado — Auditoría previa a publicación</h1>
+<p>El hito de la Semana 8 debe simular una revisión que podría
+realizarse antes de autorizar que un conjunto de recursos pase a la
+unidad de publicación. La evidencia debe demostrar coherencia entre
+gobernanza, datos, metadatos y catálogo.</p>
+<h2 id="ejemplo-1--matriz-de-conformidad-por-recurso">Ejemplo 1 — Matriz
+de conformidad por recurso</h2>
 <table>
 <thead>
-<tr>
+<tr class="header">
+<th>Control</th>
+<th>Áreas verdes</th>
+<th>Red vial</th>
+<th>Evidencia esperada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Custodio identificado</td>
+<td>Cumple</td>
+<td>Cumple</td>
+<td>Matriz de gobernanza</td>
+</tr>
+<tr class="even">
+<td>Fuente oficial definida</td>
+<td>Cumple</td>
+<td>Cumple</td>
+<td>Repositorio / ficha</td>
+</tr>
+<tr class="odd">
+<td>Identificador persistente</td>
+<td>Cumple</td>
+<td>Parcial</td>
+<td>Diccionario / metadato</td>
+</tr>
+<tr class="even">
+<td>Geometría válida</td>
+<td>100 %</td>
+<td>99,8 %</td>
+<td>Consulta SQL</td>
+</tr>
+<tr class="odd">
+<td>CRS confirmado</td>
+<td>EPSG:32719</td>
+<td>EPSG:32719</td>
+<td>Consulta a base</td>
+</tr>
+<tr class="even">
+<td>Metadato completo</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Registro catálogo</td>
+</tr>
+<tr class="odd">
+<td>Licencia / restricción</td>
+<td>CC BY 4.0</td>
+<td>Uso institucional</td>
+<td>Política Semana 3</td>
+</tr>
+<tr class="even">
+<td>Enlace de distribución</td>
+<td>Preparado</td>
+<td>No aplica aún</td>
+<td>Registro catálogo</td>
+</tr>
+</tbody>
+</table>
+<p>Un resultado “Parcial” debe generar una acción antes de aprobar el
+hito; la matriz no debe utilizarse para esconder incumplimientos.</p>
+<h2 id="ejemplo-2--script-de-controles-mínimos">Ejemplo 2 — Script de
+controles mínimos</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="co">-- 1. Geometrías inválidas</span></span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> invalidas</span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a><span class="kw">FROM</span> core.areas_verdes</span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">NOT</span> ST_IsValid(geom);</span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a><span class="co">-- 2. Identificadores duplicados</span></span>
+<span id="cb2-7"><a aria-hidden="true" href="#cb2-7" tabindex="-1"></a><span class="kw">SELECT</span> codigo, <span class="fu">COUNT</span>(<span class="op">*</span>)</span>
+<span id="cb2-8"><a aria-hidden="true" href="#cb2-8" tabindex="-1"></a><span class="kw">FROM</span> core.areas_verdes</span>
+<span id="cb2-9"><a aria-hidden="true" href="#cb2-9" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> codigo</span>
+<span id="cb2-10"><a aria-hidden="true" href="#cb2-10" tabindex="-1"></a><span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span>;</span>
+<span id="cb2-11"><a aria-hidden="true" href="#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a aria-hidden="true" href="#cb2-12" tabindex="-1"></a><span class="co">-- 3. Registros sin fecha de actualización</span></span>
+<span id="cb2-13"><a aria-hidden="true" href="#cb2-13" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> sin_fecha</span>
+<span id="cb2-14"><a aria-hidden="true" href="#cb2-14" tabindex="-1"></a><span class="kw">FROM</span> core.areas_verdes</span>
+<span id="cb2-15"><a aria-hidden="true" href="#cb2-15" tabindex="-1"></a><span class="kw">WHERE</span> fecha_actualizacion <span class="kw">IS</span> <span class="kw">NULL</span>;</span>
+<span id="cb2-16"><a aria-hidden="true" href="#cb2-16" tabindex="-1"></a></span>
+<span id="cb2-17"><a aria-hidden="true" href="#cb2-17" tabindex="-1"></a><span class="co">-- 4. CRS utilizado</span></span>
+<span id="cb2-18"><a aria-hidden="true" href="#cb2-18" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> ST_SRID(geom)</span>
+<span id="cb2-19"><a aria-hidden="true" href="#cb2-19" tabindex="-1"></a><span class="kw">FROM</span> core.areas_verdes;</span></code></pre></div>
+<p>La evidencia del hito debe guardar tanto la consulta como el
+resultado. Una captura que diga “todo correcto” sin mostrar qué se
+verificó es insuficiente.</p>
+<h2 id="ejemplo-3--verificación-datometadato">Ejemplo 3 — Verificación
+dato–metadato</h2>
+<p>Supongamos que la base contiene:</p>
+<pre class="text"><code>MAX(fecha_actualizacion) = 2026-09-20
+SRID = 32719
+Custodio = Unidad de Medio Ambiente</code></pre>
+<p>El metadato debe reflejar la misma fecha o explicar qué representa su
+fecha de revisión, indicar el CRS correcto y nombrar al mismo custodio.
+La auditoría debe detectar diferencias.</p>
+<h2 id="ejemplo-4--estructura-de-evidencias-del-proyecto">Ejemplo 4 —
+Estructura de evidencias del proyecto</h2>
+<pre class="text"><code>evidencias/
+├── 01_gobernanza/
+│   ├── matriz_roles.pdf
+│   └── politica_publicacion.pdf
+├── 02_datos/
+│   ├── controles_calidad.sql
+│   └── resultados_calidad.txt
+├── 03_metadatos/
+│   ├── areas_verdes.xml
+│   └── red_vial.xml
+├── 04_catalogo/
+│   ├── busqueda_areas_verdes.png
+│   └── enlaces_validados.txt
+└── 05_hito/
+    └── matriz_conformidad.xlsx</code></pre>
+<p>El ejemplo puede adaptarse, pero ilustra un principio: las evidencias
+deben ser localizables y reproducibles.</p>
+<h2 id="ejemplo-5--criterio-de-aceptación-antes-de-unidad-3">Ejemplo 5 —
+Criterio de aceptación antes de Unidad 3</h2>
+<p>Un recurso se considera <strong>preparado para publicación</strong>
+cuando:</p>
+<ul>
+<li><strong>Existe un custodio y una fuente oficial.</strong> Debe poder
+identificarse quién responde por el recurso y desde qué repositorio se
+obtiene la versión de referencia.</li>
+<li><strong>Cumple controles mínimos de estructura y geometría.</strong>
+Las validaciones deben demostrar que el recurso satisface reglas
+esenciales antes de exponerse a más usuarios.</li>
+<li><strong>Tiene un identificador estable.</strong> El recurso y,
+cuando corresponda, sus objetos deben poder reconocerse a través de
+versiones y cambios de URL.</li>
+<li><strong>Dispone de metadato coherente.</strong> Fecha, CRS,
+responsable, extensión, restricciones y otras propiedades deben
+corresponder al recurso real.</li>
+<li><strong>Aparece en el catálogo de práctica.</strong> El usuario debe
+poder descubrirlo mediante búsqueda y no únicamente conociendo una ruta
+técnica.</li>
+<li><strong>La política de acceso o licencia está definida.</strong>
+Debe saberse si será público, institucional o restringido y bajo qué
+condiciones podrá reutilizarse.</li>
+<li><strong>Existe una vista o producto autorizado para
+publicar.</strong> La interfaz de publicación no debe exponer
+accidentalmente campos internos o registros no vigentes.</li>
+<li><strong>Las brechas pendientes están registradas con responsable y
+fecha.</strong> Todo incumplimiento que pueda aceptarse temporalmente
+debe quedar visible y contar con una acción definida.</li>
+</ul>
+<p>No se exige todavía un WMS o API operativo, porque esos componentes
+se construyen en la Unidad 3. La Semana 8 valida que la materia prima
+institucional está preparada para entrar a publicación.</p>
+<h2 id="ejemplo-6--revisión-cruzada-tipo-contraparte-técnica">Ejemplo 6
+— Revisión cruzada tipo contraparte técnica</h2>
+<p>Cada grupo recibe el expediente de otro equipo y debe intentar
+responder, sin ayuda oral:</p>
+<ol type="1">
+<li>¿Cuál es la fuente oficial?</li>
+<li>¿Quién es custodio?</li>
+<li>¿Qué versión estoy revisando?</li>
+<li>¿Qué CRS utiliza?</li>
+<li>¿Qué controles de calidad se ejecutaron?</li>
+<li>¿Qué licencia o restricción tendrá?</li>
+<li>¿Dónde está su metadato?</li>
+<li>¿Qué campos se expondrán públicamente?</li>
+</ol>
+<p>Si el expediente no permite responder, existe una brecha documental
+que debe corregirse antes de publicar.</p>
+<hr/>
+<h1 id="17-laboratorio-8--auditoría-interna-del-hito">17. Laboratorio 8
+— Auditoría interna del hito</h1>
+<h2 id="171-intercambio-entre-grupos">17.1. Intercambio entre
+grupos</h2>
+<p>Cada grupo revisa el proyecto de otro utilizando un checklist común.
+La revisión externa reduce sesgo de familiaridad.</p>
+<h2 id="172-pruebas-de-coherencia">17.2. Pruebas de coherencia</h2>
+<p>Comparar arquitectura, clasificación, base, metadato y catálogo para
+al menos tres recursos.</p>
+<h2 id="173-matriz-de-brechas">17.3. Matriz de brechas</h2>
+<p>Registrar brecha, criticidad, responsable, acción y evidencia de
+cierre.</p>
+<h2 id="174-corrección">17.4. Corrección</h2>
+<p>Resolver las brechas críticas y altas posibles durante el
+laboratorio.</p>
+<h2 id="175-línea-base">17.5. Línea base</h2>
+<p>Generar una versión identificada del proyecto que servirá como
+entrada a la publicación de servicios.</p>
+<hr/>
+<h1 id="18-entregable-de-la-semana-8">18. Entregable de la Semana 8</h1>
+<p>El entregable debe contener matriz de conformidad, listado de
+brechas, versión corregida de arquitectura, línea base, evidencia de
+pruebas cruzadas y acta breve de aceptación interna.</p>
+<p>También debe indicar claramente qué elementos quedan pendientes y si
+impiden o no comenzar la Unidad 3.</p>
+<hr/>
+<h1 id="19-secuencia-sugerida">19. Secuencia sugerida</h1>
+<ul>
+<li><strong>Bloque 1 — 40 minutos.</strong> Concepto de conformidad y
+línea base.</li>
+<li><strong>Bloque 2 — 45 minutos.</strong> Trazabilidad extremo a
+extremo.</li>
+<li><strong>Bloque 3 — 45 minutos.</strong> Coherencia entre política,
+datos, metadatos y catálogo.</li>
+<li><strong>Bloque 4 — 35 minutos.</strong> Brechas, criticidad y
+criterios de aceptación.</li>
+<li><strong>Bloque 5 — 30 minutos.</strong> Evidencia y
+reproducibilidad.</li>
+<li><strong>Bloque 6 — 45 minutos.</strong> Revisión cruzada y
+laboratorio.</li>
+</ul>
+<hr/>
+<h1 id="20-preguntas-de-cierre">20. Preguntas de cierre</h1>
+<h2 id="un-proyecto-puede-tener-todos-los-entregables-y-seguir-siendo-incoherente">¿Un
+proyecto puede tener todos los entregables y seguir siendo
+incoherente?</h2>
+<p>Sí. Los documentos pueden contradecirse. La integración verifica
+relaciones y no solo existencia de archivos.</p>
+<h2 id="la-línea-base-impide-cambios">¿La línea base impide
+cambios?</h2>
+<p>No. Permite saber desde qué estado se cambia y documentar el impacto
+de modificaciones posteriores.</p>
+<h2 id="toda-brecha-debe-resolverse-antes-de-avanzar">¿Toda brecha debe
+resolverse antes de avanzar?</h2>
+<p>No. Las críticas sí deberían bloquear publicación; otras pueden
+gestionarse con responsable y plazo si no comprometen la siguiente
+etapa.</p>
+<hr/>
+<h1 id="21-errores-frecuentes">21. Errores frecuentes</h1>
+<ul>
+<li><strong>“Checklist completado significa conformidad”.</strong> La
+evidencia debe respaldar cada respuesta.</li>
+<li><strong>“Si yo mismo lo revisé, está validado”.</strong> La revisión
+por pares ayuda a detectar supuestos implícitos.</li>
+<li><strong>“Cambiar arquitectura es retroceder”.</strong> La
+arquitectura debe evolucionar con evidencia del proyecto.</li>
+</ul>
+<hr/>
+<h1 id="22-glosario">22. Glosario</h1>
+<table>
+<thead>
+<tr class="header">
 <th>Concepto</th>
 <th>Definición</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Conformidad</td>
 <td>Cumplimiento verificable de requisitos</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Línea base</td>
 <td>Estado aprobado utilizado como referencia</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Brecha</td>
 <td>Diferencia entre estado real y esperado</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Criterio de aceptación</td>
 <td>Condición que determina aprobación</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Evidencia</td>
 <td>Resultado que demuestra cumplimiento</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Reproducibilidad</td>
 <td>Capacidad de repetir una verificación</td>
 </tr>
 </tbody>
 </table>
 <hr/>
-<h1>23. Trabajo autónomo</h1>
-<p>Preparar el entorno para Semana 9, revisar conceptos básicos de HTTP y llevar al menos una URL de servicio geoespacial real para observar solicitudes, respuestas, formatos y errores.</p>
+<h1 id="23-trabajo-autónomo">23. Trabajo autónomo</h1>
+<p>Preparar el entorno para Semana 9, revisar conceptos básicos de HTTP
+y llevar al menos una URL de servicio geoespacial real para observar
+solicitudes, respuestas, formatos y errores.</p>
 <hr/>
-<h1>24. Referencias</h1>
-<p><strong>[R1]</strong> Programa de asignatura 12436 — Estrategias metodológicas y evaluación.</p>
-<p><strong>[R2]</strong> ISO. <em>ISO 19157-1:2023 — Data quality</em>.<br/>
+<h1 id="24-referencias">24. Referencias</h1>
+<p><strong>[R1]</strong> Programa de asignatura 12436 — Estrategias
+metodológicas y evaluación.</p>
+<p><strong>[R2]</strong> ISO. <em>ISO 19157-1:2023 — Data
+quality</em>.<br/>
 <a href="https://www.iso.org/standard/78900.html">https://www.iso.org/standard/78900.html</a></p>
-<p><strong>[R3]</strong> Open Geospatial Consortium. <em>Standards and compliance resources</em>.<br/>
+<p><strong>[R3]</strong> Open Geospatial Consortium. <em>Standards and
+compliance resources</em>.<br/>
 <a href="https://www.ogc.org/standards/">https://www.ogc.org/standards/</a></p>
 <hr/>
-<h1>25. Síntesis</h1>
-<p>La Semana 8 detiene deliberadamente la construcción para verificar coherencia. La IDE debe llegar a la publicación con datos, responsabilidades, políticas y metadatos suficientemente alineados; de lo contrario, los servicios solo automatizarán y distribuirán inconsistencias.</p>
-<div class="weeknav"><a href="Semana_07_Catalogos_Descubrimiento_OGC_API_Records.html">← Semana 7</a><a href="../index.html">Índice del curso</a><a href="Semana_09_HTTP_Recursos_Solicitudes_Respuestas.html">Semana 9 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
+<h1 id="25-síntesis">25. Síntesis</h1>
+<p>La Semana 8 detiene deliberadamente la construcción para verificar
+coherencia. La IDE debe llegar a la publicación con datos,
+responsabilidades, políticas y metadatos suficientemente alineados; de
+lo contrario, los servicios solo automatizarán y distribuirán
+inconsistencias.</p>
+<div class="weeknav"><a href="Semana_07_Catalogos_Descubrimiento_OGC_API_Records.html">← Semana 07</a><a href="Semana_09_HTTP_Recursos_Solicitudes_Respuestas.html">Semana 09 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

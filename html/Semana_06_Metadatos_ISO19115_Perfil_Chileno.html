@@ -1,257 +1,727 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 6 — Metadatos geoespaciales, ISO 19115-1 y Perfil Chileno</title><style>
-:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
-a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_06_Metadatos_ISO19115_Perfil_Chileno.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="sub" href="#ejemplo-4">Ejemplo</a><a class="sub" href="#ejemplo-5">Ejemplo</a><a class="sub" href="#ejemplo-6">Ejemplo</a><a class="sub" href="#actividad-breve">Actividad breve</a><a class="sub" href="#ejemplo-7">Ejemplo</a><a class="sub" href="#principio">Principio</a><a class="sub" href="#preguntas-de-revision">Preguntas de revisión</a><a class="sub" href="#ejemplo-8">Ejemplo</a><a class="" href="#24-1-seleccion-de-recursos">24.1. Selección de recursos</a><a class="" href="#24-2-ficha-manual">24.2. Ficha manual</a><a class="" href="#24-3-revision-contra-la-fuente">24.3. Revisión contra la fuente</a><a class="" href="#24-4-revision-por-pares">24.4. Revisión por pares</a><a class="" href="#24-5-registro-en-catalogo-de-practica">24.5. Registro en catálogo de práctica</a><a class="" href="#metadatos-y-diccionario-de-datos-son-lo-mismo">¿Metadatos y diccionario de datos son lo mismo?</a><a class="" href="#un-metadato-puede-estar-bien-si-el-enlace-de-distribucion-esta-roto">¿Un metadato puede estar “bien” si el enlace de distribución está roto?</a><a class="" href="#que-ocurre-si-el-recurso-cambia-y-el-metadato-no">¿Qué ocurre si el recurso cambia y el metadato no?</a><a class="" href="#debe-inventarse-una-precision-si-no-se-conoce">¿Debe inventarse una precisión si no se conoce?</a></aside><main><h1>Semana 6 — Metadatos geoespaciales, ISO 19115-1 y Perfil Chileno</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 2 — Metadatos, catálogo y preparación para publicación</div></div>
-
-
-<h1>1. Marco de la semana</h1>
-<p>La Semana 6 trabaja metadatos de descubrimiento, evaluación y uso, ISO 19115-1, perfiles nacionales y relación con calidad y linaje. El programa menciona expresamente el Perfil Chileno de Metadatos y el catálogo de IDE Chile, incluyendo autoría, fechas, extensión, resolución, restricciones, licencias, contactos y mantenimiento.</p>
-<p>La semana se conecta directamente con la preparación de datos realizada en la Semana 5: un recurso correctamente modelado y validado debe ahora poder describirse de forma estructurada, de modo que otros usuarios comprendan qué es, quién lo mantiene, si está vigente y cómo puede utilizarse.</p>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-qué-es-un-metadato">4. ¿Qué es un metadato?</a><a class="" href="#5-metadatos-de-descubrimiento">5. Metadatos de
+descubrimiento</a><a class="" href="#6-metadatos-para-evaluación">6. Metadatos para evaluación</a><a class="" href="#7-metadatos-para-uso-y-distribución">7. Metadatos para uso y
+distribución</a><a class="" href="#8-iso-19115-1-como-marco-de-referencia">8. ISO 19115-1 como
+marco de referencia</a><a class="" href="#9-identificación-del-recurso">9. Identificación del recurso</a><a class="" href="#10-responsables-y-contactos">10. Responsables y contactos</a><a class="" href="#11-fechas-y-temporalidad">11. Fechas y temporalidad</a><a class="" href="#12-extensión-espacial-y-temporal">12. Extensión espacial y
+temporal</a><a class="" href="#13-sistema-de-referencia">13. Sistema de referencia</a><a class="" href="#14-resolución-escala-y-nivel-de-detalle">14. Resolución, escala
+y nivel de detalle</a><a class="" href="#15-calidad-y-linaje">15. Calidad y linaje</a><a class="" href="#16-restricciones-licencia-y-condiciones-de-uso">16.
+Restricciones, licencia y condiciones de uso</a><a class="" href="#17-frecuencia-y-mantenimiento">17. Frecuencia y
+mantenimiento</a><a class="" href="#18-qué-es-un-perfil-de-metadatos">18. ¿Qué es un perfil de
+metadatos?</a><a class="" href="#19-perfil-chileno-de-metadatos">19. Perfil Chileno de
+Metadatos</a><a class="" href="#20-palabras-clave-y-vocabularios-controlados">20. Palabras clave
+y vocabularios controlados</a><a class="" href="#21-metadatos-y-diccionario-de-datos">21. Metadatos y diccionario
+de datos</a><a class="" href="#22-metadatos-vivos">22. Metadatos vivos</a><a class="" href="#23-caso-integrador-áreas-verdes">23. Caso integrador: áreas
+verdes</a><a class="" href="#casos-técnicos-guiados--construcción-de-metadatos-completos">Casos
+técnicos guiados — Construcción de metadatos completos</a><a class="sub" href="#ejemplo-1--ficha-completa-del-recurso">Ejemplo 1 — Ficha
+completa del recurso</a><a class="sub" href="#ejemplo-2--redacción-de-un-buen-resumen">Ejemplo 2 — Redacción
+de un buen resumen</a><a class="sub" href="#ejemplo-3--linaje-reproducible">Ejemplo 3 — Linaje
+reproducible</a><a class="sub" href="#ejemplo-4--extensión-espacial-en-forma-explícita">Ejemplo 4 —
+Extensión espacial en forma explícita</a><a class="sub" href="#ejemplo-5--calidad-y-limitaciones">Ejemplo 5 — Calidad y
+limitaciones</a><a class="sub" href="#ejemplo-6--relacionar-metadato-con-servicios">Ejemplo 6 —
+Relacionar metadato con servicios</a><a class="sub" href="#ejemplo-7--qué-actualizar-cuando-cambia-el-recurso">Ejemplo 7 —
+Qué actualizar cuando cambia el recurso</a><a class="sub" href="#ejemplo-8--registro-estructurado-simplificado">Ejemplo 8 —
+Registro estructurado simplificado</a><a class="sub" href="#ejercicio-de-revisión-por-pares">Ejercicio de revisión por
+pares</a><a class="" href="#24-laboratorio-6--fichas-de-metadatos">24. Laboratorio 6 —
+Fichas de metadatos</a><a class="sub" href="#241-selección-de-recursos">24.1. Selección de recursos</a><a class="sub" href="#242-ficha-manual">24.2. Ficha manual</a><a class="sub" href="#243-revisión-contra-la-fuente">24.3. Revisión contra la
+fuente</a><a class="sub" href="#244-revisión-por-pares">24.4. Revisión por pares</a><a class="sub" href="#245-registro-en-catálogo-de-práctica">24.5. Registro en catálogo
+de práctica</a><a class="" href="#25-entregable-de-la-semana-6">25. Entregable de la Semana 6</a><a class="" href="#26-secuencia-sugerida-para-las-4-horas-teóricas">26. Secuencia
+sugerida para las 4 horas teóricas</a><a class="" href="#27-preguntas-de-cierre">27. Preguntas de cierre</a><a class="sub" href="#metadatos-y-diccionario-de-datos-son-lo-mismo">¿Metadatos y
+diccionario de datos son lo mismo?</a><a class="sub" href="#un-metadato-puede-estar-bien-si-el-enlace-de-distribución-está-roto">¿Un
+metadato puede estar “bien” si el enlace de distribución está roto?</a><a class="sub" href="#qué-ocurre-si-el-recurso-cambia-y-el-metadato-no">¿Qué ocurre si
+el recurso cambia y el metadato no?</a><a class="sub" href="#debe-inventarse-una-precisión-si-no-se-conoce">¿Debe inventarse
+una precisión si no se conoce?</a><a class="" href="#28-errores-frecuentes">28. Errores frecuentes</a><a class="" href="#29-glosario">29. Glosario</a><a class="" href="#30-trabajo-autónomo">30. Trabajo autónomo</a><a class="" href="#31-referencias">31. Referencias</a><a class="" href="#32-síntesis-final">32. Síntesis final</a></aside><main><h1>Semana 6 — Metadatos geoespaciales, ISO 19115-1 y Perfil Chileno</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales  </div><div class="label">Código</div><div>12436  </div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática  </div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental  </div><div class="label">Unidad</div><div>Unidad 2 — Metadatos, catálogo y preparación para publicación</div></div><h1 id="1-marco-de-la-semana">1. Marco de la semana</h1>
+<p>La Semana 6 trabaja metadatos de descubrimiento, evaluación y uso,
+ISO 19115-1, perfiles nacionales y relación con calidad y linaje. El
+programa menciona expresamente el Perfil Chileno de Metadatos y el
+catálogo de IDE Chile, incluyendo autoría, fechas, extensión,
+resolución, restricciones, licencias, contactos y mantenimiento.</p>
+<p>La semana se conecta directamente con la preparación de datos
+realizada en la Semana 5: un recurso correctamente modelado y validado
+debe ahora poder describirse de forma estructurada, de modo que otros
+usuarios comprendan qué es, quién lo mantiene, si está vigente y cómo
+puede utilizarse.</p>
 <hr/>
-<h1>2. Propósito de la semana</h1>
-<p>Un dato sin metadatos puede ser técnicamente utilizable y, al mismo tiempo, institucionalmente ambiguo. Una capa puede verse correctamente en QGIS y seguir siendo difícil de reutilizar si el usuario desconoce su fecha, escala, responsable, calidad o restricciones.</p>
-<p>Los metadatos convierten conocimiento implícito en información institucional. La finalidad de esta semana es que el estudiante deje de verlos como “un formulario para cumplir” y los entienda como una interfaz de confianza entre productor y usuario.</p>
+<h1 id="2-propósito-de-la-semana">2. Propósito de la semana</h1>
+<p>Un dato sin metadatos puede ser técnicamente utilizable y, al mismo
+tiempo, institucionalmente ambiguo. Una capa puede verse correctamente
+en QGIS y seguir siendo difícil de reutilizar si el usuario desconoce su
+fecha, escala, responsable, calidad o restricciones.</p>
+<p>Los metadatos convierten conocimiento implícito en información
+institucional. La finalidad de esta semana es que el estudiante deje de
+verlos como “un formulario para cumplir” y los entienda como una
+interfaz de confianza entre productor y usuario.</p>
 <hr/>
-<h1>3. Resultados de aprendizaje</h1>
-<p>Al finalizar la semana, el estudiante deberá distinguir metadatos orientados a descubrimiento, evaluación y uso; reconocer las categorías principales de ISO 19115-1; comprender por qué existen perfiles nacionales; crear registros coherentes con datos reales y detectar inconsistencias entre recurso, metadato, gobernanza y política de acceso.</p>
-<p>También deberá ser capaz de explicar qué elementos del metadato cambian cuando el recurso cambia y diseñar un procedimiento simple para mantener los registros sincronizados con la publicación.</p>
+<h1 id="3-resultados-de-aprendizaje">3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá distinguir metadatos
+orientados a descubrimiento, evaluación y uso; reconocer las categorías
+principales de ISO 19115-1; comprender por qué existen perfiles
+nacionales; crear registros coherentes con datos reales y detectar
+inconsistencias entre recurso, metadato, gobernanza y política de
+acceso.</p>
+<p>También deberá ser capaz de explicar qué elementos del metadato
+cambian cuando el recurso cambia y diseñar un procedimiento simple para
+mantener los registros sincronizados con la publicación.</p>
 <hr/>
-<h1>4. ¿Qué es un metadato?</h1>
-<p>Un metadato es información estructurada que describe un recurso. En el contexto geoespacial, ese recurso puede ser un dataset, servicio, serie, mapa, cobertura u otro producto.</p>
-<p>La palabra “estructurada” es importante. Una descripción libre puede ser útil, pero un catálogo necesita campos consistentes para buscar, filtrar y relacionar registros. Por eso estándares como ISO 19115-1 organizan la información en categorías y elementos definidos.</p>
-<p>Un metadato debería ayudar a responder tres grandes preguntas: <strong>¿qué existe?, ¿sirve para mi propósito?, ¿cómo lo obtengo o utilizo?</strong>.</p>
+<h1 id="4-qué-es-un-metadato">4. ¿Qué es un metadato?</h1>
+<p>Un metadato es información estructurada que describe un recurso. En
+el contexto geoespacial, ese recurso puede ser un dataset, servicio,
+serie, mapa, cobertura u otro producto.</p>
+<p>La palabra “estructurada” es importante. Una descripción libre puede
+ser útil, pero un catálogo necesita campos consistentes para buscar,
+filtrar y relacionar registros. Por eso estándares como ISO 19115-1
+organizan la información en categorías y elementos definidos.</p>
+<p>Un metadato debería ayudar a responder tres grandes preguntas:
+<strong>¿qué existe?, ¿sirve para mi propósito?, ¿cómo lo obtengo o
+utilizo?</strong>.</p>
 <hr/>
-<h1>5. Metadatos de descubrimiento</h1>
-<p>El descubrimiento busca permitir que alguien encuentre un recurso aun cuando no conozca su nombre exacto.</p>
-<p>Un registro orientado a descubrimiento necesita, entre otros elementos, un título comprensible, resumen, palabras clave, responsable, fecha y extensión espacial. Si estos campos son vagos o inconsistentes, el recurso puede quedar invisible dentro del catálogo aunque exista técnicamente.</p>
+<h1 id="5-metadatos-de-descubrimiento">5. Metadatos de
+descubrimiento</h1>
+<p>El descubrimiento busca permitir que alguien encuentre un recurso aun
+cuando no conozca su nombre exacto.</p>
+<p>Un registro orientado a descubrimiento necesita, entre otros
+elementos, un título comprensible, resumen, palabras clave, responsable,
+fecha y extensión espacial. Si estos campos son vagos o inconsistentes,
+el recurso puede quedar invisible dentro del catálogo aunque exista
+técnicamente.</p>
 <h3 id="ejemplo">Ejemplo</h3>
-<p>Un título como <code>shape_final_2026</code> funciona como nombre interno, pero aporta poco a un usuario externo. Un título como <code>Red vial comunal oficial — corte agosto 2026</code> describe tema, alcance y temporalidad de manera más útil.</p>
+<p>Un título como <code>shape_final_2026</code> funciona como nombre
+interno, pero aporta poco a un usuario externo. Un título como
+<code>Red vial comunal oficial — corte agosto 2026</code> describe tema,
+alcance y temporalidad de manera más útil.</p>
 <hr/>
-<h1>6. Metadatos para evaluación</h1>
-<p>Después de encontrar un recurso, el usuario necesita decidir si es apropiado. Aquí aparecen información de calidad, escala o resolución, linaje, CRS, vigencia, restricciones y propósito original.</p>
+<h1 id="6-metadatos-para-evaluación">6. Metadatos para evaluación</h1>
+<p>Después de encontrar un recurso, el usuario necesita decidir si es
+apropiado. Aquí aparecen información de calidad, escala o resolución,
+linaje, CRS, vigencia, restricciones y propósito original.</p>
+<h3 id="ejemplo-1">Ejemplo</h3>
+<p>Una ortofoto puede ser perfectamente adecuada para cartografía a
+cierta escala y totalmente insuficiente para una medición que exige
+mayor precisión. El metadato debe permitir conocer esa limitación antes
+de que el usuario construya un análisis incorrecto.</p>
+<p>El objetivo no es afirmar que un dataset es “bueno” o “malo”, sino
+entregar evidencia para evaluar <strong>adecuación al uso</strong>.</p>
+<hr/>
+<h1 id="7-metadatos-para-uso-y-distribución">7. Metadatos para uso y
+distribución</h1>
+<p>El usuario también necesita saber cómo acceder al recurso. La
+descripción debe vincular, cuando corresponda, mecanismos de descarga,
+servicios, APIs, formatos y contactos.</p>
+<p>Un enlace roto o una URL que apunta a una versión antigua es un
+problema de calidad de metadatos. La distribución forma parte del ciclo
+de mantenimiento y debe actualizarse cuando cambia la arquitectura.</p>
 <h3 id="ejemplo-2">Ejemplo</h3>
-<p>Una ortofoto puede ser perfectamente adecuada para cartografía a cierta escala y totalmente insuficiente para una medición que exige mayor precisión. El metadato debe permitir conocer esa limitación antes de que el usuario construya un análisis incorrecto.</p>
-<p>El objetivo no es afirmar que un dataset es “bueno” o “malo”, sino entregar evidencia para evaluar <strong>adecuación al uso</strong>.</p>
+<p>Si un WMS migra de dominio, el registro de metadatos debe
+actualizarse simultáneamente. De lo contrario, el catálogo seguirá
+encontrando el recurso, pero no permitirá utilizarlo.</p>
 <hr/>
-<h1>7. Metadatos para uso y distribución</h1>
-<p>El usuario también necesita saber cómo acceder al recurso. La descripción debe vincular, cuando corresponda, mecanismos de descarga, servicios, APIs, formatos y contactos.</p>
-<p>Un enlace roto o una URL que apunta a una versión antigua es un problema de calidad de metadatos. La distribución forma parte del ciclo de mantenimiento y debe actualizarse cuando cambia la arquitectura.</p>
+<h1 id="8-iso-19115-1-como-marco-de-referencia">8. ISO 19115-1 como
+marco de referencia</h1>
+<p>ISO 19115-1:2014 establece fundamentos para describir información
+geográfica y servicios [R1]. El estándar contiene una estructura mucho
+más amplia que la que puede memorizarse razonablemente en una clase, por
+lo que el objetivo pedagógico no es aprender códigos de elementos de
+memoria.</p>
+<p>Se debe comprender qué tipos de información organiza: identificación,
+responsables, extensión, referencia espacial, calidad, contenido,
+distribución y otros aspectos necesarios para describir un recurso de
+forma interoperable.</p>
+<p>El estándar funciona como lenguaje común. Distintas plataformas
+pueden representar los campos de formas diferentes, pero mantienen
+conceptos compatibles.</p>
+<hr/>
+<h1 id="9-identificación-del-recurso">9. Identificación del recurso</h1>
+<p>La identificación incluye elementos que permiten reconocer el dataset
+y comprender su propósito.</p>
+<ul>
+<li><strong>Título.</strong> Debe ser específico, estable y
+suficientemente descriptivo para distinguir el recurso de otros
+similares.</li>
+<li><strong>Resumen.</strong> Debe explicar contenido, propósito y
+alcance sin obligar al usuario a abrir el dataset para entenderlo.</li>
+<li><strong>Propósito.</strong> Informa para qué fue producido y ayuda a
+evitar reutilizaciones fuera de contexto.</li>
+<li><strong>Palabras clave.</strong> Facilitan búsqueda temática y
+deberían utilizar vocabularios consistentes cuando sea posible.</li>
+</ul>
 <h3 id="ejemplo-3">Ejemplo</h3>
-<p>Si un WMS migra de dominio, el registro de metadatos debe actualizarse simultáneamente. De lo contrario, el catálogo seguirá encontrando el recurso, pero no permitirá utilizarlo.</p>
+<p>“Equipamientos” es un título demasiado amplio si el catálogo contiene
+varias capas. “Equipamientos públicos municipales — comuna X — 2026”
+aporta contexto espacial, institucional y temporal.</p>
 <hr/>
-<h1>8. ISO 19115-1 como marco de referencia</h1>
-<p>ISO 19115-1:2014 establece fundamentos para describir información geográfica y servicios [R1]. El estándar contiene una estructura mucho más amplia que la que puede memorizarse razonablemente en una clase, por lo que el objetivo pedagógico no es aprender códigos de elementos de memoria.</p>
-<p>Se debe comprender qué tipos de información organiza: identificación, responsables, extensión, referencia espacial, calidad, contenido, distribución y otros aspectos necesarios para describir un recurso de forma interoperable.</p>
-<p>El estándar funciona como lenguaje común. Distintas plataformas pueden representar los campos de formas diferentes, pero mantienen conceptos compatibles.</p>
-<hr/>
-<h1>9. Identificación del recurso</h1>
-<p>La identificación incluye elementos que permiten reconocer el dataset y comprender su propósito.</p>
-<ul>
-<li><strong>Título.</strong> Debe ser específico, estable y suficientemente descriptivo para distinguir el recurso de otros similares.</li>
-<li><strong>Resumen.</strong> Debe explicar contenido, propósito y alcance sin obligar al usuario a abrir el dataset para entenderlo.</li>
-<li><strong>Propósito.</strong> Informa para qué fue producido y ayuda a evitar reutilizaciones fuera de contexto.</li>
-<li><strong>Palabras clave.</strong> Facilitan búsqueda temática y deberían utilizar vocabularios consistentes cuando sea posible.</li>
-</ul>
+<h1 id="10-responsables-y-contactos">10. Responsables y contactos</h1>
+<p>Un recurso puede tener distintos actores: productor, custodio,
+publicador y punto de contacto. El metadato no debe reducir esta
+dimensión a un correo personal que quedará obsoleto cuando cambie una
+persona.</p>
+<p>Se recomienda utilizar unidades y canales institucionales cuando sea
+posible. La información de contacto cumple una función operativa:
+permite solicitar aclaraciones, reportar errores o conocer condiciones
+de acceso.</p>
 <h3 id="ejemplo-4">Ejemplo</h3>
-<p>“Equipamientos” es un título demasiado amplio si el catálogo contiene varias capas. “Equipamientos públicos municipales — comuna X — 2026” aporta contexto espacial, institucional y temporal.</p>
+<p>En lugar de depender exclusivamente de
+<code>nombre.apellido@institucion.cl</code>, puede existir un contacto
+funcional como una unidad de datos o mesa de soporte, complementado con
+el rol correspondiente.</p>
 <hr/>
-<h1>10. Responsables y contactos</h1>
-<p>Un recurso puede tener distintos actores: productor, custodio, publicador y punto de contacto. El metadato no debe reducir esta dimensión a un correo personal que quedará obsoleto cuando cambie una persona.</p>
-<p>Se recomienda utilizar unidades y canales institucionales cuando sea posible. La información de contacto cumple una función operativa: permite solicitar aclaraciones, reportar errores o conocer condiciones de acceso.</p>
-<h3 id="ejemplo-5">Ejemplo</h3>
-<p>En lugar de depender exclusivamente de <code>nombre.apellido@institucion.cl</code>, puede existir un contacto funcional como una unidad de datos o mesa de soporte, complementado con el rol correspondiente.</p>
-<hr/>
-<h1>11. Fechas y temporalidad</h1>
-<p>En metadatos pueden coexistir diferentes fechas y es importante no confundirlas.</p>
+<h1 id="11-fechas-y-temporalidad">11. Fechas y temporalidad</h1>
+<p>En metadatos pueden coexistir diferentes fechas y es importante no
+confundirlas.</p>
 <ul>
-<li><strong>Fecha de creación.</strong> Indica cuándo se originó el recurso o la versión inicial.</li>
-<li><strong>Fecha de publicación.</strong> Indica cuándo fue puesto a disposición de usuarios.</li>
-<li><strong>Fecha de revisión.</strong> Informa cuándo se verificó el contenido sin necesariamente modificarlo.</li>
-<li><strong>Fecha de actualización.</strong> Señala cuándo cambió la información.</li>
+<li><strong>Fecha de creación.</strong> Indica cuándo se originó el
+recurso o la versión inicial.</li>
+<li><strong>Fecha de publicación.</strong> Indica cuándo fue puesto a
+disposición de usuarios.</li>
+<li><strong>Fecha de revisión.</strong> Informa cuándo se verificó el
+contenido sin necesariamente modificarlo.</li>
+<li><strong>Fecha de actualización.</strong> Señala cuándo cambió la
+información.</li>
 </ul>
-<p>La fecha debe vincularse con una interpretación clara. Un dataset “2026” puede referirse a fecha de publicación, captura o vigencia, y esas diferencias son relevantes.</p>
+<p>La fecha debe vincularse con una interpretación clara. Un dataset
+“2026” puede referirse a fecha de publicación, captura o vigencia, y
+esas diferencias son relevantes.</p>
 <hr/>
-<h1>12. Extensión espacial y temporal</h1>
-<p>La extensión espacial permite conocer qué área cubre el recurso y facilita búsquedas geográficas en un catálogo. Puede expresarse mediante un rectángulo envolvente, una descripción territorial u otras representaciones compatibles con el perfil utilizado.</p>
-<p>La extensión temporal describe el periodo representado. Es especialmente importante en series, observaciones, sensores y recursos históricos.</p>
-<h3 id="ejemplo-6">Ejemplo</h3>
-<p>Un dataset publicado en septiembre de 2026 puede representar datos capturados entre 2022 y 2024. La fecha de publicación no sustituye la extensión temporal.</p>
+<h1 id="12-extensión-espacial-y-temporal">12. Extensión espacial y
+temporal</h1>
+<p>La extensión espacial permite conocer qué área cubre el recurso y
+facilita búsquedas geográficas en un catálogo. Puede expresarse mediante
+un rectángulo envolvente, una descripción territorial u otras
+representaciones compatibles con el perfil utilizado.</p>
+<p>La extensión temporal describe el periodo representado. Es
+especialmente importante en series, observaciones, sensores y recursos
+históricos.</p>
+<h3 id="ejemplo-5">Ejemplo</h3>
+<p>Un dataset publicado en septiembre de 2026 puede representar datos
+capturados entre 2022 y 2024. La fecha de publicación no sustituye la
+extensión temporal.</p>
 <hr/>
-<h1>13. Sistema de referencia</h1>
-<p>El metadato debe indicar el sistema de referencia de coordenadas utilizado o los sistemas relevantes del recurso.</p>
-<p>Esta información permite integrar capas y comprender unidades y proyección. También ayuda a detectar inconsistencias entre la definición documental y el archivo real.</p>
+<h1 id="13-sistema-de-referencia">13. Sistema de referencia</h1>
+<p>El metadato debe indicar el sistema de referencia de coordenadas
+utilizado o los sistemas relevantes del recurso.</p>
+<p>Esta información permite integrar capas y comprender unidades y
+proyección. También ayuda a detectar inconsistencias entre la definición
+documental y el archivo real.</p>
 <h3 id="actividad-breve">Actividad breve</h3>
-<p>Comparar el CRS declarado en el metadato con <code>ST_SRID</code> o la información del archivo. Si no coinciden, el problema no es únicamente documental: puede existir una transformación incorrecta o una etiqueta equivocada.</p>
+<p>Comparar el CRS declarado en el metadato con <code>ST_SRID</code> o
+la información del archivo. Si no coinciden, el problema no es
+únicamente documental: puede existir una transformación incorrecta o una
+etiqueta equivocada.</p>
 <hr/>
-<h1>14. Resolución, escala y nivel de detalle</h1>
-<p>La resolución o escala ayuda a comprender qué nivel de detalle puede esperarse. No debe utilizarse para prometer una precisión mayor que la que realmente posee el dato.</p>
-<p>En ráster, la resolución espacial puede expresarse mediante tamaño de píxel. En productos cartográficos o ciertos datasets vectoriales puede utilizarse escala o distancia equivalente según el contexto y el perfil.</p>
-<p>La información debe ser coherente con la metodología de producción y la calidad disponible.</p>
+<h1 id="14-resolución-escala-y-nivel-de-detalle">14. Resolución, escala
+y nivel de detalle</h1>
+<p>La resolución o escala ayuda a comprender qué nivel de detalle puede
+esperarse. No debe utilizarse para prometer una precisión mayor que la
+que realmente posee el dato.</p>
+<p>En ráster, la resolución espacial puede expresarse mediante tamaño de
+píxel. En productos cartográficos o ciertos datasets vectoriales puede
+utilizarse escala o distancia equivalente según el contexto y el
+perfil.</p>
+<p>La información debe ser coherente con la metodología de producción y
+la calidad disponible.</p>
 <hr/>
-<h1>15. Calidad y linaje</h1>
-<p>Los metadatos deberían comunicar aspectos relevantes de calidad y procedencia. El linaje explica de dónde proviene el recurso y qué transformaciones recibió.</p>
-<div class="mermaid">flowchart LR
+<h1 id="15-calidad-y-linaje">15. Calidad y linaje</h1>
+<p>Los metadatos deberían comunicar aspectos relevantes de calidad y
+procedencia. El linaje explica de dónde proviene el recurso y qué
+transformaciones recibió.</p>
+<pre class="mermaid">flowchart LR
     A["Fuente original"] --&gt; B["Transformación"]
     B --&gt; C["Validación"]
     C --&gt; D["Producto"]
-    D --&gt; M["Metadato de linaje"]
-</div>
-<h3 id="ejemplo-7">Ejemplo</h3>
-<p>Una capa pública puede derivarse de una fuente interna mediante simplificación geométrica y eliminación de atributos. El metadato debería indicar esa transformación para evitar que el usuario confunda el producto con la fuente original.</p>
-<p>La honestidad documental es fundamental. Si un aspecto de calidad no fue evaluado, no debe inventarse un resultado.</p>
+    D --&gt; M["Metadato de linaje"]</pre>
+<h3 id="ejemplo-6">Ejemplo</h3>
+<p>Una capa pública puede derivarse de una fuente interna mediante
+simplificación geométrica y eliminación de atributos. El metadato
+debería indicar esa transformación para evitar que el usuario confunda
+el producto con la fuente original.</p>
+<p>La honestidad documental es fundamental. Si un aspecto de calidad no
+fue evaluado, no debe inventarse un resultado.</p>
 <hr/>
-<h1>16. Restricciones, licencia y condiciones de uso</h1>
-<p>Las decisiones tomadas en Semana 3 deben quedar reflejadas en el registro. El usuario debería poder saber si el recurso es público, restringido, sujeto a licencia o condicionado por derechos de terceros.</p>
-<p>La licencia debe estar suficientemente visible y ser coherente con la página de descarga, API y otros canales. Si el catálogo indica CC BY y el sitio de descarga contiene términos incompatibles, la infraestructura transmite mensajes contradictorios.</p>
+<h1 id="16-restricciones-licencia-y-condiciones-de-uso">16.
+Restricciones, licencia y condiciones de uso</h1>
+<p>Las decisiones tomadas en Semana 3 deben quedar reflejadas en el
+registro. El usuario debería poder saber si el recurso es público,
+restringido, sujeto a licencia o condicionado por derechos de
+terceros.</p>
+<p>La licencia debe estar suficientemente visible y ser coherente con la
+página de descarga, API y otros canales. Si el catálogo indica CC BY y
+el sitio de descarga contiene términos incompatibles, la infraestructura
+transmite mensajes contradictorios.</p>
 <hr/>
-<h1>17. Frecuencia y mantenimiento</h1>
-<p>El metadato debe reflejar cómo se mantiene el recurso. Valores como mensual, anual o por evento solo son útiles si corresponden al proceso real.</p>
-<p>Una frecuencia declarada que nunca se cumple genera expectativas incorrectas. Si la organización no conoce todavía la periodicidad, debe resolver la gobernanza o declarar la situación de forma honesta.</p>
+<h1 id="17-frecuencia-y-mantenimiento">17. Frecuencia y
+mantenimiento</h1>
+<p>El metadato debe reflejar cómo se mantiene el recurso. Valores como
+mensual, anual o por evento solo son útiles si corresponden al proceso
+real.</p>
+<p>Una frecuencia declarada que nunca se cumple genera expectativas
+incorrectas. Si la organización no conoce todavía la periodicidad, debe
+resolver la gobernanza o declarar la situación de forma honesta.</p>
 <hr/>
-<h1>18. ¿Qué es un perfil de metadatos?</h1>
-<p>Un perfil selecciona, restringe o adapta elementos de un estándar para una comunidad o contexto. Esto permite definir qué elementos son obligatorios, opcionales o recomendados, vocabularios válidos y reglas adicionales.</p>
-<p>Los perfiles evitan que cada organización interprete el estándar de manera completamente diferente. También reducen la complejidad de trabajar con un estándar general muy amplio.</p>
+<h1 id="18-qué-es-un-perfil-de-metadatos">18. ¿Qué es un perfil de
+metadatos?</h1>
+<p>Un perfil selecciona, restringe o adapta elementos de un estándar
+para una comunidad o contexto. Esto permite definir qué elementos son
+obligatorios, opcionales o recomendados, vocabularios válidos y reglas
+adicionales.</p>
+<p>Los perfiles evitan que cada organización interprete el estándar de
+manera completamente diferente. También reducen la complejidad de
+trabajar con un estándar general muy amplio.</p>
 <h3 id="principio">Principio</h3>
-<p>Un perfil no “reemplaza” ISO 19115-1; lo utiliza y adapta a necesidades específicas de interoperabilidad.</p>
+<p>Un perfil no “reemplaza” ISO 19115-1; lo utiliza y adapta a
+necesidades específicas de interoperabilidad.</p>
 <hr/>
-<h1>19. Perfil Chileno de Metadatos</h1>
-<p>El programa exige revisar el Perfil Chileno y su aplicación dentro de IDE Chile. El estudiante debe analizar la versión vigente que utilice la infraestructura nacional y reconocer elementos obligatorios y vocabularios aplicables.</p>
-<p>La finalidad de la actividad no es memorizar campos, sino comprender qué información mínima espera la comunidad nacional para que los registros puedan interoperar y ser cosechados o consultados de manera consistente.</p>
-<h3 id="preguntas-de-revision">Preguntas de revisión</h3>
-<p>¿Qué campos obligatorios del perfil ya existen en el proyecto? ¿Qué información falta? ¿Quién debe proporcionarla? ¿Existen decisiones de Semana 2 o 3 que todavía no pueden reflejarse porque no fueron suficientemente definidas?</p>
+<h1 id="19-perfil-chileno-de-metadatos">19. Perfil Chileno de
+Metadatos</h1>
+<p>El programa exige revisar el Perfil Chileno y su aplicación dentro de
+IDE Chile. El estudiante debe analizar la versión vigente que utilice la
+infraestructura nacional y reconocer elementos obligatorios y
+vocabularios aplicables.</p>
+<p>La finalidad de la actividad no es memorizar campos, sino comprender
+qué información mínima espera la comunidad nacional para que los
+registros puedan interoperar y ser cosechados o consultados de manera
+consistente.</p>
+<h3 id="preguntas-de-revisión">Preguntas de revisión</h3>
+<p>¿Qué campos obligatorios del perfil ya existen en el proyecto? ¿Qué
+información falta? ¿Quién debe proporcionarla? ¿Existen decisiones de
+Semana 2 o 3 que todavía no pueden reflejarse porque no fueron
+suficientemente definidas?</p>
 <hr/>
-<h1>20. Palabras clave y vocabularios controlados</h1>
-<p>Las palabras clave ayudan a clasificar y descubrir. Sin coordinación, pueden aparecer términos diferentes para el mismo concepto: <code>calles</code>, <code>vialidad</code>, <code>red vial</code>, <code>transporte terrestre</code>.</p>
-<p>Un vocabulario controlado permite acordar términos, sinónimos y jerarquías. Esto mejora búsquedas y facilita federación entre catálogos.</p>
-<p>Los vocabularios no deben utilizarse de forma mecánica. Es necesario elegir términos que realmente describan el recurso y que correspondan al contexto del catálogo.</p>
+<h1 id="20-palabras-clave-y-vocabularios-controlados">20. Palabras clave
+y vocabularios controlados</h1>
+<p>Las palabras clave ayudan a clasificar y descubrir. Sin coordinación,
+pueden aparecer términos diferentes para el mismo concepto:
+<code>calles</code>, <code>vialidad</code>, <code>red vial</code>,
+<code>transporte terrestre</code>.</p>
+<p>Un vocabulario controlado permite acordar términos, sinónimos y
+jerarquías. Esto mejora búsquedas y facilita federación entre
+catálogos.</p>
+<p>Los vocabularios no deben utilizarse de forma mecánica. Es necesario
+elegir términos que realmente describan el recurso y que correspondan al
+contexto del catálogo.</p>
 <hr/>
-<h1>21. Metadatos y diccionario de datos</h1>
-<p>Un metadato describe el recurso completo. Un diccionario de datos describe campos, tipos, dominios y significado interno. Ambos son complementarios.</p>
-<h3 id="ejemplo-8">Ejemplo</h3>
-<p>El metadato puede indicar que existe una capa de áreas verdes y que contiene información de tipo y superficie. El diccionario explica que <code>tipo_av</code> utiliza códigos <code>PARQ</code>, <code>PLAZ</code>, <code>BANQ</code> y qué significa cada uno.</p>
-<p>Confundir ambos instrumentos deja vacíos: un catálogo no necesita listar todos los campos, pero el usuario técnico puede requerir documentación detallada del esquema.</p>
+<h1 id="21-metadatos-y-diccionario-de-datos">21. Metadatos y diccionario
+de datos</h1>
+<p>Un metadato describe el recurso completo. Un diccionario de datos
+describe campos, tipos, dominios y significado interno. Ambos son
+complementarios.</p>
+<h3 id="ejemplo-7">Ejemplo</h3>
+<p>El metadato puede indicar que existe una capa de áreas verdes y que
+contiene información de tipo y superficie. El diccionario explica que
+<code>tipo_av</code> utiliza códigos <code>PARQ</code>,
+<code>PLAZ</code>, <code>BANQ</code> y qué significa cada uno.</p>
+<p>Confundir ambos instrumentos deja vacíos: un catálogo no necesita
+listar todos los campos, pero el usuario técnico puede requerir
+documentación detallada del esquema.</p>
 <hr/>
-<h1>22. Metadatos vivos</h1>
-<p>Los metadatos deben actualizarse cuando cambia el recurso, el responsable, la licencia, la URL, la extensión, la frecuencia o la calidad.</p>
-<p>Una buena práctica es incorporar la revisión del metadato dentro del flujo de publicación. Así, el cambio no depende de recordar una tarea adicional después de actualizar el dato.</p>
-<div class="mermaid">flowchart LR
+<h1 id="22-metadatos-vivos">22. Metadatos vivos</h1>
+<p>Los metadatos deben actualizarse cuando cambia el recurso, el
+responsable, la licencia, la URL, la extensión, la frecuencia o la
+calidad.</p>
+<p>Una buena práctica es incorporar la revisión del metadato dentro del
+flujo de publicación. Así, el cambio no depende de recordar una tarea
+adicional después de actualizar el dato.</p>
+<pre class="mermaid">flowchart LR
     A["Nueva versión"] --&gt; B["Validación"]
     B --&gt; C["Revisión de metadatos"]
-    C --&gt; D["Publicación"]
-</div>
-<p>La automatización puede ayudar, pero algunos elementos siguen necesitando juicio del custodio.</p>
+    C --&gt; D["Publicación"]</pre>
+<p>La automatización puede ayudar, pero algunos elementos siguen
+necesitando juicio del custodio.</p>
 <hr/>
-<h1>23. Caso integrador: áreas verdes</h1>
+<h1 id="23-caso-integrador-áreas-verdes">23. Caso integrador: áreas
+verdes</h1>
 <p>Para <code>areas_verdes_publicas</code>, una ficha puede incluir:</p>
 <ul>
-<li><strong>Título.</strong> Áreas verdes públicas de la comuna X — corte agosto 2026. El título diferencia el recurso y comunica temporalidad.</li>
-<li><strong>Responsable.</strong> Unidad de Medio Ambiente como custodio temático y Unidad SIG como punto de publicación.</li>
-<li><strong>Fecha.</strong> Corte de actualización y fecha de publicación separadas.</li>
-<li><strong>CRS.</strong> Sistema de referencia verificado en la base.</li>
-<li><strong>Calidad.</strong> Geometrías validadas y cobertura según catastro institucional, declarando limitaciones no evaluadas.</li>
-<li><strong>Licencia.</strong> La definida en Semana 3, si la institución posee facultad para aplicarla.</li>
-<li><strong>Mantenimiento.</strong> Trimestral o por cambios relevantes, según gobernanza real.</li>
-<li><strong>Distribución.</strong> Enlaces a servicio y descarga que se comprobarán en las siguientes semanas.</li>
+<li><strong>Título.</strong> Áreas verdes públicas de la comuna X —
+corte agosto 2026. El título diferencia el recurso y comunica
+temporalidad.</li>
+<li><strong>Responsable.</strong> Unidad de Medio Ambiente como custodio
+temático y Unidad SIG como punto de publicación.</li>
+<li><strong>Fecha.</strong> Corte de actualización y fecha de
+publicación separadas.</li>
+<li><strong>CRS.</strong> Sistema de referencia verificado en la
+base.</li>
+<li><strong>Calidad.</strong> Geometrías validadas y cobertura según
+catastro institucional, declarando limitaciones no evaluadas.</li>
+<li><strong>Licencia.</strong> La definida en Semana 3, si la
+institución posee facultad para aplicarla.</li>
+<li><strong>Mantenimiento.</strong> Trimestral o por cambios relevantes,
+según gobernanza real.</li>
+<li><strong>Distribución.</strong> Enlaces a servicio y descarga que se
+comprobarán en las siguientes semanas.</li>
 </ul>
 <hr/>
-<h1>24. Laboratorio 6 — Fichas de metadatos</h1>
-<h2 id="24-1-seleccion-de-recursos">24.1. Selección de recursos</h2>
-<p>Elegir al menos tres datasets del proyecto, idealmente con características diferentes: uno público, uno restringido y uno producto derivado.</p>
-<h2 id="24-2-ficha-manual">24.2. Ficha manual</h2>
-<p>Completar título, resumen, responsables, fechas, extensión, CRS, calidad, linaje, restricciones, licencia, mantenimiento y distribución. Si un valor no es conocido, registrar la brecha y la unidad que debe resolverla.</p>
-<h2 id="24-3-revision-contra-la-fuente">24.3. Revisión contra la fuente</h2>
-<p>Comparar metadato con estructura real, CRS, número de registros, extensión y versión. El objetivo es detectar descripciones heredadas que ya no corresponden al producto.</p>
-<h2 id="24-4-revision-por-pares">24.4. Revisión por pares</h2>
-<p>Otro grupo debe responder, utilizando únicamente el metadato, qué contiene el recurso, si sirve para un caso propuesto y cómo acceder. Las dudas detectadas se transforman en mejoras del registro.</p>
-<h2 id="24-5-registro-en-catalogo-de-practica">24.5. Registro en catálogo de práctica</h2>
-<p>Crear o simular el ingreso en GeoNetwork, Geonodo u otra plataforma compatible, observando cómo el formulario representa elementos del perfil.</p>
-<hr/>
-<h1>25. Entregable de la Semana 6</h1>
-<p>El entregable debe contener al menos tres fichas completas, checklist de calidad, evidencia de revisión por pares y una matriz de correspondencia entre dato, metadato, restricciones y futuro servicio.</p>
-<p>Debe incluir una sección de “brechas de información” que indique qué campos no pudieron completarse y qué decisión o responsable se necesita para resolverlos.</p>
-<hr/>
-<h1>26. Secuencia sugerida para las 4 horas teóricas</h1>
-<ul>
-<li><strong>Bloque 1 — 45 minutos.</strong> Propósito de metadatos y diferencia entre descubrimiento, evaluación y uso.</li>
-<li><strong>Bloque 2 — 60 minutos.</strong> ISO 19115-1 y categorías principales, utilizando un registro real como ejemplo.</li>
-<li><strong>Bloque 3 — 45 minutos.</strong> Perfil Chileno e IDE Chile, comparando campos obligatorios con el proyecto.</li>
-<li><strong>Bloque 4 — 30 minutos.</strong> Calidad, linaje y relación con Semana 5.</li>
-<li><strong>Bloque 5 — 30 minutos.</strong> Restricciones, licencias, responsables y mantenimiento.</li>
-<li><strong>Bloque 6 — 30 minutos.</strong> Laboratorio, revisión por pares y criterios de calidad.</li>
-</ul>
-<hr/>
-<h1>27. Preguntas de cierre</h1>
-<h2 id="metadatos-y-diccionario-de-datos-son-lo-mismo">¿Metadatos y diccionario de datos son lo mismo?</h2>
-<p>No. El metadato describe el recurso como unidad; el diccionario documenta campos y estructuras internas. Son complementarios y atienden preguntas diferentes.</p>
-<h2 id="un-metadato-puede-estar-bien-si-el-enlace-de-distribucion-esta-roto">¿Un metadato puede estar “bien” si el enlace de distribución está roto?</h2>
-<p>No. La distribución forma parte de la capacidad de uso. Un catálogo que encuentra recursos inaccesibles pierde confianza.</p>
-<h2 id="que-ocurre-si-el-recurso-cambia-y-el-metadato-no">¿Qué ocurre si el recurso cambia y el metadato no?</h2>
-<p>Se pierde coherencia y el usuario puede tomar decisiones basadas en una descripción obsoleta. Por eso el mantenimiento debe integrarse al flujo de publicación.</p>
-<h2 id="debe-inventarse-una-precision-si-no-se-conoce">¿Debe inventarse una precisión si no se conoce?</h2>
-<p>No. Debe declararse la brecha o limitación. La transparencia sobre lo desconocido es preferible a entregar una cifra no respaldada.</p>
-<hr/>
-<h1>28. Errores frecuentes</h1>
-<ul>
-<li><strong>“Metadato es título y resumen”.</strong> El usuario necesita contexto suficiente para descubrir, evaluar y utilizar.</li>
-<li><strong>“Se completa una sola vez”.</strong> Los registros deben mantenerse junto con el recurso.</li>
-<li><strong>“Más campos siempre es mejor”.</strong> El valor está en relevancia, consistencia y calidad, no en llenar formularios sin propósito.</li>
-<li><strong>“El metadato puede describir lo que queremos que sea el dato”.</strong> Debe describir la realidad disponible y sus limitaciones.</li>
-</ul>
-<hr/>
-<h1>29. Glosario</h1>
+<h1 id="casos-técnicos-guiados--construcción-de-metadatos-completos">Casos
+técnicos guiados — Construcción de metadatos completos</h1>
+<p>Para evitar que los metadatos queden como una lista abstracta de
+campos, esta sección desarrolla un registro completo para el dataset
+<code>Áreas verdes públicas</code>, preparado en la Semana 5. El ejemplo
+es didáctico: muestra contenido y relaciones; la estructura exacta que
+se ingrese en GeoNetwork o Geonodo dependerá del perfil utilizado.</p>
+<h2 id="ejemplo-1--ficha-completa-del-recurso">Ejemplo 1 — Ficha
+completa del recurso</h2>
 <table>
 <thead>
-<tr>
+<tr class="header">
+<th>Elemento</th>
+<th>Ejemplo concreto</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Título</td>
+<td>Áreas verdes públicas de la comuna X — corte septiembre 2026</td>
+<td>Permite reconocer tema, territorio y fecha</td>
+</tr>
+<tr class="even">
+<td>Identificador</td>
+<td><code>urn:usach:ide:municipio-x:areas-verdes</code></td>
+<td>Mantiene identidad aunque cambie la URL</td>
+</tr>
+<tr class="odd">
+<td>Resumen</td>
+<td>Polígonos de parques, plazas y otras áreas verdes de administración
+municipal</td>
+<td>Explica contenido sin abrir el archivo</td>
+</tr>
+<tr class="even">
+<td>Propósito</td>
+<td>Planificación, análisis de cobertura y consulta pública</td>
+<td>Ayuda a evaluar adecuación al uso</td>
+</tr>
+<tr class="odd">
+<td>Responsable</td>
+<td>Unidad de Medio Ambiente</td>
+<td>Identifica custodio temático</td>
+</tr>
+<tr class="even">
+<td>Punto de contacto</td>
+<td><code>datos.territoriales@municipio.cl</code></td>
+<td>Evita depender de una persona</td>
+</tr>
+<tr class="odd">
+<td>Fecha de creación</td>
+<td>2024-03-15</td>
+<td>Diferencia origen de actualización</td>
+</tr>
+<tr class="even">
+<td>Fecha de revisión</td>
+<td>2026-09-20</td>
+<td>Permite conocer control reciente</td>
+</tr>
+<tr class="odd">
+<td>Mantenimiento</td>
+<td>Trimestral y por evento relevante</td>
+<td>Comunica expectativa de vigencia</td>
+</tr>
+<tr class="even">
+<td>Extensión</td>
+<td>BBOX comunal</td>
+<td>Permite búsqueda espacial</td>
+</tr>
+<tr class="odd">
+<td>CRS</td>
+<td>EPSG:32719</td>
+<td>Permite integración geométrica</td>
+</tr>
+<tr class="even">
+<td>Resolución / escala</td>
+<td>Uso recomendado ≥ 1:5.000</td>
+<td>Evita utilizar el recurso fuera de contexto</td>
+</tr>
+<tr class="odd">
+<td>Calidad</td>
+<td>Geometrías válidas; códigos únicos; revisión temática por
+custodio</td>
+<td>Entrega evidencia y limitaciones</td>
+</tr>
+<tr class="even">
+<td>Linaje</td>
+<td>Catastro municipal → normalización → validación → vista pública</td>
+<td>Explica transformaciones</td>
+</tr>
+<tr class="odd">
+<td>Acceso</td>
+<td>Público</td>
+<td>Relaciona política y producto</td>
+</tr>
+<tr class="even">
+<td>Licencia</td>
+<td>CC BY 4.0, si corresponde a la decisión institucional</td>
+<td>Aclara reutilización</td>
+</tr>
+<tr class="odd">
+<td>Distribución</td>
+<td>WMS, descarga GeoPackage y API</td>
+<td>Permite acceder al recurso</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ejemplo-2--redacción-de-un-buen-resumen">Ejemplo 2 — Redacción
+de un buen resumen</h2>
+<p><strong>Débil:</strong></p>
+<blockquote>
+<p>Capa de áreas verdes.</p>
+</blockquote>
+<p><strong>Más útil:</strong></p>
+<blockquote>
+<p>Delimitación poligonal de parques, plazas, bandejones y otras áreas
+verdes de administración municipal de la comuna X. El recurso
+corresponde al corte de septiembre de 2026, se mantiene con periodicidad
+trimestral y se utiliza para análisis de cobertura, planificación
+territorial y consulta pública. No representa propiedad predial ni
+límites jurídicos.</p>
+</blockquote>
+<p>La segunda redacción explica contenido, alcance, fecha, propósito y
+una limitación importante.</p>
+<h2 id="ejemplo-3--linaje-reproducible">Ejemplo 3 — Linaje
+reproducible</h2>
+<pre class="text"><code>1. Fuente: GeoPackage entregado por Unidad de Medio Ambiente.
+2. Carga a schema staging.
+3. Normalización de dominio "tipo".
+4. Validación de geometrías con ST_IsValid.
+5. Transformación al CRS institucional EPSG:32719.
+6. Asignación/validación de identificadores persistentes.
+7. Incorporación a core.areas_verdes.
+8. Generación de publish.areas_verdes con registros activos y campos autorizados.</code></pre>
+<p>El linaje no debería decir simplemente “elaboración propia”. Debe
+permitir comprender de dónde proviene el producto y qué modificaciones
+relevantes recibió.</p>
+<h2 id="ejemplo-4--extensión-espacial-en-forma-explícita">Ejemplo 4 —
+Extensión espacial en forma explícita</h2>
+<p>Un metadato puede expresar una caja envolvente como:</p>
+<pre class="text"><code>Oeste:  -70.70
+Este:   -70.55
+Sur:    -33.55
+Norte:  -33.40
+CRS de la extensión: CRS84 / WGS84 longitud-latitud</code></pre>
+<p>La extensión del metadato debe corresponder al contenido real. Si se
+reutiliza una plantilla de otra comuna sin actualizar el BBOX, el
+catálogo devolverá resultados incorrectos en búsquedas espaciales.</p>
+<h2 id="ejemplo-5--calidad-y-limitaciones">Ejemplo 5 — Calidad y
+limitaciones</h2>
+<p>Un apartado de calidad podría declarar:</p>
+<blockquote>
+<p>Se verificó unicidad del código institucional, presencia de atributos
+obligatorios y validez geométrica. La delimitación proviene de catastros
+municipales de distinta fecha y no debe utilizarse para deslindes
+prediales. La cobertura representa áreas administradas por la
+municipalidad y puede omitir espacios privados de uso público.</p>
+</blockquote>
+<p>Esta declaración es más útil que afirmar “calidad alta”, porque
+explica qué se comprobó y qué no representa el recurso.</p>
+<h2 id="ejemplo-6--relacionar-metadato-con-servicios">Ejemplo 6 —
+Relacionar metadato con servicios</h2>
+<p>El registro debería incluir enlaces que permitan pasar desde el
+descubrimiento al uso:</p>
+<pre class="text"><code>WMS:
+https://geo.ejemplo.cl/geoserver/municipio/wms
+
+OGC API - Features:
+https://api.ejemplo.cl/collections/areas_verdes
+
+Descarga:
+https://datos.ejemplo.cl/areas_verdes/areas_verdes_2026-09.gpkg</code></pre>
+<p>Las URLs anteriores son ejemplos didácticos. En una implementación
+real deben utilizarse los endpoints publicados por el equipo.</p>
+<h2 id="ejemplo-7--qué-actualizar-cuando-cambia-el-recurso">Ejemplo 7 —
+Qué actualizar cuando cambia el recurso</h2>
+<p>Supongamos que el WMS migra a otro dominio y la periodicidad cambia
+de trimestral a mensual. El metadato debe actualizar al menos:</p>
+<ul>
+<li><strong>Distribución.</strong> Reemplazar la URL antigua por la
+nueva para evitar enlaces rotos.</li>
+<li><strong>Mantenimiento.</strong> Cambiar la frecuencia para que
+refleje el proceso real.</li>
+<li><strong>Fecha de revisión.</strong> Registrar cuándo se verificó
+nuevamente el registro.</li>
+<li><strong>Linaje o notas de versión.</strong> Documentar si la
+migración vino acompañada de transformaciones del recurso.</li>
+</ul>
+<h2 id="ejemplo-8--registro-estructurado-simplificado">Ejemplo 8 —
+Registro estructurado simplificado</h2>
+<p>El siguiente YAML no pretende reproducir completamente ISO 19115-1;
+se utiliza para visualizar que un metadato es información estructurada y
+procesable.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="fu">identifier</span><span class="kw">:</span><span class="at"> urn:usach:ide:municipio-x:areas-verdes</span></span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> Áreas verdes públicas de la comuna X — corte septiembre 2026</span></span>
+<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a><span class="fu">description</span><span class="kw">: </span><span class="ch">&gt;</span></span>
+<span id="cb6-4"><a aria-hidden="true" href="#cb6-4" tabindex="-1"></a>  Polígonos de parques, plazas, bandejones y otras áreas verdes</span>
+<span id="cb6-5"><a aria-hidden="true" href="#cb6-5" tabindex="-1"></a>  de administración municipal.</span>
+<span id="cb6-6"><a aria-hidden="true" href="#cb6-6" tabindex="-1"></a><span class="fu">keywords</span><span class="kw">:</span></span>
+<span id="cb6-7"><a aria-hidden="true" href="#cb6-7" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> áreas verdes</span></span>
+<span id="cb6-8"><a aria-hidden="true" href="#cb6-8" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> planificación territorial</span></span>
+<span id="cb6-9"><a aria-hidden="true" href="#cb6-9" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> equipamiento urbano</span></span>
+<span id="cb6-10"><a aria-hidden="true" href="#cb6-10" tabindex="-1"></a><span class="fu">contact</span><span class="kw">:</span></span>
+<span id="cb6-11"><a aria-hidden="true" href="#cb6-11" tabindex="-1"></a><span class="at">  </span><span class="fu">organization</span><span class="kw">:</span><span class="at"> Unidad de Medio Ambiente</span></span>
+<span id="cb6-12"><a aria-hidden="true" href="#cb6-12" tabindex="-1"></a><span class="at">  </span><span class="fu">email</span><span class="kw">:</span><span class="at"> datos.territoriales@municipio.cl</span></span>
+<span id="cb6-13"><a aria-hidden="true" href="#cb6-13" tabindex="-1"></a><span class="fu">dates</span><span class="kw">:</span></span>
+<span id="cb6-14"><a aria-hidden="true" href="#cb6-14" tabindex="-1"></a><span class="at">  </span><span class="fu">created</span><span class="kw">:</span><span class="at"> 2024-03-15</span></span>
+<span id="cb6-15"><a aria-hidden="true" href="#cb6-15" tabindex="-1"></a><span class="at">  </span><span class="fu">revised</span><span class="kw">:</span><span class="at"> 2026-09-20</span></span>
+<span id="cb6-16"><a aria-hidden="true" href="#cb6-16" tabindex="-1"></a><span class="fu">spatial</span><span class="kw">:</span></span>
+<span id="cb6-17"><a aria-hidden="true" href="#cb6-17" tabindex="-1"></a><span class="at">  </span><span class="fu">bbox</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="fl">-70.70</span><span class="kw">,</span><span class="at"> </span><span class="fl">-33.55</span><span class="kw">,</span><span class="at"> </span><span class="fl">-70.55</span><span class="kw">,</span><span class="at"> </span><span class="fl">-33.40</span><span class="kw">]</span></span>
+<span id="cb6-18"><a aria-hidden="true" href="#cb6-18" tabindex="-1"></a><span class="at">  </span><span class="fu">crs</span><span class="kw">:</span><span class="at"> EPSG:32719</span></span>
+<span id="cb6-19"><a aria-hidden="true" href="#cb6-19" tabindex="-1"></a><span class="fu">maintenance</span><span class="kw">:</span><span class="at"> trimestral</span></span>
+<span id="cb6-20"><a aria-hidden="true" href="#cb6-20" tabindex="-1"></a><span class="fu">license</span><span class="kw">:</span><span class="at"> CC-BY-4.0</span></span>
+<span id="cb6-21"><a aria-hidden="true" href="#cb6-21" tabindex="-1"></a><span class="fu">access</span><span class="kw">:</span><span class="at"> public</span></span></code></pre></div>
+<p>La estructura permite imaginar cómo un catálogo puede indexar título,
+palabras clave, responsable, BBOX, fechas y condiciones de acceso.</p>
+<h2 id="ejercicio-de-revisión-por-pares">Ejercicio de revisión por
+pares</h2>
+<p>Entregar deliberadamente un metadato con cuatro inconsistencias: URL
+antigua, fecha distinta al dataset, CRS incorrecto y licencia
+incompatible con la política de Semana 3. Otro grupo debe detectarlas y
+justificar la corrección usando evidencia del recurso real.</p>
+<hr/>
+<h1 id="24-laboratorio-6--fichas-de-metadatos">24. Laboratorio 6 —
+Fichas de metadatos</h1>
+<h2 id="241-selección-de-recursos">24.1. Selección de recursos</h2>
+<p>Elegir al menos tres datasets del proyecto, idealmente con
+características diferentes: uno público, uno restringido y uno producto
+derivado.</p>
+<h2 id="242-ficha-manual">24.2. Ficha manual</h2>
+<p>Completar título, resumen, responsables, fechas, extensión, CRS,
+calidad, linaje, restricciones, licencia, mantenimiento y distribución.
+Si un valor no es conocido, registrar la brecha y la unidad que debe
+resolverla.</p>
+<h2 id="243-revisión-contra-la-fuente">24.3. Revisión contra la
+fuente</h2>
+<p>Comparar metadato con estructura real, CRS, número de registros,
+extensión y versión. El objetivo es detectar descripciones heredadas que
+ya no corresponden al producto.</p>
+<h2 id="244-revisión-por-pares">24.4. Revisión por pares</h2>
+<p>Otro grupo debe responder, utilizando únicamente el metadato, qué
+contiene el recurso, si sirve para un caso propuesto y cómo acceder. Las
+dudas detectadas se transforman en mejoras del registro.</p>
+<h2 id="245-registro-en-catálogo-de-práctica">24.5. Registro en catálogo
+de práctica</h2>
+<p>Crear o simular el ingreso en GeoNetwork, Geonodo u otra plataforma
+compatible, observando cómo el formulario representa elementos del
+perfil.</p>
+<hr/>
+<h1 id="25-entregable-de-la-semana-6">25. Entregable de la Semana 6</h1>
+<p>El entregable debe contener al menos tres fichas completas, checklist
+de calidad, evidencia de revisión por pares y una matriz de
+correspondencia entre dato, metadato, restricciones y futuro
+servicio.</p>
+<p>Debe incluir una sección de “brechas de información” que indique qué
+campos no pudieron completarse y qué decisión o responsable se necesita
+para resolverlos.</p>
+<hr/>
+<h1 id="26-secuencia-sugerida-para-las-4-horas-teóricas">26. Secuencia
+sugerida para las 4 horas teóricas</h1>
+<ul>
+<li><strong>Bloque 1 — 45 minutos.</strong> Propósito de metadatos y
+diferencia entre descubrimiento, evaluación y uso.</li>
+<li><strong>Bloque 2 — 60 minutos.</strong> ISO 19115-1 y categorías
+principales, utilizando un registro real como ejemplo.</li>
+<li><strong>Bloque 3 — 45 minutos.</strong> Perfil Chileno e IDE Chile,
+comparando campos obligatorios con el proyecto.</li>
+<li><strong>Bloque 4 — 30 minutos.</strong> Calidad, linaje y relación
+con Semana 5.</li>
+<li><strong>Bloque 5 — 30 minutos.</strong> Restricciones, licencias,
+responsables y mantenimiento.</li>
+<li><strong>Bloque 6 — 30 minutos.</strong> Laboratorio, revisión por
+pares y criterios de calidad.</li>
+</ul>
+<hr/>
+<h1 id="27-preguntas-de-cierre">27. Preguntas de cierre</h1>
+<h2 id="metadatos-y-diccionario-de-datos-son-lo-mismo">¿Metadatos y
+diccionario de datos son lo mismo?</h2>
+<p>No. El metadato describe el recurso como unidad; el diccionario
+documenta campos y estructuras internas. Son complementarios y atienden
+preguntas diferentes.</p>
+<h2 id="un-metadato-puede-estar-bien-si-el-enlace-de-distribución-está-roto">¿Un
+metadato puede estar “bien” si el enlace de distribución está roto?</h2>
+<p>No. La distribución forma parte de la capacidad de uso. Un catálogo
+que encuentra recursos inaccesibles pierde confianza.</p>
+<h2 id="qué-ocurre-si-el-recurso-cambia-y-el-metadato-no">¿Qué ocurre si
+el recurso cambia y el metadato no?</h2>
+<p>Se pierde coherencia y el usuario puede tomar decisiones basadas en
+una descripción obsoleta. Por eso el mantenimiento debe integrarse al
+flujo de publicación.</p>
+<h2 id="debe-inventarse-una-precisión-si-no-se-conoce">¿Debe inventarse
+una precisión si no se conoce?</h2>
+<p>No. Debe declararse la brecha o limitación. La transparencia sobre lo
+desconocido es preferible a entregar una cifra no respaldada.</p>
+<hr/>
+<h1 id="28-errores-frecuentes">28. Errores frecuentes</h1>
+<ul>
+<li><strong>“Metadato es título y resumen”.</strong> El usuario necesita
+contexto suficiente para descubrir, evaluar y utilizar.</li>
+<li><strong>“Se completa una sola vez”.</strong> Los registros deben
+mantenerse junto con el recurso.</li>
+<li><strong>“Más campos siempre es mejor”.</strong> El valor está en
+relevancia, consistencia y calidad, no en llenar formularios sin
+propósito.</li>
+<li><strong>“El metadato puede describir lo que queremos que sea el
+dato”.</strong> Debe describir la realidad disponible y sus
+limitaciones.</li>
+</ul>
+<hr/>
+<h1 id="29-glosario">29. Glosario</h1>
+<table>
+<thead>
+<tr class="header">
 <th>Concepto</th>
 <th>Definición</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Metadato</td>
 <td>Descripción estructurada de un recurso</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Perfil</td>
 <td>Adaptación de un estándar a una comunidad</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Linaje</td>
 <td>Origen y transformaciones del recurso</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Distribución</td>
 <td>Mecanismo para obtener o consumir</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Extensión</td>
 <td>Cobertura espacial o temporal</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Mantenimiento</td>
 <td>Frecuencia y política de actualización</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Palabra clave</td>
 <td>Término utilizado para clasificación y búsqueda</td>
 </tr>
 </tbody>
 </table>
 <hr/>
-<h1>30. Trabajo autónomo</h1>
-<p>Preparar los registros para incorporarlos a un catálogo y definir palabras clave, temas, identificadores y relaciones entre datos, servicios y metadatos. Cada equipo debe revisar al menos un catálogo externo para observar cómo presenta enlaces, restricciones y responsables.</p>
+<h1 id="30-trabajo-autónomo">30. Trabajo autónomo</h1>
+<p>Preparar los registros para incorporarlos a un catálogo y definir
+palabras clave, temas, identificadores y relaciones entre datos,
+servicios y metadatos. Cada equipo debe revisar al menos un catálogo
+externo para observar cómo presenta enlaces, restricciones y
+responsables.</p>
 <hr/>
-<h1>31. Referencias</h1>
-<p><strong>[R1]</strong> ISO. <em>ISO 19115-1:2014 — Geographic information — Metadata — Part 1: Fundamentals</em>.<br/>
+<h1 id="31-referencias">31. Referencias</h1>
+<p><strong>[R1]</strong> ISO. <em>ISO 19115-1:2014 — Geographic
+information — Metadata — Part 1: Fundamentals</em>.<br/>
 <a href="https://www.iso.org/standard/53798.html">https://www.iso.org/standard/53798.html</a></p>
-<p><strong>[R2]</strong> IDE Chile. <em>Documentos técnicos, metadatos y herramientas</em>.<br/>
+<p><strong>[R2]</strong> IDE Chile. <em>Documentos técnicos, metadatos y
+herramientas</em>.<br/>
 <a href="https://www.ide.cl/">https://www.ide.cl/</a></p>
 <p><strong>[R3]</strong> GeoNetwork Documentation.<br/>
 <a href="https://docs.geonetwork-opensource.org/">https://docs.geonetwork-opensource.org/</a></p>
-<p><strong>[R4]</strong> ISO. <em>ISO 19157-1:2023 — Data quality</em>.<br/>
+<p><strong>[R4]</strong> ISO. <em>ISO 19157-1:2023 — Data
+quality</em>.<br/>
 <a href="https://www.iso.org/standard/78900.html">https://www.iso.org/standard/78900.html</a></p>
 <hr/>
-<h1>32. Síntesis final</h1>
-<p>Un recurso publicable no está completo hasta que otra persona puede descubrirlo, comprenderlo y evaluar si sirve para su propósito. Los metadatos convierten conocimiento implícito en información institucional reutilizable y deben mantenerse como parte del producto, no como documentación separada y estática.</p>
-<div class="weeknav"><a href="Semana_05_Preparacion_Datos_Base_Espacial.html">← Semana 5</a><a href="../index.html">Índice del curso</a><a href="Semana_07_Catalogos_Descubrimiento_OGC_API_Records.html">Semana 7 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
+<h1 id="32-síntesis-final">32. Síntesis final</h1>
+<p>Un recurso publicable no está completo hasta que otra persona puede
+descubrirlo, comprenderlo y evaluar si sirve para su propósito. Los
+metadatos convierten conocimiento implícito en información institucional
+reutilizable y deben mantenerse como parte del producto, no como
+documentación separada y estática.</p>
+<div class="weeknav"><a href="Semana_05_Preparacion_Datos_Base_Espacial.html">← Semana 05</a><a href="Semana_07_Catalogos_Descubrimiento_OGC_API_Records.html">Semana 07 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

@@ -1,40 +1,67 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 15 — Monitoreo, registros, disponibilidad, respaldo, recuperación y continuidad operativa</title><style>
-:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
-a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_15_Monitoreo_Logs_Backup_Recuperacion.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="sub" href="#ejemplo-wms-no-responde">Ejemplo: WMS no responde</a><a class="sub" href="#ejemplo-4">Ejemplo</a><a class="sub" href="#ejemplo-5">Ejemplo</a><a class="sub" href="#ejemplo-6">Ejemplo</a><a class="" href="#23-1-metricas">23.1. Métricas</a><a class="" href="#23-2-logs">23.2. Logs</a><a class="" href="#23-3-alerta">23.3. Alerta</a><a class="" href="#23-4-backup">23.4. Backup</a><a class="" href="#23-5-restore">23.5. Restore</a><a class="" href="#23-6-cronometrar">23.6. Cronometrar</a><a class="" href="#backup-exitoso-significa-recuperacion-garantizada">¿Backup exitoso significa recuperación garantizada?</a><a class="" href="#un-proceso-activo-significa-servicio-disponible">¿Un proceso activo significa servicio disponible?</a><a class="" href="#por-que-demasiadas-alertas-son-un-problema">¿Por qué demasiadas alertas son un problema?</a></aside><main><h1>Semana 15 — Monitoreo, registros, disponibilidad, respaldo, recuperación y continuidad operativa</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 4 — Despliegue, administración y validación operativa</div></div>
-
-
-<h1>1. Marco de la semana</h1>
-<p>La Semana 15 desarrolla registro de eventos, monitoreo, disponibilidad, capacidad, rendimiento, caché, límites de uso y diagnóstico de fallos. También aborda respaldo y recuperación de datos, metadatos, configuraciones y estilos; versionamiento, actualización y continuidad operativa.</p>
-<p>Estos contenidos retoman la sostenibilidad trabajada conceptualmente en Semana 2 y la convierten en evidencia operacional.</p>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito">2. Propósito</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-observabilidad">4. Observabilidad</a><a class="" href="#5-disponibilidad">5. Disponibilidad</a><a class="" href="#6-rendimiento">6. Rendimiento</a><a class="" href="#7-capacidad">7. Capacidad</a><a class="" href="#8-logs">8. Logs</a><a class="" href="#9-severidad">9. Severidad</a><a class="" href="#10-correlación">10. Correlación</a><a class="" href="#11-alertas">11. Alertas</a><a class="" href="#12-sli-y-slo-como-conceptos-complementarios">12. SLI y SLO como
+conceptos complementarios</a><a class="" href="#13-diagnóstico-de-fallos">13. Diagnóstico de fallos</a><a class="" href="#14-límites-de-uso">14. Límites de uso</a><a class="" href="#15-respaldo">15. Respaldo</a><a class="" href="#16-tipos-de-respaldo">16. Tipos de respaldo</a><a class="" href="#17-regla-3-2-1-como-referencia-práctica">17. Regla 3-2-1 como
+referencia práctica</a><a class="" href="#18-rpo-y-rto">18. RPO y RTO</a><a class="" href="#19-prueba-de-recuperación">19. Prueba de recuperación</a><a class="" href="#20-versionamiento-y-rollback">20. Versionamiento y rollback</a><a class="" href="#21-actualizaciones-y-mantenimiento">21. Actualizaciones y
+mantenimiento</a><a class="" href="#22-caso-integrador">22. Caso integrador</a><a class="" href="#casos-técnicos-guiados--monitoreo-logs-y-recuperación">Casos
+técnicos guiados — Monitoreo, logs y recuperación</a><a class="sub" href="#ejemplo-1--métricas-básicas-de-una-api">Ejemplo 1 — Métricas
+básicas de una API</a><a class="sub" href="#ejemplo-2--consultas-promql">Ejemplo 2 — Consultas PromQL</a><a class="sub" href="#ejemplo-3--disponibilidad-funcional">Ejemplo 3 — Disponibilidad
+funcional</a><a class="sub" href="#ejemplo-4--logs-estructurados">Ejemplo 4 — Logs
+estructurados</a><a class="sub" href="#ejemplo-5--consulta-de-logs-con-loki">Ejemplo 5 — Consulta de
+logs con Loki</a><a class="sub" href="#ejemplo-6--alerta-de-servicio-degradado">Ejemplo 6 — Alerta de
+servicio degradado</a><a class="sub" href="#ejemplo-7--backup-lógico-postgresql">Ejemplo 7 — Backup lógico
+PostgreSQL</a><a class="sub" href="#ejemplo-8--prueba-real-de-restauración">Ejemplo 8 — Prueba real
+de restauración</a><a class="sub" href="#ejemplo-9--rpo-y-rto-concretos">Ejemplo 9 — RPO y RTO
+concretos</a><a class="sub" href="#ejemplo-10--pitr-como-referencia-avanzada">Ejemplo 10 — PITR
+como referencia avanzada</a><a class="sub" href="#ejemplo-11--dashboard-mínimo">Ejemplo 11 — Dashboard mínimo</a><a class="sub" href="#ejercicio-de-incidente">Ejercicio de incidente</a><a class="" href="#23-laboratorio-15--observar-y-recuperar">23. Laboratorio 15 —
+Observar y recuperar</a><a class="sub" href="#231-métricas">23.1. Métricas</a><a class="sub" href="#232-logs">23.2. Logs</a><a class="sub" href="#233-alerta">23.3. Alerta</a><a class="sub" href="#234-backup">23.4. Backup</a><a class="sub" href="#235-restore">23.5. Restore</a><a class="sub" href="#236-cronometrar">23.6. Cronometrar</a><a class="" href="#24-entregable">24. Entregable</a><a class="" href="#25-secuencia-sugerida">25. Secuencia sugerida</a><a class="" href="#26-preguntas-de-cierre">26. Preguntas de cierre</a><a class="sub" href="#backup-exitoso-significa-recuperación-garantizada">¿Backup
+exitoso significa recuperación garantizada?</a><a class="sub" href="#un-proceso-activo-significa-servicio-disponible">¿Un proceso
+activo significa servicio disponible?</a><a class="sub" href="#por-qué-demasiadas-alertas-son-un-problema">¿Por qué demasiadas
+alertas son un problema?</a><a class="" href="#27-errores-frecuentes">27. Errores frecuentes</a><a class="" href="#28-glosario">28. Glosario</a><a class="" href="#29-trabajo-autónomo">29. Trabajo autónomo</a><a class="" href="#30-referencias">30. Referencias</a><a class="sub" href="#r6-postgresql-documentation-continuous-archiving-and-point-in-time-recovery-httpswwwpostgresqlorgdocscurrentcontinuous-archivinghtml">[R6] PostgreSQL Documentation. Continuous Archiving and Point-in-Time
+Recovery . https://www.postgresql.org/docs/current/continuous-archiving.html</a><a class="" href="#31-síntesis">31. Síntesis</a></aside><main><h1>Semana 15 — Monitoreo, registros, disponibilidad, respaldo, recuperación y continuidad operativa</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales  </div><div class="label">Código</div><div>12436  </div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática  </div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental  </div><div class="label">Unidad</div><div>Unidad 4 — Despliegue, administración y validación operativa</div></div><h1 id="1-marco-de-la-semana">1. Marco de la semana</h1>
+<p>La Semana 15 desarrolla registro de eventos, monitoreo,
+disponibilidad, capacidad, rendimiento, caché, límites de uso y
+diagnóstico de fallos. También aborda respaldo y recuperación de datos,
+metadatos, configuraciones y estilos; versionamiento, actualización y
+continuidad operativa.</p>
+<p>Estos contenidos retoman la sostenibilidad trabajada conceptualmente
+en Semana 2 y la convierten en evidencia operacional.</p>
 <hr/>
-<h1>2. Propósito</h1>
+<h1 id="2-propósito">2. Propósito</h1>
 <p>Una IDE en producción debe responder dos preguntas:</p>
-<ol>
+<ol type="1">
 <li>¿Sabemos cuándo algo está fallando o degradándose?</li>
 <li>¿Podemos recuperar la capacidad cuando ocurre una interrupción?</li>
 </ol>
-<p>Monitoreo y respaldo no deben ser tareas aisladas. Forman parte de un ciclo de operación que detecta, diagnostica, corrige y aprende.</p>
+<p>Monitoreo y respaldo no deben ser tareas aisladas. Forman parte de un
+ciclo de operación que detecta, diagnostica, corrige y aprende.</p>
 <hr/>
-<h1>3. Resultados de aprendizaje</h1>
-<p>Al finalizar la semana, el estudiante deberá definir indicadores de disponibilidad y capacidad, centralizar o revisar logs, construir alertas simples, analizar fallas, ejecutar respaldos y demostrar recuperación de al menos un componente crítico.</p>
-<p>También deberá relacionar criticidad con RPO/RTO y documentar procedimientos de continuidad.</p>
+<h1 id="3-resultados-de-aprendizaje">3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá definir indicadores de
+disponibilidad y capacidad, centralizar o revisar logs, construir
+alertas simples, analizar fallas, ejecutar respaldos y demostrar
+recuperación de al menos un componente crítico.</p>
+<p>También deberá relacionar criticidad con RPO/RTO y documentar
+procedimientos de continuidad.</p>
 <hr/>
-<h1>4. Observabilidad</h1>
-<p>La observabilidad es la capacidad de comprender el estado interno de un sistema a partir de sus salidas. Se apoya habitualmente en métricas, logs y trazas.</p>
-<p>En el curso se enfatizarán métricas y logs porque resultan suficientes para el alcance del proyecto.</p>
-<div class="mermaid">flowchart LR
+<h1 id="4-observabilidad">4. Observabilidad</h1>
+<p>La observabilidad es la capacidad de comprender el estado interno de
+un sistema a partir de sus salidas. Se apoya habitualmente en métricas,
+logs y trazas.</p>
+<p>En el curso se enfatizarán métricas y logs porque resultan
+suficientes para el alcance del proyecto.</p>
+<pre class="mermaid">flowchart LR
     S["Servicios"] --&gt; M["Métricas"]
     S --&gt; L["Logs"]
     M --&gt; O["Observación"]
     L --&gt; O
-    O --&gt; A["Alertas / diagnóstico"]
-</div>
-<p>Una plataforma sin observabilidad obliga a esperar que un usuario reporte la falla.</p>
+    O --&gt; A["Alertas / diagnóstico"]</pre>
+<p>Una plataforma sin observabilidad obliga a esperar que un usuario
+reporte la falla.</p>
 <hr/>
-<h1>5. Disponibilidad</h1>
-<p>La disponibilidad debe medirse desde la perspectiva de una capacidad útil. Un proceso puede estar activo y no responder correctamente.</p>
+<h1 id="5-disponibilidad">5. Disponibilidad</h1>
+<p>La disponibilidad debe medirse desde la perspectiva de una capacidad
+útil. Un proceso puede estar activo y no responder correctamente.</p>
 <p>Pruebas posibles:</p>
 <ul>
 <li>Endpoint HTTP;</li>
@@ -43,20 +70,30 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Conexión a base;</li>
 <li>Página del visor.</li>
 </ul>
-<p>La prueba elegida debe representar el servicio que importa al usuario.</p>
+<p>La prueba elegida debe representar el servicio que importa al
+usuario.</p>
 <hr/>
-<h1>6. Rendimiento</h1>
-<p>El monitoreo de rendimiento puede incluir tiempos de respuesta, percentiles, tasa de solicitudes, errores y tamaño de respuestas.</p>
-<p>El promedio puede ocultar problemas. Por ejemplo, la mayoría de solicitudes puede ser rápida mientras un subconjunto tarda mucho. Aunque el curso no profundice en estadística de SRE, conviene observar distribución y peores casos relevantes.</p>
+<h1 id="6-rendimiento">6. Rendimiento</h1>
+<p>El monitoreo de rendimiento puede incluir tiempos de respuesta,
+percentiles, tasa de solicitudes, errores y tamaño de respuestas.</p>
+<p>El promedio puede ocultar problemas. Por ejemplo, la mayoría de
+solicitudes puede ser rápida mientras un subconjunto tarda mucho. Aunque
+el curso no profundice en estadística de SRE, conviene observar
+distribución y peores casos relevantes.</p>
 <hr/>
-<h1>7. Capacidad</h1>
-<p>La capacidad incluye recursos como CPU, memoria, almacenamiento, conexiones de base y crecimiento de datos.</p>
-<p>Una alerta de disco al 100% llega demasiado tarde. Se deben establecer umbrales que permitan reaccionar antes.</p>
+<h1 id="7-capacidad">7. Capacidad</h1>
+<p>La capacidad incluye recursos como CPU, memoria, almacenamiento,
+conexiones de base y crecimiento de datos.</p>
+<p>Una alerta de disco al 100% llega demasiado tarde. Se deben
+establecer umbrales que permitan reaccionar antes.</p>
 <h3 id="ejemplo">Ejemplo</h3>
-<p>Si el almacenamiento crece 10 GB al mes y quedan 20 GB, la organización tiene aproximadamente dos meses para actuar, asumiendo crecimiento similar.</p>
+<p>Si el almacenamiento crece 10 GB al mes y quedan 20 GB, la
+organización tiene aproximadamente dos meses para actuar, asumiendo
+crecimiento similar.</p>
 <hr/>
-<h1>8. Logs</h1>
-<p>Los logs registran eventos de aplicación y sistema. Deben contener suficiente contexto para diagnóstico sin exponer secretos.</p>
+<h1 id="8-logs">8. Logs</h1>
+<p>Los logs registran eventos de aplicación y sistema. Deben contener
+suficiente contexto para diagnóstico sin exponer secretos.</p>
 <p>Un log útil puede incluir:</p>
 <ul>
 <li>Fecha/hora;</li>
@@ -66,21 +103,32 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Mensaje;</li>
 <li>Contexto no sensible.</li>
 </ul>
-<p>Un mensaje como <code>Error</code> sin contexto aporta poco. Un log con contraseña completa aporta demasiado y genera riesgo.</p>
+<p>Un mensaje como <code>Error</code> sin contexto aporta poco. Un log
+con contraseña completa aporta demasiado y genera riesgo.</p>
 <hr/>
-<h1>9. Severidad</h1>
-<p>Las organizaciones suelen diferenciar niveles como DEBUG, INFO, WARN y ERROR. La semántica concreta depende de la plataforma.</p>
-<p>En producción, registrar cada detalle puede generar grandes volúmenes. Debe encontrarse un equilibrio entre capacidad de diagnóstico, costo y privacidad.</p>
-<p>Los eventos de seguridad pueden requerir retención y acceso diferente de los logs operativos generales.</p>
+<h1 id="9-severidad">9. Severidad</h1>
+<p>Las organizaciones suelen diferenciar niveles como DEBUG, INFO, WARN
+y ERROR. La semántica concreta depende de la plataforma.</p>
+<p>En producción, registrar cada detalle puede generar grandes
+volúmenes. Debe encontrarse un equilibrio entre capacidad de
+diagnóstico, costo y privacidad.</p>
+<p>Los eventos de seguridad pueden requerir retención y acceso diferente
+de los logs operativos generales.</p>
 <hr/>
-<h1>10. Correlación</h1>
-<p>Cuando una solicitud atraviesa proxy, API y base, puede ser difícil unir eventos. Un identificador de correlación permite seguir la misma operación a través de componentes.</p>
-<h3 id="ejemplo-2">Ejemplo</h3>
-<p>El usuario recibe un error con ID <code>req-123</code>. El equipo busca ese identificador en proxy y aplicación para reconstruir el recorrido.</p>
-<p>Esto reduce tiempo de diagnóstico y evita depender únicamente de hora aproximada.</p>
+<h1 id="10-correlación">10. Correlación</h1>
+<p>Cuando una solicitud atraviesa proxy, API y base, puede ser difícil
+unir eventos. Un identificador de correlación permite seguir la misma
+operación a través de componentes.</p>
+<h3 id="ejemplo-1">Ejemplo</h3>
+<p>El usuario recibe un error con ID <code>req-123</code>. El equipo
+busca ese identificador en proxy y aplicación para reconstruir el
+recorrido.</p>
+<p>Esto reduce tiempo de diagnóstico y evita depender únicamente de hora
+aproximada.</p>
 <hr/>
-<h1>11. Alertas</h1>
-<p>Una alerta debe indicar una condición que requiere atención. Alertar por todo genera fatiga y hace que los avisos importantes se ignoren.</p>
+<h1 id="11-alertas">11. Alertas</h1>
+<p>Una alerta debe indicar una condición que requiere atención. Alertar
+por todo genera fatiga y hace que los avisos importantes se ignoren.</p>
 <p>Una buena alerta debería tener:</p>
 <ul>
 <li>Condición clara;</li>
@@ -89,20 +137,26 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Contexto;</li>
 <li>Acción inicial sugerida.</li>
 </ul>
-<h3 id="ejemplo-3">Ejemplo</h3>
-<p>“WMS no responde GetCapabilities durante 5 minutos — severidad alta — revisar proxy y GeoServer”.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p>“WMS no responde GetCapabilities durante 5 minutos — severidad alta —
+revisar proxy y GeoServer”.</p>
 <hr/>
-<h1>12. SLI y SLO como conceptos complementarios</h1>
-<p>Un SLI es un indicador de nivel de servicio; un SLO es un objetivo asociado. Estos conceptos permiten expresar expectativas de forma medible.</p>
+<h1 id="12-sli-y-slo-como-conceptos-complementarios">12. SLI y SLO como
+conceptos complementarios</h1>
+<p>Un SLI es un indicador de nivel de servicio; un SLO es un objetivo
+asociado. Estos conceptos permiten expresar expectativas de forma
+medible.</p>
 <p>Ejemplo didáctico:</p>
 <p><strong>SLI:</strong> porcentaje de solicitudes WMS exitosas.</p>
-<p><strong>SLO:</strong> mantener al menos X% de éxito dentro del periodo acordado.</p>
-<p>El curso no necesita implementar un programa SRE completo, pero esta distinción ayuda a diseñar SLA y medición coherente.</p>
+<p><strong>SLO:</strong> mantener al menos X% de éxito dentro del
+periodo acordado.</p>
+<p>El curso no necesita implementar un programa SRE completo, pero esta
+distinción ayuda a diseñar SLA y medición coherente.</p>
 <hr/>
-<h1>13. Diagnóstico de fallos</h1>
+<h1 id="13-diagnóstico-de-fallos">13. Diagnóstico de fallos</h1>
 <p>Un diagnóstico efectivo sigue hipótesis y evidencia.</p>
 <h3 id="ejemplo-wms-no-responde">Ejemplo: WMS no responde</h3>
-<ol>
+<ol type="1">
 <li>Probar DNS y HTTPS.</li>
 <li>Probar proxy.</li>
 <li>Revisar salud de GeoServer.</li>
@@ -110,10 +164,12 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Revisar logs.</li>
 <li>Verificar cambios recientes.</li>
 </ol>
-<p>Cambiar componentes al azar puede empeorar el incidente y eliminar evidencia.</p>
+<p>Cambiar componentes al azar puede empeorar el incidente y eliminar
+evidencia.</p>
 <hr/>
-<h1>14. Límites de uso</h1>
-<p>Las APIs y servicios pueden necesitar límites para proteger capacidad.</p>
+<h1 id="14-límites-de-uso">14. Límites de uso</h1>
+<p>Las APIs y servicios pueden necesitar límites para proteger
+capacidad.</p>
 <p>Ejemplos:</p>
 <ul>
 <li>Máximo de features por respuesta;</li>
@@ -122,10 +178,13 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Rate limit;</li>
 <li>Concurrencia.</li>
 </ul>
-<p>Los límites deben documentarse para que clientes puedan diseñar un consumo adecuado.</p>
+<p>Los límites deben documentarse para que clientes puedan diseñar un
+consumo adecuado.</p>
 <hr/>
-<h1>15. Respaldo</h1>
-<p>Un respaldo es una copia recuperable de información o configuración. La estrategia debe definir qué, cuándo, dónde y cuánto tiempo conservar.</p>
+<h1 id="15-respaldo">15. Respaldo</h1>
+<p>Un respaldo es una copia recuperable de información o configuración.
+La estrategia debe definir qué, cuándo, dónde y cuánto tiempo
+conservar.</p>
 <p>En una IDE pueden requerir respaldo:</p>
 <ul>
 <li>Bases espaciales;</li>
@@ -137,25 +196,42 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Archivos de despliegue;</li>
 <li>Documentación crítica.</li>
 </ul>
-<p>Respaldar solo la base puede ser insuficiente para restaurar el servicio completo.</p>
+<p>Respaldar solo la base puede ser insuficiente para restaurar el
+servicio completo.</p>
 <hr/>
-<h1>16. Tipos de respaldo</h1>
-<p>Puede existir respaldo lógico de base, copia física, snapshots de volumen y exportaciones de configuraciones. Cada mecanismo tiene ventajas y limitaciones.</p>
-<p>El curso debe centrarse en comprender recuperación, no en declarar un tipo universalmente superior.</p>
+<h1 id="16-tipos-de-respaldo">16. Tipos de respaldo</h1>
+<p>Puede existir respaldo lógico de base, copia física, snapshots de
+volumen y exportaciones de configuraciones. Cada mecanismo tiene
+ventajas y limitaciones.</p>
+<p>El curso debe centrarse en comprender recuperación, no en declarar un
+tipo universalmente superior.</p>
+<h3 id="ejemplo-3">Ejemplo</h3>
+<p><code>pg_dump</code> permite respaldo lógico de PostgreSQL y puede
+restaurarse en otro servidor compatible, mientras snapshots pueden ser
+más rápidos para ciertos escenarios pero dependen más de la
+plataforma.</p>
+<hr/>
+<h1 id="17-regla-3-2-1-como-referencia-práctica">17. Regla 3-2-1 como
+referencia práctica</h1>
+<p>Una recomendación común de respaldo es mantener múltiples copias, en
+medios o ubicaciones diferentes y al menos una separada del entorno
+principal.</p>
+<p>No debe adoptarse mecánicamente como única política, pero ayuda a
+recordar que una copia en el mismo disco del servidor no protege frente
+a fallas del disco o del servidor completo.</p>
+<hr/>
+<h1 id="18-rpo-y-rto">18. RPO y RTO</h1>
+<p><strong>RPO</strong> representa cuánta pérdida temporal de datos
+puede tolerarse. <strong>RTO</strong> representa cuánto tiempo puede
+permanecer interrumpido el servicio antes de recuperarse.</p>
 <h3 id="ejemplo-4">Ejemplo</h3>
-<p><code>pg_dump</code> permite respaldo lógico de PostgreSQL y puede restaurarse en otro servidor compatible, mientras snapshots pueden ser más rápidos para ciertos escenarios pero dependen más de la plataforma.</p>
+<p>Si una capa cambia una vez al mes, un RPO diario puede ser
+suficiente. Para registros operativos continuos puede ser
+insuficiente.</p>
+<p>Estos objetivos deben derivarse de criticidad y costo, no de un
+número estándar para todos los componentes.</p>
 <hr/>
-<h1>17. Regla 3-2-1 como referencia práctica</h1>
-<p>Una recomendación común de respaldo es mantener múltiples copias, en medios o ubicaciones diferentes y al menos una separada del entorno principal.</p>
-<p>No debe adoptarse mecánicamente como única política, pero ayuda a recordar que una copia en el mismo disco del servidor no protege frente a fallas del disco o del servidor completo.</p>
-<hr/>
-<h1>18. RPO y RTO</h1>
-<p><strong>RPO</strong> representa cuánta pérdida temporal de datos puede tolerarse. <strong>RTO</strong> representa cuánto tiempo puede permanecer interrumpido el servicio antes de recuperarse.</p>
-<h3 id="ejemplo-5">Ejemplo</h3>
-<p>Si una capa cambia una vez al mes, un RPO diario puede ser suficiente. Para registros operativos continuos puede ser insuficiente.</p>
-<p>Estos objetivos deben derivarse de criticidad y costo, no de un número estándar para todos los componentes.</p>
-<hr/>
-<h1>19. Prueba de recuperación</h1>
+<h1 id="19-prueba-de-recuperación">19. Prueba de recuperación</h1>
 <p>Un respaldo no está validado hasta que se restaura.</p>
 <p>La prueba debe verificar:</p>
 <ul>
@@ -166,27 +242,32 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Servicio final;</li>
 <li>Tiempo real de recuperación.</li>
 </ul>
-<h3 id="ejemplo-6">Ejemplo</h3>
-<p>Restaurar la base y confirmar que WMS vuelve a entregar la capa. Si la base se recupera pero faltan estilos o configuración, la capacidad completa no fue restaurada.</p>
+<h3 id="ejemplo-5">Ejemplo</h3>
+<p>Restaurar la base y confirmar que WMS vuelve a entregar la capa. Si
+la base se recupera pero faltan estilos o configuración, la capacidad
+completa no fue restaurada.</p>
 <hr/>
-<h1>20. Versionamiento y rollback</h1>
+<h1 id="20-versionamiento-y-rollback">20. Versionamiento y rollback</h1>
 <p>Cambios de configuración y despliegue deberían poder revertirse.</p>
-<p>Un rollback no siempre significa restaurar un respaldo completo; puede consistir en volver a una imagen, versión de configuración o migración anterior.</p>
-<p>La estrategia debe considerar compatibilidad de datos. Una aplicación antigua puede no funcionar con un esquema nuevo.</p>
+<p>Un rollback no siempre significa restaurar un respaldo completo;
+puede consistir en volver a una imagen, versión de configuración o
+migración anterior.</p>
+<p>La estrategia debe considerar compatibilidad de datos. Una aplicación
+antigua puede no funcionar con un esquema nuevo.</p>
 <hr/>
-<h1>21. Actualizaciones y mantenimiento</h1>
+<h1 id="21-actualizaciones-y-mantenimiento">21. Actualizaciones y
+mantenimiento</h1>
 <p>Las actualizaciones deben planificarse, probarse y registrarse.</p>
 <p>Un ciclo básico:</p>
-<div class="mermaid">flowchart LR
+<pre class="mermaid">flowchart LR
     A["Nueva versión"] --&gt; B["Prueba"]
     B --&gt; C["Respaldo / punto de retorno"]
     C --&gt; D["Despliegue"]
     D --&gt; E["Verificación"]
-    E --&gt; F["Cerrar o revertir"]
-</div>
+    E --&gt; F["Cerrar o revertir"]</pre>
 <p>El monitoreo posterior confirma que no aparecieron regresiones.</p>
 <hr/>
-<h1>22. Caso integrador</h1>
+<h1 id="22-caso-integrador">22. Caso integrador</h1>
 <p>El equipo define:</p>
 <ul>
 <li>Monitoreo de WMS, API y catálogo;</li>
@@ -198,101 +279,307 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Prueba de restore mensual simulada;</li>
 <li>Procedimiento de recuperación.</li>
 </ul>
-<p>El ejercicio debe demostrar al menos una restauración real en el laboratorio.</p>
+<p>El ejercicio debe demostrar al menos una restauración real en el
+laboratorio.</p>
 <hr/>
-<h1>23. Laboratorio 15 — Observar y recuperar</h1>
-<h2 id="23-1-metricas">23.1. Métricas</h2>
-<p>Seleccionar al menos cinco indicadores y justificar por qué son útiles.</p>
-<h2 id="23-2-logs">23.2. Logs</h2>
+<h1 id="casos-técnicos-guiados--monitoreo-logs-y-recuperación">Casos
+técnicos guiados — Monitoreo, logs y recuperación</h1>
+<p>Esta semana debe producir evidencia operacional. Los estudiantes no
+solo deben explicar qué monitorear; deben ejecutar consultas, observar
+fallas y recuperar un componente.</p>
+<h2 id="ejemplo-1--métricas-básicas-de-una-api">Ejemplo 1 — Métricas
+básicas de una API</h2>
+<p>Un conjunto mínimo podría incluir:</p>
+<pre class="text"><code>http_requests_total              → contador de solicitudes
+http_request_errors_total        → contador de errores
+http_request_duration_seconds    → distribución de latencia
+process_memory_bytes             → memoria actual
+active_db_connections            → conexiones actuales</code></pre>
+<p>Prometheus distingue tipos como counter, gauge e histogram. Un
+contador es apropiado para solicitudes acumuladas; un gauge para
+conexiones que pueden subir o bajar; un histogram para distribuciones de
+duración.</p>
+<h2 id="ejemplo-2--consultas-promql">Ejemplo 2 — Consultas PromQL</h2>
+<p>Tasa de solicitudes durante cinco minutos:</p>
+<pre class="promql"><code>rate(http_requests_total[5m])</code></pre>
+<p>Tasa de respuestas 5xx:</p>
+<pre class="promql"><code>sum(rate(http_request_errors_total{status=~"5.."}[5m]))</code></pre>
+<p>Uso de memoria:</p>
+<pre class="promql"><code>process_memory_bytes</code></pre>
+<p>El objetivo del laboratorio es relacionar cada consulta con una
+pregunta operacional, no memorizar PromQL.</p>
+<h2 id="ejemplo-3--disponibilidad-funcional">Ejemplo 3 — Disponibilidad
+funcional</h2>
+<p>Una sonda simple puede consultar:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsS</span> <span class="dt">\</span></span>
+<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a>  <span class="st">"http://localhost:8080/geoserver/municipio/wms?service=WMS&amp;request=GetCapabilities"</span> <span class="dt">\</span></span>
+<span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a>  <span class="op">&gt;</span> /dev/null</span></code></pre></div>
+<p>Si el comando falla, el servicio no está atendiendo correctamente esa
+capacidad. Esta prueba es más representativa que verificar únicamente si
+el proceso Java está activo.</p>
+<h2 id="ejemplo-4--logs-estructurados">Ejemplo 4 — Logs
+estructurados</h2>
+<p>Un log útil contiene tiempo, nivel, componente y contexto:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a>  <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2026-10-01T18:22:30-03:00"</span><span class="fu">,</span></span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a>  <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"ERROR"</span><span class="fu">,</span></span>
+<span id="cb8-4"><a aria-hidden="true" href="#cb8-4" tabindex="-1"></a>  <span class="dt">"service"</span><span class="fu">:</span> <span class="st">"ogc-api"</span><span class="fu">,</span></span>
+<span id="cb8-5"><a aria-hidden="true" href="#cb8-5" tabindex="-1"></a>  <span class="dt">"request_id"</span><span class="fu">:</span> <span class="st">"a72f1c"</span><span class="fu">,</span></span>
+<span id="cb8-6"><a aria-hidden="true" href="#cb8-6" tabindex="-1"></a>  <span class="dt">"path"</span><span class="fu">:</span> <span class="st">"/collections/areas_verdes/items"</span><span class="fu">,</span></span>
+<span id="cb8-7"><a aria-hidden="true" href="#cb8-7" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span> <span class="dv">500</span><span class="fu">,</span></span>
+<span id="cb8-8"><a aria-hidden="true" href="#cb8-8" tabindex="-1"></a>  <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"database connection unavailable"</span></span>
+<span id="cb8-9"><a aria-hidden="true" href="#cb8-9" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>El <code>request_id</code> ayuda a correlacionar eventos de una misma
+solicitud.</p>
+<h2 id="ejemplo-5--consulta-de-logs-con-loki">Ejemplo 5 — Consulta de
+logs con Loki</h2>
+<p>Si los logs se centralizan en Loki, una consulta LogQL conceptual
+puede buscar errores:</p>
+<pre class="logql"><code>{app="pygeoapi"} |= "ERROR"</code></pre>
+<p>Una alerta basada en logs necesita convertir resultados en una serie
+numérica; Grafana documenta funciones como <code>rate</code> o
+<code>count_over_time</code> para este propósito.</p>
+<h2 id="ejemplo-6--alerta-de-servicio-degradado">Ejemplo 6 — Alerta de
+servicio degradado</h2>
+<p>Regla conceptual:</p>
+<pre class="text"><code>Si &gt; 5 % de solicitudes devuelven 5xx durante 10 minutos,
+generar alerta de severidad alta.</code></pre>
+<p>La alerta debe incluir:</p>
+<ul>
+<li><strong>Servicio afectado.</strong> Debe indicar qué capacidad está
+degradada para evitar que el operador tenga que inferirlo desde una
+métrica genérica.</li>
+<li><strong>Ventana temporal.</strong> Explica durante cuánto tiempo se
+observó la condición y ayuda a distinguir una anomalía transitoria de un
+problema sostenido.</li>
+<li><strong>Valor observado.</strong> Debe mostrar el dato que cruzó el
+umbral, por ejemplo porcentaje de errores o latencia.</li>
+<li><strong>Responsable.</strong> La notificación debe tener un equipo o
+rol que deba actuar; una alerta sin propietario se convierte en
+ruido.</li>
+<li><strong>Enlace a dashboard o logs.</strong> Facilita pasar de
+detección a diagnóstico sin buscar manualmente la fuente de
+evidencia.</li>
+<li><strong>Procedimiento inicial.</strong> Puede indicar verificaciones
+básicas, dependencias y criterio de escalamiento para acelerar
+respuesta.</li>
+</ul>
+<p>Una alerta sin responsable se convierte simplemente en ruido.</p>
+<h2 id="ejemplo-7--backup-lógico-postgresql">Ejemplo 7 — Backup lógico
+PostgreSQL</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a><span class="ex">pg_dump</span> <span class="dt">\</span></span>
+<span id="cb11-2"><a aria-hidden="true" href="#cb11-2" tabindex="-1"></a>  <span class="at">-Fc</span> <span class="dt">\</span></span>
+<span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a>  <span class="at">-h</span> localhost <span class="dt">\</span></span>
+<span id="cb11-4"><a aria-hidden="true" href="#cb11-4" tabindex="-1"></a>  <span class="at">-U</span> ide_admin <span class="dt">\</span></span>
+<span id="cb11-5"><a aria-hidden="true" href="#cb11-5" tabindex="-1"></a>  <span class="at">-d</span> ide <span class="dt">\</span></span>
+<span id="cb11-6"><a aria-hidden="true" href="#cb11-6" tabindex="-1"></a>  <span class="at">-f</span> backups/ide_2026-10-01.dump</span></code></pre></div>
+<p>El formato custom (<code>-Fc</code>) puede restaurarse con
+<code>pg_restore</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a aria-hidden="true" href="#cb12-1" tabindex="-1"></a><span class="ex">createdb</span> <span class="at">-U</span> ide_admin ide_restore_test</span>
+<span id="cb12-2"><a aria-hidden="true" href="#cb12-2" tabindex="-1"></a><span class="ex">pg_restore</span> <span class="dt">\</span></span>
+<span id="cb12-3"><a aria-hidden="true" href="#cb12-3" tabindex="-1"></a>  <span class="at">-h</span> localhost <span class="dt">\</span></span>
+<span id="cb12-4"><a aria-hidden="true" href="#cb12-4" tabindex="-1"></a>  <span class="at">-U</span> ide_admin <span class="dt">\</span></span>
+<span id="cb12-5"><a aria-hidden="true" href="#cb12-5" tabindex="-1"></a>  <span class="at">-d</span> ide_restore_test <span class="dt">\</span></span>
+<span id="cb12-6"><a aria-hidden="true" href="#cb12-6" tabindex="-1"></a>  backups/ide_2026-10-01.dump</span></code></pre></div>
+<p>La documentación de PostgreSQL distingue backups lógicos
+(<code>pg_dump</code>), backups a nivel de sistema de archivos y
+archivado continuo/PITR. Elegir técnica depende del objetivo de
+recuperación.</p>
+<h2 id="ejemplo-8--prueba-real-de-restauración">Ejemplo 8 — Prueba real
+de restauración</h2>
+<p>Después de restaurar:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb13-1"><a aria-hidden="true" href="#cb13-1" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> core.areas_verdes;</span>
+<span id="cb13-2"><a aria-hidden="true" href="#cb13-2" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> publish.areas_verdes;</span>
+<span id="cb13-3"><a aria-hidden="true" href="#cb13-3" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> ST_SRID(geom) <span class="kw">FROM</span> core.areas_verdes;</span></code></pre></div>
+<p>Luego se levanta un servicio temporal contra la base restaurada y se
+ejecuta una consulta WMS/API. Esto demuestra recuperación de una
+<strong>capacidad</strong>, no solo de un archivo.</p>
+<h2 id="ejemplo-9--rpo-y-rto-concretos">Ejemplo 9 — RPO y RTO
+concretos</h2>
+<p>Supongamos que la organización define:</p>
+<pre class="text"><code>RPO = 24 horas
+RTO = 4 horas</code></pre>
+<p>Interpretación:</p>
+<ul>
+<li><strong>Pérdida máxima tolerada.</strong> Un RPO de 24 horas indica
+que, en el peor escenario previsto, la organización acepta recuperar un
+estado que podría quedar aproximadamente un día detrás del momento de la
+falla.</li>
+<li><strong>Tiempo objetivo de recuperación.</strong> Un RTO de 4 horas
+indica que la capacidad crítica debería volver a estar disponible dentro
+de ese horizonte, considerando diagnóstico, restauración y
+validación.</li>
+</ul>
+<p>Si el dataset cambia cada cinco minutos, un respaldo diario
+probablemente no cumple ese RPO.</p>
+<h2 id="ejemplo-10--pitr-como-referencia-avanzada">Ejemplo 10 — PITR
+como referencia avanzada</h2>
+<p>PostgreSQL utiliza Write-Ahead Log (WAL). Combinando un backup base
+con archivado continuo de WAL puede recuperarse el cluster a un punto
+temporal dentro del periodo disponible. Este mecanismo es más complejo
+que <code>pg_dump</code> y se presenta como referencia de continuidad
+avanzada, no como requisito obligatorio del laboratorio básico.</p>
+<h2 id="ejemplo-11--dashboard-mínimo">Ejemplo 11 — Dashboard mínimo</h2>
+<p>Un dashboard operativo debería evitar decenas de gráficos sin
+prioridad. Un conjunto razonable para la IDE del curso:</p>
+<ol type="1">
+<li>disponibilidad WMS;</li>
+<li>disponibilidad API;</li>
+<li>latencia p50/p95 si está disponible;</li>
+<li>tasa de errores;</li>
+<li>almacenamiento libre;</li>
+<li>conexiones DB;</li>
+<li>fecha del último backup exitoso.</li>
+</ol>
+<h2 id="ejercicio-de-incidente">Ejercicio de incidente</h2>
+<p>El docente detiene temporalmente un servicio o modifica una
+configuración de prueba. El equipo debe:</p>
+<ol type="1">
+<li>detectar la falla;</li>
+<li>identificar señal/alerta;</li>
+<li>localizar evidencia en logs;</li>
+<li>diagnosticar la causa;</li>
+<li>restaurar operación;</li>
+<li>documentar duración y aprendizaje.</li>
+</ol>
+<p><strong>Referencias de apoyo:</strong> documentación oficial de
+Prometheus para tipos de métricas; Grafana/Loki para logs y alertas;
+PostgreSQL para estrategias de backup, <code>pg_restore</code> y
+recuperación continua.</p>
+<hr/>
+<h1 id="23-laboratorio-15--observar-y-recuperar">23. Laboratorio 15 —
+Observar y recuperar</h1>
+<h2 id="231-métricas">23.1. Métricas</h2>
+<p>Seleccionar al menos cinco indicadores y justificar por qué son
+útiles.</p>
+<h2 id="232-logs">23.2. Logs</h2>
 <p>Provocar un error controlado y localizarlo en registros.</p>
-<h2 id="23-3-alerta">23.3. Alerta</h2>
-<p>Configurar o simular una alerta por falla de servicio o capacidad.</p>
-<h2 id="23-4-backup">23.4. Backup</h2>
+<h2 id="233-alerta">23.3. Alerta</h2>
+<p>Configurar o simular una alerta por falla de servicio o
+capacidad.</p>
+<h2 id="234-backup">23.4. Backup</h2>
 <p>Generar respaldo de base y al menos una configuración crítica.</p>
-<h2 id="23-5-restore">23.5. Restore</h2>
-<p>Restaurar en un entorno de prueba y ejecutar una prueba funcional.</p>
-<h2 id="23-6-cronometrar">23.6. Cronometrar</h2>
+<h2 id="235-restore">23.5. Restore</h2>
+<p>Restaurar en un entorno de prueba y ejecutar una prueba
+funcional.</p>
+<h2 id="236-cronometrar">23.6. Cronometrar</h2>
 <p>Medir cuánto tiempo tomó y compararlo con el RTO propuesto.</p>
 <hr/>
-<h1>24. Entregable</h1>
-<p>Panel o evidencia de monitoreo, catálogo de métricas, ejemplo de logs, regla de alerta, política de respaldo, archivos/procedimientos y evidencia de recuperación. Debe incluir análisis de RPO/RTO y brechas detectadas.</p>
+<h1 id="24-entregable">24. Entregable</h1>
+<p>Panel o evidencia de monitoreo, catálogo de métricas, ejemplo de
+logs, regla de alerta, política de respaldo, archivos/procedimientos y
+evidencia de recuperación. Debe incluir análisis de RPO/RTO y brechas
+detectadas.</p>
 <hr/>
-<h1>25. Secuencia sugerida</h1>
+<h1 id="25-secuencia-sugerida">25. Secuencia sugerida</h1>
 <ul>
-<li><strong>Bloque 1 — 40 minutos.</strong> Observabilidad, disponibilidad y métricas.</li>
-<li><strong>Bloque 2 — 40 minutos.</strong> Logs, severidad y correlación.</li>
-<li><strong>Bloque 3 — 35 minutos.</strong> Alertas, límites y diagnóstico.</li>
+<li><strong>Bloque 1 — 40 minutos.</strong> Observabilidad,
+disponibilidad y métricas.</li>
+<li><strong>Bloque 2 — 40 minutos.</strong> Logs, severidad y
+correlación.</li>
+<li><strong>Bloque 3 — 35 minutos.</strong> Alertas, límites y
+diagnóstico.</li>
 <li><strong>Bloque 4 — 45 minutos.</strong> Backup, RPO y RTO.</li>
-<li><strong>Bloque 5 — 35 minutos.</strong> Restore, versionamiento y rollback.</li>
-<li><strong>Bloque 6 — 45 minutos.</strong> Laboratorio de recuperación.</li>
+<li><strong>Bloque 5 — 35 minutos.</strong> Restore, versionamiento y
+rollback.</li>
+<li><strong>Bloque 6 — 45 minutos.</strong> Laboratorio de
+recuperación.</li>
 </ul>
 <hr/>
-<h1>26. Preguntas de cierre</h1>
-<h2 id="backup-exitoso-significa-recuperacion-garantizada">¿Backup exitoso significa recuperación garantizada?</h2>
-<p>No. Debe probarse la restauración y el funcionamiento de la capacidad completa.</p>
-<h2 id="un-proceso-activo-significa-servicio-disponible">¿Un proceso activo significa servicio disponible?</h2>
-<p>No. Debe probarse una operación representativa desde el punto de vista del usuario.</p>
-<h2 id="por-que-demasiadas-alertas-son-un-problema">¿Por qué demasiadas alertas son un problema?</h2>
-<p>Generan fatiga y reducen la probabilidad de atender señales realmente importantes.</p>
+<h1 id="26-preguntas-de-cierre">26. Preguntas de cierre</h1>
+<h2 id="backup-exitoso-significa-recuperación-garantizada">¿Backup
+exitoso significa recuperación garantizada?</h2>
+<p>No. Debe probarse la restauración y el funcionamiento de la capacidad
+completa.</p>
+<h2 id="un-proceso-activo-significa-servicio-disponible">¿Un proceso
+activo significa servicio disponible?</h2>
+<p>No. Debe probarse una operación representativa desde el punto de
+vista del usuario.</p>
+<h2 id="por-qué-demasiadas-alertas-son-un-problema">¿Por qué demasiadas
+alertas son un problema?</h2>
+<p>Generan fatiga y reducen la probabilidad de atender señales realmente
+importantes.</p>
 <hr/>
-<h1>27. Errores frecuentes</h1>
+<h1 id="27-errores-frecuentes">27. Errores frecuentes</h1>
 <ul>
-<li><strong>“Guardar el backup en el mismo servidor es suficiente”.</strong> No protege frente a pérdida total del entorno.</li>
-<li><strong>“Los logs pueden registrar todo”.</strong> También pueden exponer secretos o datos personales y generar costos innecesarios.</li>
-<li><strong>“La recuperación se documenta, pero no es necesario probarla”.</strong> Sin prueba no se conoce si el procedimiento funciona ni cuánto demora.</li>
+<li><strong>“Guardar el backup en el mismo servidor es
+suficiente”.</strong> No protege frente a pérdida total del
+entorno.</li>
+<li><strong>“Los logs pueden registrar todo”.</strong> También pueden
+exponer secretos o datos personales y generar costos innecesarios.</li>
+<li><strong>“La recuperación se documenta, pero no es necesario
+probarla”.</strong> Sin prueba no se conoce si el procedimiento funciona
+ni cuánto demora.</li>
 </ul>
 <hr/>
-<h1>28. Glosario</h1>
+<h1 id="28-glosario">28. Glosario</h1>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Concepto</th>
 <th>Definición</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Observabilidad</td>
 <td>Capacidad de comprender estado interno desde salidas</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Métrica</td>
 <td>Medida cuantitativa del sistema</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Log</td>
 <td>Registro de eventos</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Alerta</td>
 <td>Notificación por condición que requiere atención</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>RPO</td>
 <td>Pérdida temporal máxima tolerada</td>
 </tr>
-<tr>
+<tr class="even">
 <td>RTO</td>
 <td>Tiempo objetivo de recuperación</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Rollback</td>
 <td>Retorno a una versión anterior</td>
 </tr>
 </tbody>
 </table>
 <hr/>
-<h1>29. Trabajo autónomo</h1>
-<p>Preparar la demostración final y revisar toda la cadena de interoperabilidad: catálogo, metadatos, WMS, servicio/API de objetos, seguridad, monitoreo y recuperación. Preparar documentación de usuario, operación y API.</p>
+<h1 id="29-trabajo-autónomo">29. Trabajo autónomo</h1>
+<p>Preparar la demostración final y revisar toda la cadena de
+interoperabilidad: catálogo, metadatos, WMS, servicio/API de objetos,
+seguridad, monitoreo y recuperación. Preparar documentación de usuario,
+operación y API.</p>
 <hr/>
-<h1>30. Referencias</h1>
-<p><strong>[R1]</strong> PostgreSQL Documentation. <em>Backup and Restore</em>.<br/>
+<h1 id="30-referencias">30. Referencias</h1>
+<p><strong>[R1]</strong> PostgreSQL Documentation. <em>Backup and
+Restore</em>.<br/>
 <a href="https://www.postgresql.org/docs/current/backup.html">https://www.postgresql.org/docs/current/backup.html</a></p>
-<p><strong>[R2]</strong> NIST. <em>Contingency Planning Guide — SP 800-34 Rev. 1</em>.<br/>
+<p><strong>[R2]</strong> NIST. <em>Contingency Planning Guide — SP
+800-34 Rev. 1</em>.<br/>
 <a href="https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final">https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final</a></p>
-<p><strong>[R3]</strong> OpenTelemetry Documentation. Referencia complementaria de observabilidad.<br/>
+<p><strong>[R3]</strong> OpenTelemetry Documentation. Referencia
+complementaria de observabilidad.<br/>
 <a href="https://opentelemetry.io/docs/">https://opentelemetry.io/docs/</a></p>
-<hr/>
-<h1>31. Síntesis</h1>
-<p>La Semana 15 convierte “operación” en evidencia. Una IDE mantenible sabe cuándo falla, dispone de información para diagnosticar, limita consumo, conserva copias recuperables y demuestra que puede restaurar sus capacidades críticas.</p>
-<div class="weeknav"><a href="Semana_14_Seguridad_Identidad_Roles_HTTPS.html">← Semana 14</a><a href="../index.html">Índice del curso</a><a href="Semana_16_Validacion_Interoperabilidad_Documentacion_Defensa.html">Semana 16 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
+<p><strong>[R4]</strong> Prometheus Documentation. <em>Metric
+types</em>.<br/>
+<a href="https://prometheus.io/docs/concepts/metric_types/">https://prometheus.io/docs/concepts/metric_types/</a></p>
+<p><strong>[R5]</strong> Grafana Loki Documentation.<br/>
+<a href="https://grafana.com/docs/loki/latest/">https://grafana.com/docs/loki/latest/</a></p>
+<h2 id="r6-postgresql-documentation-continuous-archiving-and-point-in-time-recovery-httpswwwpostgresqlorgdocscurrentcontinuous-archivinghtml"><strong>[R6]</strong>
+PostgreSQL Documentation. <em>Continuous Archiving and Point-in-Time
+Recovery</em>.<br/>
+<a href="https://www.postgresql.org/docs/current/continuous-archiving.html">https://www.postgresql.org/docs/current/continuous-archiving.html</a></h2>
+<h1 id="31-síntesis">31. Síntesis</h1>
+<p>La Semana 15 convierte “operación” en evidencia. Una IDE mantenible
+sabe cuándo falla, dispone de información para diagnosticar, limita
+consumo, conserva copias recuperables y demuestra que puede restaurar
+sus capacidades críticas.</p>
+<div class="weeknav"><a href="Semana_14_Seguridad_Identidad_Roles_HTTPS.html">← Semana 14</a><a href="Semana_16_Validacion_Interoperabilidad_Documentacion_Defensa.html">Semana 16 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

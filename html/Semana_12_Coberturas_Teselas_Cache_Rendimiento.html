@@ -1,23 +1,48 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 12 — Coberturas, teselas, caché, generalización y rendimiento</title><style>
-:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
-a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_12_Coberturas_Teselas_Cache_Rendimiento.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ventaja">Ventaja</a><a class="sub" href="#limitacion">Limitación</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="" href="#22-1-cobertura">22.1. Cobertura</a><a class="" href="#22-2-teselas">22.2. Teselas</a><a class="" href="#22-3-cache">22.3. Caché</a><a class="" href="#22-4-generalizacion">22.4. Generalización</a><a class="" href="#22-5-evidencia">22.5. Evidencia</a><a class="" href="#por-que-wcs-no-es-lo-mismo-que-wms">¿Por qué WCS no es lo mismo que WMS?</a><a class="" href="#cuando-conviene-wmts">¿Cuándo conviene WMTS?</a><a class="" href="#por-que-la-cache-puede-mostrar-informacion-antigua">¿Por qué la caché puede mostrar información antigua?</a></aside><main><h1>Semana 12 — Coberturas, teselas, caché, generalización y rendimiento</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 3 — Publicación de servicios interoperables y APIs geoespaciales</div></div>
-
-
-<h1>1. Marco de la semana</h1>
-<p>La Semana 12 trabaja coberturas y teselas: WCS, WMTS, OGC API - Tiles, OGC API - Coverages u opciones equivalentes según el producto. También aborda estilos, generalización, caché, teselado y rendimiento.</p>
-<p>El objetivo es mostrar que la arquitectura de publicación debe adaptarse al tipo de recurso y patrón de uso. No todos los datos deben entregarse como WMS o features.</p>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito">2. Propósito</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-qué-es-una-cobertura">4. ¿Qué es una cobertura?</a><a class="" href="#5-wcs">5. WCS</a><a class="" href="#6-subsetting">6. Subsetting</a><a class="" href="#7-ogc-api---coverages">7. OGC API - Coverages</a><a class="" href="#8-qué-es-una-tesela">8. ¿Qué es una tesela?</a><a class="" href="#9-wmts">9. WMTS</a><a class="" href="#10-wms-versus-wmts">10. WMS versus WMTS</a><a class="" href="#11-ogc-api---tiles">11. OGC API - Tiles</a><a class="" href="#12-tile-matrix-set">12. Tile Matrix Set</a><a class="" href="#13-caché">13. Caché</a><a class="" href="#14-invalidación-de-caché">14. Invalidación de caché</a><a class="" href="#15-generalización">15. Generalización</a><a class="" href="#16-pirámides-y-overviews-ráster">16. Pirámides y overviews
+ráster</a><a class="" href="#17-rendimiento-extremo-a-extremo">17. Rendimiento extremo a
+extremo</a><a class="" href="#18-métricas-de-rendimiento">18. Métricas de rendimiento</a><a class="" href="#19-carga-y-pruebas">19. Carga y pruebas</a><a class="" href="#20-estilos-y-rendimiento">20. Estilos y rendimiento</a><a class="" href="#21-caso-integrador">21. Caso integrador</a><a class="" href="#casos-técnicos-guiados--teselas-coberturas-y-rendimiento">Casos
+técnicos guiados — Teselas, coberturas y rendimiento</a><a class="sub" href="#ejemplo-1--cuándo-usar-wms-y-cuándo-teselas">Ejemplo 1 — ¿Cuándo
+usar WMS y cuándo teselas?</a><a class="sub" href="#ejemplo-2--estructura-de-una-tesela">Ejemplo 2 — Estructura de
+una tesela</a><a class="sub" href="#ejemplo-3--pirámide-de-teselas">Ejemplo 3 — Pirámide de
+teselas</a><a class="sub" href="#ejemplo-4--caché-y-clave-de-una-respuesta">Ejemplo 4 — Caché y
+clave de una respuesta</a><a class="sub" href="#ejemplo-5--invalidación-de-caché">Ejemplo 5 — Invalidación de
+caché</a><a class="sub" href="#ejemplo-6--wcs-y-coberturas">Ejemplo 6 — WCS y coberturas</a><a class="sub" href="#ejemplo-7--ogc-api---coverages">Ejemplo 7 — OGC API -
+Coverages</a><a class="sub" href="#ejemplo-8--generalización-vectorial">Ejemplo 8 — Generalización
+vectorial</a><a class="sub" href="#ejemplo-9--medición-comparativa">Ejemplo 9 — Medición
+comparativa</a><a class="sub" href="#ejemplo-10--diagnóstico-de-un-mapa-lento">Ejemplo 10 —
+Diagnóstico de un mapa lento</a><a class="sub" href="#ejercicio-integrador">Ejercicio integrador</a><a class="" href="#22-laboratorio-12--teselas-coberturas-y-rendimiento">22.
+Laboratorio 12 — Teselas, coberturas y rendimiento</a><a class="sub" href="#221-cobertura">22.1. Cobertura</a><a class="sub" href="#222-teselas">22.2. Teselas</a><a class="sub" href="#223-caché">22.3. Caché</a><a class="sub" href="#224-generalización">22.4. Generalización</a><a class="sub" href="#225-evidencia">22.5. Evidencia</a><a class="" href="#23-entregable">23. Entregable</a><a class="" href="#24-secuencia-sugerida">24. Secuencia sugerida</a><a class="" href="#25-preguntas-de-cierre">25. Preguntas de cierre</a><a class="sub" href="#por-qué-wcs-no-es-lo-mismo-que-wms">¿Por qué WCS no es lo mismo
+que WMS?</a><a class="sub" href="#cuándo-conviene-wmts">¿Cuándo conviene WMTS?</a><a class="sub" href="#por-qué-la-caché-puede-mostrar-información-antigua">¿Por qué la
+caché puede mostrar información antigua?</a><a class="" href="#26-errores-frecuentes">26. Errores frecuentes</a><a class="" href="#27-glosario">27. Glosario</a><a class="" href="#28-trabajo-autónomo">28. Trabajo autónomo</a><a class="" href="#29-referencias">29. Referencias</a><a class="sub" href="#r5-ogc-ogc-api---tiles---part-1-core-httpsdocsogcorgis20-05720-057html">[R5] OGC. OGC API - Tiles - Part 1: Core . https://docs.ogc.org/is/20-057/20-057.html</a><a class="" href="#30-síntesis">30. Síntesis</a></aside><main><h1>Semana 12 — Coberturas, teselas, caché, generalización y rendimiento</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales  </div><div class="label">Código</div><div>12436  </div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática  </div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental  </div><div class="label">Unidad</div><div>Unidad 3 — Publicación de servicios interoperables y APIs geoespaciales</div></div><h1 id="1-marco-de-la-semana">1. Marco de la semana</h1>
+<p>La Semana 12 trabaja coberturas y teselas: WCS, WMTS, OGC API -
+Tiles, OGC API - Coverages u opciones equivalentes según el producto.
+También aborda estilos, generalización, caché, teselado y
+rendimiento.</p>
+<p>El objetivo es mostrar que la arquitectura de publicación debe
+adaptarse al tipo de recurso y patrón de uso. No todos los datos deben
+entregarse como WMS o features.</p>
 <hr/>
-<h1>2. Propósito</h1>
-<p>Un ráster científico, una ortofoto, un mapa base y una capa vectorial altamente demandada tienen necesidades diferentes. Publicar todo mediante renderizado dinámico puede producir costos innecesarios.</p>
-<p>La semana introduce mecanismos especializados para coberturas y para mapas teselados, junto con técnicas de rendimiento que permiten reducir carga sin sacrificar interoperabilidad.</p>
+<h1 id="2-propósito">2. Propósito</h1>
+<p>Un ráster científico, una ortofoto, un mapa base y una capa vectorial
+altamente demandada tienen necesidades diferentes. Publicar todo
+mediante renderizado dinámico puede producir costos innecesarios.</p>
+<p>La semana introduce mecanismos especializados para coberturas y para
+mapas teselados, junto con técnicas de rendimiento que permiten reducir
+carga sin sacrificar interoperabilidad.</p>
 <hr/>
-<h1>3. Resultados de aprendizaje</h1>
-<p>El estudiante deberá distinguir cobertura, mapa dinámico y tesela; explicar WCS y WMTS; comprender el propósito de OGC API - Tiles y Coverages; configurar o probar caché; analizar niveles de zoom, generalización y rendimiento; y elegir el mecanismo apropiado según el producto.</p>
+<h1 id="3-resultados-de-aprendizaje">3. Resultados de aprendizaje</h1>
+<p>El estudiante deberá distinguir cobertura, mapa dinámico y tesela;
+explicar WCS y WMTS; comprender el propósito de OGC API - Tiles y
+Coverages; configurar o probar caché; analizar niveles de zoom,
+generalización y rendimiento; y elegir el mecanismo apropiado según el
+producto.</p>
 <hr/>
-<h1>4. ¿Qué es una cobertura?</h1>
-<p>Una cobertura representa valores asociados a posiciones dentro de un dominio espacial, temporal u otro. Los rásteres son una forma común, pero el concepto es más general.</p>
+<h1 id="4-qué-es-una-cobertura">4. ¿Qué es una cobertura?</h1>
+<p>Una cobertura representa valores asociados a posiciones dentro de un
+dominio espacial, temporal u otro. Los rásteres son una forma común,
+pero el concepto es más general.</p>
 <p>Ejemplos:</p>
 <ul>
 <li>Modelo digital de elevación;</li>
@@ -26,104 +51,134 @@ a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;b
 <li>Imagen multiespectral;</li>
 <li>Concentración de contaminantes.</li>
 </ul>
-<p>A diferencia de un WMS, que entrega una representación visual, un servicio de coberturas puede entregar valores de datos para análisis.</p>
+<p>A diferencia de un WMS, que entrega una representación visual, un
+servicio de coberturas puede entregar valores de datos para
+análisis.</p>
 <hr/>
-<h1>5. WCS</h1>
-<p>Web Coverage Service (WCS) permite acceder a coberturas y subconjuntos manteniendo valores originales para procesamiento [R1].</p>
+<h1 id="5-wcs">5. WCS</h1>
+<p>Web Coverage Service (WCS) permite acceder a coberturas y
+subconjuntos manteniendo valores originales para procesamiento [R1].</p>
 <p>La diferencia conceptual es importante:</p>
-<pre><code class="language-text">WMS → mapa renderizado
-WCS → valores de cobertura
-</code></pre>
-<p>Un científico que necesita elevaciones numéricas requiere algo distinto de un usuario que solo necesita visualizar relieve.</p>
+<pre class="text"><code>WMS → mapa renderizado
+WCS → valores de cobertura</code></pre>
+<p>Un científico que necesita elevaciones numéricas requiere algo
+distinto de un usuario que solo necesita visualizar relieve.</p>
 <hr/>
-<h1>6. Subsetting</h1>
-<p>Las coberturas pueden ser muy grandes. Un servicio útil debería permitir solicitar una parte espacial, temporal o dimensional cuando la implementación lo soporte.</p>
+<h1 id="6-subsetting">6. Subsetting</h1>
+<p>Las coberturas pueden ser muy grandes. Un servicio útil debería
+permitir solicitar una parte espacial, temporal o dimensional cuando la
+implementación lo soporte.</p>
 <p>Esto reduce transferencia y procesamiento.</p>
 <h3 id="ejemplo">Ejemplo</h3>
-<p>En lugar de descargar un modelo de elevación nacional completo, el usuario solicita un recorte para una cuenca determinada.</p>
-<p>La interfaz debe documentar CRS, resolución, formato y dimensiones.</p>
+<p>En lugar de descargar un modelo de elevación nacional completo, el
+usuario solicita un recorte para una cuenca determinada.</p>
+<p>La interfaz debe documentar CRS, resolución, formato y
+dimensiones.</p>
 <hr/>
-<h1>7. OGC API - Coverages</h1>
-<p>La familia OGC API extiende el enfoque web moderno hacia coberturas. Su objetivo es proporcionar interfaces basadas en recursos y bloques reutilizables para acceso a datos de cobertura [R4].</p>
-<p>Durante la asignatura interesa comprender la evolución conceptual y revisar implementaciones disponibles, sin asumir que todas las plataformas soportan las mismas partes o extensiones.</p>
+<h1 id="7-ogc-api---coverages">7. OGC API - Coverages</h1>
+<p>La familia OGC API extiende el enfoque web moderno hacia coberturas.
+Su objetivo es proporcionar interfaces basadas en recursos y bloques
+reutilizables para acceso a datos de cobertura [R4].</p>
+<p>Durante la asignatura interesa comprender la evolución conceptual y
+revisar implementaciones disponibles, sin asumir que todas las
+plataformas soportan las mismas partes o extensiones.</p>
 <hr/>
-<h1>8. ¿Qué es una tesela?</h1>
-<p>Una tesela divide una representación espacial en pequeñas piezas organizadas por niveles de zoom y posiciones.</p>
-<div class="mermaid">flowchart TB
+<h1 id="8-qué-es-una-tesela">8. ¿Qué es una tesela?</h1>
+<p>Una tesela divide una representación espacial en pequeñas piezas
+organizadas por niveles de zoom y posiciones.</p>
+<pre class="mermaid">flowchart TB
     Z0["Zoom 0: pocas teselas"] --&gt; Z1["Zoom 1: más detalle"]
     Z1 --&gt; Z2["Zoom 2: más teselas"]
-    Z2 --&gt; ZN["Zoom N: detalle local"]
-</div>
-<p>El cliente solicita únicamente las teselas necesarias para la ventana visible. Esto permite reutilización y mejora tiempos de respuesta para mapas de alta demanda.</p>
+    Z2 --&gt; ZN["Zoom N: detalle local"]</pre>
+<p>El cliente solicita únicamente las teselas necesarias para la ventana
+visible. Esto permite reutilización y mejora tiempos de respuesta para
+mapas de alta demanda.</p>
 <hr/>
-<h1>9. WMTS</h1>
-<p>Web Map Tile Service (WMTS) estandariza acceso a mapas teselados [R2]. A diferencia de WMS dinámico, las teselas se organizan en una matriz predefinida.</p>
-<p>El servidor puede precalcular y almacenar resultados, reduciendo costo de renderizado repetitivo.</p>
+<h1 id="9-wmts">9. WMTS</h1>
+<p>Web Map Tile Service (WMTS) estandariza acceso a mapas teselados
+[R2]. A diferencia de WMS dinámico, las teselas se organizan en una
+matriz predefinida.</p>
+<p>El servidor puede precalcular y almacenar resultados, reduciendo
+costo de renderizado repetitivo.</p>
 <h3 id="ventaja">Ventaja</h3>
-<p>Excelente para mapas base o capas que cambian con poca frecuencia y reciben muchas solicitudes.</p>
-<h3 id="limitacion">Limitación</h3>
-<p>Menor flexibilidad para combinaciones arbitrarias de BBOX, tamaño y estilos en cada petición.</p>
+<p>Excelente para mapas base o capas que cambian con poca frecuencia y
+reciben muchas solicitudes.</p>
+<h3 id="limitación">Limitación</h3>
+<p>Menor flexibilidad para combinaciones arbitrarias de BBOX, tamaño y
+estilos en cada petición.</p>
 <hr/>
-<h1>10. WMS versus WMTS</h1>
+<h1 id="10-wms-versus-wmts">10. WMS versus WMTS</h1>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Aspecto</th>
 <th>WMS</th>
 <th>WMTS</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Imagen</td>
 <td>Renderizada por solicitud</td>
 <td>Teselas en matriz</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Flexibilidad</td>
 <td>Alta</td>
 <td>Más estructurada</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Caché</td>
 <td>Posible, pero adicional</td>
 <td>Parte natural del patrón</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Uso típico</td>
 <td>Mapas dinámicos</td>
 <td>Mapas base y alta demanda</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Estilos por petición</td>
 <td>Puede soportarse</td>
 <td>Normalmente predefinidos</td>
 </tr>
 </tbody>
 </table>
-<p>La elección depende de frecuencia de cambio, demanda y necesidad de personalización.</p>
+<p>La elección depende de frecuencia de cambio, demanda y necesidad de
+personalización.</p>
 <hr/>
-<h1>11. OGC API - Tiles</h1>
-<p>OGC API - Tiles proporciona una aproximación web moderna para describir y acceder a recursos teselados [R3]. Puede relacionarse con conjuntos de matrices y otras APIs OGC.</p>
-<p>La idea importante es la misma: permitir que el cliente descubra esquemas de teselado y solicite piezas de manera interoperable, pero utilizando patrones más alineados con APIs actuales.</p>
+<h1 id="11-ogc-api---tiles">11. OGC API - Tiles</h1>
+<p>OGC API - Tiles proporciona una aproximación web moderna para
+describir y acceder a recursos teselados [R3]. Puede relacionarse con
+conjuntos de matrices y otras APIs OGC.</p>
+<p>La idea importante es la misma: permitir que el cliente descubra
+esquemas de teselado y solicite piezas de manera interoperable, pero
+utilizando patrones más alineados con APIs actuales.</p>
 <hr/>
-<h1>12. Tile Matrix Set</h1>
-<p>Una matriz de teselas define niveles, extensión, resolución y organización de columnas/filas. Dos servicios pueden utilizar matrices distintas, por lo que el cliente necesita descubrir qué esquema está disponible.</p>
-<p>En aplicaciones web, los esquemas globales asociados a mapas web son comunes, pero una IDE puede necesitar matrices específicas para otros CRS o escalas institucionales.</p>
+<h1 id="12-tile-matrix-set">12. Tile Matrix Set</h1>
+<p>Una matriz de teselas define niveles, extensión, resolución y
+organización de columnas/filas. Dos servicios pueden utilizar matrices
+distintas, por lo que el cliente necesita descubrir qué esquema está
+disponible.</p>
+<p>En aplicaciones web, los esquemas globales asociados a mapas web son
+comunes, pero una IDE puede necesitar matrices específicas para otros
+CRS o escalas institucionales.</p>
 <hr/>
-<h1>13. Caché</h1>
+<h1 id="13-caché">13. Caché</h1>
 <p>La caché almacena resultados de solicitudes para reutilizarlos.</p>
-<div class="mermaid">flowchart LR
+<pre class="mermaid">flowchart LR
     C["Cliente"] --&gt; K{"¿Existe en caché?"}
     K -- "Sí" --&gt; R["Respuesta rápida"]
     K -- "No" --&gt; S["Servidor renderiza"]
-    S --&gt; K
-</div>
-<p>La caché puede existir en servidor, proxy, CDN, navegador o varias capas.</p>
-<p>El desafío principal es la invalidación: cuando el dato cambia, las respuestas antiguas no deben mantenerse indefinidamente.</p>
+    S --&gt; K</pre>
+<p>La caché puede existir en servidor, proxy, CDN, navegador o varias
+capas.</p>
+<p>El desafío principal es la invalidación: cuando el dato cambia, las
+respuestas antiguas no deben mantenerse indefinidamente.</p>
 <hr/>
-<h1>14. Invalidación de caché</h1>
-<p>La organización debe definir qué ocurre cuando se actualiza una capa.</p>
+<h1 id="14-invalidación-de-caché">14. Invalidación de caché</h1>
+<p>La organización debe definir qué ocurre cuando se actualiza una
+capa.</p>
 <p>Alternativas:</p>
 <ul>
 <li>Vaciar todas las teselas;</li>
@@ -131,32 +186,47 @@ WCS → valores de cobertura
 <li>Utilizar versiones de capa;</li>
 <li>Definir expiración temporal.</li>
 </ul>
-<p>La estrategia depende de tamaño, frecuencia de cambio y criticidad de la vigencia.</p>
-<h3 id="ejemplo-2">Ejemplo</h3>
-<p>Un mapa base que cambia trimestralmente puede precalcularse. Una capa de incidentes en tiempo real necesita otra estrategia y probablemente no debe depender de una caché de larga duración.</p>
+<p>La estrategia depende de tamaño, frecuencia de cambio y criticidad de
+la vigencia.</p>
+<h3 id="ejemplo-1">Ejemplo</h3>
+<p>Un mapa base que cambia trimestralmente puede precalcularse. Una capa
+de incidentes en tiempo real necesita otra estrategia y probablemente no
+debe depender de una caché de larga duración.</p>
 <hr/>
-<h1>15. Generalización</h1>
-<p>La generalización adapta geometrías y contenido al nivel de escala. No tiene sentido enviar millones de vértices cuando el usuario visualiza un país completo.</p>
-<p>Técnicas posibles incluyen simplificación, agregación, selección de objetos y cambio de representación.</p>
-<p>La generalización debe preservar significado y evitar distorsiones importantes. También puede mejorar rendimiento de WMS, vector tiles o APIs.</p>
+<h1 id="15-generalización">15. Generalización</h1>
+<p>La generalización adapta geometrías y contenido al nivel de escala.
+No tiene sentido enviar millones de vértices cuando el usuario visualiza
+un país completo.</p>
+<p>Técnicas posibles incluyen simplificación, agregación, selección de
+objetos y cambio de representación.</p>
+<p>La generalización debe preservar significado y evitar distorsiones
+importantes. También puede mejorar rendimiento de WMS, vector tiles o
+APIs.</p>
 <hr/>
-<h1>16. Pirámides y overviews ráster</h1>
-<p>Los rásteres grandes pueden almacenar representaciones de menor resolución para distintos niveles de zoom. Esto evita leer el dataset completo para generar una vista reducida.</p>
-<p>Herramientas de bases ráster, GDAL y servidores pueden aprovechar estas pirámides.</p>
-<p>La preparación del dato y la publicación deben diseñarse conjuntamente.</p>
+<h1 id="16-pirámides-y-overviews-ráster">16. Pirámides y overviews
+ráster</h1>
+<p>Los rásteres grandes pueden almacenar representaciones de menor
+resolución para distintos niveles de zoom. Esto evita leer el dataset
+completo para generar una vista reducida.</p>
+<p>Herramientas de bases ráster, GDAL y servidores pueden aprovechar
+estas pirámides.</p>
+<p>La preparación del dato y la publicación deben diseñarse
+conjuntamente.</p>
 <hr/>
-<h1>17. Rendimiento extremo a extremo</h1>
+<h1 id="17-rendimiento-extremo-a-extremo">17. Rendimiento extremo a
+extremo</h1>
 <p>El rendimiento de una IDE no depende de un único servidor.</p>
-<div class="mermaid">flowchart LR
+<pre class="mermaid">flowchart LR
     C["Cliente"] --&gt; N["Red"]
     N --&gt; S["Servicio"]
     S --&gt; D["Base / archivo"]
-    S --&gt; K["Caché"]
-</div>
-<p>Puede existir demora en red, renderizado, consulta, reproyección, lectura de disco o cliente.</p>
-<p>Medir solo CPU del servidor no permite conocer toda la experiencia.</p>
+    S --&gt; K["Caché"]</pre>
+<p>Puede existir demora en red, renderizado, consulta, reproyección,
+lectura de disco o cliente.</p>
+<p>Medir solo CPU del servidor no permite conocer toda la
+experiencia.</p>
 <hr/>
-<h1>18. Métricas de rendimiento</h1>
+<h1 id="18-métricas-de-rendimiento">18. Métricas de rendimiento</h1>
 <p>Pueden observarse:</p>
 <ul>
 <li>Tiempo total de respuesta;</li>
@@ -167,11 +237,15 @@ WCS → valores de cobertura
 <li>Tiempo de consulta a base;</li>
 <li>Errores y timeouts.</li>
 </ul>
-<p>Las métricas deben relacionarse con casos de uso reales. Una prueba con un único usuario no representa necesariamente una aplicación pública concurrida.</p>
+<p>Las métricas deben relacionarse con casos de uso reales. Una prueba
+con un único usuario no representa necesariamente una aplicación pública
+concurrida.</p>
 <hr/>
-<h1>19. Carga y pruebas</h1>
-<p>Una prueba de carga genera solicitudes controladas para observar comportamiento.</p>
-<p>El objetivo docente no es realizar ingeniería de performance avanzada, sino comparar escenarios:</p>
+<h1 id="19-carga-y-pruebas">19. Carga y pruebas</h1>
+<p>Una prueba de carga genera solicitudes controladas para observar
+comportamiento.</p>
+<p>El objetivo docente no es realizar ingeniería de performance
+avanzada, sino comparar escenarios:</p>
 <ul>
 <li>WMS sin caché;</li>
 <li>WMS con caché;</li>
@@ -180,116 +254,318 @@ WCS → valores de cobertura
 </ul>
 <p>Las conclusiones deben basarse en medidas.</p>
 <hr/>
-<h1>20. Estilos y rendimiento</h1>
-<p>La simbología puede afectar notablemente el costo de renderizado. Etiquetas, reglas complejas, transparencias y filtros pueden aumentar tiempo.</p>
-<p>La optimización no debería eliminar información necesaria. Se debe buscar equilibrio entre legibilidad, precisión y costo.</p>
-<h3 id="ejemplo-3">Ejemplo</h3>
-<p>Puede ser mejor utilizar una capa agregada a escalas pequeñas y cambiar a objetos detallados al acercarse.</p>
+<h1 id="20-estilos-y-rendimiento">20. Estilos y rendimiento</h1>
+<p>La simbología puede afectar notablemente el costo de renderizado.
+Etiquetas, reglas complejas, transparencias y filtros pueden aumentar
+tiempo.</p>
+<p>La optimización no debería eliminar información necesaria. Se debe
+buscar equilibrio entre legibilidad, precisión y costo.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p>Puede ser mejor utilizar una capa agregada a escalas pequeñas y
+cambiar a objetos detallados al acercarse.</p>
 <hr/>
-<h1>21. Caso integrador</h1>
+<h1 id="21-caso-integrador">21. Caso integrador</h1>
 <p>El proyecto dispone de una ortofoto y una capa de calles.</p>
 <ul>
-<li>La ortofoto se prepara con overviews y puede servirse mediante teselas para visualización.</li>
-<li>Las calles se generalizan para escalas pequeñas y utilizan estilos por jerarquía.</li>
+<li>La ortofoto se prepara con overviews y puede servirse mediante
+teselas para visualización.</li>
+<li>Las calles se generalizan para escalas pequeñas y utilizan estilos
+por jerarquía.</li>
 <li>Las capas de alta demanda se cachean.</li>
-<li>La fuente detallada permanece disponible para análisis autorizado.</li>
+<li>La fuente detallada permanece disponible para análisis
+autorizado.</li>
 </ul>
-<p>El catálogo relaciona cada producto con su propósito y resolución.</p>
+<p>El catálogo relaciona cada producto con su propósito y
+resolución.</p>
 <hr/>
-<h1>22. Laboratorio 12 — Teselas, coberturas y rendimiento</h1>
-<h2 id="22-1-cobertura">22.1. Cobertura</h2>
-<p>Publicar o consultar un ráster/cobertura y observar formato, CRS y subset cuando esté disponible.</p>
-<h2 id="22-2-teselas">22.2. Teselas</h2>
-<p>Configurar o consumir WMTS/tiles y revisar niveles de zoom y matrices.</p>
-<h2 id="22-3-cache">22.3. Caché</h2>
-<p>Comparar una solicitud inicial y una repetida cuando la plataforma permita observar diferencias.</p>
-<h2 id="22-4-generalizacion">22.4. Generalización</h2>
-<p>Crear una versión simplificada de una capa y comparar tamaño/tiempo con la original.</p>
-<h2 id="22-5-evidencia">22.5. Evidencia</h2>
+<h1 id="casos-técnicos-guiados--teselas-coberturas-y-rendimiento">Casos
+técnicos guiados — Teselas, coberturas y rendimiento</h1>
+<p>La elección entre WMS, teselas y coberturas depende del tipo de dato
+y del uso. Esta sección desarrolla ejemplos concretos para evitar
+tratarlos como nombres de estándares aislados.</p>
+<h2 id="ejemplo-1--cuándo-usar-wms-y-cuándo-teselas">Ejemplo 1 — ¿Cuándo
+usar WMS y cuándo teselas?</h2>
+<p>Supongamos un mapa base municipal que casi no cambia y es consultado
+por miles de usuarios. Renderizar cada vista mediante WMS puede repetir
+el mismo trabajo. Un esquema de teselas permite precalcular o almacenar
+respuestas reutilizables.</p>
+<p>En cambio, una capa que cambia a cada minuto o que necesita estilos
+personalizados por solicitud puede beneficiarse menos de un caché
+agresivo.</p>
+<h2 id="ejemplo-2--estructura-de-una-tesela">Ejemplo 2 — Estructura de
+una tesela</h2>
+<p>Una tesela se identifica normalmente mediante un conjunto de
+coordenadas discretas dentro de una matriz. Conceptualmente:</p>
+<pre class="text"><code>z = nivel de zoom
+x = columna
+y = fila</code></pre>
+<p>En APIs modernas, OGC API - Tiles define rutas basadas en
+colecciones, tilesets y Tile Matrix Sets. Una ruta conceptual es:</p>
+<pre class="text"><code>/collections/{collectionId}/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</code></pre>
+<p>El estudiante debe comprender que estas coordenadas no son
+longitud/latitud directa; identifican una celda dentro de una matriz de
+teselado.</p>
+<h2 id="ejemplo-3--pirámide-de-teselas">Ejemplo 3 — Pirámide de
+teselas</h2>
+<pre class="mermaid">flowchart TB
+    Z0["Zoom 0&lt;br/&gt;muy pocas teselas"] --&gt; Z1["Zoom 1&lt;br/&gt;más detalle"]
+    Z1 --&gt; Z2["Zoom 2"]
+    Z2 --&gt; ZN["Zoom n&lt;br/&gt;muchas teselas pequeñas"]</pre>
+<p>A mayor nivel de zoom aumenta el número de teselas. Por eso generar
+toda una pirámide para un territorio enorme puede consumir mucho
+almacenamiento. Deben definirse extensión y niveles realmente
+necesarios.</p>
+<h2 id="ejemplo-4--caché-y-clave-de-una-respuesta">Ejemplo 4 — Caché y
+clave de una respuesta</h2>
+<p>Para que un caché reutilice una tesela, la clave debe distinguir
+parámetros que cambian la imagen: capa, estilo, CRS, nivel, fila,
+columna y, cuando corresponda, dimensiones como fecha.</p>
+<p>Si una capa temporal utiliza la misma clave para dos fechas
+diferentes, el usuario podría recibir una imagen antigua aunque el
+servidor de origen tenga datos nuevos.</p>
+<h2 id="ejemplo-5--invalidación-de-caché">Ejemplo 5 — Invalidación de
+caché</h2>
+<p>Supongamos que áreas verdes cambian cada trimestre. Después de
+actualizar la fuente:</p>
+<ol type="1">
+<li>se valida la nueva versión;</li>
+<li>se publica;</li>
+<li>se invalidan las teselas afectadas;</li>
+<li>se regeneran bajo demanda o en un proceso programado;</li>
+<li>se verifica que el cliente ya no recibe imágenes antiguas.</li>
+</ol>
+<p>Un caché que nunca se invalida puede mejorar rendimiento y empeorar
+vigencia.</p>
+<h2 id="ejemplo-6--wcs-y-coberturas">Ejemplo 6 — WCS y coberturas</h2>
+<p>Un modelo digital de elevación no se representa naturalmente como una
+colección de polígonos. Es una cobertura donde cada posición tiene un
+valor.</p>
+<p>Una petición de cobertura puede buscar un subconjunto espacial para
+análisis, en vez de solicitar solo una imagen renderizada.</p>
+<h3 id="diferencia-conceptual">Diferencia conceptual</h3>
+<pre class="text"><code>WMS      → “Muéstrame cómo se ve esta cobertura”.
+WCS/API  → “Entrégame los valores de esta cobertura para procesarlos”.</code></pre>
+<h2 id="ejemplo-7--ogc-api---coverages">Ejemplo 7 — OGC API -
+Coverages</h2>
+<p>Una implementación moderna puede exponer una colección ráster
+mediante API. El estudiante debe revisar:</p>
+<ul>
+<li><strong>Dominios espacial y temporal.</strong> Permiten conocer qué
+territorio, alturas o periodos están realmente disponibles antes de
+solicitar datos.</li>
+<li><strong>Formato de salida.</strong> Determina cómo se entregarán
+valores y metadatos y qué herramientas podrán procesarlos.</li>
+<li><strong>Subconjuntos soportados.</strong> Indican si el servidor
+puede recortar por ejes o rangos para evitar transferir la cobertura
+completa.</li>
+<li><strong>CRS.</strong> Debe verificarse tanto el sistema del dominio
+como las capacidades de transformación anunciadas por la
+implementación.</li>
+<li><strong>Tamaño de respuesta.</strong> Una cobertura puede ser varios
+órdenes de magnitud mayor que una imagen WMS; el cliente debe solicitar
+únicamente la región necesaria.</li>
+</ul>
+<p>No todos los servidores implementan las mismas extensiones; por ello
+debe leerse la declaración de conformidad de la implementación
+elegida.</p>
+<h2 id="ejemplo-8--generalización-vectorial">Ejemplo 8 — Generalización
+vectorial</h2>
+<p>Una red vial con millones de vértices puede ser necesaria para
+análisis detallado, pero excesiva para una vista regional.</p>
+<p>Una estrategia es crear productos por escala:</p>
+<pre class="text"><code>1:5.000    → geometría detallada
+1:25.000   → simplificación moderada
+1:100.000  → ejes principales</code></pre>
+<p>En PostGIS, <code>ST_Simplify</code> puede utilizarse para
+experimentar, pero la tolerancia debe revisarse porque puede alterar
+topología o significado.</p>
+<h2 id="ejemplo-9--medición-comparativa">Ejemplo 9 — Medición
+comparativa</h2>
+<p>Realizar tres pruebas sobre la misma extensión:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Prueba</th>
+<th>Respuesta</th>
+<th style="text-align: right;">Tamaño</th>
+<th style="text-align: right;">Tiempo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>WMS sin caché</td>
+<td>PNG</td>
+<td style="text-align: right;">registrar</td>
+<td style="text-align: right;">registrar</td>
+</tr>
+<tr class="even">
+<td>WMS repetido / caché</td>
+<td>PNG</td>
+<td style="text-align: right;">registrar</td>
+<td style="text-align: right;">registrar</td>
+</tr>
+<tr class="odd">
+<td>Tesela</td>
+<td>PNG/WebP</td>
+<td style="text-align: right;">registrar</td>
+<td style="text-align: right;">registrar</td>
+</tr>
+</tbody>
+</table>
+<p>El objetivo es medir, no asumir que el caché “siempre es más
+rápido”.</p>
+<h2 id="ejemplo-10--diagnóstico-de-un-mapa-lento">Ejemplo 10 —
+Diagnóstico de un mapa lento</h2>
+<p>Orden sugerido:</p>
+<ol type="1">
+<li>medir tiempo total;</li>
+<li>revisar tamaño de imagen;</li>
+<li>revisar cantidad de features renderizados;</li>
+<li>comprobar índices espaciales;</li>
+<li>evaluar complejidad de estilo;</li>
+<li>revisar reproyección en tiempo real;</li>
+<li>observar logs y CPU;</li>
+<li>probar generalización o caché;</li>
+<li>repetir medición.</li>
+</ol>
+<h2 id="ejercicio-integrador">Ejercicio integrador</h2>
+<p>Para una capa vectorial y una cobertura, justificar qué interfaz se
+utilizaría para: visualización, análisis detallado, mapa base y
+descarga. La respuesta debe basarse en necesidad y rendimiento, no en
+preferencia por una tecnología.</p>
+<p><strong>Referencia técnica:</strong> OGC API - Tiles Part 1 Core
+describe los recursos de tiles y Tile Matrix Sets; el programa incorpora
+WCS, WMTS, OGC API Tiles y OGC API Coverages como alternativas de
+publicación según el producto.</p>
+<hr/>
+<h1 id="22-laboratorio-12--teselas-coberturas-y-rendimiento">22.
+Laboratorio 12 — Teselas, coberturas y rendimiento</h1>
+<h2 id="221-cobertura">22.1. Cobertura</h2>
+<p>Publicar o consultar un ráster/cobertura y observar formato, CRS y
+subset cuando esté disponible.</p>
+<h2 id="222-teselas">22.2. Teselas</h2>
+<p>Configurar o consumir WMTS/tiles y revisar niveles de zoom y
+matrices.</p>
+<h2 id="223-caché">22.3. Caché</h2>
+<p>Comparar una solicitud inicial y una repetida cuando la plataforma
+permita observar diferencias.</p>
+<h2 id="224-generalización">22.4. Generalización</h2>
+<p>Crear una versión simplificada de una capa y comparar tamaño/tiempo
+con la original.</p>
+<h2 id="225-evidencia">22.5. Evidencia</h2>
 <p>Registrar tiempos, tamaños, configuración y conclusiones.</p>
 <hr/>
-<h1>23. Entregable</h1>
-<p>Debe incluir comparación WMS/WMTS o tiles, análisis de un recurso de cobertura, estrategia de caché, evidencia de generalización y una prueba de rendimiento simple.</p>
-<p>El grupo debe justificar qué capas de su IDE necesitan renderizado dinámico, teselas, features o coberturas.</p>
+<h1 id="23-entregable">23. Entregable</h1>
+<p>Debe incluir comparación WMS/WMTS o tiles, análisis de un recurso de
+cobertura, estrategia de caché, evidencia de generalización y una prueba
+de rendimiento simple.</p>
+<p>El grupo debe justificar qué capas de su IDE necesitan renderizado
+dinámico, teselas, features o coberturas.</p>
 <hr/>
-<h1>24. Secuencia sugerida</h1>
+<h1 id="24-secuencia-sugerida">24. Secuencia sugerida</h1>
 <ul>
-<li><strong>Bloque 1 — 45 minutos.</strong> Coberturas, WCS y diferencia con WMS.</li>
-<li><strong>Bloque 2 — 45 minutos.</strong> Teselas, WMTS y matrices.</li>
-<li><strong>Bloque 3 — 35 minutos.</strong> OGC API - Tiles y Coverages.</li>
+<li><strong>Bloque 1 — 45 minutos.</strong> Coberturas, WCS y diferencia
+con WMS.</li>
+<li><strong>Bloque 2 — 45 minutos.</strong> Teselas, WMTS y
+matrices.</li>
+<li><strong>Bloque 3 — 35 minutos.</strong> OGC API - Tiles y
+Coverages.</li>
 <li><strong>Bloque 4 — 40 minutos.</strong> Caché e invalidación.</li>
-<li><strong>Bloque 5 — 35 minutos.</strong> Generalización y rendimiento.</li>
+<li><strong>Bloque 5 — 35 minutos.</strong> Generalización y
+rendimiento.</li>
 <li><strong>Bloque 6 — 40 minutos.</strong> Laboratorio y medición.</li>
 </ul>
 <hr/>
-<h1>25. Preguntas de cierre</h1>
-<h2 id="por-que-wcs-no-es-lo-mismo-que-wms">¿Por qué WCS no es lo mismo que WMS?</h2>
-<p>WMS entrega una representación visual; WCS está orientado a valores de cobertura que pueden utilizarse analíticamente.</p>
-<h2 id="cuando-conviene-wmts">¿Cuándo conviene WMTS?</h2>
-<p>Cuando existe alta demanda de mapas relativamente estables y puede aprovecharse un esquema de teselas precalculadas o cacheadas.</p>
-<h2 id="por-que-la-cache-puede-mostrar-informacion-antigua">¿Por qué la caché puede mostrar información antigua?</h2>
-<p>Porque reutiliza respuestas previas. La estrategia debe incluir invalidación o expiración coherente con la frecuencia de actualización.</p>
+<h1 id="25-preguntas-de-cierre">25. Preguntas de cierre</h1>
+<h2 id="por-qué-wcs-no-es-lo-mismo-que-wms">¿Por qué WCS no es lo mismo
+que WMS?</h2>
+<p>WMS entrega una representación visual; WCS está orientado a valores
+de cobertura que pueden utilizarse analíticamente.</p>
+<h2 id="cuándo-conviene-wmts">¿Cuándo conviene WMTS?</h2>
+<p>Cuando existe alta demanda de mapas relativamente estables y puede
+aprovecharse un esquema de teselas precalculadas o cacheadas.</p>
+<h2 id="por-qué-la-caché-puede-mostrar-información-antigua">¿Por qué la
+caché puede mostrar información antigua?</h2>
+<p>Porque reutiliza respuestas previas. La estrategia debe incluir
+invalidación o expiración coherente con la frecuencia de
+actualización.</p>
 <hr/>
-<h1>26. Errores frecuentes</h1>
+<h1 id="26-errores-frecuentes">26. Errores frecuentes</h1>
 <ul>
-<li><strong>“Teselar siempre mejora cualquier capa”.</strong> Introduce rigidez y almacenamiento; debe responder al patrón de uso.</li>
-<li><strong>“Caché significa que el dato queda duplicado sin control”.</strong> Debe gestionarse como producto derivado con reglas de invalidación.</li>
-<li><strong>“Generalizar es simplemente reducir vértices”.</strong> También puede implicar selección, agregación y cambio de representación.</li>
+<li><strong>“Teselar siempre mejora cualquier capa”.</strong> Introduce
+rigidez y almacenamiento; debe responder al patrón de uso.</li>
+<li><strong>“Caché significa que el dato queda duplicado sin
+control”.</strong> Debe gestionarse como producto derivado con reglas de
+invalidación.</li>
+<li><strong>“Generalizar es simplemente reducir vértices”.</strong>
+También puede implicar selección, agregación y cambio de
+representación.</li>
 </ul>
 <hr/>
-<h1>27. Glosario</h1>
+<h1 id="27-glosario">27. Glosario</h1>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Concepto</th>
 <th>Definición</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Cobertura</td>
 <td>Valores asociados a un dominio espacial/temporal</td>
 </tr>
-<tr>
+<tr class="even">
 <td>WCS</td>
 <td>Web Coverage Service</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>WMTS</td>
 <td>Web Map Tile Service</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Tesela</td>
 <td>Fragmento de mapa dentro de una matriz</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Caché</td>
 <td>Almacenamiento temporal de respuestas</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Generalización</td>
 <td>Adaptación del detalle a escala/uso</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Overview</td>
 <td>Representación ráster de menor resolución</td>
 </tr>
 </tbody>
 </table>
 <hr/>
-<h1>28. Trabajo autónomo</h1>
-<p>Preparar una lista de componentes que serán desplegados en Semana 13 y documentar dependencias, puertos, variables, volúmenes y configuración necesaria para reproducir el entorno.</p>
+<h1 id="28-trabajo-autónomo">28. Trabajo autónomo</h1>
+<p>Preparar una lista de componentes que serán desplegados en Semana 13
+y documentar dependencias, puertos, variables, volúmenes y configuración
+necesaria para reproducir el entorno.</p>
 <hr/>
-<h1>29. Referencias</h1>
-<p><strong>[R1]</strong> Open Geospatial Consortium. <em>Web Coverage Service (WCS)</em>.<br/>
+<h1 id="29-referencias">29. Referencias</h1>
+<p><strong>[R1]</strong> Open Geospatial Consortium. <em>Web Coverage
+Service (WCS)</em>.<br/>
 <a href="https://www.ogc.org/standards/wcs/">https://www.ogc.org/standards/wcs/</a></p>
-<p><strong>[R2]</strong> Open Geospatial Consortium. <em>Web Map Tile Service (WMTS)</em>.<br/>
+<p><strong>[R2]</strong> Open Geospatial Consortium. <em>Web Map Tile
+Service (WMTS)</em>.<br/>
 <a href="https://www.ogc.org/standards/wmts/">https://www.ogc.org/standards/wmts/</a></p>
-<p><strong>[R3]</strong> Open Geospatial Consortium. <em>OGC API — Tiles</em>.<br/>
+<p><strong>[R3]</strong> Open Geospatial Consortium. <em>OGC API —
+Tiles</em>.<br/>
 <a href="https://www.ogc.org/standards/ogcapi-tiles/">https://www.ogc.org/standards/ogcapi-tiles/</a></p>
-<p><strong>[R4]</strong> Open Geospatial Consortium. <em>OGC API — Coverages</em>.<br/>
+<p><strong>[R4]</strong> Open Geospatial Consortium. <em>OGC API —
+Coverages</em>.<br/>
 <a href="https://www.ogc.org/standards/ogcapi-coverages/">https://www.ogc.org/standards/ogcapi-coverages/</a></p>
-<hr/>
-<h1>30. Síntesis</h1>
-<p>La Semana 12 muestra que la publicación debe adaptarse al tipo de información y demanda. Una IDE eficiente combina mapas dinámicos, objetos, coberturas, teselas, caché y generalización según el caso, en lugar de resolver todo mediante una única interfaz.</p>
-<div class="weeknav"><a href="Semana_11_WFS_OGC_API_Features.html">← Semana 11</a><a href="../index.html">Índice del curso</a><a href="Semana_13_Despliegue_Contenedores_Ambientes.html">Semana 13 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
+<h2 id="r5-ogc-ogc-api---tiles---part-1-core-httpsdocsogcorgis20-05720-057html"><strong>[R5]</strong>
+OGC. <em>OGC API - Tiles - Part 1: Core</em>.<br/>
+<a href="https://docs.ogc.org/is/20-057/20-057.html">https://docs.ogc.org/is/20-057/20-057.html</a></h2>
+<h1 id="30-síntesis">30. Síntesis</h1>
+<p>La Semana 12 muestra que la publicación debe adaptarse al tipo de
+información y demanda. Una IDE eficiente combina mapas dinámicos,
+objetos, coberturas, teselas, caché y generalización según el caso, en
+lugar de resolver todo mediante una única interfaz.</p>
+<div class="weeknav"><a href="Semana_11_WFS_OGC_API_Features.html">← Semana 11</a><a href="Semana_13_Despliegue_Contenedores_Ambientes.html">Semana 13 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
