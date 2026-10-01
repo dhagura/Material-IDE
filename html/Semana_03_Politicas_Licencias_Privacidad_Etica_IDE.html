@@ -1,6 +1,22 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 3 — Políticas de datos, licencias, privacidad, ética y condiciones de reutilización en una IDE</title><style>
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Semana 3 — Políticas de datos, licencias, privacidad, ética y condiciones de reutilización en una IDE</title><style>
 :root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script>document.addEventListener('DOMContentLoaded',function(){if(window.mermaid){mermaid.initialize({startOnLoad:false,securityLevel:'loose',theme:'neutral'});mermaid.run({querySelector:'.mermaid'}).catch(function(err){console.error('Mermaid:',err);});}});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje-de-la-semana">3. Resultados de
+
+.diagram-static{
+  margin:1.35rem 0 1.65rem;
+  padding:1rem;
+  border:1px solid #d5e0e5;
+  background:#fff;
+  overflow:auto;
+  text-align:center;
+}
+.diagram-static img{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:0 auto;
+}
+</style></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje-de-la-semana">3. Resultados de
 aprendizaje de la semana</a><a class="" href="#4-puente-con-la-semana-2-de-la-gobernanza-a-la-política-de-datos">4.
 Puente con la Semana 2: de la gobernanza a la política de datos</a><a class="" href="#5-qué-es-una-política-de-datos">5. ¿Qué es una política de
 datos?</a><a class="" href="#6-política-norma-licencia-procedimiento-y-términos-de-uso">6.
@@ -204,10 +220,7 @@ incorpora una pregunta adicional:</p>
 <p>Por ejemplo, el custodio de un dataset puede tener autoridad para
 aprobar una publicación, pero todavía necesita reglas para determinar si
 esa publicación es adecuada.</p>
-<pre class="mermaid">flowchart LR
-    A["Gobernanza&lt;br/&gt;Quién decide"] --&gt; B["Política&lt;br/&gt;Con qué criterios decide"]
-    B --&gt; C["Procedimiento&lt;br/&gt;Cómo se aplica"]
-    C --&gt; D["Control técnico&lt;br/&gt;Cómo se implementa"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 1" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdz8FKA0EMBuBXCTm3eF-kYLfgxYPVo-NhOhNtYGayphlESx9oD558hH0xp11QMMfk_37IEYNEwg5fkryHvVeDuwdXoM3Nk8Nb2ZEWXz799U6vVtvK01ggUuBIDp9huVzBuuXuJU1fxmGO9VLgrU4jBGUjZTn8kbl7fZH9WaoEipyZismsp-8scCDwQ2qNv6a_mE0zrd9UEtg0hsLhH-M8JMqt7kxxgZk0e47tx6ND27eTw85hoWrqk8NTy_hq8vhRAnamlRZYh-iNNuxf1ed5efoBantn-w?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La gobernanza define la autoridad. La política establece principios.
 El procedimiento traduce esos principios en pasos y la tecnología los
 materializa mediante configuraciones concretas.</p>
@@ -316,23 +329,7 @@ publicar.</p>
 políticas a lo largo del ciclo de vida</h1>
 <p>Las decisiones de política deben acompañar al recurso desde su
 creación y no aparecer únicamente en el momento de publicación.</p>
-<pre class="mermaid">flowchart TB
-    A["Producción"] --&gt; B["Almacenamiento"]
-    B --&gt; C["Documentación"]
-    C --&gt; D["Evaluación de acceso"]
-    D --&gt; E["Licenciamiento"]
-    E --&gt; F["Publicación"]
-    F --&gt; G["Reutilización"]
-    G --&gt; H["Actualización / retiro"]
-
-    P["Políticas de calidad, privacidad, seguridad y ética"] -.-&gt; A
-    P -.-&gt; B
-    P -.-&gt; C
-    P -.-&gt; D
-    P -.-&gt; E
-    P -.-&gt; F
-    P -.-&gt; G
-    P -.-&gt; H</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 2" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdkT1uAyEQha-CpraT3kUkr3e9LlxYSbqQYgITGwkWC4Mjx_KBUqTKEfZimYX8aE01j_cNb4AzKK8JZvBq_ZvaYYjisZKd4DV_krAJXielTP_VSXgW0-mdqHh7bh0q6tAZ6qJnp3RUGVgwUHuVHHv421qARQZqBpoj2lRcoUmgUnT4P6jOXMPc2nCOMtdJTQaWw4TpxRp1lbPMdsv2PaVorHm_AtoMrIarqJjwDxC3IlA0oSQVdjOkeNt_Rs45DNMqbtCoJ2IfzJEbc32gbQpDKU6i_xjY_GI3nDP_OaioaqQWI1WPVDNSy5FqR2oFE3AUHBrNf3mWEHfkSMJMQscvENBKuDCDKfqHU6dgFkOiCaS9xki1wW1AVzYv3931pDI?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Durante la producción ya debería conocerse si se están recolectando
 datos personales o sensibles. Durante el almacenamiento debe definirse
 quién puede acceder. Los metadatos deben informar restricciones y
@@ -885,10 +882,7 @@ Fecha: 20:30
 Ubicación: coordenada A</code></pre>
 <p>Aunque el identificador sea ficticio, la repetición espacial puede
 permitir inferir domicilio, trabajo u otras rutinas.</p>
-<pre class="mermaid">flowchart LR
-    A["Dato sin nombre"] --&gt; B["Patrón espacial"]
-    B --&gt; C["Cruce con otras fuentes"]
-    C --&gt; D["Posible reidentificación"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 3" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNo9jjEOwjAMRa9ieYYLdECCdmRAMBIGN3UhUpMgxxFCiFNxBC6GKRIe_Z-f_wN9HhgbHKd88xcShe3eJbBZHx12pBlKSJBy7IUdnmC5XMHGoh2pvF8JuFzJB5os-91tZqQ1pJXqGXxOkFWowFg5KZc_2c5k95XlEvqJQTgMxoQxeJOa3lhcYGSJFAar-XCoF47WpHGYuJrXPj-Noar5cE8eG5XKC6zXgZS7QGeh-Fs-P0KfT7Y?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La privacidad debe evaluarse considerando capacidad de combinación
 con otras fuentes.</p>
 <hr/>
@@ -1046,14 +1040,7 @@ desde la perspectiva del equipo que realizó la transformación.</p>
 <h1 id="24-publicación-por-niveles">24. Publicación por niveles</h1>
 <p>Una misma fuente puede generar diferentes productos según el
 usuario.</p>
-<pre class="mermaid">flowchart TB
-    A["Fuente detallada"] --&gt; B["Uso interno autorizado"]
-    A --&gt; C["Versión seudonimizada"]
-    A --&gt; D["Versión agregada pública"]
-
-    B --&gt; B1["Analistas autorizados"]
-    C --&gt; C1["Investigación controlada"]
-    D --&gt; D1["Ciudadanía / portal abierto"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 4" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpd0LFOxDAMBuBXsTzfCbF2QLq2QmLmYCEMvsT0IqVJlTggON0jMbGx9sVILwhVZIw_O79zQh0MY4MvLrzpI0WBfas8lLN7Unib2QuDYSHnyJDCZ9hub6AttYcUwJZq9AEoS4j2g0wo4rf9ArsCHzkmO395SJxN8HZcIP2D_RrSEHkoBqb5--Csrrjytga4Ln7nydkklFbvp7-5XQ2wwDv_yknsQPoyXgcvMbh1iL6GWHBnsyklP38SXMEUYtkd6GA5yrIdbnDkOJI15ddOCuXIIytsFHrOEskpPBezJLp_9xobiZk3mCdDwr0tq9FYL88_WKCADQ?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Este modelo es especialmente útil cuando la organización necesita
 preservar valor analítico sin exponer detalle innecesario.</p>
 <h3 id="ejemplo-27">Ejemplo</h3>
@@ -1261,11 +1248,7 @@ visualización.</p>
 y apertura no son extremos absolutos</h1>
 <p>Una IDE no debe elegir entre “todo abierto” y “todo cerrado”.</p>
 <p>Puede utilizar distintos niveles.</p>
-<pre class="mermaid">flowchart LR
-    A["Máximo detalle"] --&gt; B["Acceso restringido"]
-    B --&gt; C["Producto institucional"]
-    C --&gt; D["Producto agregado"]
-    D --&gt; E["Datos abiertos"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 5" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpNz0tuAjEMANCrRF7DBWaBBEx3ICFYNl24iRksTWLkcdRWiMP0LL1Y3UGqyMqKn383SJIJOjiP8pEuqBZ2x1iDv_VrhP3P9ycXCZkMx5EivIXlchU2nlqnRJMEpcmU68BZPPuo3Mxo6-igklsyCVwnY2uJpeL4D7cz7J8hDkoDPjXrZ_PipkeTKeA7k3rgABZQSAty9gNuEexCxXfsIlRqpn-D7m6wmZy-aoLOtNEC2jWjUc8-Csvj8_4LfB5W_g?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>El nivel apropiado depende de la sensibilidad, finalidad, usuarios y
 riesgo.</p>
 <p>La arquitectura debería permitir estos niveles mediante roles,
@@ -1331,21 +1314,7 @@ simultáneamente.</p>
 <hr/>
 <h1 id="33-flujo-de-decisión-antes-de-publicar">33. Flujo de decisión
 antes de publicar</h1>
-<pre class="mermaid">flowchart TB
-    A["Recurso candidato"] --&gt; B{"¿Existe autoridad para publicarlo?"}
-    B -- "No" --&gt; X["No publicar / resolver derechos"]
-    B -- "Sí" --&gt; C{"¿Contiene datos personales o sensibles?"}
-    C -- "Sí" --&gt; D["Evaluar finalidad, necesidad y riesgo"]
-    D --&gt; E{"¿Puede reducirse el riesgo?"}
-    E -- "No" --&gt; F["Acceso restringido / no publicar"]
-    E -- "Sí" --&gt; G["Minimizar, agregar o generalizar"]
-    C -- "No" --&gt; H{"¿Existen otras restricciones?"}
-    G --&gt; H
-    H -- "Sí" --&gt; I["Aplicar condiciones de acceso"]
-    H -- "No" --&gt; J["Definir licencia"]
-    I --&gt; J
-    J --&gt; K["Actualizar metadatos"]
-    K --&gt; L["Publicar y monitorear"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 6" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdUs1u2zAMfhVC5xS757ChSbym7VoU6w4D6h1UmXUI2KJBSd3Soo-0ZxiwvdhoKXMy-2Ta_Pj9kK_GcYNmaZ46_u52ViJ8WdUe9Dl_qM1ndEkCg7O-ocZGrs03ODt7D6vX2vz-Vf2gEBFsiiz6u4HBioUhPXbkrHT8oTZvZdhKUVCbWx2Q8V8fxmJqhXcgGLh7RoEGBd2Og1L9h73_8_MAXmfyNftI6BFGXQEGVKHedhiAIaAP9KjvRwXr-ZSNSqiebZeU_okUOTpYgEeHIZvZgxCGlichm4yrMvtdwgZVdJMcSUDA7tB9ZKxmnj8q4bnT6TyajUK-pYbVuj8GMXFVc7kXir4hTz29WFmAbQVbVc7Qagai6l9O0OsZ9fZkXR44ig0HDc4R-9OcLgqgFNu5isvRw1B25liPosB1aWCztUnCdibhSpEb1KBJQPHoHdmp-bK0lOIqF9c5rZiKM-gx2rzoCXOd2z5p292_K9pDz570GDFnYRamR-ktNXrgmkDcYY-1WdbGY9IMOjWtPeP53u-9M8soCRcmDUqEG9KIbV8-vv0F8KMDgw?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Este flujo es didáctico y no sustituye una evaluación jurídica
 formal.</p>
 <p>Su propósito es mostrar que la decisión de publicación debe recorrer
@@ -1844,13 +1813,7 @@ agregación o acceso diferenciado.</li>
 <h2 id="446-parte-e--diagrama-de-publicación">44.6. Parte E — Diagrama
 de publicación</h2>
 <p>Cada equipo debe construir un flujo.</p>
-<pre class="mermaid">flowchart LR
-    A["Fuente oficial"] --&gt; B["Revisión de calidad"]
-    B --&gt; C["Evaluación de privacidad"]
-    C --&gt; D["Transformación"]
-    D --&gt; E["Licencia y metadatos"]
-    E --&gt; F["Aprobación"]
-    F --&gt; G["Publicación"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 7" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpd0EtOwzAQBuCrWLNuL5AFUtskbLpAhR1mMbUndCQ_IscOqqqeiiNwMQZHRAjvxv83Hts3MNESNDC4-GEumLI6nnRQsnavGvpCIZOKAxtGp-FNbbcPai_JiWae-OszKEvKoGOLVvKldV_ZQVg3oytofuGYeJbqrz1U24p9SRimISa_-FW0VXQijmwoyE3UVXnKaDHHaWVdZb2w3Zji-d8hfU0fJX0qZ8dmjWEDnmQmW_mFm4Z8IU8aGg2BSk4_r76LwZLj8zUYaHIqtIEyynRqGd8T-mXz_g2W7G2v?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Cada transición debe indicar responsable.</p>
 <hr/>
 <h1 id="45-entregable-de-la-semana-3">45. Entregable de la Semana 3</h1>

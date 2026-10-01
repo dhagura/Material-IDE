@@ -1,6 +1,22 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 4 — Arquitectura de una IDE, requisitos, casos de uso y criterios de diseño</title><style>
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Semana 4 — Arquitectura de una IDE, requisitos, casos de uso y criterios de diseño</title><style>
 :root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script>document.addEventListener('DOMContentLoaded',function(){if(window.mermaid){mermaid.initialize({startOnLoad:false,securityLevel:'loose',theme:'neutral'});mermaid.run({querySelector:'.mermaid'}).catch(function(err){console.error('Mermaid:',err);});}});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje-de-la-semana">3. Resultados de
+
+.diagram-static{
+  margin:1.35rem 0 1.65rem;
+  padding:1rem;
+  border:1px solid #d5e0e5;
+  background:#fff;
+  overflow:auto;
+  text-align:center;
+}
+.diagram-static img{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:0 auto;
+}
+</style></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje-de-la-semana">3. Resultados de
 aprendizaje de la semana</a><a class="" href="#4-de-una-necesidad-a-un-requisito">4. De una necesidad a un
 requisito</a><a class="" href="#5-casos-de-uso-como-puente-entre-usuarios-y-arquitectura">5.
 Casos de uso como puente entre usuarios y arquitectura</a><a class="" href="#6-requisitos-funcionales">6. Requisitos funcionales</a><a class="" href="#7-requisitos-no-funcionales">7. Requisitos no funcionales</a><a class="sub" href="#71-disponibilidad">7.1. Disponibilidad</a><a class="sub" href="#72-rendimiento">7.2. Rendimiento</a><a class="sub" href="#73-escalabilidad">7.3. Escalabilidad</a><a class="sub" href="#74-seguridad">7.4. Seguridad</a><a class="sub" href="#75-mantenibilidad">7.5. Mantenibilidad</a><a class="sub" href="#76-interoperabilidad-y-portabilidad">7.6. Interoperabilidad y
@@ -190,23 +206,7 @@ plataforma.</p>
 <hr/>
 <h1 id="8-arquitectura-lógica-por-capas">8. Arquitectura lógica por
 capas</h1>
-<pre class="mermaid">flowchart TB
-    U["Usuarios y sistemas"] --&gt; APP["Aplicaciones y clientes"]
-    APP --&gt; API["Servicios, APIs y catálogo"]
-    API --&gt; INFO["Datos y metadatos"]
-    INFO --&gt; STORE["Almacenamiento"]
-    STORE --&gt; INFRA["Infraestructura"]
-
-    GOV["Gobernanza y políticas"] -.-&gt; U
-    GOV -.-&gt; API
-    GOV -.-&gt; INFO
-
-    SEC["Seguridad"] -.-&gt; APP
-    SEC -.-&gt; API
-    SEC -.-&gt; STORE
-
-    OBS["Monitoreo y operación"] -.-&gt; API
-    OBS -.-&gt; INFRA</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 1" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdkUtOwzAQhq8Sed1ygC6QUlqqLCBV07LBLAZn2lryI_IDVKoehgOw4gi9GGOHhoqskvE3n_-ZHJmwLbIJ2yr7LvbgQrGeclPQs3nmbOMjOGl9cSi89AE1eM5eivH4tiiXSwLKTkkBQlqDCRJKogmYoF5C1C9dEd2ge5ME-1Eq5AYI509ld_aqo8od1eN9TS0zCPl6jQHa9D6ACchks65X85RFaRBoQKcMf8J8fFGuSgIrs3WAPrgoQnSQyZ5d1E90vrCv6AyYD6CLO6vOX4GG7Ce_Ic9mgPtvivyvkrJdnM38Lo--i0620A4WWs0A_PMMlZz9IqqnDYkerJHBOrSUzXboaPnnb3NlrQZ6yLIq2YhpdBpkS__6yFnYo0bOJpwZjMGB4uxEDMRgm4MRbELLwRGLHe0cZxJ2DnRfPP0Agp2tNw?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>El diagrama separa funciones. La capa de almacenamiento no debería
 contener decisiones de presentación; los clientes no deberían conocer
 detalles internos innecesarios de las bases; la seguridad y gobernanza
@@ -229,12 +229,7 @@ laboratorio, pero separarse en producción por disponibilidad, seguridad
 o carga.</p>
 <hr/>
 <h1 id="10-arquitectura-centralizada">10. Arquitectura centralizada</h1>
-<pre class="mermaid">flowchart LR
-    A["Productor A"] --&gt; C["Repositorio central"]
-    B["Productor B"] --&gt; C
-    D["Productor C"] --&gt; C
-    C --&gt; S["Servicios centrales"]
-    S --&gt; U["Usuarios"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 2" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdj8sKgzAQRX8lzFp_wEXBx7KLorhqugjJtAaMkTxaivjvnRoq2NnNPffOYwFpFUIB99G-5CBcYOeWT4yqvHK4OKuiDNaxksON5fmJ1SS3OFuvSdaWSZyCEyPhFKsOsWqPJdocaP1H663pyNOhe2qprf_NR79v6DZXT67eR0E3fBFkYNAZoRU9s3AIAxrkUHCYMKYDV_KIGGz3niQUwUXMIM5KBGy0eDhhkrh-AKZwV_w?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>En una arquitectura centralizada, varios productores entregan o
 sincronizan información hacia un repositorio común. La principal ventaja
 es simplificar administración, respaldo y control de versiones. También
@@ -246,11 +241,7 @@ debe justificarse por necesidades reales y no asumirse como modelo
 universal.</p>
 <hr/>
 <h1 id="11-arquitectura-distribuida">11. Arquitectura distribuida</h1>
-<pre class="mermaid">flowchart LR
-    A["Institución A\nDatos + servicios"] --&gt; C["Catálogo federado"]
-    B["Institución B\nDatos + servicios"] --&gt; C
-    D["Institución C\nDatos + servicios"] --&gt; C
-    C --&gt; U["Usuarios"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 3" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNqNjzEOwjAMRa8SeYVeoANSaRckJlAnzGAlBiK1CUocEKp6GM7AEXoxIroxILzZ_78neQDtDUMJp87f9YWCqO0OncpTHRA2LoqVpO30cqpCdA2Jj2qhIoeb1dZHhKMqipWqc7smmZ6dP3t1YsOBjM_pLFt_y9Y_ZTPUfEP1H1D9WdqMtjFRmAuwhJ5DT9bkVwcEuXDPCCWC4ySBOoQxdyiJ3z-chlJC4iWkqyHhxtI5UD8fxzdUH2eK?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Cada productor mantiene sus recursos y publica interfaces
 compatibles. Este patrón preserva responsabilidad cerca de la fuente y
 es apropiado en infraestructuras interinstitucionales.</p>
@@ -407,24 +398,7 @@ arquitectura municipal</h1>
 <p>Supongamos que el proyecto necesita datos públicos de áreas verdes,
 predios internos, catálogo público, WMS, API de equipamientos, monitoreo
 y respaldo.</p>
-<pre class="mermaid">flowchart TB
-    INT["Usuarios internos"] --&gt; APP1["QGIS"]
-    PUB["Ciudadanía"] --&gt; APP2["Visor web"]
-
-    APP1 --&gt; GW["Servicios"]
-    APP2 --&gt; GW
-
-    GW --&gt; WMS["WMS"]
-    GW --&gt; API["API"]
-    GW --&gt; CAT["Catálogo"]
-
-    WMS --&gt; DB["Base espacial"]
-    API --&gt; DB
-    CAT --&gt; META["Metadatos"]
-
-    IAM["Autenticación y roles"] -.-&gt; GW
-    MON["Monitoreo"] -.-&gt; GW
-    BAK["Respaldo"] -.-&gt; DB</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 4" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNplUUtOwzAQvYrldYtEl10gJQ2KIpQSSEsWhMWQDK2lxK4cm6qqehgOwIoj5GKMnVAq8MKS5338nn3klaqRz_lbo_bVFrRhq7CUjFayXD2XfN1Z0EJ1TEiDWqqu5C9sOr1hQZZdE_4QJzmNBkm2Dmm0ELaGGmT_CRfkGSFPolOa7fHVKwaN8_GcuCBGjvpdVMJfc8ZnI_4jiQs_KNKcFLSfuSMQZAkBtP8FFoGrtADTfzRqoy5SkItnRK5ACB0y7HZQCWgugiQjZTiTmT-nt6uARCkaKm3G5OMTBqkLYg1KIyqy678kOzCtGhze8Wrs5cjp_dLZKCmM0qj-4WFwR_ijy9XUv3AU8glvUbcgavrHY8nNFlss-bzkEq3RrsKJOGCNyg-y4nOjLU643VFcjARsNLTD8PQNPTSepw?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La arquitectura debe explicar por qué predios requieren control de
 acceso mientras áreas verdes pueden ser públicas, cómo se separa la
 fuente del producto publicado y qué componentes deben recuperarse ante

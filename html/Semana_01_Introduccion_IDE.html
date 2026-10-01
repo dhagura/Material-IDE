@@ -1,6 +1,22 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 1 — Introducción a las Infraestructuras de Datos Espaciales</title><style>
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Semana 1 — Introducción a las Infraestructuras de Datos Espaciales</title><style>
 :root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script>document.addEventListener('DOMContentLoaded',function(){if(window.mermaid){mermaid.initialize({startOnLoad:false,securityLevel:'loose',theme:'neutral'});mermaid.run({querySelector:'.mermaid'}).catch(function(err){console.error('Mermaid:',err);});}});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje-de-la-semana">3. Resultados de
+
+.diagram-static{
+  margin:1.35rem 0 1.65rem;
+  padding:1rem;
+  border:1px solid #d5e0e5;
+  background:#fff;
+  overflow:auto;
+  text-align:center;
+}
+.diagram-static img{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:0 auto;
+}
+</style></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje-de-la-semana">3. Resultados de
 aprendizaje de la semana</a><a class="" href="#4-de-los-sig-aislados-a-una-infraestructura-de-datos-espaciales">4.
 De los SIG aislados a una Infraestructura de Datos Espaciales</a><a class="sub" href="#41-el-escenario-inicial-información-geográfica-dispersa">4.1. El
 escenario inicial: información geográfica dispersa</a><a class="sub" href="#42-del-análisis-individual-al-uso-compartido">4.2. Del análisis
@@ -175,11 +191,7 @@ servidores, catálogos, aplicaciones y usuarios.</p>
 simultáneamente por varias personas o sistemas. En ese punto aparece la
 necesidad de separar la información de la aplicación particular que la
 utiliza.</p>
-<pre class="mermaid">flowchart LR
-    A["SIG de escritorio&lt;br/&gt;Uso local"] --&gt; B["SIG corporativo&lt;br/&gt;Datos compartidos"]
-    B --&gt; C["Web GIS&lt;br/&gt;Acceso mediante web"]
-    C --&gt; D["IDE&lt;br/&gt;Datos + metadatos + servicios + gobernanza"]
-    D --&gt; E["APIs / espacios de datos&lt;br/&gt;Integración y automatización"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 1" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpNkMFqwzAMhl9F-LqW3sMopE0pgR3Gwthh3kFxtNYQ20F2WtrSp9oj7MWmOqXMJyH_3yekizKhI1Wo7z4czR45wcub9iCv_NSqqbfQEVA0bFNgG55bXizfY4A-GOy1-oL5fAmre9QEHgJjsocpWGEKUbpuELHtQhRgkq8ytxbug1rY1k3Ol8aQuB11Fn0iOFL7INaZqISoq80_-5PEE3b3OhIfrLG53oWW2KM_40NSZclGJOVrHWEhmw2Y47JldmRzLcN3LB-_Px5OgGMKTrY6Tx2xqZlyxA5tJ6e7aJX25EirQitPY-LbZa6SuYHNyRtVJB5ppsZBZlBlUeRual7_AILJgEE?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>El diagrama muestra una evolución conceptual, no una secuencia
 obligatoria. Una organización puede tener elementos de varios niveles al
 mismo tiempo. Lo importante es observar que, a medida que aumenta la
@@ -238,11 +250,7 @@ reglas de mantenimiento.</p>
 divergencia de versiones</h2>
 <p>La duplicación es uno de los problemas más frecuentes.</p>
 <p>Imaginemos este flujo:</p>
-<pre class="mermaid">flowchart LR
-    A["Unidad A&lt;br/&gt;versión original"] --&gt; B["Unidad B&lt;br/&gt;copia"]
-    B --&gt; C["Unidad B&lt;br/&gt;modificación"]
-    C --&gt; D["Unidad C&lt;br/&gt;nueva copia"]
-    A --&gt; E["Unidad A&lt;br/&gt;versión actualizada"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 2" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNp1z80KwjAMB_BXKTkr3ocI-_DmSfFkPcQ208DaSm0VFZ_KR_DF3DpwKJhj8suf5A7KaYIM6sZd1AF9EIultKKtfCNhbVmjFvl05yezM_kTv55WOM97tthI2IrxeCaKQRZJKndkbKd9UJFQ-YuM01yzQtVlfnCZcDXgMmEb6YziOzdPdP73TFQhYsM31N0OjMCQN8i6_fYuIRzIkIRMgqUYfPfNozUYg1tdrYIs-EgjiEeNgSrGvUfTNx9viUVl3g?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Después de algunas semanas existen dos ramas diferentes. Una parte de
 la institución utiliza la versión actualizada por A y otra utiliza la
 versión modificada por B y C.</p>
@@ -273,14 +281,7 @@ archivos</h2>
 <p>El intercambio por correo electrónico o carpetas compartidas puede
 funcionar correctamente en tareas puntuales, pero se vuelve frágil
 cuando el recurso cambia con frecuencia.</p>
-<pre class="mermaid">sequenceDiagram
-    participant A as Unidad productora
-    participant B as Unidad usuaria
-    participant C as Otra unidad
-    A-&gt;&gt;B: Envía copia del archivo
-    B-&gt;&gt;C: Reenvía la copia
-    A-&gt;&gt;A: Actualiza la fuente oficial
-    C-&gt;&gt;C: Sigue utilizando la copia antigua</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 3" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpt0EtqAzEMBuCrCK3TC3gRmJl2XWjozhthK4lgxp56pEAacqScIherE_cFrZbWxy9ZJww5Mjpc-M04BX4U2hWafIJaMxWVIDMlhQ5ogdckkSLMJUcLmgv9df0vZ4tRkX_QcEPPWgjsLpvoHtbr3sFTOlwvBCHPQhB5BCphL4fcUF_R4OCFubHxU_5EdA66oEajvN_b2_oxZcjbOp3G5oaWspGdMZjKzaaYv9Ogbll7hCucuEwksd7o5FH3PLFH5zGx1f1Hj-dqyDRvjimg02K8Qpsj6dct2-P5A8x5e5o?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La publicación mediante servicios o APIs permite, en muchos casos,
 reducir esta proliferación de copias. En lugar de enviar reiteradamente
 un archivo completo, los consumidores pueden conectarse a una fuente
@@ -309,32 +310,7 @@ políticas y condiciones de acceso lo permitan.</p>
 sociotécnico</h1>
 <p>La expresión “sistema sociotécnico” permite comprender que la
 tecnología es solo una de las dimensiones de una IDE.</p>
-<pre class="mermaid">flowchart TB
-    A["IDE"] --&gt; B["Dimensión organizacional"]
-    A --&gt; C["Dimensión informacional"]
-    A --&gt; D["Dimensión normativa"]
-    A --&gt; E["Dimensión tecnológica"]
-    A --&gt; F["Dimensión operacional"]
-
-    B --&gt; B1["Personas"]
-    B --&gt; B2["Instituciones"]
-    B --&gt; B3["Roles y coordinación"]
-
-    C --&gt; C1["Datos"]
-    C --&gt; C2["Metadatos"]
-    C --&gt; C3["Modelos, vocabularios y calidad"]
-
-    D --&gt; D1["Normas"]
-    D --&gt; D2["Políticas"]
-    D --&gt; D3["Licencias y procedimientos"]
-
-    E --&gt; E1["Bases de datos"]
-    E --&gt; E2["Servicios y APIs"]
-    E --&gt; E3["Clientes y aplicaciones"]
-
-    F --&gt; F1["Seguridad"]
-    F --&gt; F2["Monitoreo"]
-    F --&gt; F3["Respaldo y recuperación"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 4" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNptk8FOwzAMhl8lynkcBrcdkLZ1SEiAJsaNcjCJGZbSuErToTHtkTjxCLwYTlOg2-it9dd89u92pw1b1BP94vjNvEKI6mFWeiXX9LHU18Wi1E_q7OxSzeS2oAp9Q1-fXnFYg6d3MMQenED9Sx07P2TJv3Co_keLQ9QnMNIGjrDFIRbReHZfn2syx-TVUZ81hqE5o7M80ljYJYZGqs3vMX3tPI3vm0ixTa_jCXAhwD07bNRWGeZgyYtInAPPPMeRPAVE_jujLyTJLUaw_xWT4Fa247gZqQ0beG4dBOJOCI4s2IGqyHEm1V0K8e-4vpJcSwntI0poJ9UkuyGD3hAkQR3YoKWK0P-0lvlF3kfyzKCR6S2qw_Z7IvlWGDZkcsvT5fUJk6xzlxxdjFA76W0Qd4av8mLH3YHrNvxOPih2SbKnyAH5uNitCpsanGXRBDRt_izytvRIVyiRkZUfYVfq-IoVlnpSao9tDOnL2QsDbeTV1hs9iaHFkW5rmRsLgnWAKj_cfwM5pwwW?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <h2 id="71-dimensión-organizacional">7.1. Dimensión organizacional</h2>
 <p>Esta dimensión responde a preguntas como quién produce, quién
 administra, quién autoriza, quién utiliza y quién coordina.</p>
@@ -457,11 +433,7 @@ PostgreSQL está almacenada una capa. Debería conocer una interfaz
 estable mediante la cual consultar la información.</p>
 <h3 id="wms">WMS</h3>
 <p>WMS está orientado a obtener representaciones cartográficas.</p>
-<pre class="mermaid">sequenceDiagram
-    participant C as Cliente
-    participant S as Servidor WMS
-    C-&gt;&gt;S: Solicitud de mapa
-    S-&gt;&gt;C: Imagen georreferenciada</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 5" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpljzEOwjAQBL9yuho-4IImNBRULmjcnOIlWIrtcJyRUMTfMYqo2HJnit2VxxrBjh-4N5QRxySTSg6FehZRS2NapBgNJA8a5oRi-Kf-Sz30mWJVupz9pgz7w8E78nXuorVIEZRlkY36TgdHpywTCk2oqrhC-4wkUXjHGZolxT5vDWw3ZAR2gQuaqcyB392RZtW_ysjOtGHHbYlivxtb-f4AyopN2Q?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La idea importante es que el cliente solicita una representación del
 mapa y el servidor la genera.</p>
 <h3 id="wfs-y-ogc-api---features">WFS y OGC API - Features</h3>
@@ -607,19 +579,7 @@ de uso.</p>
 <h1 id="12-arquitectura-conceptual-de-una-ide">12. Arquitectura
 conceptual de una IDE</h1>
 <p>Una manera útil de comprender una IDE es pensarla por capas.</p>
-<pre class="mermaid">flowchart TB
-    U["Usuarios&lt;br/&gt;Personas y sistemas"] --&gt; A["Aplicaciones&lt;br/&gt;SIG, web, móvil, dashboards"]
-    A --&gt; S["Servicios y APIs&lt;br/&gt;WMS, WFS, OGC API, catálogo"]
-    S --&gt; I["Información&lt;br/&gt;Datos + metadatos"]
-    I --&gt; D["Almacenamiento&lt;br/&gt;Bases espaciales, archivos, objetos"]
-    D --&gt; INF["Infraestructura&lt;br/&gt;Servidores, red, nube, contenedores"]
-
-    SEC["Seguridad"] -.-&gt; A
-    SEC -.-&gt; S
-    SEC -.-&gt; D
-
-    MON["Monitoreo y operación"] -.-&gt; S
-    MON -.-&gt; INF</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 6" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdksFOwzAMhl8lypUM7hNC2iigHgaTCuJAObiN2YLaeHLSTQjxMDwDj7AXw02gQuQQxYn_z_avvOuWLOq5funo0G6Bo7pf1l7Jeniq9UMYgB2F84bPLtbIgTwE9aaCCxF7CLV-VrPZhVpI7mLXuRZaRx5zflXeGHXAxqj--LV3nVEWwrYhYDsKc5VF0leir5D3TuQjf7EuM-NxVRn1eC3b3c3leG1UC_H42dGGJkaVGKUwSv9C3EsTxy-f9AVEAZ6oHiPY8TyJyiQqxsY7UaCH3qGPlGRLCBgUhp2goMNgFHC7dXuSEzWv-BdU5Oq317k-A4bIQxsHhmzDOJclHimM1ig_NChjkI_oMT0k1s8sV5fJi83AzoJNBp-ODk_POa7-xcUvYHV3K4AVeRcFTWIm7ZCzJROtmnJzLN1ro3sU75yV3_Be67jFHms9r7XHITJ0tf6QHBgiVW--1XMZEo0edmIrFg42DH2-_PgG4rHAaA?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La capa de <strong>usuarios</strong> representa las necesidades. La
 infraestructura existe para apoyar procesos y decisiones reales.</p>
 <p>La capa de <strong>aplicaciones</strong> contiene las herramientas
@@ -640,12 +600,7 @@ consideran transversales porque afectan a todas las capas.</p>
 Arquitectura centralizada, distribuida e híbrida</h1>
 <h2 id="131-arquitectura-centralizada">13.1. Arquitectura
 centralizada</h2>
-<pre class="mermaid">flowchart TB
-    A["Unidad A"] --&gt; C["Repositorio central"]
-    B["Unidad B"] --&gt; C
-    D["Unidad C"] --&gt; C
-    C --&gt; S["Servicios centrales"]
-    S --&gt; U["Usuarios"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 7" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdj0sOwjAMRK8SeU0v0AVSPycgdEVYWImhkZqkygeEqt6dtBWthHf2mxnbE0inCEp4DO4te_SRXWthWa7qJqCzWqFilYA7K4oza_LsQqMLOjqvHZNko8ch481TH55692yoPVDzh5q14VnAyb-01C78kins2XxVdUtMSJi3LwhOYMgb1Cr_MAmIPRkSUAqwlLbT5qzBFB3_WAll9IlOkEaFkVqNT49mG85fh69TrQ?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>En este modelo, múltiples productores entregan información a un
 repositorio central.</p>
 <p>La principal ventaja es el control. Resulta más sencillo identificar
@@ -656,11 +611,7 @@ autonomía.</p>
 <hr/>
 <h2 id="132-arquitectura-distribuida">13.2. Arquitectura
 distribuida</h2>
-<pre class="mermaid">flowchart TB
-    A["Institución A&lt;br/&gt;Datos y servicios"] --&gt; G["Catálogo / Geoportal"]
-    B["Institución B&lt;br/&gt;Datos y servicios"] --&gt; G
-    C["Institución C&lt;br/&gt;Datos y servicios"] --&gt; G
-    G --&gt; U["Usuarios"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 8" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNqNj0GKAkEMRa8SslbcN4Ngt9DMenQ15SJWRy3orkgqNSLiYeYMcwQvZmnv3DjZJbz3yb-gl46xwl0vJ38gNVjVLkKZxbfDz5gsWPbh9hdh8bHV2XxJJgnOkFh_gg-SHG5gOp1DW_iG7Pbby15gBi3LUdSoL8CYWL8m1m8SR6151Zp_ae1zWRd5nTLpCOAEB9aBQlc6XxzagQd2WDmMnE0fz14LQ9nk6xw9VqaZJ5iPHRkvA-2VhvF4vQO6LmpC?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Aquí cada institución mantiene sus datos y servicios.</p>
 <p>La infraestructura común facilita descubrimiento e integración.</p>
 <p>Este modelo requiere mayor coordinación y estandarización porque las
@@ -686,14 +637,7 @@ territorial producida por distintos organismos del Estado.</p>
 existencia de un mapa. Lo importante es reconocer que detrás del portal
 existen instituciones productoras, datos, servicios, metadatos,
 catálogos y mecanismos de coordinación.</p>
-<pre class="mermaid">flowchart LR
-    A["Instituciones productoras"] --&gt; B["Datos institucionales"]
-    B --&gt; C["Metadatos"]
-    B --&gt; D["Servicios"]
-    C --&gt; E["Catálogo"]
-    D --&gt; F["Geoportal / clientes"]
-    E --&gt; F
-    F --&gt; G["Usuarios"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 9" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdkMFKA0EMQH9lyLnF-x4Eu9sWQS-WnhwPYTa2A7OTJZupSOnH-C3-mOkOWDG35L0kJGcI3BM08J74IxxR1D29-OwsHl49POZJo5YQOdPkRuG-BGXBycObWy7v3cqkDpUnF28qJroKdcxq9lrznkmxv7r_WGdsR3KK1ntj7czWxlrU76_EB_5l3cw2xrbEI4ticncupEhZ_6xeV60mmznZWs9-Kih1FSxgIBkw9vaCswc90kAeGg-ZigomDxdzsCjvPnOARqXQAspod1AX8SA41OLlB8jiaOs?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>El estudiante debe observar que el Geoportal es la parte visible de
 un sistema más amplio.</p>
 <p>IDE Chile también dispone de herramientas y documentación asociadas a
@@ -724,24 +668,7 @@ de gobernar y gestionar información.</strong></p>
 <h1 id="16-ecosistema-de-estándares">16. Ecosistema de estándares</h1>
 <p>Durante el curso aparecerán diferentes estándares porque cada uno
 responde a una necesidad distinta.</p>
-<pre class="mermaid">flowchart TB
-    A["Necesidad"] --&gt; B["Describir"]
-    A --&gt; C["Visualizar"]
-    A --&gt; D["Consultar objetos"]
-    A --&gt; E["Descubrir"]
-    A --&gt; F["Mejorar rendimiento"]
-    A --&gt; G["Trabajar con coberturas"]
-
-    B --&gt; B1["ISO 19115-1"]
-    C --&gt; C1["WMS"]
-    D --&gt; D1["WFS"]
-    D --&gt; D2["OGC API - Features"]
-    E --&gt; E1["CSW"]
-    E --&gt; E2["OGC API - Records"]
-    F --&gt; F1["WMTS"]
-    F --&gt; F2["OGC API - Tiles"]
-    G --&gt; G1["WCS"]
-    G --&gt; G2["OGC API - Coverages"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 10" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNplkjFvwjAQhf-K5ZkMqdShDJXAIYiBUjVRGZoOl-QKRoldXexWLeK_94gRlGApy_feu8uzvJeVrVGO5Udjv6stkBP5tDCCz-StkE9YYadrqAv5LqLoUUwZJthVpEtNDE_WXlOsverOQ6N_YSgmLCprOt84IGHLHTrbDTyz03Bf0s3wlLUl7ixxmtDUutVonB245uzKCUrYsa2yhr8SyXmCsCt4p6FKzOZFthLxQxzfR_F5lAptjvJ6mZ1xEnr0OL3Bd4xXcyUmzwsRiRSBl-Kl4CwUPIZVth7i6_ALVpbqSzYNFxD-J8-G_Dqc6-bf2nm4lT6qsiG-Tir7hQSbPi1HskVqQdf8NPaFdFtssZDjQhr0jqAp5IE94J3Nfkwlx448jqT_rMFhomFD0AZ4-AN_Mq3X?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>En esta primera semana no es necesario memorizar operaciones,
 parámetros ni documentos de capacidades. Lo importante es que el
 estudiante comprenda qué problema general resuelve cada familia.</p>
@@ -796,30 +723,7 @@ publicación.</p>
 <hr/>
 <h2 id="172-arquitectura-objetivo-inicial">17.2. Arquitectura objetivo
 inicial</h2>
-<pre class="mermaid">flowchart TB
-    O["Obras"] --&gt; V["Validación"]
-    C["Catastro"] --&gt; V
-    T["Tránsito"] --&gt; V
-    M["Medio Ambiente"] --&gt; V
-    P["Planificación"] --&gt; V
-
-    V --&gt; DB["Base espacial institucional"]
-
-    DB --&gt; WMS["WMS"]
-    DB --&gt; API["API"]
-    DB --&gt; META["Metadatos"]
-
-    META --&gt; CAT["Catálogo"]
-
-    WMS --&gt; Q["QGIS"]
-    API --&gt; WEB["Aplicación web"]
-    CAT --&gt; U["Usuarios"]
-    U --&gt; Q
-    U --&gt; WEB
-
-    SEC["Seguridad"] -.-&gt; DB
-    MON["Monitoreo"] -.-&gt; WMS
-    MON -.-&gt; API</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 11" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdkktuwjAQhq9ieQ09AItKCaCKRQoogS6aLoZkCJYSG_khVCEOwxl6BC7WsU0CIgtLnv_zPP7JmVeqRj7h-1adqgNoy4q0lIy-5XfJlzsNpuQ_bDx-Z1sKbKEVNVTi9icpHMEpxadgwVitBjZKBUmFvl2lEfZVy0jLsBaKJd1OoLT4AqwIWLUgxV5UQ8keiMg2XGcpkSkYZGiORELLhDRWWFcJJaENncYHszS8-MpyekLnMMRdSFYLEuh8FbJ5kYSGLdRglXnK6aXATJMiWnG7tqpRTwhVCsSa9PXH4lGWKsWG5n6G5Nj2o7IT7h4OJ0WgNsRsjAMt7g14cRMzP18oW185n_v15Ng4TYurg4NvwbN788tPP5aStCCNatC9Nz0QI9QqH_EOdQeipj_mXHJ7wI62Nim5RGe1d_pCDDir8l9Z8YnVDkfcHckynAloNHQxePkHYQS9Vw?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Esta arquitectura muestra cómo diferentes productores pueden
 converger en una fuente controlada, publicar servicios y documentar
 recursos.</p>

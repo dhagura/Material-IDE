@@ -1,6 +1,22 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 2 — Actores, gobernanza y organización de una Infraestructura de Datos Espaciales</title><style>
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Semana 2 — Actores, gobernanza y organización de una Infraestructura de Datos Espaciales</title><style>
 :root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
-</style><script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script>document.addEventListener('DOMContentLoaded',function(){if(window.mermaid){mermaid.initialize({startOnLoad:false,securityLevel:'loose',theme:'neutral'});mermaid.run({querySelector:'.mermaid'}).catch(function(err){console.error('Mermaid:',err);});}});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje-de-la-semana">3. Resultados de
+
+.diagram-static{
+  margin:1.35rem 0 1.65rem;
+  padding:1rem;
+  border:1px solid #d5e0e5;
+  background:#fff;
+  overflow:auto;
+  text-align:center;
+}
+.diagram-static img{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:0 auto;
+}
+</style></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje-de-la-semana">3. Resultados de
 aprendizaje de la semana</a><a class="" href="#4-puente-con-la-semana-1-una-arquitectura-sin-gobernanza">4.
 Puente con la Semana 1: una arquitectura sin gobernanza</a><a class="" href="#5-qué-significa-gobernanza-en-una-ide">5. ¿Qué significa
 gobernanza en una IDE?</a><a class="" href="#6-gobernanza-gestión-y-operación-conceptos-relacionados-pero-diferentes">6.
@@ -163,15 +179,7 @@ clasificación inicial de acceso y una matriz de riesgos.</p>
 Puente con la Semana 1: una arquitectura sin gobernanza</h1>
 <p>Durante la Semana 1 se presentó una arquitectura conceptual como la
 siguiente:</p>
-<pre class="mermaid">flowchart TB
-    U["Usuarios"] --&gt; A["Aplicaciones"]
-    A --&gt; S["Servicios y APIs"]
-    S --&gt; I["Datos y metadatos"]
-    I --&gt; D["Almacenamiento"]
-    D --&gt; INF["Infraestructura"]
-
-    SEC["Seguridad"] -.-&gt; S
-    MON["Monitoreo"] -.-&gt; INF</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 1" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpFkMFqwzAMhl_F6NzuAXIYZMsGObQbZD3NOwhbbQ2xXRR5o5S--xRnZD6Z__uQfvsGLnuCBo5j_nFnZDEfTzYZPYdPC4epIIc8Wfgy2-2jaTVrL2Nw6EJONOeL3FY8KB6Iv4PSyVxN-97_K0NVelU6lIojCfr5vjp9dbp5yxjRUcIYKElehW4Zsn9VpU9HRpqEi5PCWJ2_VS_PtcmpcPDoa_uHud-Cd297xbucgmSmvGIdCxuIxBGD1z-5WZAzRbLQWEhUhHG0cFcHi-Thmhw0up02UC76DuoCnhjjEt5_Aa6QbOc?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>El diagrama permite comprender las capas técnicas, pero no responde
 quién es responsable de cada una.</p>
 <p>Por ejemplo, el bloque “Datos y metadatos” no indica quién define qué
@@ -180,18 +188,7 @@ quién autoriza la publicación. El bloque “Seguridad” no define quién
 decide qué usuarios deben acceder. El bloque “Monitoreo” tampoco indica
 quién recibe una alerta cuando un servicio deja de responder.</p>
 <p>La gobernanza agrega esa dimensión.</p>
-<pre class="mermaid">flowchart LR
-    G["Gobernanza&lt;br/&gt;Decisiones, roles y reglas"] --&gt; D["Datos"]
-    G --&gt; M["Metadatos"]
-    G --&gt; S["Servicios"]
-    G --&gt; A["Acceso"]
-    G --&gt; O["Operación"]
-
-    D --&gt; R1["Custodio"]
-    M --&gt; R2["Responsable de metadatos"]
-    S --&gt; R3["Publicador"]
-    A --&gt; R4["Autoridad de acceso"]
-    O --&gt; R5["Administrador operativo"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 2" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNptkc9KAzEQh18lzLlF_HcpUigu9GKpdI_Gw2wytgO7SZlkK7X0qXwEX8xJVxStOf6-byY_mAO46Akm8NLGV7dByeZhZYPRN3-yMI8NScDwhneNXEwrcpw4BkojI7GlZPZGaN1isvBsxuOpqXSowhxL8LXmlC80X1BG_w-rldUkO3Z8xmbKZs5Rin_AUsFyS4KOP97DCQ64OuHVpfL7PuXo-Wd0MbArZStK2xgSNi0ZT6Y761YP7rW6j33TskMf5ZvOBnpT6vU5Cnv0ZQ_-7roctNui-Y4Dpyxlj4mleuZdUWEEHUmH7PUOBwt5Qx1ZmFgI1KvfWjiqg_pPvQ8OJll6GkG_1cJUMa4FuyE8fgJ-35F0?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La diferencia entre ambos diagramas es fundamental. La arquitectura
 indica <strong>qué componentes existen</strong>; la gobernanza indica
 <strong>quién responde por ellos y cómo se toman
@@ -681,9 +678,7 @@ función es lograr coherencia entre participantes.</p>
 niveles</h1>
 <p>Una estructura simple puede distinguir nivel estratégico, táctico y
 operativo.</p>
-<pre class="mermaid">flowchart TB
-    E["Nivel estratégico&lt;br/&gt;Política, prioridades, recursos"] --&gt; T["Nivel táctico&lt;br/&gt;Estándares, modelos, coordinación"]
-    T --&gt; O["Nivel operativo&lt;br/&gt;Carga, publicación, soporte"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 3" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNo9j7FOAzEMhl8l8nwVe4U6AF0BidsIg5uYa6RcfHKcIlT1YRgZmHiEezHcnqgn-5f_z7-PEDgSrOE980fYo6jr73xxVttXD4_pQNlRVUGdv4cU-HYnN5tnzvOPpoCdmySxpIiRaueEQpPK1cObW602rr8idP4K-m_fVhtLRDl7Rruf2ZrALDEVDGn-LUZYUvQX0NMVxBNZlnRYSPcowzlE22VLc3F2rvLEomQI6GAkGTFF-_DoQfc0mr72UKjZT9nDyXawKb98lgBrlUYdtCmi0kPCQXBcxNMfNklqlw?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <h2 id="91-nivel-estratégico">9.1. Nivel estratégico</h2>
 <p>Decide aspectos de alto nivel.</p>
 <p>Por ejemplo:</p>
@@ -765,19 +760,7 @@ eventualmente podrá ser retirado.</p>
 en cada etapa. También ayuda a detectar un error frecuente: concentrar
 toda la gobernanza en el momento de publicación y olvidar lo que ocurre
 antes y después.</p>
-<pre class="mermaid">flowchart TB
-    A["Necesidad"] --&gt; B["Diseño"]
-    B --&gt; C["Producción"]
-    C --&gt; D["Validación"]
-    D --&gt; E["Repositorio oficial"]
-    E --&gt; F["Metadatos"]
-    F --&gt; G["Aprobación"]
-    G --&gt; H["Publicación"]
-    H --&gt; I["Consumo"]
-    I --&gt; J["Retroalimentación"]
-    J --&gt; K["Actualización"]
-    K --&gt; D
-    K --&gt; L["Archivo / retiro"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 4" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdkUtOwzAQQK9ied2KfRZITdI_IASIDWbh2lNiKfFEzhgEVQ-FOEIvxsSVQol3nvc8Px-kQQsyk_saP0ylA4mnXHnBZ_ai5B0Y6JzVVslXMZ1ei5yDpevg9I0cOot5IgWT-4A2GuNOP36gRaIl02ddc6r_tEx0zvQBWuwcYXAocO-M0_VgzZO1YOsWSFtN2A1skdiS2awNuBvlXya66nuLu9qZEV4lvGZcoO9i8zfUOpFNaowCcusNeBo93yRp29c2FNn5Ggnb8_CXl5veDqZy7yiuRAByoa8qJ7KB0Ghn-TMOSlIFDSiZKekhUuiXcWRHR8LHT29kRiHCRMaWtwGl029BN-fg8ReDO5Of?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>El flujo no debe interpretarse como una cadena rígida idéntica para
 todos los recursos. Algunos procesos pueden automatizar etapas o
 ejecutarlas en paralelo. La utilidad del modelo es mostrar que cada
@@ -1018,11 +1001,7 @@ transformaciones recibió.</p>
 <p>Un producto derivado se genera aplicando transformaciones sobre la
 fuente. Puede simplificar geometrías, agregar datos, calcular
 indicadores, anonimizar atributos o crear productos cartográficos.</p>
-<pre class="mermaid">flowchart LR
-    A["Fuente oficial&lt;br/&gt;Catastro"] --&gt; B["Copia de análisis"]
-    A --&gt; C["Versión simplificada web"]
-    A --&gt; D["Indicadores agregados"]
-    A --&gt; E["Histórico de cierre anual"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 5" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdz0FqAzEMBdCrCK0Tuh9KIJ20tNBVC9nUXSi2kgg89iDbhBJymJ4hR5iLVdN2Fa2M9PiSz-hzYOxwH_PJH0krvL65BFbrD4dPjVNlyHvxQvF-p3erniqVqtnhJyyXK3gw1udRCAIDpek7SpFi0_-UX9Qb2rIWma4JigxjFIukQHDi3Y3dmH1JYR5n5QJ0UD7Y-zbz0dyzlDpdVXyet3th1fmIRtEwLnBgHUiC_e_ssB55YIedw8St6mwuZqjV_P6VPHZVGy-wjYEqb8T20vDXvPwAP7JivQ?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La versión simplificada web puede reducir vértices para mejorar
 rendimiento; los indicadores agregados pueden perder detalle individual;
 el histórico congela el estado de un momento específico. Ninguno es
@@ -1042,11 +1021,7 @@ trazabilidad permite reconstruir quién, cuándo y por qué realizó cambios
 o tomó decisiones.</p>
 <h2 id="121-linaje">12.1. Linaje</h2>
 <p>El linaje documenta la historia de transformación del recurso.</p>
-<pre class="mermaid">flowchart LR
-    A["Levantamiento original"] --&gt; B["Corrección geométrica"]
-    B --&gt; C["Normalización de atributos"]
-    C --&gt; D["Generalización"]
-    D --&gt; E["Publicación web"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 6" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpFz0GOwjAMBdCrRF7DBbpAghbNBiEEy8ks3NSUSE2CPA6IqXog1hyBi-FpJfDSevrf7sGlhqCAY5eu7oQsZrO30egsvy1s6IJRMHiKkkxi3_qInYUfM58vzEpFmZjJOf98RNNSCs-7sHeoZEpZjbJUuU0csPN_OOGGDCqts6Tfty5HXan-okj84W9RjWKtYpfrTpumtCvVSmAGgbTFN_pRb0FOFMhCYSFSFv6_fFCD2nm4RQeFcKYZ5HODQpXHljFMy-EFwmxgTQ?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Cada etapa puede cambiar propiedades relevantes. Una generalización
 puede reducir precisión geométrica; una normalización puede convertir
 categorías; una anonimización puede eliminar atributos. Por ello,
@@ -1201,10 +1176,7 @@ referencias rotas.</li>
 </ul>
 <p>Por lo tanto, el ciclo de publicación debería incluir una revisión de
 metadatos.</p>
-<pre class="mermaid">flowchart LR
-    A["Cambio de dato"] --&gt; B["Validación"]
-    B --&gt; C["Actualización de metadatos"]
-    C --&gt; D["Publicación"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 7" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNo9jk0KwjAQha8SZt1eoAuhP0sXouDGuJgmow3kR2KCaOmpPIIXc9pCZ_ne9z5mBBU0QQU3G15qwJjE_ii94KsvElp0vQlCk9CYgoSrKMudaLg5ozUalfl9PcfrolnalttapczAZwXmvaOEs-O50e1Cd0wfcm-N2mRQgKPo0Gj-a5SQBnIkoZLgKaeIVsLEDOYUTm-voEoxUwH5wX7qDN4jujWc_sqZSpA?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La Unidad 2 profundizará técnicamente este contenido. En esta semana
 interesa comprender la responsabilidad organizacional.</p>
 <hr/>
@@ -1270,15 +1242,7 @@ forma arbitraria.</p>
 <p>Publicar no debe equivaler simplemente a “hacer clic en
 publicar”.</p>
 <p>Una secuencia razonable puede ser:</p>
-<pre class="mermaid">flowchart LR
-    A["Productor entrega"] --&gt; B["Validación técnica"]
-    B --&gt; C["Revisión custodio"]
-    C --&gt; D{"¿Aprobado?"}
-    D -- "No" --&gt; A
-    D -- "Sí" --&gt; E["Metadatos"]
-    E --&gt; F["Clasificación de acceso"]
-    F --&gt; G["Publicación"]
-    G --&gt; H["Prueba desde cliente"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 8" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpVkE1OwzAQRq9izbq9QBagNGnLAhBqJTaYxcSetpYcu_IPCFU9EAtWHACJXIypA0XNct7zl2_mAMprggo21r-qHYYkblfSCf7qJwkPweuskg-CXAq0RQnPYjq9EjOGj2iNRmWGTyfS8K6cUSc-vp4VrWFtRS8mFknlmLw2_iw1RWoPEr6_6n3wHWp_LeE40papkHDPfvHqi_F6-Pidz_knd5RQY_LxnD0vbMGssRjNhsuNVTUJVIrif41FUZenfXNn_8QzXhZ8U86RqUNOiByirOGjEGswgZ5Cj0bzIXmZtKOe55UERzkFtLwSO5iTX785BVXinAnkPTem1uA2YD8Ojz9QpoD0?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Cada organización puede simplificar o ampliar este flujo.</p>
 <p>Lo importante es que las decisiones críticas tengan responsable.</p>
 <hr/>
@@ -1540,19 +1504,7 @@ coordinación previa.</p>
 errores</h1>
 <p>Una infraestructura operativa recibirá errores.</p>
 <p>La pregunta no es si ocurrirán, sino cómo se gestionarán.</p>
-<pre class="mermaid">sequenceDiagram
-    participant U as Usuario
-    participant M as Mesa / canal
-    participant C as Custodio
-    participant P as Productor
-    participant S as Publicador
-
-    U-&gt;&gt;M: Reporta error
-    M-&gt;&gt;C: Clasifica y deriva
-    C-&gt;&gt;P: Solicita verificación
-    P-&gt;&gt;C: Corrige / confirma
-    C-&gt;&gt;S: Autoriza actualización
-    S-&gt;&gt;U: Recurso corregido</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 9" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNptkcFqwzAMhl9F-Nyxuw-FkV0DYSG3XDRbzQSJncl2oSt9qj3CXmzy0kKh88n4-_UhyWfjoidjTaLPQsHRK-MkuIwB9KwomR2vGDIMgAmGVFA4PtK20pYSwjM4DDg_RpoaaUrK0f9n6CruJPricpRH3v_x8j6zQ18DW2R42u9bC2-0RskIJHIrbpU0FpoZEx-0CE7gSfiIG24Udxb6qELWyqOyGnP88311d1dDFOGJ6mQxHFiWO0Nv4aVov_yFgC4XnPV2p-g1M9T2XJEUVSBCE_todmYhNbHX3Z9Hkz9oodHY0QQqWXR_5qIZVHd_Cs7YLIV2pqwe8-2PtsfLLwHbmFE?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>Este flujo evita que el usuario tenga que descubrir por sí mismo
 quién administra cada componente.</p>
 <hr/>
@@ -1992,18 +1944,7 @@ proporcionales.</p>
 distribuida</h1>
 <p>La gobernanza se vuelve especialmente importante cuando los datos
 permanecen en múltiples instituciones.</p>
-<pre class="mermaid">flowchart TB
-    A["Institución A&lt;br/&gt;Custodia sus datos"] --&gt; C["Coordinación común"]
-    B["Institución B&lt;br/&gt;Custodia sus datos"] --&gt; C
-    D["Institución C&lt;br/&gt;Custodia sus datos"] --&gt; C
-
-    C --&gt; E["Estándares comunes"]
-    C --&gt; F["Catálogo común"]
-    C --&gt; G["Políticas de intercambio"]
-
-    E --&gt; U["Usuarios"]
-    F --&gt; U
-    G --&gt; U</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 10" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNqFkbFqAzEMhl_FaE7oHkogd7mEbIU2U91BsdXEcLaKLVNKyMP0ATp163ovVucMLdwSb7K-T_qNz2DYEizgted3c8Io6qnRQZWzetawC0mcZOOG76BW94d4t2xzErYOVcpJWRROGl7UfL5UbRFa5mhdwGoY9sNPKP06sZlObG5NrN566rW3vWq2Y9kVv0syfAaLkdI1Vg6U_nJVanONj4Xq-cjT6BXZFuSB--FLnMGyk5QLQtGgPzge2Up3I70v9D5ljI7_d21qqxbbWsAMPEWPzpaPOGuQE3nSsNAQKEvEXsOlMJiFHz-CgYXETDPIb-XRtHZ4jOjr5eUX0dKaWQ?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>En este modelo no existe necesariamente una base central que controle
 todo.</p>
 <p>La coherencia surge de acuerdos comunes.</p>
@@ -2109,10 +2050,7 @@ Red vial municipal</h1>
 <p>Planificación corrige nombres directamente en su copia.</p>
 <p>El geoportal publica una versión anterior.</p>
 <p>Después de tres meses:</p>
-<pre class="mermaid">flowchart TB
-    A["Tránsito&lt;br/&gt;v3"] --&gt; B["SIG&lt;br/&gt;v2"]
-    B --&gt; C["Geoportal&lt;br/&gt;v1"]
-    B --&gt; D["Planificación&lt;br/&gt;v2 modificada"]</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 11" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNpdjk0KwjAQha8SZt0i6q5IwVoo7oR2Z1yMSWoD-SkxVaT0MJ7BI_RihsaVs_ze9x4zArNcQAatsk_WofOkKagh4fZnCo2b3-Yuvd1d3Sp_bClcSJrmpAhZfawi3QQaK8USHkJYCdtb51FFZf2nlEE5KTSylQyZnD_mN0W05QvkGCqQgBZOo-Thw5GC74QWFDIKRgzeoaIwBQcHb-uXYZB5N4gEhp6jF6XEm0Md4fQFlcpL1A?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <h2 id="291-cuál-es-el-problema">29.1. ¿Cuál es el problema?</h2>
 <p>No existe un ciclo formal de actualización ni una fuente oficial
 suficientemente controlada.</p>
@@ -2154,19 +2092,7 @@ profundo 2 — Áreas verdes y reporte ciudadano</h1>
 <p>La Unidad SIG recibe el reporte porque aparece como contacto del
 visor.</p>
 <p>La gobernanza debe definir qué ocurre después.</p>
-<pre class="mermaid">sequenceDiagram
-    participant U as Ciudadano
-    participant S as Unidad SIG
-    participant C as Custodio
-    participant P as Productor
-    participant PUB as Publicador
-
-    U-&gt;&gt;S: Reporta inconsistencia
-    S-&gt;&gt;C: Registra y deriva
-    C-&gt;&gt;P: Solicita verificación
-    P-&gt;&gt;C: Confirma cambio
-    C-&gt;&gt;PUB: Aprueba actualización
-    PUB-&gt;&gt;U: Publicación corregida</pre>
+<figure class="diagram-static"><img alt="Diagrama geoespacial 12" loading="lazy" referrerpolicy="no-referrer" src="https://mermaid.ink/svg/pako:eNptkTFuwzAMRa9CaE4voCFA7QJFN6OCNi-0pKQEbMmhpQBpkFP1CL1YaTseikQj3-MnCV2VSz4oraZwKiG68EZ4ZBzaCPJG5EyORowZLOAENRWPHmN65GbmNpJwMB_vj0K9BJQpJ09P-psZN5x8cTnxE26rxShdTw79rKySfdnvjYbPMCbOCBRdihNNWa4hXBUjSj0rR6kzwgV8YDrfaS200WCSBJMknIUdZIaj35_7jGYNqFM8EA8IDoduO2Jpt5WG15FL6BDQ5YI9ff8LsJVoVm_7LwhcYpadPKqdGoIEk5evuLYqf4UhtEq3KoYiG_etuomDJSdziU7pLKN2qowe8_Zla_H2BwH7nrY?bgColor=!white"/><noscript>El diagrama requiere acceso a mermaid.ink para visualizarse.</noscript></figure>
 <p>La infraestructura técnica facilita la corrección, pero el flujo
 organizacional determina responsabilidades.</p>
 <hr/>
