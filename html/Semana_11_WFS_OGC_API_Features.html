@@ -1,0 +1,290 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 11 — WFS y OGC API - Features: acceso interoperable a objetos geográficos</title><style>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
+a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_11_WFS_OGC_API_Features.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-conceptual">Ejemplo conceptual</a><a class="sub" href="#importancia">Importancia</a><a class="sub" href="#prueba">Prueba</a><a class="" href="#23-1-publicacion-wfs">23.1. Publicación WFS</a><a class="" href="#23-2-getfeature">23.2. GetFeature</a><a class="" href="#23-3-ogc-api-features">23.3. OGC API - Features</a><a class="" href="#23-4-paginacion">23.4. Paginación</a><a class="" href="#23-5-clientes-independientes">23.5. Clientes independientes</a><a class="" href="#23-6-comparacion">23.6. Comparación</a><a class="" href="#por-que-wms-y-wfs-no-son-equivalentes">¿Por qué WMS y WFS no son equivalentes?</a><a class="" href="#por-que-la-paginacion-es-importante">¿Por qué la paginación es importante?</a><a class="" href="#una-api-debe-exponer-la-tabla-interna-completa">¿Una API debe exponer la tabla interna completa?</a></aside><main><h1>Semana 11 — WFS y OGC API - Features: acceso interoperable a objetos geográficos</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 3 — Publicación de servicios interoperables y APIs geoespaciales</div></div>
+
+
+<h1>1. Marco de la semana</h1>
+<p>La Semana 11 aborda acceso a objetos mediante Web Feature Service (WFS) y OGC API - Features, incluyendo colecciones, filtros, paginación, formatos, sistemas de referencia y consultas. El programa busca que el estudiante comprenda tanto servicios OGC clásicos como APIs geoespaciales modernas.</p>
+<p>La semana se conecta con WMS: mientras WMS resuelve principalmente representación cartográfica, WFS y OGC API - Features permiten acceder a entidades, geometrías y atributos que pueden ser procesados por el cliente.</p>
+<hr/>
+<h1>2. Propósito</h1>
+<p>El objetivo es que el estudiante distinga claramente entre <strong>ver un mapa</strong> y <strong>acceder a los objetos que componen ese mapa</strong>. Esta diferencia determina arquitectura, rendimiento, permisos y posibles usos.</p>
+<p>Un usuario que solo necesita visualizar áreas verdes puede consumir WMS. Un analista que necesita seleccionar polígonos, filtrar atributos y calcular superficies necesita acceso a features. Un desarrollador puede preferir una API basada en HTTP y JSON. La elección debe responder al caso de uso.</p>
+<hr/>
+<h1>3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá publicar y consumir al menos un servicio de objetos, interpretar capacidades WFS, consultar colecciones con OGC API - Features, utilizar filtros y paginación, comparar formatos y probar acceso desde clientes distintos.</p>
+<p>También deberá analizar riesgos de exponer demasiados atributos o demasiados objetos y aplicar límites de publicación coherentes con las políticas definidas en semanas anteriores.</p>
+<hr/>
+<h1>4. ¿Qué es un feature?</h1>
+<p>En términos geoespaciales, un feature representa una entidad del mundo real o conceptual con propiedades y, habitualmente, geometría.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>Una plaza;</li>
+<li>Un tramo vial;</li>
+<li>Un predio;</li>
+<li>Una estación de monitoreo;</li>
+<li>Un permiso asociado a una localización.</li>
+</ul>
+<p>El acceso a features permite trabajar con identidad, atributos y geometría, no solo con píxeles renderizados.</p>
+<hr/>
+<h1>5. WFS</h1>
+<p>WFS es una especificación OGC clásica para acceder a objetos geográficos. Permite descubrir tipos de features y recuperar objetos, normalmente en representaciones como GML u otros formatos soportados por el servidor.</p>
+<p>Su modelo de operaciones está bien establecido en infraestructuras OGC tradicionales y continúa siendo relevante para clientes SIG existentes.</p>
+<p>La asignatura no busca memorizar todas las posibilidades de WFS, sino comprender las operaciones fundamentales y sus implicancias.</p>
+<hr/>
+<h1>6. GetCapabilities en WFS</h1>
+<p>El documento de capacidades describe versión, operaciones, formatos y tipos de features disponibles.</p>
+<p>Antes de consumir una capa, el estudiante debe revisar:</p>
+<ul>
+<li>Nombre del feature type;</li>
+<li>CRS soportados;</li>
+<li>Formatos de salida;</li>
+<li>Operaciones disponibles;</li>
+<li>Restricciones anunciadas.</li>
+</ul>
+<p>Esto permite evitar configuraciones basadas en ensayo y error.</p>
+<hr/>
+<h1>7. DescribeFeatureType</h1>
+<p>En WFS, <code>DescribeFeatureType</code> permite conocer la estructura de los objetos: nombres de atributos, tipos y geometría.</p>
+<p>Esta operación resulta importante porque el cliente necesita interpretar la estructura antes de procesar los datos.</p>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Una capa puede contener <code>id</code>, <code>nombre</code>, <code>tipo</code>, <code>superficie</code> y <code>geom</code>. El esquema documenta tipos y ayuda a validar filtros y transformaciones.</p>
+<hr/>
+<h1>8. GetFeature</h1>
+<p><code>GetFeature</code> recupera objetos de uno o más tipos. Puede limitarse mediante identificadores, filtros, BBOX u otras condiciones soportadas.</p>
+<p>Sin filtros, solicitar una colección muy grande puede generar respuestas pesadas y afectar servidor y cliente. Por eso los servicios deben incorporar límites y los usuarios deben aprender a formular consultas específicas.</p>
+<hr/>
+<h1>9. Filtros</h1>
+<p>Los filtros permiten restringir por atributos o condiciones espaciales.</p>
+<h3 id="ejemplo-conceptual">Ejemplo conceptual</h3>
+<p>Obtener solo áreas verdes cuyo tipo sea <code>PARQUE</code> o que intersecten una extensión determinada.</p>
+<p>El servidor ejecuta parte del procesamiento cerca de la fuente, reduciendo transferencia y evitando descargar la colección completa cuando no es necesario.</p>
+<p>La seguridad debe impedir que filtros se conviertan en una vía para acceder a atributos o registros no autorizados.</p>
+<hr/>
+<h1>10. Formatos de salida</h1>
+<p>WFS puede soportar GML, GeoJSON u otros formatos según versión y plataforma.</p>
+<p>La selección depende del cliente y del caso de uso. GML ofrece una representación XML muy integrada con estándares OGC; GeoJSON suele ser cómodo para aplicaciones web y herramientas modernas.</p>
+<p>El estudiante debe comprobar <code>Content-Type</code>, codificación y compatibilidad real del cliente.</p>
+<hr/>
+<h1>11. OGC API - Features</h1>
+<p>OGC API - Features define bloques para acceder a colecciones de features mediante patrones web contemporáneos [R2]. La Parte 1 Core se centra en capacidades básicas de consulta.</p>
+<p>Una estructura conceptual puede ser:</p>
+<pre><code class="language-text">/
+├── conformance
+├── collections
+├── collections/{collectionId}
+└── collections/{collectionId}/items
+</code></pre>
+<p>El usuario puede explorar la landing page, conocer conformidad, descubrir colecciones y consultar items.</p>
+<hr/>
+<h1>12. Landing page y conformance</h1>
+<p>La landing page funciona como punto inicial y enlaza otras capacidades. El recurso <code>conformance</code> permite conocer qué clases de conformidad declara la implementación.</p>
+<p>Esto sigue el principio de hipermedia: el cliente puede descubrir relaciones mediante enlaces en lugar de construir todas las URLs desde conocimiento externo.</p>
+<h3 id="importancia">Importancia</h3>
+<p>Una API que entrega datos pero no documenta sus capacidades ni recursos obliga al consumidor a depender de conocimiento manual y reduce interoperabilidad.</p>
+<hr/>
+<h1>13. Collections</h1>
+<p>Una colección agrupa features relacionados.</p>
+<p>El recurso de colección puede informar título, descripción, extensión, CRS y enlaces. Esto permite que el cliente evalúe qué contiene antes de solicitar items.</p>
+<p>La colección no debe confundirse necesariamente con una tabla física. La implementación puede exponer una vista o producto derivado y mantener oculto el modelo interno.</p>
+<hr/>
+<h1>14. Items</h1>
+<p><code>/collections/{id}/items</code> permite consultar features de la colección. La API puede soportar parámetros de límite, BBOX, fecha y otros filtros según las partes o extensiones implementadas.</p>
+<p>El estudiante debe observar que el cliente trabaja con recursos y parámetros HTTP de manera más directa que en muchos servicios OGC clásicos.</p>
+<hr/>
+<h1>15. Paginación</h1>
+<p>Una API no debería devolver millones de features en una única respuesta. La paginación divide la colección y utiliza enlaces o parámetros para navegar resultados.</p>
+<p>La paginación protege servidor, red y cliente, pero el consumidor debe manejarla correctamente. Obtener la primera página no significa haber descargado todo el dataset.</p>
+<h3 id="prueba">Prueba</h3>
+<p>Contar objetos de varias páginas y comparar con el número reportado cuando la API lo proporciona.</p>
+<hr/>
+<h1>16. Filtros en OGC API</h1>
+<p>La familia OGC API permite ampliar capacidades de filtrado mediante estándares complementarios como CQL2 cuando la implementación los soporta.</p>
+<p>Para la semana basta comprender que el núcleo permite consultas básicas y que capacidades más avanzadas deben verificarse mediante la declaración de conformidad y documentación del servidor.</p>
+<p>No debe asumirse que todos los endpoints implementan las mismas extensiones.</p>
+<hr/>
+<h1>17. Sistemas de referencia</h1>
+<p>Los features deben interpretarse en un CRS conocido. OGC API - Features define un comportamiento base y extensiones para trabajar con CRS adicionales según implementación.</p>
+<p>El estudiante debe comprobar qué CRS recibe y evitar transformar implícitamente sin conocer la referencia.</p>
+<p>En clientes web, GeoJSON suele asociarse con coordenadas geográficas en el marco definido por su especificación y práctica de implementación; la documentación del endpoint sigue siendo necesaria.</p>
+<hr/>
+<h1>18. WFS versus OGC API - Features</h1>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>WFS</th>
+<th>OGC API - Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modelo</td>
+<td>Operaciones OGC clásicas</td>
+<td>Recursos web</td>
+</tr>
+<tr>
+<td>Descubrimiento</td>
+<td>GetCapabilities</td>
+<td>Landing page / collections</td>
+</tr>
+<tr>
+<td>Estructura</td>
+<td>DescribeFeatureType</td>
+<td>Metadatos de colección/esquemas según implementación</td>
+</tr>
+<tr>
+<td>Consulta</td>
+<td>GetFeature</td>
+<td><code>/items</code> y parámetros</td>
+</tr>
+<tr>
+<td>Ecosistema</td>
+<td>SIG e IDE existentes</td>
+<td>Web/API moderna</td>
+</tr>
+</tbody>
+</table>
+<p>La comparación no implica que una deba reemplazar inmediatamente a la otra. Una infraestructura puede publicar ambas para distintos consumidores y durante periodos de transición.</p>
+<hr/>
+<h1>19. Seguridad y minimización</h1>
+<p>Exponer features significa entregar datos, no solo imágenes. Esto eleva el riesgo de transferencia masiva y acceso a atributos sensibles.</p>
+<p>Antes de publicar, se debe revisar:</p>
+<ul>
+<li>Campos expuestos;</li>
+<li>Número máximo de registros;</li>
+<li>Filtros permitidos;</li>
+<li>Nivel de acceso;</li>
+<li>Necesidad de autenticación;</li>
+<li>Registros de uso.</li>
+</ul>
+<p>La vista de publicación creada en Semana 5 debe ser preferida frente a exponer tablas internas completas.</p>
+<hr/>
+<h1>20. Rendimiento</h1>
+<p>El rendimiento depende de índices, complejidad geométrica, cantidad de atributos, filtros y tamaño de respuesta.</p>
+<p>Un feature con geometría muy detallada puede generar grandes volúmenes incluso si el número de objetos es pequeño. Para ciertos clientes puede ser conveniente utilizar generalización o productos específicos.</p>
+<p>La API debería protegerse mediante límites razonables y el cliente debe utilizar consultas selectivas.</p>
+<hr/>
+<h1>21. Descarga versus API</h1>
+<p>No todos los casos de análisis necesitan una API. Si un usuario requiere procesar todo el dataset de forma desconectada, una descarga completa puede ser más eficiente que recorrer cientos de páginas de una API.</p>
+<p>La IDE puede ofrecer ambos mecanismos:</p>
+<ul>
+<li>API para consulta e integración;</li>
+<li>Descarga para uso masivo o reproducible.</li>
+</ul>
+<p>El catálogo y metadatos deben explicar las opciones.</p>
+<hr/>
+<h1>22. Caso integrador</h1>
+<p>El grupo publica <code>equipamientos_publicos</code> como WFS y/o OGC API - Features.</p>
+<p>La fuente interna contiene campos administrativos; la vista pública expone únicamente identificador, nombre, categoría y geometría.</p>
+<p>Se prueban:</p>
+<ul>
+<li>Consulta completa limitada;</li>
+<li>Filtro por categoría;</li>
+<li>BBOX;</li>
+<li>Paginación;</li>
+<li>Consumo desde QGIS;</li>
+<li>Consulta desde navegador o curl.</li>
+</ul>
+<p>El metadato se actualiza con los endpoints correspondientes.</p>
+<hr/>
+<h1>23. Laboratorio 11 — Servicio de objetos y API</h1>
+<h2 id="23-1-publicacion-wfs">23.1. Publicación WFS</h2>
+<p>Configurar una capa vectorial y revisar capacidades y esquema.</p>
+<h2 id="23-2-getfeature">23.2. GetFeature</h2>
+<p>Construir consultas con límite y al menos un filtro.</p>
+<h2 id="23-3-ogc-api-features">23.3. OGC API - Features</h2>
+<p>Explorar landing page, conformance, collections e items en una implementación disponible.</p>
+<h2 id="23-4-paginacion">23.4. Paginación</h2>
+<p>Recorrer al menos dos páginas y documentar enlaces/parámetros.</p>
+<h2 id="23-5-clientes-independientes">23.5. Clientes independientes</h2>
+<p>Consumir desde QGIS y mediante navegador/curl o aplicación simple.</p>
+<h2 id="23-6-comparacion">23.6. Comparación</h2>
+<p>Explicar qué experiencia resulta más natural para cada cliente y qué capacidades difieren.</p>
+<hr/>
+<h1>24. Entregable</h1>
+<p>Debe contener URLs, solicitudes reproducibles, ejemplos de respuesta, filtros, paginación, evidencia desde clientes, análisis de seguridad/minimización y metadatos actualizados.</p>
+<p>Además, el grupo debe justificar si mantendrá WFS, OGC API - Features o ambos en su arquitectura final.</p>
+<hr/>
+<h1>25. Secuencia sugerida</h1>
+<ul>
+<li><strong>Bloque 1 — 45 minutos.</strong> Feature, WFS y operaciones principales.</li>
+<li><strong>Bloque 2 — 45 minutos.</strong> GetFeature, filtros y formatos.</li>
+<li><strong>Bloque 3 — 50 minutos.</strong> OGC API - Features, landing page, conformance y collections.</li>
+<li><strong>Bloque 4 — 35 minutos.</strong> Items, paginación y filtros.</li>
+<li><strong>Bloque 5 — 30 minutos.</strong> Seguridad, rendimiento y descarga versus API.</li>
+<li><strong>Bloque 6 — 35 minutos.</strong> Laboratorio comparativo.</li>
+</ul>
+<hr/>
+<h1>26. Preguntas de cierre</h1>
+<h2 id="por-que-wms-y-wfs-no-son-equivalentes">¿Por qué WMS y WFS no son equivalentes?</h2>
+<p>WMS entrega representaciones cartográficas; WFS entrega objetos y atributos que pueden procesarse.</p>
+<h2 id="por-que-la-paginacion-es-importante">¿Por qué la paginación es importante?</h2>
+<p>Protege servidor y clientes y permite navegar colecciones grandes sin transferir todo en una única respuesta.</p>
+<h2 id="una-api-debe-exponer-la-tabla-interna-completa">¿Una API debe exponer la tabla interna completa?</h2>
+<p>No. Es preferible publicar un contrato estable y mínimo, desacoplado de estructuras internas y coherente con políticas de acceso.</p>
+<hr/>
+<h1>27. Errores frecuentes</h1>
+<ul>
+<li><strong>“Si necesito todos los datos, siempre debo usar API”.</strong> Una descarga completa puede ser más apropiada para procesamiento masivo.</li>
+<li><strong>“La primera página contiene toda la colección”.</strong> Debe revisarse paginación.</li>
+<li><strong>“WFS es simplemente WMS en vector”.</strong> Sus modelos y objetivos son diferentes.</li>
+<li><strong>“Más atributos publicados ofrecen más valor”.</strong> También aumentan acoplamiento, transferencia y riesgo.</li>
+</ul>
+<hr/>
+<h1>28. Glosario</h1>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feature</td>
+<td>Entidad geográfica con propiedades</td>
+</tr>
+<tr>
+<td>WFS</td>
+<td>Web Feature Service</td>
+</tr>
+<tr>
+<td>GetFeature</td>
+<td>Recupera objetos en WFS</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Agrupación de features en OGC API</td>
+</tr>
+<tr>
+<td>Items</td>
+<td>Features de una colección</td>
+</tr>
+<tr>
+<td>Paginación</td>
+<td>División de resultados en páginas</td>
+</tr>
+<tr>
+<td>Conformance</td>
+<td>Capacidades/estándares declarados por una API</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>29. Trabajo autónomo</h1>
+<p>Seleccionar un dataset ráster o cartográfico de alta demanda y revisar conceptos de WCS, WMTS, teselas, generalización y caché para Semana 12.</p>
+<hr/>
+<h1>30. Referencias</h1>
+<p><strong>[R1]</strong> Open Geospatial Consortium. <em>Web Feature Service (WFS)</em>.<br/>
+<a href="https://www.ogc.org/standards/wfs/">https://www.ogc.org/standards/wfs/</a></p>
+<p><strong>[R2]</strong> Open Geospatial Consortium. <em>OGC API — Features — Part 1: Core</em>.<br/>
+<a href="https://www.ogc.org/standards/ogcapi-features/">https://www.ogc.org/standards/ogcapi-features/</a></p>
+<p><strong>[R3]</strong> Open Geospatial Consortium. <em>CQL2</em>.<br/>
+<a href="https://www.ogc.org/standard/cql2/">https://www.ogc.org/standard/cql2/</a></p>
+<hr/>
+<h1>31. Síntesis</h1>
+<p>La Semana 11 transforma la IDE desde una plataforma de visualización hacia una infraestructura de acceso a objetos. El estudiante debe poder elegir conscientemente entre mapa, features, API o descarga según usuario, volumen, seguridad y forma de procesamiento.</p>
+<div class="weeknav"><a href="Semana_10_WMS_Mapas_Estilos_CRS.html">← Semana 10</a><a href="../index.html">Índice del curso</a><a href="Semana_12_Coberturas_Teselas_Cache_Rendimiento.html">Semana 12 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

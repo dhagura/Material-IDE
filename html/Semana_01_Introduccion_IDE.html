@@ -1,0 +1,933 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 1 — Introducción a las Infraestructuras de Datos Espaciales</title><style>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
+a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_01_Introduccion_IDE.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#4-1-el-escenario-inicial-informacion-geografica-dispersa">4.1. El escenario inicial: información geográfica dispersa</a><a class="" href="#4-2-del-analisis-individual-al-uso-compartido">4.2. Del análisis individual al uso compartido</a><a class="" href="#6-1-silos-de-informacion">6.1. Silos de información</a><a class="" href="#6-2-duplicacion-y-divergencia-de-versiones">6.2. Duplicación y divergencia de versiones</a><a class="" href="#6-3-falta-de-documentacion">6.3. Falta de documentación</a><a class="" href="#6-4-intercambio-manual-de-archivos">6.4. Intercambio manual de archivos</a><a class="" href="#6-5-dependencia-de-una-herramienta">6.5. Dependencia de una herramienta</a><a class="" href="#7-1-dimension-organizacional">7.1. Dimensión organizacional</a><a class="" href="#7-2-dimension-informacional">7.2. Dimensión informacional</a><a class="" href="#7-3-dimension-normativa">7.3. Dimensión normativa</a><a class="" href="#7-4-dimension-tecnologica">7.4. Dimensión tecnológica</a><a class="" href="#7-5-dimension-operacional">7.5. Dimensión operacional</a><a class="" href="#8-1-personas-y-organizaciones">8.1. Personas y organizaciones</a><a class="" href="#8-2-datos">8.2. Datos</a><a class="" href="#8-3-metadatos">8.3. Metadatos</a><a class="" href="#8-4-catalogo">8.4. Catálogo</a><a class="" href="#8-5-servicios-y-apis">8.5. Servicios y APIs</a><a class="sub" href="#wms">WMS</a><a class="sub" href="#wfs-y-ogc-api-features">WFS y OGC API - Features</a><a class="" href="#11-1-interoperabilidad-tecnica">11.1. Interoperabilidad técnica</a><a class="" href="#11-2-interoperabilidad-sintactica">11.2. Interoperabilidad sintáctica</a><a class="" href="#11-3-interoperabilidad-semantica">11.3. Interoperabilidad semántica</a><a class="" href="#11-4-interoperabilidad-organizacional">11.4. Interoperabilidad organizacional</a><a class="" href="#11-5-interoperabilidad-normativa">11.5. Interoperabilidad normativa</a><a class="" href="#13-1-arquitectura-centralizada">13.1. Arquitectura centralizada</a><a class="" href="#13-2-arquitectura-distribuida">13.2. Arquitectura distribuida</a><a class="" href="#13-3-arquitectura-hibrida">13.3. Arquitectura híbrida</a><a class="" href="#15-1-inspire">15.1. INSPIRE</a><a class="" href="#15-2-un-igif">15.2. UN-IGIF</a><a class="" href="#17-1-situacion-inicial">17.1. Situación inicial</a><a class="" href="#17-2-arquitectura-objetivo-inicial">17.2. Arquitectura objetivo inicial</a><a class="" href="#caso-1-descubrir-informacion">Caso 1: descubrir información</a><a class="" href="#caso-2-visualizar-informacion">Caso 2: visualizar información</a><a class="" href="#caso-3-analizar-informacion">Caso 3: analizar información</a><a class="" href="#caso-4-integrar-sistemas">Caso 4: integrar sistemas</a><a class="" href="#caso-5-actualizar-informacion">Caso 5: actualizar información</a><a class="" href="#primer-bloque-por-que-existen-las-ide">Primer bloque: por qué existen las IDE</a><a class="" href="#segundo-bloque-componentes-de-una-ide">Segundo bloque: componentes de una IDE</a><a class="" href="#tercer-bloque-interoperabilidad">Tercer bloque: interoperabilidad</a><a class="" href="#cuarto-bloque-arquitectura">Cuarto bloque: arquitectura</a><a class="" href="#quinto-bloque-ide-chile-inspire-y-un-igif">Quinto bloque: IDE Chile, INSPIRE y UN-IGIF</a><a class="" href="#pregunta-1-que-diferencia-existe-entre-vector-y-raster">Pregunta 1. ¿Qué diferencia existe entre vector y ráster?</a><a class="" href="#pregunta-2-que-es-un-sistema-de-referencia">Pregunta 2. ¿Qué es un sistema de referencia?</a><a class="" href="#pregunta-3-que-significa-calidad-de-datos">Pregunta 3. ¿Qué significa calidad de datos?</a><a class="" href="#pregunta-4-que-es-una-base-de-datos-espacial">Pregunta 4. ¿Qué es una base de datos espacial?</a><a class="" href="#pregunta-5-que-significa-interoperabilidad">Pregunta 5. ¿Qué significa interoperabilidad?</a><a class="" href="#pregunta-6-que-es-un-servicio-web">Pregunta 6. ¿Qué es un servicio web?</a><a class="" href="#pregunta-7-que-es-un-metadato">Pregunta 7. ¿Qué es un metadato?</a><a class="" href="#actividad">Actividad</a><a class="sub" href="#formulacion-debil">Formulación débil</a><a class="sub" href="#formulacion-mejor">Formulación mejor</a><a class="" href="#por-que-una-ide-no-es-solamente-tecnologia">¿Por qué una IDE no es solamente tecnología?</a><a class="" href="#que-ocurre-si-existen-servicios-pero-no-hay-metadatos">¿Qué ocurre si existen servicios pero no hay metadatos?</a><a class="" href="#que-ocurre-si-existen-metadatos-pero-los-datos-no-se-actualizan">¿Qué ocurre si existen metadatos, pero los datos no se actualizan?</a><a class="" href="#que-diferencia-existe-entre-compartir-un-archivo-y-publicar-un-servicio">¿Qué diferencia existe entre compartir un archivo y publicar un servicio?</a><a class="" href="#por-que-los-estandares-facilitan-interoperabilidad">¿Por qué los estándares facilitan interoperabilidad?</a><a class="" href="#por-que-la-interoperabilidad-semantica-es-importante">¿Por qué la interoperabilidad semántica es importante?</a></aside><main><h1>Semana 1 — Introducción a las Infraestructuras de Datos Espaciales</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 1 — Gobernanza, arquitectura y estándares de una IDE</div></div>
+
+
+<h1>1. Marco de la semana</h1>
+<p>La primera semana se vincula directamente con la <strong>Unidad 1: Gobernanza, arquitectura y estándares de una IDE</strong>. El programa plantea que el estudiantado debe comprender el alcance de una Infraestructura de Datos Espaciales considerando requisitos institucionales, usuarios y condiciones de operación. Esto implica que la clase inicial no debe limitarse a presentar una definición breve de IDE ni a enumerar componentes, sino que debe construir una visión completa de por qué estas infraestructuras existen, qué problemas intentan resolver y de qué manera conectan aspectos organizacionales, informacionales y tecnológicos.</p>
+<p>Durante esta primera semana se abordarán, de manera introductoria pero suficientemente profunda, los conceptos de propósito, niveles y componentes de una IDE; el papel de las personas, los datos, las normas, las políticas, la tecnología, los servicios y la coordinación; las arquitecturas por capas y distribuidas; la interoperabilidad como principio de diseño; y el contexto nacional e internacional en que estos elementos aparecen.</p>
+<p>La lógica pedagógica de esta semana será deliberadamente conceptual y sistémica. Antes de instalar un servidor, configurar una base de datos o publicar un servicio, el estudiante debe ser capaz de responder qué problema está resolviendo, para quién lo está resolviendo, con qué información, bajo qué reglas y de qué manera esa solución puede mantenerse en el tiempo.</p>
+<blockquote>
+<p><strong>Idea central de la semana:</strong> Una IDE no se define por la herramienta utilizada, sino por la forma en que organiza y conecta datos, actores, normas, servicios y procesos para hacer posible el acceso, intercambio y uso sostenido de información geoespacial.</p>
+</blockquote>
+<hr/>
+<h1>2. Propósito de la semana</h1>
+<p>La primera semana tiene como propósito que el estudiante abandone una visión centrada exclusivamente en herramientas SIG y comience a pensar en términos de <strong>infraestructura de información geoespacial</strong>.</p>
+<p>En muchos entornos profesionales, el primer impulso frente a un problema de datos territoriales consiste en seleccionar una herramienta. Se escucha con frecuencia: “instalemos GeoServer”, “levantemos una base PostGIS”, “hagamos un visor”, “publiquemos un WMS” o “subamos los datos a la nube”. Esas decisiones pueden ser correctas, pero por sí solas no resuelven problemas como la duplicación de datos, la inexistencia de responsables, la falta de metadatos, la ausencia de políticas de acceso o la dificultad para integrar información proveniente de distintas instituciones.</p>
+<p>Por ejemplo, una organización puede tener un excelente servidor de mapas y aun así no saber cuál es la versión oficial de una capa. Puede disponer de una base de datos espacial y, al mismo tiempo, carecer de información sobre quién debe actualizarla. Puede publicar un geoportal visualmente atractivo, pero no disponer de un catálogo que permita conocer la fecha, calidad, escala, restricciones o responsable de cada recurso.</p>
+<p>Por eso, una IDE se estudia primero como una <strong>forma de organizar la información geoespacial y su ciclo de vida</strong>. La tecnología aparecerá como consecuencia de esas necesidades y no al revés.</p>
+<hr/>
+<h1>3. Resultados de aprendizaje de la semana</h1>
+<p>Al finalizar la semana, el estudiante debería ser capaz de explicar con sus propias palabras qué es una IDE y por qué una organización podría necesitarla. Esa explicación debe ir más allá de decir que “es una plataforma con mapas”. Debe incorporar ideas como producción, custodia, metadatos, interoperabilidad, servicios, usuarios, gobernanza y mantenimiento.</p>
+<p>También debería ser capaz de diferenciar una IDE de otras soluciones tecnológicas cercanas. Un SIG de escritorio, una base de datos, un geoportal o un servidor de mapas pueden formar parte de una IDE, pero ninguno de estos elementos constituye por sí solo la infraestructura completa.</p>
+<p>El estudiante deberá reconocer, además, que la interoperabilidad tiene distintas dimensiones. No basta con que dos sistemas logren conectarse. También deben compartir estructuras compatibles, significados equivalentes, responsabilidades claras y condiciones de uso que permitan realmente intercambiar información.</p>
+<p>Finalmente, el estudiante deberá ser capaz de leer un diagrama básico de arquitectura y explicar qué función cumple cada capa: dónde se almacenan los datos, cómo se describen, cómo se publican, cómo se descubren, cómo se consumen y qué componentes permiten operar la infraestructura de manera segura y sostenible.</p>
+<hr/>
+<h1>4. De los SIG aislados a una Infraestructura de Datos Espaciales</h1>
+<h2 id="4-1-el-escenario-inicial-informacion-geografica-dispersa">4.1. El escenario inicial: información geográfica dispersa</h2>
+<p>Imaginemos una municipalidad en la que distintas unidades trabajan con información territorial. La Dirección de Obras mantiene información predial. La Dirección de Tránsito administra la red vial. Medio Ambiente dispone de un inventario de áreas verdes. Planificación trabaja con equipamientos y zonificación. Emergencias mantiene información sobre amenazas y zonas críticas.</p>
+<p>Cada unidad puede cumplir correctamente su trabajo desde su propia perspectiva. El problema aparece cuando la institución intenta integrar esa información.</p>
+<p>Un escenario típico podría ser el siguiente:</p>
+<pre><code class="language-text">Dirección de Obras         → Predios_2026.shp
+Dirección de Tránsito      → Calles_Final.gpkg
+Medio Ambiente             → Areas_Verdes_Actualizadas.xlsx
+Planificación              → Equipamientos_v2.geojson
+Emergencias                → Riesgos.kml
+</code></pre>
+<p>A primera vista, todos los datos existen. Sin embargo, comienzan a aparecer preguntas que un simple conjunto de archivos no puede responder de manera confiable.</p>
+<p>¿Quién es responsable de cada recurso? ¿Cuál es la versión vigente? ¿Todos los datos están en el mismo sistema de referencia? ¿Qué unidad puede modificarlos? ¿Cuándo fueron actualizados? ¿Qué calidad tienen? ¿Pueden ser compartidos con la ciudadanía? ¿Cómo se integran con un visor web? ¿Qué ocurre si una unidad actualiza una capa y otra sigue utilizando una copia antigua?</p>
+<p>Estas preguntas muestran el paso desde un problema de “tener datos” hacia un problema de <strong>gestionar información institucionalmente</strong>.</p>
+<hr/>
+<h2 id="4-2-del-analisis-individual-al-uso-compartido">4.2. Del análisis individual al uso compartido</h2>
+<p>Un SIG de escritorio está pensado, entre otras cosas, para que una persona o un equipo pueda visualizar, analizar y editar información geográfica. Esa lógica es muy útil y seguirá siendo parte del curso, pero no resuelve por sí sola la coordinación entre productores, servidores, catálogos, aplicaciones y usuarios.</p>
+<p>El cambio de escala ocurre cuando la información debe ser utilizada simultáneamente por varias personas o sistemas. En ese punto aparece la necesidad de separar la información de la aplicación particular que la utiliza.</p>
+<div class="mermaid">flowchart LR
+    A["SIG de escritorio&lt;br/&gt;Uso local"] --&gt; B["SIG corporativo&lt;br/&gt;Datos compartidos"]
+    B --&gt; C["Web GIS&lt;br/&gt;Acceso mediante web"]
+    C --&gt; D["IDE&lt;br/&gt;Datos + metadatos + servicios + gobernanza"]
+    D --&gt; E["APIs / espacios de datos&lt;br/&gt;Integración y automatización"]
+</div>
+<p>El diagrama muestra una evolución conceptual, no una secuencia obligatoria. Una organización puede tener elementos de varios niveles al mismo tiempo. Lo importante es observar que, a medida que aumenta la cantidad de actores y sistemas, también aumenta la necesidad de metadatos, estándares, políticas y coordinación.</p>
+<hr/>
+<h1>5. ¿Qué es una Infraestructura de Datos Espaciales?</h1>
+<p>Una Infraestructura de Datos Espaciales puede entenderse como un entorno organizado que permite producir, administrar, describir, descubrir, compartir y utilizar información geoespacial de manera interoperable.</p>
+<p>Una definición útil para esta asignatura es la siguiente:</p>
+<blockquote>
+<p><strong>Una IDE es una infraestructura organizacional y tecnológica que gestiona el ciclo de vida de recursos geoespaciales y permite que personas y sistemas puedan descubrirlos, comprenderlos, acceder a ellos y utilizarlos mediante metadatos, estándares, servicios, políticas y responsabilidades claramente definidas.</strong></p>
+</blockquote>
+<p>Esta definición contiene varias ideas relevantes.</p>
+<p>La primera es que se habla de <strong>infraestructura</strong>. Una infraestructura no es una aplicación aislada; es un conjunto de componentes que habilitan distintos usos. De manera análoga a una red vial, una IDE proporciona condiciones para que la información pueda “circular” entre productores y usuarios.</p>
+<p>La segunda es que la IDE es <strong>organizacional y tecnológica al mismo tiempo</strong>. La tecnología puede almacenar, procesar y publicar información, pero no decide quién es responsable de mantenerla, qué versión es oficial o bajo qué condiciones se puede reutilizar.</p>
+<p>La tercera idea es el <strong>ciclo de vida</strong>. Un recurso geoespacial no aparece mágicamente en un geoportal. Primero debe ser producido, revisado, almacenado, documentado, publicado, utilizado, actualizado y eventualmente retirado.</p>
+<p>La cuarta idea es la <strong>interoperabilidad</strong>. Una IDE debe permitir que diferentes sistemas y organizaciones trabajen con información común sin depender necesariamente de las mismas herramientas.</p>
+<hr/>
+<h1>6. Qué problemas intenta resolver una IDE</h1>
+<h2 id="6-1-silos-de-informacion">6.1. Silos de información</h2>
+<p>Un silo aparece cuando una unidad mantiene información que resulta difícil de descubrir o utilizar desde otras áreas.</p>
+<p>Supongamos que la Dirección de Tránsito administra una red vial de buena calidad, pero esa red se encuentra almacenada únicamente en una carpeta interna que otras unidades no conocen. Técnicamente el dato existe; institucionalmente, sin embargo, permanece invisible.</p>
+<p>La IDE busca reducir este problema mediante inventarios, catálogos, metadatos y mecanismos de publicación. La solución no consiste simplemente en “subir el archivo a internet”, sino en hacer que el recurso tenga un responsable, una descripción, una forma de acceso y reglas de mantenimiento.</p>
+<hr/>
+<h2 id="6-2-duplicacion-y-divergencia-de-versiones">6.2. Duplicación y divergencia de versiones</h2>
+<p>La duplicación es uno de los problemas más frecuentes.</p>
+<p>Imaginemos este flujo:</p>
+<div class="mermaid">flowchart LR
+    A["Unidad A&lt;br/&gt;versión original"] --&gt; B["Unidad B&lt;br/&gt;copia"]
+    B --&gt; C["Unidad B&lt;br/&gt;modificación"]
+    C --&gt; D["Unidad C&lt;br/&gt;nueva copia"]
+    A --&gt; E["Unidad A&lt;br/&gt;versión actualizada"]
+</div>
+<p>Después de algunas semanas existen dos ramas diferentes. Una parte de la institución utiliza la versión actualizada por A y otra utiliza la versión modificada por B y C.</p>
+<p>El problema no es que existan copias. En muchos procesos las copias son necesarias para análisis, caché, pruebas o integración. El problema aparece cuando ya no es posible identificar cuál es la fuente oficial, qué transformaciones recibió cada copia o cuál debe utilizarse para decisiones institucionales.</p>
+<p>Una IDE madura debe incorporar una lógica de fuente oficial, custodia, versionamiento y trazabilidad.</p>
+<hr/>
+<h2 id="6-3-falta-de-documentacion">6.3. Falta de documentación</h2>
+<p>Un archivo puede contener datos técnicamente válidos y seguir siendo difícil de utilizar si no existe información descriptiva suficiente.</p>
+<p>Considérese el siguiente nombre:</p>
+<pre><code class="language-text">equipamiento_final_final_CORREGIDO3.shp
+</code></pre>
+<p>Ese nombre no informa qué organización produjo el recurso, cuándo fue actualizado, qué escala posee, qué precisión tiene, qué sistema de referencia utiliza, qué restricciones de uso existen ni a quién se debe consultar en caso de dudas.</p>
+<p>Los metadatos resuelven precisamente esta necesidad de contexto.</p>
+<p>ISO 19115-1:2014 establece un marco para describir información geográfica mediante elementos de identificación, extensión, calidad, referencia espacial, distribución y otras propiedades [R2].</p>
+<hr/>
+<h2 id="6-4-intercambio-manual-de-archivos">6.4. Intercambio manual de archivos</h2>
+<p>El intercambio por correo electrónico o carpetas compartidas puede funcionar correctamente en tareas puntuales, pero se vuelve frágil cuando el recurso cambia con frecuencia.</p>
+<div class="mermaid">sequenceDiagram
+    participant A as Unidad productora
+    participant B as Unidad usuaria
+    participant C as Otra unidad
+    A-&gt;&gt;B: Envía copia del archivo
+    B-&gt;&gt;C: Reenvía la copia
+    A-&gt;&gt;A: Actualiza la fuente oficial
+    C-&gt;&gt;C: Sigue utilizando la copia antigua
+</div>
+<p>La publicación mediante servicios o APIs permite, en muchos casos, reducir esta proliferación de copias. En lugar de enviar reiteradamente un archivo completo, los consumidores pueden conectarse a una fuente controlada.</p>
+<p>Esto no significa que todos los datos deban consumirse siempre como servicios. La decisión depende del tipo de recurso, volumen, frecuencia de actualización y necesidades de uso. La IDE aporta precisamente el marco para tomar esas decisiones.</p>
+<hr/>
+<h2 id="6-5-dependencia-de-una-herramienta">6.5. Dependencia de una herramienta</h2>
+<p>Otra dificultad aparece cuando los datos quedan “encerrados” en una aplicación específica.</p>
+<p>Si una organización solo puede visualizar sus datos a través de un software determinado, entonces la información y la aplicación quedan fuertemente acopladas.</p>
+<p>La IDE intenta separar ambos conceptos:</p>
+<pre><code class="language-text">Dato ≠ Aplicación
+Dato ≠ Visor
+Dato ≠ Software de escritorio
+</code></pre>
+<p>El mismo recurso puede ser utilizado desde un cliente SIG, una aplicación web, un proceso automatizado o una API, siempre que las políticas y condiciones de acceso lo permitan.</p>
+<hr/>
+<h1>7. La IDE como sistema sociotécnico</h1>
+<p>La expresión “sistema sociotécnico” permite comprender que la tecnología es solo una de las dimensiones de una IDE.</p>
+<div class="mermaid">flowchart TB
+    A["IDE"] --&gt; B["Dimensión organizacional"]
+    A --&gt; C["Dimensión informacional"]
+    A --&gt; D["Dimensión normativa"]
+    A --&gt; E["Dimensión tecnológica"]
+    A --&gt; F["Dimensión operacional"]
+
+    B --&gt; B1["Personas"]
+    B --&gt; B2["Instituciones"]
+    B --&gt; B3["Roles y coordinación"]
+
+    C --&gt; C1["Datos"]
+    C --&gt; C2["Metadatos"]
+    C --&gt; C3["Modelos, vocabularios y calidad"]
+
+    D --&gt; D1["Normas"]
+    D --&gt; D2["Políticas"]
+    D --&gt; D3["Licencias y procedimientos"]
+
+    E --&gt; E1["Bases de datos"]
+    E --&gt; E2["Servicios y APIs"]
+    E --&gt; E3["Clientes y aplicaciones"]
+
+    F --&gt; F1["Seguridad"]
+    F --&gt; F2["Monitoreo"]
+    F --&gt; F3["Respaldo y recuperación"]
+</div>
+<h2 id="7-1-dimension-organizacional">7.1. Dimensión organizacional</h2>
+<p>Esta dimensión responde a preguntas como quién produce, quién administra, quién autoriza, quién utiliza y quién coordina.</p>
+<p>Un error frecuente es asignar todas las responsabilidades al área informática. Informática puede administrar un servidor, pero no necesariamente puede decidir si un límite predial es correcto o si una capa debe ser considerada oficial.</p>
+<p>La gobernanza de datos geoespaciales exige separar, cuando corresponda, funciones técnicas y responsabilidades temáticas.</p>
+<hr/>
+<h2 id="7-2-dimension-informacional">7.2. Dimensión informacional</h2>
+<p>La información no está formada únicamente por geometrías.</p>
+<p>Una IDE también debe considerar atributos, identificadores, nombres, sistemas de referencia, calidad, linaje, modelos, dominios y vocabularios.</p>
+<p>Por ejemplo, dos bases pueden utilizar la categoría “establecimiento de salud”, pero una puede distinguir hospital, CESFAM y posta, mientras la otra utiliza categorías diferentes. La incompatibilidad puede existir aunque ambas bases utilicen exactamente el mismo formato.</p>
+<hr/>
+<h2 id="7-3-dimension-normativa">7.3. Dimensión normativa</h2>
+<p>Las normas y políticas establecen reglas comunes.</p>
+<p>Pueden definir qué metadatos son obligatorios, qué estructura debe tener un dataset, qué condiciones debe cumplir una publicación, quién puede acceder o qué licencia se aplica.</p>
+<p>Sin reglas comunes, cada unidad puede implementar soluciones técnicamente válidas pero incompatibles entre sí.</p>
+<hr/>
+<h2 id="7-4-dimension-tecnologica">7.4. Dimensión tecnológica</h2>
+<p>Esta dimensión comprende bases de datos, servidores, servicios, APIs, catálogos, clientes SIG y aplicaciones web.</p>
+<p>La tecnología materializa capacidades concretas, pero debe responder a necesidades definidas previamente.</p>
+<p>Por eso, durante el curso se utilizarán productos concretos como medios de aprendizaje, sin convertir la arquitectura conceptual en una arquitectura dependiente de una única marca.</p>
+<hr/>
+<h2 id="7-5-dimension-operacional">7.5. Dimensión operacional</h2>
+<p>Una IDE también debe funcionar en el tiempo.</p>
+<p>La operación incluye seguridad, registro de eventos, monitoreo, respaldo, recuperación y mantenimiento.</p>
+<p>Una solución puede funcionar perfectamente durante una demostración y seguir siendo inadecuada como infraestructura si nadie puede recuperarla después de una falla o si no existe forma de saber que un servicio dejó de responder.</p>
+<hr/>
+<h1>8. Componentes fundamentales de una IDE</h1>
+<h2 id="8-1-personas-y-organizaciones">8.1. Personas y organizaciones</h2>
+<p>Los datos geoespaciales son producidos y utilizados por actores concretos.</p>
+<p>El <strong>productor</strong> es quien genera o captura la información. Por ejemplo, la unidad de transporte puede producir la red vial porque mantiene ese recurso dentro de sus procesos habituales.</p>
+<p>El <strong>custodio</strong> es quien responde institucionalmente por la calidad, vigencia y definición del recurso. El custodio no necesariamente administra la base de datos.</p>
+<p>El <strong>administrador</strong> gestiona los componentes técnicos: servidores, usuarios, bases de datos, respaldos, certificados o monitoreo.</p>
+<p>El <strong>publicador</strong> prepara la exposición del recurso mediante servicios, APIs, catálogos o descargas.</p>
+<p>El <strong>usuario</strong> consume la información. Puede ser un analista SIG, un ciudadano, una aplicación, un sistema automatizado o una institución externa.</p>
+<p>La <strong>coordinación</strong> permite que estos actores trabajen con reglas compatibles.</p>
+<p>Estos roles se introducirán aquí y se profundizarán en la Semana 2.</p>
+<hr/>
+<h2 id="8-2-datos">8.2. Datos</h2>
+<p>Los datos pueden adoptar distintas formas.</p>
+<p>Los datos <strong>vectoriales</strong> representan objetos discretos mediante puntos, líneas y polígonos. Son apropiados para calles, edificios, límites administrativos, predios o equipamientos.</p>
+<p>Los datos <strong>ráster</strong> representan el espacio mediante una matriz de celdas. Son comunes en imágenes satelitales, modelos de elevación, temperatura o índices derivados.</p>
+<p>También pueden existir coberturas, datos 3D, series temporales, sensores o tablas georreferenciables.</p>
+<p>La IDE debe considerar no solo dónde se almacenan estos datos, sino también cómo se identifican, actualizan, documentan y relacionan.</p>
+<hr/>
+<h2 id="8-3-metadatos">8.3. Metadatos</h2>
+<p>Los metadatos son información sobre los recursos.</p>
+<p>Un usuario debería poder conocer, antes de utilizar una capa:</p>
+<ul>
+<li>Qué representa;</li>
+<li>Quién la produjo;</li>
+<li>Cuándo fue actualizada;</li>
+<li>Qué territorio cubre;</li>
+<li>Qué sistema de referencia utiliza;</li>
+<li>Qué calidad posee;</li>
+<li>Qué restricciones tiene;</li>
+<li>Cómo obtenerla;</li>
+<li>A quién consultar.</li>
+</ul>
+<p>Aquí no se busca todavía enseñar la estructura completa de ISO 19115-1. El objetivo es comprender por qué los metadatos son esenciales para el descubrimiento y uso responsable.</p>
+<hr/>
+<h2 id="8-4-catalogo">8.4. Catálogo</h2>
+<p>Un catálogo organiza registros descriptivos y permite descubrir recursos.</p>
+<p>No es simplemente una lista de archivos.</p>
+<p>Un catálogo puede permitir búsquedas por tema, institución, palabra clave, extensión espacial, fecha o tipo de recurso.</p>
+<p>OGC API - Records representa una de las aproximaciones modernas para publicar y consultar registros de recursos mediante APIs web [R6].</p>
+<p>En el contexto nacional, IDE Chile utiliza catálogos de metadatos y mecanismos de cosecha para integrar registros provenientes de distintas instituciones [R9].</p>
+<hr/>
+<h2 id="8-5-servicios-y-apis">8.5. Servicios y APIs</h2>
+<p>Los servicios y APIs son mecanismos que permiten acceder a recursos sin necesidad de conocer su implementación interna.</p>
+<p>Un cliente no debería necesitar saber en qué tabla exacta de PostgreSQL está almacenada una capa. Debería conocer una interfaz estable mediante la cual consultar la información.</p>
+<h3 id="wms">WMS</h3>
+<p>WMS está orientado a obtener representaciones cartográficas.</p>
+<div class="mermaid">sequenceDiagram
+    participant C as Cliente
+    participant S as Servidor WMS
+    C-&gt;&gt;S: Solicitud de mapa
+    S-&gt;&gt;C: Imagen georreferenciada
+</div>
+<p>La idea importante es que el cliente solicita una representación del mapa y el servidor la genera.</p>
+<h3 id="wfs-y-ogc-api-features">WFS y OGC API - Features</h3>
+<p>WFS representa una familia clásica de acceso a features.</p>
+<p>OGC API - Features adopta una lógica más alineada con APIs web contemporáneas.</p>
+<p>En ambos casos, la idea general es permitir el acceso a entidades geográficas y sus atributos, no solo a una imagen.</p>
+<hr/>
+<h1>9. Diferencia entre SIG, base espacial, servidor, geoportal e IDE</h1>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Qué hace</th>
+<th>Qué no resuelve por sí solo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SIG de escritorio</td>
+<td>Analiza y visualiza información</td>
+<td>Gobernanza, catálogo, publicación institucional</td>
+</tr>
+<tr>
+<td>Base espacial</td>
+<td>Almacena y consulta datos</td>
+<td>Descubrimiento, políticas, usuarios finales</td>
+</tr>
+<tr>
+<td>Servidor geoespacial</td>
+<td>Publica servicios</td>
+<td>Custodia, calidad, sostenibilidad</td>
+</tr>
+<tr>
+<td>Catálogo</td>
+<td>Permite descubrir recursos</td>
+<td>No almacena necesariamente los datos</td>
+</tr>
+<tr>
+<td>Geoportal</td>
+<td>Facilita acceso web</td>
+<td>No representa necesariamente toda la infraestructura</td>
+</tr>
+<tr>
+<td>API</td>
+<td>Expone datos o funciones</td>
+<td>No define quién es responsable del dato</td>
+</tr>
+<tr>
+<td>IDE</td>
+<td>Integra todos estos elementos</td>
+<td>Requiere gestión continua</td>
+</tr>
+</tbody>
+</table>
+<p>La diferencia clave está en la <strong>integración</strong>.</p>
+<p>Una organización puede instalar PostGIS y GeoServer y seguir sin tener una IDE madura si no ha definido quién mantiene los datos, cómo se documentan, cómo se descubren, qué políticas de acceso existen y cómo se operará la plataforma.</p>
+<hr/>
+<h1>10. Niveles de una IDE</h1>
+<p>Una IDE puede existir en diferentes escalas.</p>
+<p>Una <strong>IDE organizacional</strong> puede resolver necesidades internas de una universidad, empresa o servicio público.</p>
+<p>Una <strong>IDE municipal</strong> puede integrar catastro, vialidad, planificación, áreas verdes, permisos y equipamientos.</p>
+<p>Una <strong>IDE regional</strong> puede coordinar información de distintos servicios públicos y gobiernos locales.</p>
+<p>Una <strong>IDE nacional</strong> articula recursos provenientes de múltiples instituciones del Estado.</p>
+<p>Una <strong>IDE supranacional</strong> busca compatibilidad entre países y jurisdicciones, como ocurre con INSPIRE en Europa.</p>
+<p>El nivel no cambia los principios fundamentales. En todos los casos siguen siendo necesarios datos, metadatos, responsabilidades, servicios y coordinación. Lo que cambia es la cantidad de actores y la complejidad institucional.</p>
+<hr/>
+<h1>11. Interoperabilidad</h1>
+<p>La interoperabilidad es uno de los conceptos centrales de la asignatura.</p>
+<p>Decir que dos sistemas son interoperables no significa que utilicen el mismo software. Significa que pueden intercambiar información y utilizarla de forma coherente.</p>
+<h2 id="11-1-interoperabilidad-tecnica">11.1. Interoperabilidad técnica</h2>
+<p>Se refiere a la capacidad de los sistemas para conectarse.</p>
+<p>Por ejemplo, un cliente SIG puede acceder a una URL WMS.</p>
+<p>Aquí importan protocolos, redes, HTTP, autenticación y disponibilidad.</p>
+<hr/>
+<h2 id="11-2-interoperabilidad-sintactica">11.2. Interoperabilidad sintáctica</h2>
+<p>Se refiere a que ambas partes comprendan la estructura del mensaje.</p>
+<p>Por ejemplo:</p>
+<pre><code class="language-json">{
+  "id": 101,
+  "nombre": "Plaza Central",
+  "tipo": "AreaVerde"
+}
+</code></pre>
+<p>El cliente debe saber qué campos existen, qué tipo de dato contiene cada uno y cómo se estructura la respuesta.</p>
+<hr/>
+<h2 id="11-3-interoperabilidad-semantica">11.3. Interoperabilidad semántica</h2>
+<p>Se refiere al significado.</p>
+<p>Supongamos dos instituciones:</p>
+<pre><code class="language-text">Institución A
+tipo = 1 → Hospital
+tipo = 2 → CESFAM
+
+Institución B
+tipo = 1 → Centro de salud
+tipo = 2 → Hospital
+</code></pre>
+<p>Ambas pueden intercambiar perfectamente una tabla con campos <code>id</code> y <code>tipo</code>, pero el significado de los códigos no coincide.</p>
+<p>Por eso la interoperabilidad semántica requiere definiciones, dominios, vocabularios o catálogos de objetos.</p>
+<hr/>
+<h2 id="11-4-interoperabilidad-organizacional">11.4. Interoperabilidad organizacional</h2>
+<p>Dos organizaciones pueden disponer de sistemas técnicamente compatibles y seguir teniendo problemas si sus procesos no están coordinados.</p>
+<p>Por ejemplo, una institución puede actualizar un dataset diariamente y otra puede consumirlo una vez al año. Técnicamente la integración funciona, pero operacionalmente puede no satisfacer las necesidades del usuario.</p>
+<hr/>
+<h2 id="11-5-interoperabilidad-normativa">11.5. Interoperabilidad normativa</h2>
+<p>La interoperabilidad también depende de las reglas.</p>
+<p>Un dataset puede estar publicado técnicamente y, sin embargo, no ser reutilizable debido a restricciones de licencia, privacidad o seguridad.</p>
+<p>Por eso una IDE debe conectar tecnología con políticas y condiciones de uso.</p>
+<hr/>
+<h1>12. Arquitectura conceptual de una IDE</h1>
+<p>Una manera útil de comprender una IDE es pensarla por capas.</p>
+<div class="mermaid">flowchart TB
+    U["Usuarios&lt;br/&gt;Personas y sistemas"] --&gt; A["Aplicaciones&lt;br/&gt;SIG, web, móvil, dashboards"]
+    A --&gt; S["Servicios y APIs&lt;br/&gt;WMS, WFS, OGC API, catálogo"]
+    S --&gt; I["Información&lt;br/&gt;Datos + metadatos"]
+    I --&gt; D["Almacenamiento&lt;br/&gt;Bases espaciales, archivos, objetos"]
+    D --&gt; INF["Infraestructura&lt;br/&gt;Servidores, red, nube, contenedores"]
+
+    SEC["Seguridad"] -.-&gt; A
+    SEC -.-&gt; S
+    SEC -.-&gt; D
+
+    MON["Monitoreo y operación"] -.-&gt; S
+    MON -.-&gt; INF
+</div>
+<p>La capa de <strong>usuarios</strong> representa las necesidades. La infraestructura existe para apoyar procesos y decisiones reales.</p>
+<p>La capa de <strong>aplicaciones</strong> contiene las herramientas que consumen la información: QGIS, geoportales, aplicaciones móviles o sistemas institucionales.</p>
+<p>La capa de <strong>servicios y APIs</strong> desacopla a las aplicaciones de la forma interna en que los datos están almacenados.</p>
+<p>La capa de <strong>información</strong> reúne los datos y sus metadatos.</p>
+<p>La capa de <strong>almacenamiento</strong> contiene repositorios, bases de datos y archivos controlados.</p>
+<p>La <strong>infraestructura</strong> incluye servidores, sistemas operativos, contenedores, redes y recursos de cómputo.</p>
+<p>La <strong>seguridad</strong> y el <strong>monitoreo</strong> se consideran transversales porque afectan a todas las capas.</p>
+<hr/>
+<h1>13. Arquitectura centralizada, distribuida e híbrida</h1>
+<h2 id="13-1-arquitectura-centralizada">13.1. Arquitectura centralizada</h2>
+<div class="mermaid">flowchart TB
+    A["Unidad A"] --&gt; C["Repositorio central"]
+    B["Unidad B"] --&gt; C
+    D["Unidad C"] --&gt; C
+    C --&gt; S["Servicios centrales"]
+    S --&gt; U["Usuarios"]
+</div>
+<p>En este modelo, múltiples productores entregan información a un repositorio central.</p>
+<p>La principal ventaja es el control. Resulta más sencillo identificar una plataforma común, mantener respaldos y administrar servicios.</p>
+<p>La principal desventaja es que el equipo central puede transformarse en cuello de botella y que las unidades productoras pueden perder autonomía.</p>
+<hr/>
+<h2 id="13-2-arquitectura-distribuida">13.2. Arquitectura distribuida</h2>
+<div class="mermaid">flowchart TB
+    A["Institución A&lt;br/&gt;Datos y servicios"] --&gt; G["Catálogo / Geoportal"]
+    B["Institución B&lt;br/&gt;Datos y servicios"] --&gt; G
+    C["Institución C&lt;br/&gt;Datos y servicios"] --&gt; G
+    G --&gt; U["Usuarios"]
+</div>
+<p>Aquí cada institución mantiene sus datos y servicios.</p>
+<p>La infraestructura común facilita descubrimiento e integración.</p>
+<p>Este modelo requiere mayor coordinación y estandarización porque las fuentes están distribuidas.</p>
+<hr/>
+<h2 id="13-3-arquitectura-hibrida">13.3. Arquitectura híbrida</h2>
+<p>En la práctica, muchas IDE combinan ambos enfoques.</p>
+<p>Puede existir un catálogo central, mientras los datos permanecen distribuidos.</p>
+<p>Algunos datasets pueden replicarse por razones de rendimiento, mientras otros se consumen directamente desde la institución productora.</p>
+<p>El modelo híbrido suele ser una respuesta realista a organizaciones con distintas capacidades técnicas.</p>
+<hr/>
+<h1>14. IDE Chile / SNIT como caso nacional</h1>
+<p>IDE Chile permite observar estos conceptos en un contexto institucional real.</p>
+<p>El Geoportal de Chile funciona como punto de acceso a información territorial producida por distintos organismos del Estado.</p>
+<p>La lógica relevante para esta asignatura no es solamente la existencia de un mapa. Lo importante es reconocer que detrás del portal existen instituciones productoras, datos, servicios, metadatos, catálogos y mecanismos de coordinación.</p>
+<div class="mermaid">flowchart LR
+    A["Instituciones productoras"] --&gt; B["Datos institucionales"]
+    B --&gt; C["Metadatos"]
+    B --&gt; D["Servicios"]
+    C --&gt; E["Catálogo"]
+    D --&gt; F["Geoportal / clientes"]
+    E --&gt; F
+    F --&gt; G["Usuarios"]
+</div>
+<p>El estudiante debe observar que el Geoportal es la parte visible de un sistema más amplio.</p>
+<p>IDE Chile también dispone de herramientas y documentación asociadas a publicación de servicios y gestión de metadatos [R7][R8][R9][R10].</p>
+<hr/>
+<h1>15. INSPIRE y UN-IGIF</h1>
+<h2 id="15-1-inspire">15.1. INSPIRE</h2>
+<p>INSPIRE es una referencia útil porque muestra cómo una infraestructura espacial puede extenderse entre múltiples países y organismos.</p>
+<p>Sus reglas abarcan metadatos, especificaciones de datos, servicios de red, interoperabilidad y coordinación.</p>
+<p>El valor pedagógico de INSPIRE está en mostrar que una IDE no es únicamente una solución informática. También requiere acuerdos institucionales y modelos comunes.</p>
+<hr/>
+<h2 id="15-2-un-igif">15.2. UN-IGIF</h2>
+<p>UN-IGIF amplía todavía más la mirada.</p>
+<p>El marco considera trayectorias asociadas a gobernanza, política, financiamiento, datos, innovación, estándares, alianzas, capacidades y comunicación [R11].</p>
+<p>Esto permite introducir una idea importante:</p>
+<blockquote>
+<p><strong>Una infraestructura geoespacial madura es también una forma de gobernar y gestionar información.</strong></p>
+</blockquote>
+<hr/>
+<h1>16. Ecosistema de estándares</h1>
+<p>Durante el curso aparecerán diferentes estándares porque cada uno responde a una necesidad distinta.</p>
+<div class="mermaid">flowchart TB
+    A["Necesidad"] --&gt; B["Describir"]
+    A --&gt; C["Visualizar"]
+    A --&gt; D["Consultar objetos"]
+    A --&gt; E["Descubrir"]
+    A --&gt; F["Mejorar rendimiento"]
+    A --&gt; G["Trabajar con coberturas"]
+
+    B --&gt; B1["ISO 19115-1"]
+    C --&gt; C1["WMS"]
+    D --&gt; D1["WFS"]
+    D --&gt; D2["OGC API - Features"]
+    E --&gt; E1["CSW"]
+    E --&gt; E2["OGC API - Records"]
+    F --&gt; F1["WMTS"]
+    F --&gt; F2["OGC API - Tiles"]
+    G --&gt; G1["WCS"]
+    G --&gt; G2["OGC API - Coverages"]
+</div>
+<p>En esta primera semana no es necesario memorizar operaciones, parámetros ni documentos de capacidades. Lo importante es que el estudiante comprenda qué problema general resuelve cada familia.</p>
+<hr/>
+<h1>17. Ejemplo integrador: IDE municipal</h1>
+<h2 id="17-1-situacion-inicial">17.1. Situación inicial</h2>
+<p>Una municipalidad tiene datos distribuidos entre varias unidades.</p>
+<table>
+<thead>
+<tr>
+<th>Unidad</th>
+<th>Recurso</th>
+<th>Situación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Obras</td>
+<td>Permisos</td>
+<td>Base local</td>
+</tr>
+<tr>
+<td>Catastro</td>
+<td>Predios</td>
+<td>Shapefile</td>
+</tr>
+<tr>
+<td>Tránsito</td>
+<td>Calles</td>
+<td>GeoPackage</td>
+</tr>
+<tr>
+<td>Medio Ambiente</td>
+<td>Áreas verdes</td>
+<td>Excel + KML</td>
+</tr>
+<tr>
+<td>Planificación</td>
+<td>Equipamientos</td>
+<td>Copias múltiples</td>
+</tr>
+<tr>
+<td>Emergencias</td>
+<td>Riesgos</td>
+<td>Archivos por correo</td>
+</tr>
+</tbody>
+</table>
+<p>La organización no tiene un mecanismo común de descubrimiento ni publicación.</p>
+<hr/>
+<h2 id="17-2-arquitectura-objetivo-inicial">17.2. Arquitectura objetivo inicial</h2>
+<div class="mermaid">flowchart TB
+    O["Obras"] --&gt; V["Validación"]
+    C["Catastro"] --&gt; V
+    T["Tránsito"] --&gt; V
+    M["Medio Ambiente"] --&gt; V
+    P["Planificación"] --&gt; V
+
+    V --&gt; DB["Base espacial institucional"]
+
+    DB --&gt; WMS["WMS"]
+    DB --&gt; API["API"]
+    DB --&gt; META["Metadatos"]
+
+    META --&gt; CAT["Catálogo"]
+
+    WMS --&gt; Q["QGIS"]
+    API --&gt; WEB["Aplicación web"]
+    CAT --&gt; U["Usuarios"]
+    U --&gt; Q
+    U --&gt; WEB
+
+    SEC["Seguridad"] -.-&gt; DB
+    MON["Monitoreo"] -.-&gt; WMS
+    MON -.-&gt; API
+</div>
+<p>Esta arquitectura muestra cómo diferentes productores pueden converger en una fuente controlada, publicar servicios y documentar recursos.</p>
+<p>Sin embargo, el diagrama no resuelve todavía quién es responsable de cada dataset ni qué datos deben ser públicos. Esas preguntas pertenecen a la gobernanza y serán tratadas en la Semana 2.</p>
+<hr/>
+<h1>18. Casos de uso</h1>
+<p>Una IDE debe diseñarse desde necesidades concretas.</p>
+<h2 id="caso-1-descubrir-informacion">Caso 1: descubrir información</h2>
+<p>Un planificador necesita encontrar la capa oficial de áreas verdes.</p>
+<p>La IDE debería permitir localizar el recurso en un catálogo, leer sus metadatos y acceder al mecanismo de distribución disponible.</p>
+<hr/>
+<h2 id="caso-2-visualizar-informacion">Caso 2: visualizar información</h2>
+<p>Un ciudadano quiere conocer equipamientos cercanos.</p>
+<p>La IDE puede ofrecer un visor web que consuma servicios publicados.</p>
+<hr/>
+<h2 id="caso-3-analizar-informacion">Caso 3: analizar información</h2>
+<p>Un profesional SIG necesita cruzar vialidad con equipamientos.</p>
+<p>Puede consumir servicios desde QGIS o descargar datos si la política lo permite.</p>
+<hr/>
+<h2 id="caso-4-integrar-sistemas">Caso 4: integrar sistemas</h2>
+<p>Un desarrollador quiere incorporar áreas verdes en una aplicación.</p>
+<p>Una API puede ser una interfaz adecuada.</p>
+<hr/>
+<h2 id="caso-5-actualizar-informacion">Caso 5: actualizar información</h2>
+<p>La unidad productora modifica una capa.</p>
+<p>La IDE debe disponer de un procedimiento para validar, actualizar la fuente oficial, registrar cambios y republicar.</p>
+<hr/>
+<h1>19. Modelo didáctico de madurez</h1>
+<p>El siguiente modelo es pedagógico y no corresponde a una escala normativa oficial.</p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 — Aislado</td>
+<td>Los datos están en equipos y archivos individuales</td>
+</tr>
+<tr>
+<td>1 — Compartido</td>
+<td>Existen repositorios comunes</td>
+</tr>
+<tr>
+<td>2 — Documentado</td>
+<td>Se incorporan inventarios y metadatos</td>
+</tr>
+<tr>
+<td>3 — Interoperable</td>
+<td>Existen servicios y clientes múltiples</td>
+</tr>
+<tr>
+<td>4 — Gobernado</td>
+<td>Existen custodios, políticas y procedimientos</td>
+</tr>
+<tr>
+<td>5 — Operativo y sostenible</td>
+<td>Existen monitoreo, continuidad y mejora</td>
+</tr>
+</tbody>
+</table>
+<p>La utilidad del modelo es mostrar que una IDE no se vuelve madura únicamente porque disponga de más software.</p>
+<p>Una organización puede tener un servidor muy avanzado y seguir en un nivel bajo de gobernanza.</p>
+<hr/>
+<h1>20. Secuencia sugerida para la clase teórica</h1>
+<h2 id="primer-bloque-por-que-existen-las-ide">Primer bloque: por qué existen las IDE</h2>
+<p>El docente puede comenzar mostrando un caso de datos dispersos entre varias unidades.</p>
+<p>La conversación debe conducir a la idea de que el problema no es la falta de información, sino la falta de coordinación.</p>
+<p>Pregunta sugerida:</p>
+<blockquote>
+<p>Si cinco unidades tienen cinco copias diferentes de una misma capa, ¿el problema principal es de software o de organización?</p>
+</blockquote>
+<p>La respuesta esperada es que existen componentes de ambos tipos, pero el problema de fondo es de gestión y gobernanza de la información.</p>
+<hr/>
+<h2 id="segundo-bloque-componentes-de-una-ide">Segundo bloque: componentes de una IDE</h2>
+<p>Aquí conviene construir el concepto de sistema sociotécnico.</p>
+<p>Puede dibujarse en pizarra:</p>
+<pre><code class="language-text">Personas
+Datos
+Metadatos
+Normas
+Servicios
+Tecnología
+Coordinación
+Operación
+</code></pre>
+<p>La explicación debe insistir en que ninguno de estos elementos funciona de manera aislada.</p>
+<hr/>
+<h2 id="tercer-bloque-interoperabilidad">Tercer bloque: interoperabilidad</h2>
+<p>La mejor forma de introducirla es con ejemplos.</p>
+<p>Primero, dos sistemas que no pueden conectarse.</p>
+<p>Luego, dos sistemas que se conectan pero utilizan estructuras diferentes.</p>
+<p>Finalmente, dos sistemas que comparten estructura pero interpretan los códigos de manera distinta.</p>
+<p>Esto permite mostrar progresivamente interoperabilidad técnica, sintáctica y semántica.</p>
+<hr/>
+<h2 id="cuarto-bloque-arquitectura">Cuarto bloque: arquitectura</h2>
+<p>Se presenta la arquitectura por capas y se explica que los clientes no deberían depender de la forma en que los datos están almacenados internamente.</p>
+<hr/>
+<h2 id="quinto-bloque-ide-chile-inspire-y-un-igif">Quinto bloque: IDE Chile, INSPIRE y UN-IGIF</h2>
+<p>Aquí el objetivo es conectar la teoría con casos reales.</p>
+<p>No se busca revisar todas las funcionalidades del portal, sino reconocer cómo los conceptos estudiados aparecen en infraestructuras reales.</p>
+<hr/>
+<h1>21. Evaluación diagnóstica</h1>
+<p>La evaluación diagnóstica no tiene calificación.</p>
+<h2 id="pregunta-1-que-diferencia-existe-entre-vector-y-raster">Pregunta 1. ¿Qué diferencia existe entre vector y ráster?</h2>
+<p><strong>Respuesta esperada:</strong> El modelo vectorial representa objetos mediante puntos, líneas y polígonos. El ráster representa el espacio mediante celdas.</p>
+<hr/>
+<h2 id="pregunta-2-que-es-un-sistema-de-referencia">Pregunta 2. ¿Qué es un sistema de referencia?</h2>
+<p><strong>Respuesta esperada:</strong> Es el marco que permite interpretar coordenadas y relacionarlas con posiciones sobre la Tierra.</p>
+<hr/>
+<h2 id="pregunta-3-que-significa-calidad-de-datos">Pregunta 3. ¿Qué significa calidad de datos?</h2>
+<p><strong>Respuesta esperada:</strong> Es el grado en que un recurso cumple requisitos de precisión, completitud, consistencia, vigencia y adecuación para un uso.</p>
+<hr/>
+<h2 id="pregunta-4-que-es-una-base-de-datos-espacial">Pregunta 4. ¿Qué es una base de datos espacial?</h2>
+<p><strong>Respuesta esperada:</strong> Es una base de datos capaz de almacenar geometrías y realizar operaciones espaciales.</p>
+<hr/>
+<h2 id="pregunta-5-que-significa-interoperabilidad">Pregunta 5. ¿Qué significa interoperabilidad?</h2>
+<p><strong>Respuesta esperada:</strong> Es la capacidad de distintos sistemas y organizaciones para intercambiar y utilizar información de manera coherente.</p>
+<hr/>
+<h2 id="pregunta-6-que-es-un-servicio-web">Pregunta 6. ¿Qué es un servicio web?</h2>
+<p><strong>Respuesta esperada:</strong> Es una interfaz accesible mediante red que permite solicitar información o funciones desde otro sistema.</p>
+<hr/>
+<h2 id="pregunta-7-que-es-un-metadato">Pregunta 7. ¿Qué es un metadato?</h2>
+<p><strong>Respuesta esperada:</strong> Es información estructurada que describe un recurso.</p>
+<hr/>
+<h1>22. Laboratorio 1 — Reconocimiento de una IDE real</h1>
+<p>El laboratorio tiene como objetivo que el estudiante observe una infraestructura real y la analice con los conceptos desarrollados en clase.</p>
+<p>El caso sugerido es <strong>IDE Chile / Geoportal de Chile</strong>.</p>
+<p>El estudiante no debe limitarse a navegar por el mapa. Debe intentar reconocer qué componentes de la IDE aparecen explícitamente y cuáles deben existir detrás de la interfaz.</p>
+<h2 id="actividad">Actividad</h2>
+<p>El estudiante deberá identificar:</p>
+<ul>
+<li>Institución responsable;</li>
+<li>Alcance territorial;</li>
+<li>Datasets;</li>
+<li>Metadatos;</li>
+<li>Catálogo;</li>
+<li>Mecanismos de búsqueda;</li>
+<li>Servicios;</li>
+<li>Descargas;</li>
+<li>Información de actualización;</li>
+<li>Responsables o contactos.</li>
+</ul>
+<p>Luego deberá responder:</p>
+<ol>
+<li>¿Dónde parece producirse la información?</li>
+<li>¿La arquitectura parece centralizada o distribuida?</li>
+<li>¿Cómo se descubren los recursos?</li>
+<li>¿Cómo se accede a ellos?</li>
+<li>¿Qué estándares pueden identificarse?</li>
+<li>¿Qué elementos no son visibles desde el portal?</li>
+<li>¿Por qué el Geoportal no equivale a toda la IDE?</li>
+</ol>
+<hr/>
+<h1>23. Tabla de observación</h1>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Evidencia encontrada</th>
+<th>Interpretación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Institución responsable</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Productores</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Datasets</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Metadatos</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Catálogo</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>WMS</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>WFS/API</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Descargas</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Actualización</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Contacto</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Coordinación</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>24. Proyecto incremental — Inicio</h1>
+<p>Cada equipo deberá seleccionar un ámbito concreto.</p>
+<p>Puede ser municipal, ambiental, de transporte, riesgos, campus universitario, infraestructura o recursos hídricos.</p>
+<p>La formulación no debe partir desde la herramienta.</p>
+<h3 id="formulacion-debil">Formulación débil</h3>
+<blockquote>
+<p>“Vamos a construir una IDE con GeoServer.”</p>
+</blockquote>
+<h3 id="formulacion-mejor">Formulación mejor</h3>
+<blockquote>
+<p>“Las unidades municipales mantienen versiones diferentes de los mismos recursos y no existe un mecanismo común de descubrimiento, publicación y actualización.”</p>
+</blockquote>
+<p>La segunda formulación describe un problema. La tecnología puede elegirse después.</p>
+<hr/>
+<h1>25. Entregable de la Semana 1</h1>
+<p>El entregable debe tener entre 3 y 5 páginas.</p>
+<p>Debe incluir una descripción del problema, el contexto organizacional o territorial, usuarios, datasets, necesidades de información, beneficios esperados, riesgos iniciales y un diagrama conceptual.</p>
+<p>El diagrama no necesita ser técnicamente definitivo.</p>
+<p>Debe ser suficiente para mostrar:</p>
+<ul>
+<li>Quién produce;</li>
+<li>Dónde podrían almacenarse los datos;</li>
+<li>Cómo podrían publicarse;</li>
+<li>Cómo podrían descubrirse;</li>
+<li>Quién los consumiría.</li>
+</ul>
+<hr/>
+<h1>26. Rúbrica formativa</h1>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Insuficiente</th>
+<th>En desarrollo</th>
+<th>Adecuado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Problema</td>
+<td>Es genérico</td>
+<td>Describe una dificultad</td>
+<td>Define problema, causa y consecuencia</td>
+</tr>
+<tr>
+<td>Usuarios</td>
+<td>No se distinguen</td>
+<td>Se mencionan</td>
+<td>Se relacionan con necesidades</td>
+</tr>
+<tr>
+<td>Datos</td>
+<td>Lista vaga</td>
+<td>Recursos generales</td>
+<td>Recursos concretos y pertinentes</td>
+</tr>
+<tr>
+<td>Concepto de IDE</td>
+<td>Se confunde con software</td>
+<td>Reconoce algunos elementos</td>
+<td>Integra datos, actores, servicios y gobernanza</td>
+</tr>
+<tr>
+<td>Interoperabilidad</td>
+<td>No aparece</td>
+<td>Se menciona</td>
+<td>Se relaciona con interfaces y significado</td>
+</tr>
+<tr>
+<td>Diagrama</td>
+<td>Solo muestra software</td>
+<td>Muestra varios componentes</td>
+<td>Representa flujos y relaciones</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>27. Preguntas de cierre</h1>
+<h2 id="por-que-una-ide-no-es-solamente-tecnologia">¿Por qué una IDE no es solamente tecnología?</h2>
+<p>Porque también necesita responsables, normas, metadatos, políticas, procesos y mecanismos de operación.</p>
+<h2 id="que-ocurre-si-existen-servicios-pero-no-hay-metadatos">¿Qué ocurre si existen servicios pero no hay metadatos?</h2>
+<p>Los recursos pueden ser accesibles, pero resulta difícil evaluar su origen, calidad, vigencia y condiciones de uso.</p>
+<h2 id="que-ocurre-si-existen-metadatos-pero-los-datos-no-se-actualizan">¿Qué ocurre si existen metadatos, pero los datos no se actualizan?</h2>
+<p>El catálogo puede describir correctamente un recurso obsoleto. Los metadatos no sustituyen el mantenimiento.</p>
+<h2 id="que-diferencia-existe-entre-compartir-un-archivo-y-publicar-un-servicio">¿Qué diferencia existe entre compartir un archivo y publicar un servicio?</h2>
+<p>Compartir un archivo genera una copia independiente. Un servicio puede permitir acceso a una fuente administrada sin replicarla en cada consumo.</p>
+<h2 id="por-que-los-estandares-facilitan-interoperabilidad">¿Por qué los estándares facilitan interoperabilidad?</h2>
+<p>Porque permiten que distintos sistemas implementen reglas comunes.</p>
+<h2 id="por-que-la-interoperabilidad-semantica-es-importante">¿Por qué la interoperabilidad semántica es importante?</h2>
+<p>Porque dos sistemas pueden intercambiar datos correctamente y, aun así, interpretar de forma diferente los valores.</p>
+<hr/>
+<h1>28. Glosario inicial</h1>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IDE</td>
+<td>Infraestructura que organiza datos, actores, metadatos, servicios, normas y tecnología</td>
+</tr>
+<tr>
+<td>SIG</td>
+<td>Sistema para gestionar, analizar y visualizar información geográfica</td>
+</tr>
+<tr>
+<td>Geoportal</td>
+<td>Punto de acceso web a recursos geoespaciales</td>
+</tr>
+<tr>
+<td>Metadato</td>
+<td>Información estructurada que describe un recurso</td>
+</tr>
+<tr>
+<td>Catálogo</td>
+<td>Sistema para registrar y descubrir recursos</td>
+</tr>
+<tr>
+<td>Interoperabilidad</td>
+<td>Capacidad de sistemas y organizaciones para intercambiar y utilizar información</td>
+</tr>
+<tr>
+<td>WMS</td>
+<td>Servicio orientado a representaciones cartográficas</td>
+</tr>
+<tr>
+<td>WFS</td>
+<td>Servicio clásico para acceso a features</td>
+</tr>
+<tr>
+<td>API</td>
+<td>Interfaz programática para comunicación entre sistemas</td>
+</tr>
+<tr>
+<td>Custodio</td>
+<td>Responsable institucional de un recurso</td>
+</tr>
+<tr>
+<td>CRS</td>
+<td>Sistema de referencia de coordenadas</td>
+</tr>
+<tr>
+<td>Linaje</td>
+<td>Historia del origen y transformaciones de un recurso</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>29. Trabajo autónomo para la Semana 2</h1>
+<p>Cada equipo deberá revisar el caso seleccionado y profundizar en los actores.</p>
+<p>Se recomienda identificar al menos:</p>
+<ul>
+<li>Quién produce cada dataset;</li>
+<li>Quién debería custodiarlo;</li>
+<li>Quién podría administrarlo;</li>
+<li>Quién podría publicarlo;</li>
+<li>Quién lo utilizaría;</li>
+<li>Qué frecuencia de actualización parece razonable.</li>
+</ul>
+<p>También deberá mejorarse el diagrama conceptual incorporando los principales actores.</p>
+<hr/>
+<h1>30. Referencias técnicas</h1>
+<p><strong>[R1]</strong> Bernabé-Poveda, M. A., &amp; López-Vázquez, C. M. (Eds.). (2012). <em>Fundamentos de las Infraestructuras de Datos Espaciales</em>. UPM Press.</p>
+<p><strong>[R2]</strong> International Organization for Standardization. (2014). <em>ISO 19115-1:2014 Geographic information — Metadata — Part 1: Fundamentals</em>.<br/>
+<a href="https://www.iso.org/standard/53798.html">https://www.iso.org/standard/53798.html</a></p>
+<p><strong>[R3]</strong> Open Geospatial Consortium. <em>OpenGIS Web Map Service (WMS) Implementation Specification, version 1.3.0</em>.<br/>
+<a href="https://www.ogc.org/standards/wms/">https://www.ogc.org/standards/wms/</a></p>
+<p><strong>[R4]</strong> Open Geospatial Consortium. <em>OGC API — Common</em>.<br/>
+<a href="https://www.ogc.org/standards/ogcapi-common/">https://www.ogc.org/standards/ogcapi-common/</a></p>
+<p><strong>[R5]</strong> Open Geospatial Consortium. <em>OGC API — Features — Part 1: Core</em>.<br/>
+<a href="https://www.ogc.org/standards/ogcapi-features/">https://www.ogc.org/standards/ogcapi-features/</a></p>
+<p><strong>[R6]</strong> Open Geospatial Consortium. <em>OGC API — Records — Part 1: Core</em>.<br/>
+<a href="https://docs.ogc.org/is/20-004r1/20-004r1.html">https://docs.ogc.org/is/20-004r1/20-004r1.html</a></p>
+<p><strong>[R7]</strong> Infraestructura de Datos Geoespaciales de Chile. <em>Portal IDE Chile</em>.<br/>
+<a href="https://www.ide.cl/">https://www.ide.cl/</a></p>
+<p><strong>[R8]</strong> IDE Chile. <em>Geoportal de Chile</em>.<br/>
+<a href="https://www.ons.ide.cl/index.php/productos-y-servicios/herramientas/geoportal-de-chile">https://www.ons.ide.cl/index.php/productos-y-servicios/herramientas/geoportal-de-chile</a></p>
+<p><strong>[R9]</strong> IDE Chile. <em>Catálogo de metadatos — Manual Geonodo</em>.<br/>
+<a href="https://www.ide.cl/productos-y-servicios/herramientas/geonodo/manuales/catalogo-de-metadatos/">https://www.ide.cl/productos-y-servicios/herramientas/geonodo/manuales/catalogo-de-metadatos/</a></p>
+<p><strong>[R10]</strong> IDE Chile. <em>Publicación de servicios — Manual Geonodo</em>.<br/>
+<a href="https://www.ide.cl/productos-y-servicios/herramientas/geonodo/manuales/publicacion-de-servicios/">https://www.ide.cl/productos-y-servicios/herramientas/geonodo/manuales/publicacion-de-servicios/</a></p>
+<p><strong>[R11]</strong> United Nations Committee of Experts on Global Geospatial Information Management. <em>United Nations Integrated Geospatial Information Framework</em>.<br/>
+<a href="https://ggim.un.org/UN-IGIF/">https://ggim.un.org/UN-IGIF/</a></p>
+<p><strong>[R12]</strong> European Commission. <em>INSPIRE Data Specifications Technical Guidelines</em>.<br/>
+<a href="https://knowledge-base.inspire.ec.europa.eu/data-specifications-technical-guidelines_en">https://knowledge-base.inspire.ec.europa.eu/data-specifications-technical-guidelines_en</a></p>
+<p><strong>[R13]</strong> European Commission. <em>INSPIRE Spatial Data Services</em>.<br/>
+<a href="https://knowledge-base.inspire.ec.europa.eu/spatial-data-services_en">https://knowledge-base.inspire.ec.europa.eu/spatial-data-services_en</a></p>
+<p><strong>[R14]</strong> Kotsev, A., Minghini, M., Tomas, R., Cetl, V., &amp; Lutz, M. (2020). From Spatial Data Infrastructures to Data Spaces—A Technological Perspective on the Evolution of European SDIs. <em>ISPRS International Journal of Geo-Information, 9</em>(3), 176.<br/>
+<a href="https://doi.org/10.3390/ijgi9030176">https://doi.org/10.3390/ijgi9030176</a></p>
+<p><strong>[R15]</strong> Veeckman, C., Jedlička, K., De Paepe, D., Kozhukh, D., Kafka, Š., Colpaert, P., &amp; Čerba, O. (2017). Geodata interoperability and harmonization in transport: a case study of open transport net. <em>Open Geospatial Data, Software and Standards, 2</em>, 3.<br/>
+<a href="https://doi.org/10.1186/s40965-017-0015-6">https://doi.org/10.1186/s40965-017-0015-6</a></p>
+<hr/>
+<h1>31. Síntesis final de la Semana 1</h1>
+<p>La idea central que debería quedar al finalizar la semana es que una IDE no es un producto único ni una aplicación.</p>
+<p>Es una infraestructura que organiza relaciones entre personas, datos, metadatos, servicios, normas, políticas y tecnología.</p>
+<p>El estudiante debería poder mirar un geoportal y comprender que lo visible en pantalla es solo una parte del sistema.</p>
+<p>También debería entender que la interoperabilidad no depende únicamente de formatos o protocolos, sino también del significado de los datos, de la coordinación institucional y de las condiciones de uso.</p>
+<p>Finalmente, el proyecto del semestre debe comenzar desde una necesidad concreta. La herramienta se seleccionará después de comprender el problema, los actores y los recursos que forman parte de la infraestructura.</p>
+<div class="weeknav"><span></span><a href="../index.html">Índice del curso</a><a href="Semana_02_Gobernanza_IDE.html">Semana 2 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

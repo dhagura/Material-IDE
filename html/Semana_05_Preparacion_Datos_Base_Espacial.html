@@ -1,0 +1,256 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 5 — Preparación de datos y base de datos espacial para publicación</title><style>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
+a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_05_Preparacion_Datos_Base_Espacial.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#5-1-entidades">5.1. Entidades</a><a class="" href="#5-2-atributos">5.2. Atributos</a><a class="" href="#5-3-relaciones">5.3. Relaciones</a><a class="" href="#5-4-restricciones">5.4. Restricciones</a><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="sub" href="#proceso-recomendado">Proceso recomendado</a><a class="sub" href="#ejemplo-4">Ejemplo</a><a class="sub" href="#ejemplo-5">Ejemplo</a><a class="sub" href="#ejemplo-6">Ejemplo</a><a class="sub" href="#ejemplo-7">Ejemplo</a><a class="" href="#20-1-inventario">20.1. Inventario</a><a class="" href="#20-2-modelo">20.2. Modelo</a><a class="" href="#20-3-validacion">20.3. Validación</a><a class="" href="#20-4-carga-a-postgis">20.4. Carga a PostGIS</a><a class="" href="#20-5-vista-de-publicacion">20.5. Vista de publicación</a><a class="" href="#20-6-evidencia">20.6. Evidencia</a><a class="" href="#por-que-un-identificador-no-deberia-ser-el-nombre">¿Por qué un identificador no debería ser el nombre?</a><a class="" href="#validar-geometria-garantiza-calidad-total">¿Validar geometría garantiza calidad total?</a><a class="" href="#por-que-utilizar-una-vista-de-publicacion">¿Por qué utilizar una vista de publicación?</a></aside><main><h1>Semana 5 — Preparación de datos y base de datos espacial para publicación</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 2 — Metadatos, catálogo y preparación para publicación</div></div>
+
+
+<h1>1. Marco de la semana</h1>
+<p>La Semana 5 inicia la Unidad 2 y trabaja la preparación de datos: modelos, identificadores, nombres, dominios, sistemas de referencia, calidad, estilos, escalas y niveles de acceso. El programa también sitúa la base de datos espacial y los repositorios como soporte de publicación, junto con control previo de conformidad y trazabilidad.</p>
+<p>La idea central es que <strong>publicar datos mal preparados no los convierte en buenos datos</strong>. Los servicios y catálogos amplifican tanto las virtudes como los errores de una fuente. Un atributo ambiguo, un CRS mal asignado o una geometría inválida puede propagarse hacia varios clientes y sistemas una vez que el recurso se publica.</p>
+<hr/>
+<h1>2. Propósito de la semana</h1>
+<p>Antes de crear metadatos y servicios, los estudiantes deben consolidar recursos geoespaciales suficientemente estables. Esto requiere revisar estructura, semántica, identificadores, CRS, geometrías, dominios y calidad.</p>
+<p>La preparación no busca “limpiar por limpiar”. Cada control debe vincularse con un uso o requisito. Si el recurso se utilizará para integrarse con otras bases, los identificadores y dominios adquieren especial importancia. Si se publicará como servicio de consulta, el esquema y los índices afectarán rendimiento. Si el recurso contiene información restringida, la vista de publicación debe aplicar las políticas definidas en Semana 3.</p>
+<hr/>
+<h1>3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá poder diseñar una estructura de datos publicable, definir identificadores, documentar dominios, verificar CRS, ejecutar controles de calidad y cargar información en una base espacial.</p>
+<p>También deberá distinguir entre fuente original, área de preparación, modelo institucional, producto publicado y copia derivada, manteniendo trazabilidad suficiente para explicar cómo se transformó el recurso.</p>
+<hr/>
+<h1>4. Del archivo al recurso administrado</h1>
+<p>Un archivo puede ser útil para intercambio puntual, pero una IDE necesita controlar estructura, versiones y relaciones. Una forma de organizar el proceso es separar estados.</p>
+<div class="mermaid">flowchart LR
+    A["Archivos de origen"] --&gt; B["Staging / validación"]
+    B --&gt; C["Modelo institucional"]
+    C --&gt; D["Base espacial"]
+    D --&gt; E["Producto publicable"]
+</div>
+<p>El área de staging permite revisar, transformar y validar sin alterar la fuente original. El modelo institucional normaliza estructuras y la base espacial proporciona control, consulta e integración. El producto de publicación puede ser una vista o tabla derivada con los campos y nivel de detalle autorizados.</p>
+<p>Este patrón es didáctico y puede adaptarse a cada organización. Su valor consiste en hacer visibles estados que, de otro modo, quedan mezclados en una única carpeta o tabla.</p>
+<hr/>
+<h1>5. Modelado de datos</h1>
+<p>El modelo debe responder al fenómeno y al uso. No conviene copiar automáticamente la estructura de un archivo recibido si fue creado para otro propósito.</p>
+<h2 id="5-1-entidades">5.1. Entidades</h2>
+<p>Se debe determinar qué objetos se representan y cuál es su unidad conceptual. Por ejemplo, una calle completa, un tramo vial entre intersecciones y un eje de calzada son entidades distintas y producen modelos diferentes.</p>
+<h2 id="5-2-atributos">5.2. Atributos</h2>
+<p>Cada campo debe tener significado, tipo, obligatoriedad y unidad cuando corresponda. Los campos deben existir porque apoyan una función o descripción real, no porque siempre estuvieron en un archivo histórico.</p>
+<h2 id="5-3-relaciones">5.3. Relaciones</h2>
+<p>Algunos recursos necesitan relaciones con otras entidades. Un equipamiento puede pertenecer a una categoría, comuna y institución. Utilizar códigos estables y claves evita repetir descripciones inconsistentes.</p>
+<h2 id="5-4-restricciones">5.4. Restricciones</h2>
+<p>Campos obligatorios, claves únicas, dominios y relaciones pueden implementarse como restricciones. Estas reglas desplazan parte de la calidad desde revisiones manuales hacia el propio modelo.</p>
+<hr/>
+<h1>6. Convenciones de nombres</h1>
+<p>Los nombres deben favorecer comprensión y mantenimiento. Un esquema con campos <code>dato1</code>, <code>cod2</code> o <code>fecha_final2</code> transfiere conocimiento a la memoria de quien lo creó.</p>
+<p>Las convenciones deberían definir idioma, uso de mayúsculas, caracteres permitidos, abreviaturas, singular/plural y nombres de geometría.</p>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Preferir <code>fecha_actualizacion</code> a <code>fec_act2</code>, porque el nombre comunica significado sin requerir un diccionario mental.</p>
+<p>La consistencia también mejora APIs y documentación. Si el mismo concepto se denomina <code>id_comuna</code>, <code>comuna_id</code> y <code>cod_com</code> en distintos recursos, la integración se vuelve más costosa.</p>
+<hr/>
+<h1>7. Identificadores</h1>
+<p>Un identificador estable permite reconocer el mismo objeto a través del tiempo y entre sistemas. No debería depender de un atributo que pueda cambiar, como nombre, dirección o número de fila.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p>Un establecimiento puede cambiar de nombre, administrador o dirección comercial, pero mantener la misma identidad institucional. Un identificador persistente permite actualizar atributos sin perder referencias desde otros sistemas.</p>
+<p>Los identificadores facilitan actualizaciones incrementales, relaciones, linaje y sincronización con servicios externos.</p>
+<hr/>
+<h1>8. Dominios y vocabularios controlados</h1>
+<p>Los dominios restringen valores a conjuntos definidos. Sin ellos, categorías equivalentes pueden aparecer con múltiples grafías.</p>
+<h3 id="ejemplo-3">Ejemplo</h3>
+<pre><code class="language-text">estado = {activo, inactivo, en_revision}
+</code></pre>
+<p>Sin control podrían coexistir <code>Activo</code>, <code>ACT</code>, <code>vigente</code>, <code>1</code> o valores vacíos. Estas diferencias afectan filtros, estadísticas e interoperabilidad semántica.</p>
+<p>El dominio debe documentar código, etiqueta y significado. En sistemas más complejos puede vincularse a un catálogo institucional de objetos o vocabulario controlado.</p>
+<hr/>
+<h1>9. Sistemas de referencia de coordenadas</h1>
+<p>Un sistema de referencia de coordenadas (CRS) define cómo interpretar las coordenadas. La preparación debe verificar cuál tiene realmente la fuente, si está correctamente asignado y qué CRS utilizará el repositorio.</p>
+<p>Asignar un CRS incorrecto no es lo mismo que reproyectar. Cambiar únicamente la etiqueta puede hacer que coordenadas válidas se interpreten en otro sistema y aparezcan desplazadas.</p>
+<h3 id="proceso-recomendado">Proceso recomendado</h3>
+<ol>
+<li>Identificar el CRS de origen mediante documentación o evidencia confiable.</li>
+<li>Verificar que los valores y ubicación sean coherentes.</li>
+<li>Transformar a otro CRS solo cuando exista una necesidad.</li>
+<li>Registrar la transformación en el linaje.</li>
+<li>Configurar los servicios para exponer CRS apropiados a los clientes.</li>
+</ol>
+<p>ISO 19111 proporciona el marco conceptual para referencia por coordenadas [R1].</p>
+<hr/>
+<h1>10. Geometrías válidas</h1>
+<p>Las geometrías deben cumplir reglas técnicas y del caso de uso. Problemas frecuentes incluyen polígonos autointersectados, geometrías vacías, tipos mezclados, anillos incorrectos o coordenadas fuera del dominio esperado.</p>
+<p>PostGIS ofrece funciones como <code>ST_IsValid</code> para detectar problemas y herramientas de reparación. Sin embargo, la corrección automática debe revisarse, porque una geometría técnicamente válida no necesariamente representa correctamente el objeto real.</p>
+<h3 id="ejemplo-4">Ejemplo</h3>
+<p>Un polígono autointersectado puede repararse generando una geometría distinta. El algoritmo no conoce cuál era la intención cartográfica; por eso la evidencia original sigue siendo importante.</p>
+<hr/>
+<h1>11. Calidad de datos</h1>
+<p>ISO 19157-1:2023 proporciona un marco general para describir y evaluar calidad geográfica [R4]. Para el curso se trabajarán dimensiones aplicadas al proyecto.</p>
+<ul>
+<li><strong>Completitud.</strong> Evalúa omisiones o excesos respecto del universo esperado. Una capa puede tener geometrías perfectas y seguir incompleta si faltan objetos.</li>
+<li><strong>Consistencia lógica.</strong> Revisa estructura, dominios, relaciones y reglas topológicas. Permite detectar registros incompatibles con el modelo.</li>
+<li><strong>Exactitud posicional.</strong> Considera qué tan bien la geometría representa la ubicación de referencia y debe interpretarse en relación con escala y método de captura.</li>
+<li><strong>Exactitud temática.</strong> Evalúa si los atributos y clasificaciones describen correctamente el objeto.</li>
+<li><strong>Calidad temporal.</strong> Considera vigencia, fechas y coherencia de información asociada al tiempo.</li>
+</ul>
+<p>La calidad debe evaluarse respecto del propósito. Un dataset apropiado para cartografía regional puede ser insuficiente para administración predial.</p>
+<hr/>
+<h1>12. Controles automáticos y revisión experta</h1>
+<p>Algunas reglas pueden automatizarse fácilmente.</p>
+<pre><code class="language-sql">SELECT COUNT(*)
+FROM equipamientos
+WHERE nombre IS NULL;
+</code></pre>
+<p>La consulta detecta registros sin un campo obligatorio. Otro ejemplo espacial:</p>
+<pre><code class="language-sql">SELECT id
+FROM predios
+WHERE NOT ST_IsValid(geom);
+</code></pre>
+<p>Los controles automáticos son valiosos porque pueden ejecutarse repetidamente y producir evidencia. Sin embargo, no reemplazan revisión experta. Una categoría puede ser técnicamente válida y estar temáticamente equivocada; una geometría puede ser válida y localizarse en el lugar incorrecto.</p>
+<p>El diseño de calidad debe combinar reglas automáticas y conocimiento del dominio.</p>
+<hr/>
+<h1>13. Organización de la base espacial</h1>
+<p>Una organización puede separar esquemas según estado y responsabilidad.</p>
+<pre><code class="language-text">raw       → Fuentes preservadas
+staging   → Preparación y limpieza
+core      → Modelo institucional
+publish   → Vistas o productos de publicación
+</code></pre>
+<p>Este patrón es didáctico y no constituye una obligación normativa. Su utilidad consiste en evitar que transformaciones experimentales afecten la fuente institucional y permitir que el producto publicado evolucione sin exponer todas las tablas internas.</p>
+<hr/>
+<h1>14. Índices espaciales</h1>
+<p>Los índices espaciales aceleran consultas que filtran objetos por ubicación. No todos los campos o tablas necesitan el mismo tipo de índice; su diseño debe responder al patrón de consulta.</p>
+<h3 id="ejemplo-5">Ejemplo</h3>
+<p>Un servicio que solicita constantemente objetos dentro de un BBOX se beneficia de un índice espacial sobre la geometría. Sin índice, el motor puede necesitar revisar gran parte de la tabla.</p>
+<p>La existencia del índice no elimina la necesidad de consultas bien diseñadas. El rendimiento será retomado durante la Unidad 3.</p>
+<hr/>
+<h1>15. Vistas y productos de publicación</h1>
+<p>No siempre conviene publicar directamente la tabla fuente. Una vista puede ocultar campos internos, renombrar atributos, unir tablas, filtrar registros y aplicar las decisiones de minimización definidas en Semana 3.</p>
+<h3 id="ejemplo-6">Ejemplo</h3>
+<p>La tabla interna de permisos puede contener datos administrativos. Una vista pública expone únicamente número de permiso, fecha, tipo y sector, manteniendo identificadores personales fuera del producto.</p>
+<p>La vista reduce acoplamiento entre fuente y servicio y permite cambiar el modelo interno con menor impacto cuando se mantiene estable la interfaz publicada.</p>
+<hr/>
+<h1>16. Niveles de acceso en la base</h1>
+<p>Los permisos de base deben alinearse con la gobernanza. Un patrón básico puede separar productor/editor, publicador de solo lectura, administrador y cuentas de servicio.</p>
+<p>El principio de mínimo privilegio indica que cada cuenta debe recibir únicamente las capacidades necesarias. La cuenta utilizada por un WMS público, por ejemplo, normalmente no necesita permisos de edición sobre la fuente.</p>
+<p>Separar cuentas también mejora trazabilidad y reduce impacto ante compromiso de credenciales.</p>
+<hr/>
+<h1>17. Estilos y escalas</h1>
+<p>La preparación para publicación incluye decisiones cartográficas. Una capa puede necesitar estilos diferentes según jerarquía y escalas de visibilidad para evitar saturación y mejorar rendimiento.</p>
+<h3 id="ejemplo-7">Ejemplo</h3>
+<p>Las calles locales pueden ocultarse a escalas pequeñas y aparecer al acercarse. Las etiquetas pueden limitarse según jerarquía vial. Estas decisiones no cambian la geometría, pero influyen en interpretación y costo de renderizado.</p>
+<p>Los estilos se profundizarán al trabajar WMS y caché.</p>
+<hr/>
+<h1>18. Trazabilidad de transformación</h1>
+<p>Toda transformación relevante debería poder explicarse y, preferiblemente, reproducirse.</p>
+<div class="mermaid">flowchart LR
+    A["Origen"] --&gt; B["Script de limpieza"]
+    B --&gt; C["Validación"]
+    C --&gt; D["Carga"]
+    D --&gt; E["Vista de publicación"]
+</div>
+<p>Guardar scripts, consultas, parámetros y resultados de validación permite reconstruir el proceso y actualizar el recurso sin depender de operaciones manuales irrepetibles.</p>
+<hr/>
+<h1>19. Caso integrador: áreas verdes</h1>
+<p><strong>Origen:</strong> GeoPackage recibido desde Medio Ambiente con nombres inconsistentes y algunos polígonos inválidos.</p>
+<p><strong>Preparación:</strong> normalizar categorías, asignar identificadores, confirmar CRS, validar polígonos y documentar reglas.</p>
+<p><strong>Modelo institucional:</strong> tabla <code>core.areas_verdes</code> con dominios y restricciones.</p>
+<p><strong>Publicación:</strong> vista <code>publish.areas_verdes_publicas</code> que expone únicamente atributos autorizados.</p>
+<p><strong>Calidad:</strong> geometrías válidas, identificador único, tipo dentro del dominio y fecha de actualización registrada.</p>
+<p>Este caso conecta directamente gobernanza, política, base y futura publicación.</p>
+<hr/>
+<h1>20. Laboratorio 5 — Preparación y carga</h1>
+<h2 id="20-1-inventario">20.1. Inventario</h2>
+<p>Registrar fuente, formato, CRS, responsable, versión, restricciones y estado de calidad de cada dataset seleccionado.</p>
+<h2 id="20-2-modelo">20.2. Modelo</h2>
+<p>Definir campos, tipos, identificadores, dominios, geometría y relaciones. Justificar al menos tres decisiones de modelado.</p>
+<h2 id="20-3-validacion">20.3. Validación</h2>
+<p>Ejecutar al menos cinco controles automáticos y documentar qué problema detecta cada uno. Incluir al menos un control espacial.</p>
+<h2 id="20-4-carga-a-postgis">20.4. Carga a PostGIS</h2>
+<p>Crear esquemas o estructura equivalente y cargar los recursos, preservando la fuente original.</p>
+<h2 id="20-5-vista-de-publicacion">20.5. Vista de publicación</h2>
+<p>Crear un producto que exponga únicamente campos autorizados y que pueda ser utilizado posteriormente por servicios.</p>
+<h2 id="20-6-evidencia">20.6. Evidencia</h2>
+<p>Guardar consultas, resultados, conteos antes/después y bitácora de transformaciones.</p>
+<hr/>
+<h1>21. Entregable de la Semana 5</h1>
+<p>El entregable debe incluir diccionario preliminar de datos, modelo lógico, reglas de calidad, consultas de validación, evidencia de carga, estructura de esquemas, vista publicable y una breve explicación del linaje.</p>
+<p>La revisión formativa debe verificar que el producto publicado pueda relacionarse con una fuente y que las transformaciones sean comprensibles para otro integrante del equipo.</p>
+<hr/>
+<h1>22. Secuencia sugerida</h1>
+<ul>
+<li><strong>Bloque 1 — 45 minutos.</strong> Del archivo al recurso administrado, mostrando problemas de versiones y estados mezclados.</li>
+<li><strong>Bloque 2 — 45 minutos.</strong> Modelo, identificadores, nombres y dominios, utilizando ejemplos de integración.</li>
+<li><strong>Bloque 3 — 45 minutos.</strong> CRS y geometrías, demostrando la diferencia entre asignar y transformar.</li>
+<li><strong>Bloque 4 — 45 minutos.</strong> Calidad y controles automáticos/temáticos.</li>
+<li><strong>Bloque 5 — 30 minutos.</strong> Base espacial, esquemas, vistas y permisos.</li>
+<li><strong>Bloque 6 — 30 minutos.</strong> Laboratorio y definición de evidencias.</li>
+</ul>
+<hr/>
+<h1>23. Preguntas de cierre</h1>
+<h2 id="por-que-un-identificador-no-deberia-ser-el-nombre">¿Por qué un identificador no debería ser el nombre?</h2>
+<p>Porque el nombre puede cambiar y dejar de identificar persistentemente al mismo objeto. Un identificador estable permite mantener relaciones a través de actualizaciones.</p>
+<h2 id="validar-geometria-garantiza-calidad-total">¿Validar geometría garantiza calidad total?</h2>
+<p>No. Solo verifica una dimensión técnica. Puede existir información temáticamente incorrecta, incompleta o desactualizada.</p>
+<h2 id="por-que-utilizar-una-vista-de-publicacion">¿Por qué utilizar una vista de publicación?</h2>
+<p>Permite desacoplar el modelo interno del producto expuesto, aplicar minimización, estabilizar interfaces y limitar campos visibles.</p>
+<hr/>
+<h1>24. Errores frecuentes</h1>
+<ul>
+<li><strong>“Reproyectar es cambiar el EPSG del archivo”.</strong> No. Debe transformarse la geometría; cambiar solo la etiqueta modifica la interpretación de las coordenadas.</li>
+<li><strong>“Todo debe publicarse desde la tabla original”.</strong> Las vistas y productos derivados pueden ser más seguros y mantenibles.</li>
+<li><strong>“La base corrige automáticamente los datos”.</strong> El motor impone reglas, pero la calidad depende de diseño, validación y conocimiento temático.</li>
+<li><strong>“Si una geometría es válida, está bien ubicada”.</strong> La validez geométrica no comprueba exactitud posicional.</li>
+</ul>
+<hr/>
+<h1>25. Glosario</h1>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRS</td>
+<td>Sistema de referencia de coordenadas</td>
+</tr>
+<tr>
+<td>Dominio</td>
+<td>Conjunto permitido de valores</td>
+</tr>
+<tr>
+<td>Staging</td>
+<td>Área temporal de preparación</td>
+</tr>
+<tr>
+<td>Vista</td>
+<td>Consulta almacenada que expone un resultado</td>
+</tr>
+<tr>
+<td>Índice espacial</td>
+<td>Estructura para acelerar consultas espaciales</td>
+</tr>
+<tr>
+<td>Integridad</td>
+<td>Cumplimiento de restricciones y relaciones</td>
+</tr>
+<tr>
+<td>Linaje</td>
+<td>Origen y transformaciones del recurso</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>26. Trabajo autónomo</h1>
+<p>Seleccionar los recursos que recibirán metadatos en Semana 6 y recopilar información sobre autoría, fechas, calidad, extensión, resolución, restricciones, licencia, contactos y mantenimiento. Si algún dato no puede obtenerse, debe registrarse como brecha y no inventarse.</p>
+<hr/>
+<h1>27. Referencias</h1>
+<p><strong>[R1]</strong> ISO. <em>ISO 19111:2019 — Geographic information — Referencing by coordinates</em>.<br/>
+<a href="https://www.iso.org/standard/74039.html">https://www.iso.org/standard/74039.html</a></p>
+<p><strong>[R2]</strong> PostGIS Documentation.<br/>
+<a href="https://postgis.net/documentation/">https://postgis.net/documentation/</a></p>
+<p><strong>[R3]</strong> PostgreSQL Documentation.<br/>
+<a href="https://www.postgresql.org/docs/current/">https://www.postgresql.org/docs/current/</a></p>
+<p><strong>[R4]</strong> ISO. <em>ISO 19157-1:2023 — Geographic information — Data quality</em>.<br/>
+<a href="https://www.iso.org/standard/78900.html">https://www.iso.org/standard/78900.html</a></p>
+<hr/>
+<h1>28. Síntesis final</h1>
+<p>La Semana 5 transforma archivos en recursos administrados. La base espacial debe contener datos identificables, controlados y suficientemente documentables como para soportar metadatos y publicación interoperable. La calidad no es una etapa final: se diseña mediante modelos, restricciones, procedimientos y evidencias.</p>
+<div class="weeknav"><a href="Semana_04_Arquitectura_Requisitos_IDE.html">← Semana 4</a><a href="../index.html">Índice del curso</a><a href="Semana_06_Metadatos_ISO19115_Perfil_Chileno.html">Semana 6 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

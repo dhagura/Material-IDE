@@ -1,0 +1,281 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 10 — Web Map Service (WMS): mapas, estilos, leyendas, escalas y sistemas de referencia</title><style>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
+a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_10_WMS_Mapas_Estilos_CRS.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-conceptual">Ejemplo conceptual</a><a class="sub" href="#principio">Principio</a><a class="" href="#png">PNG</a><a class="" href="#jpeg">JPEG</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#cuando-es-util">Cuándo es útil</a><a class="sub" href="#cuando-no-reemplaza-wfs-api">Cuándo no reemplaza WFS/API</a><a class="sub" href="#ejemplo-temporal">Ejemplo temporal</a><a class="sub" href="#flujo">Flujo</a><a class="" href="#22-1-configuracion">22.1. Configuración</a><a class="" href="#22-2-getcapabilities">22.2. GetCapabilities</a><a class="" href="#22-3-getmap">22.3. GetMap</a><a class="" href="#22-4-estilos">22.4. Estilos</a><a class="" href="#22-5-getfeatureinfo">22.5. GetFeatureInfo</a><a class="" href="#22-6-clientes">22.6. Clientes</a><a class="" href="#22-7-metadatos">22.7. Metadatos</a><a class="" href="#wms-entrega-los-objetos-vectoriales-originales">¿WMS entrega los objetos vectoriales originales?</a><a class="" href="#por-que-getcapabilities-es-importante">¿Por qué GetCapabilities es importante?</a><a class="" href="#que-ocurre-si-la-leyenda-no-coincide-con-el-estilo">¿Qué ocurre si la leyenda no coincide con el estilo?</a></aside><main><h1>Semana 10 — Web Map Service (WMS): mapas, estilos, leyendas, escalas y sistemas de referencia</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 3 — Publicación de servicios interoperables y APIs geoespaciales</div></div>
+
+
+<h1>1. Marco de la semana</h1>
+<p>La Semana 10 profundiza Web Map Service (WMS): capas, estilos, leyendas, escalas, sistemas de referencia, dimensiones y operaciones principales. El programa incluye explícitamente WMS 1.3.0 en la bibliografía base.</p>
+<p>La meta es que el estudiante comprenda WMS como un contrato interoperable para solicitar representaciones cartográficas y no solamente como una casilla que se activa en GeoServer.</p>
+<hr/>
+<h1>2. Propósito</h1>
+<p>WMS permite que un cliente solicite un mapa renderizado a un servidor. El cliente no necesita descargar el dataset completo ni conocer cómo está almacenado.</p>
+<p>Esto facilita visualización interoperable, pero también implica límites: WMS entrega principalmente imágenes de mapa, no reemplaza servicios de features cuando el usuario necesita objetos y atributos completos.</p>
+<hr/>
+<h1>3. Resultados de aprendizaje</h1>
+<p>El estudiante deberá publicar y consumir WMS, interpretar GetCapabilities, construir solicitudes GetMap y GetFeatureInfo, configurar estilos y leyendas, manejar CRS y escalas, probar dimensiones cuando corresponda y diagnosticar errores de parámetros.</p>
+<p>También deberá justificar cuándo WMS es apropiado y cuándo se necesita otro tipo de servicio.</p>
+<hr/>
+<h1>4. Modelo conceptual WMS</h1>
+<div class="mermaid">sequenceDiagram
+    participant C as Cliente
+    participant S as Servidor WMS
+    C-&gt;&gt;S: GetCapabilities
+    S-&gt;&gt;C: Capas, formatos, CRS, operaciones
+    C-&gt;&gt;S: GetMap
+    S-&gt;&gt;C: Imagen de mapa
+    C-&gt;&gt;S: GetFeatureInfo opcional
+    S-&gt;&gt;C: Información sobre ubicación consultada
+</div>
+<p>El servidor controla el renderizado. El cliente solicita capas, área, tamaño, CRS, formato y estilo dentro de lo permitido por la especificación y configuración.</p>
+<hr/>
+<h1>5. GetCapabilities</h1>
+<p>GetCapabilities describe qué ofrece el servicio. El documento puede incluir:</p>
+<ul>
+<li>Versión;</li>
+<li>Operaciones;</li>
+<li>Formatos;</li>
+<li>Capas;</li>
+<li>Jerarquías;</li>
+<li>Títulos;</li>
+<li>Estilos;</li>
+<li>CRS;</li>
+<li>Extensiones y dimensiones.</li>
+</ul>
+<p>El documento es una fuente de verdad técnica para el cliente. Antes de construir una solicitud, conviene revisar qué nombres exactos y capacidades declara.</p>
+<hr/>
+<h1>6. Nombre, título y abstracción de capa</h1>
+<p>Una capa puede tener un nombre técnico utilizado en solicitudes y un título legible para usuarios.</p>
+<h3 id="ejemplo">Ejemplo</h3>
+<pre><code class="language-text">Name: municipio:areas_verdes
+Title: Áreas verdes públicas
+</code></pre>
+<p>Confundir ambos valores genera errores. El título puede cambiar para mejorar presentación; el nombre técnico debería mantenerse estable cuando existen clientes configurados.</p>
+<hr/>
+<h1>7. GetMap</h1>
+<p>GetMap solicita una imagen cartográfica para una extensión y tamaño.</p>
+<p>Los parámetros principales incluyen servicio, versión, operación, capas, estilos, CRS, BBOX, ancho, alto y formato.</p>
+<h3 id="ejemplo-conceptual">Ejemplo conceptual</h3>
+<pre><code class="language-text">?SERVICE=WMS
+&amp;VERSION=1.3.0
+&amp;REQUEST=GetMap
+&amp;LAYERS=municipio:areas_verdes
+&amp;CRS=EPSG:4326
+&amp;BBOX=...
+&amp;WIDTH=1024
+&amp;HEIGHT=768
+&amp;FORMAT=image/png
+</code></pre>
+<p>La solicitud completa debe respetar la sintaxis y el orden de ejes definido para el CRS y versión correspondiente.</p>
+<hr/>
+<h1>8. BBOX y extensión</h1>
+<p>El BBOX define el rectángulo de mapa solicitado. Debe interpretarse en el CRS indicado.</p>
+<p>Un error de orden o unidades puede producir mapas vacíos o aparentemente desplazados. En WMS 1.3.0, el tratamiento de ejes para determinados CRS como EPSG:4326 requiere especial atención.</p>
+<p>Esta es una razón importante para no construir URLs únicamente por ensayo y error.</p>
+<hr/>
+<h1>9. CRS en WMS</h1>
+<p>El servidor puede anunciar múltiples CRS. El cliente solicita uno compatible y el servidor transforma la representación cuando está configurado para ello.</p>
+<p>La reproyección en tiempo de renderizado facilita interoperabilidad, pero puede tener costo de rendimiento y no corrige una fuente con CRS incorrectamente definido.</p>
+<h3 id="principio">Principio</h3>
+<p>La fuente debe estar correctamente referenciada antes de publicar. El servicio no debe utilizarse para ocultar errores de datos.</p>
+<hr/>
+<h1>10. Formatos de imagen</h1>
+<h2 id="png">PNG</h2>
+<p>Adecuado para cartografía con áreas planas, líneas, texto y transparencia. Puede conservar canal alfa para superponer capas.</p>
+<h2 id="jpeg">JPEG</h2>
+<p>Adecuado para imágenes continuas como ortofotos cuando no se necesita transparencia y se acepta compresión con pérdida.</p>
+<p>La selección afecta calidad, tamaño de respuesta y composición en el cliente.</p>
+<hr/>
+<h1>11. Estilos</h1>
+<p>El estilo controla cómo el servidor representa los datos.</p>
+<p>Un mismo dataset puede tener varios estilos para propósitos distintos: jerarquía vial, estado de conservación, uso público o análisis temático.</p>
+<p>El estilo debe considerar:</p>
+<ul>
+<li>Variables visuales;</li>
+<li>Escalas;</li>
+<li>Legibilidad;</li>
+<li>Contraste;</li>
+<li>Leyenda;</li>
+<li>Costo de renderizado.</li>
+</ul>
+<p>La simbología también comunica significado y puede inducir a error si exagera diferencias o utiliza categorías ambiguas.</p>
+<hr/>
+<h1>12. Escalas de visibilidad</h1>
+<p>No toda información debe mostrarse a todas las escalas. Las etiquetas y objetos detallados pueden saturar el mapa cuando el usuario está muy alejado.</p>
+<p>Configurar escalas de visibilidad reduce ruido y puede mejorar rendimiento.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p>Las calles locales aparecen solo al acercarse, mientras las vías principales se mantienen visibles a escalas menores.</p>
+<p>El criterio debe responder a la finalidad cartográfica y no simplemente a una preferencia estética.</p>
+<hr/>
+<h1>13. Leyendas</h1>
+<p>Una leyenda permite interpretar estilos y categorías. Puede generarse mediante mecanismos del servidor o exponerse como recurso asociado.</p>
+<p>La leyenda debe corresponder con el estilo realmente aplicado. Si la simbología cambia y la leyenda no se actualiza, el mapa se vuelve engañoso.</p>
+<p>La prueba debe verificar legibilidad y coherencia en clientes independientes.</p>
+<hr/>
+<h1>14. GetFeatureInfo</h1>
+<p>GetFeatureInfo permite solicitar información sobre una ubicación del mapa para capas consultables. La operación depende de una solicitud de mapa y coordenadas dentro de la imagen.</p>
+<p>No debe confundirse con acceso completo a features. Es una consulta puntual vinculada a la representación cartográfica.</p>
+<h3 id="cuando-es-util">Cuándo es útil</h3>
+<p>Visores que necesitan mostrar atributos al hacer clic sin descargar toda la capa.</p>
+<h3 id="cuando-no-reemplaza-wfs-api">Cuándo no reemplaza WFS/API</h3>
+<p>Cuando el usuario necesita filtrar, descargar o procesar colecciones completas de objetos.</p>
+<hr/>
+<h1>15. Dimensiones</h1>
+<p>WMS puede trabajar con dimensiones adicionales como tiempo o elevación cuando el servidor y la capa están configurados.</p>
+<h3 id="ejemplo-temporal">Ejemplo temporal</h3>
+<p>Un dataset de precipitación mensual puede permitir seleccionar un periodo o instante.</p>
+<p>La dimensión debe estar documentada en capacidades y sus valores deben relacionarse con la fuente real.</p>
+<hr/>
+<h1>16. Capas agrupadas</h1>
+<p>Los servidores pueden exponer grupos de capas para facilitar consumo de composiciones completas. Esto puede simplificar usuarios, pero aumenta acoplamiento si el grupo contiene demasiadas decisiones específicas.</p>
+<p>La arquitectura debe decidir si conviene publicar capas individuales, grupos o ambos según casos de uso.</p>
+<hr/>
+<h1>17. Seguridad en WMS</h1>
+<p>Un WMS puede ser público o restringido. La restricción puede aplicarse por servicio, capa o grupo según la plataforma.</p>
+<p>La autenticación debe utilizar HTTPS y credenciales institucionales. No deben incluirse claves permanentes directamente en URLs públicas.</p>
+<p>Semana 14 profundizará seguridad, pero desde ahora debe comprobarse que la clasificación de Semana 3 se respeta.</p>
+<hr/>
+<h1>18. Rendimiento</h1>
+<p>El rendimiento depende de fuente, índices, estilos, tamaño de imagen, complejidad geométrica, reproyección y concurrencia.</p>
+<p>Un estilo con etiquetas complejas sobre millones de objetos puede ser mucho más costoso que una simbología simple.</p>
+<p>Antes de asumir que “GeoServer es lento” u otro servidor es el problema, se debe medir dónde se consume tiempo.</p>
+<p>Semana 12 trabajará caché y teselas.</p>
+<hr/>
+<h1>19. Manejo de errores</h1>
+<p>Errores frecuentes incluyen capa inexistente, CRS no soportado, BBOX inválido, formato no permitido o parámetros ausentes.</p>
+<p>El estudiante debe inspeccionar la respuesta del servidor y no depender solo del mensaje del cliente. Un documento de excepción suele contener información más específica.</p>
+<h3 id="flujo">Flujo</h3>
+<ol>
+<li>Probar GetCapabilities.</li>
+<li>Verificar nombre de capa.</li>
+<li>Revisar CRS y extensión.</li>
+<li>Simplificar solicitud.</li>
+<li>Revisar logs si el error es servidor.</li>
+</ol>
+<hr/>
+<h1>20. Prueba desde clientes independientes</h1>
+<p>El programa exige pruebas desde clientes independientes. Un WMS no está suficientemente verificado si solo funciona en la interfaz administrativa del servidor.</p>
+<p>Se debe probar al menos desde:</p>
+<ul>
+<li>QGIS u otro SIG de escritorio;</li>
+<li>Navegador/URL para inspección;</li>
+<li>Cliente web o herramienta diferente cuando sea posible.</li>
+</ul>
+<p>La prueba debe registrar versión, URL, capa y resultado.</p>
+<hr/>
+<h1>21. Caso integrador</h1>
+<p>El grupo publica <code>areas_verdes_publicas</code> desde la vista creada en Semana 5.</p>
+<p>Debe configurar:</p>
+<ul>
+<li>Nombre estable;</li>
+<li>Título y resumen;</li>
+<li>Estilo por tipo;</li>
+<li>Escalas de visibilidad;</li>
+<li>CRS;</li>
+<li>PNG con transparencia;</li>
+<li>Consulta de atributos autorizados;</li>
+<li>Acceso público según política.</li>
+</ul>
+<p>Luego actualiza el metadato de Semana 6 con la URL WMS y verifica que el catálogo dirija correctamente al servicio.</p>
+<hr/>
+<h1>22. Laboratorio 10 — Publicación WMS</h1>
+<h2 id="22-1-configuracion">22.1. Configuración</h2>
+<p>Publicar al menos dos capas con nombres y títulos coherentes.</p>
+<h2 id="22-2-getcapabilities">22.2. GetCapabilities</h2>
+<p>Descargar y localizar información de las capas publicadas.</p>
+<h2 id="22-3-getmap">22.3. GetMap</h2>
+<p>Construir manualmente al menos una solicitud válida y modificar BBOX, tamaño o formato para observar efectos.</p>
+<h2 id="22-4-estilos">22.4. Estilos</h2>
+<p>Crear o configurar un estilo temático y una escala de visibilidad.</p>
+<h2 id="22-5-getfeatureinfo">22.5. GetFeatureInfo</h2>
+<p>Habilitar y probar consulta cuando el caso de uso lo permita.</p>
+<h2 id="22-6-clientes">22.6. Clientes</h2>
+<p>Consumir desde QGIS y otro cliente o navegador.</p>
+<h2 id="22-7-metadatos">22.7. Metadatos</h2>
+<p>Actualizar el registro con el endpoint correcto.</p>
+<hr/>
+<h1>23. Entregable</h1>
+<p>Debe contener URL de capacidades, solicitudes reproducibles, capturas de clientes, estilo, leyenda, pruebas de CRS/formatos, análisis de errores y metadato actualizado.</p>
+<p>Además, debe incluir una breve explicación de por qué WMS es adecuado para los casos de uso seleccionados y qué necesidades no resuelve.</p>
+<hr/>
+<h1>24. Secuencia sugerida</h1>
+<ul>
+<li><strong>Bloque 1 — 45 minutos.</strong> Modelo WMS y GetCapabilities.</li>
+<li><strong>Bloque 2 — 55 minutos.</strong> GetMap, BBOX, CRS y formatos.</li>
+<li><strong>Bloque 3 — 40 minutos.</strong> Estilos, escalas y leyendas.</li>
+<li><strong>Bloque 4 — 30 minutos.</strong> GetFeatureInfo y dimensiones.</li>
+<li><strong>Bloque 5 — 30 minutos.</strong> Rendimiento, seguridad y errores.</li>
+<li><strong>Bloque 6 — 40 minutos.</strong> Laboratorio y pruebas.</li>
+</ul>
+<hr/>
+<h1>25. Preguntas de cierre</h1>
+<h2 id="wms-entrega-los-objetos-vectoriales-originales">¿WMS entrega los objetos vectoriales originales?</h2>
+<p>No. Su función principal es entregar una representación cartográfica. Para acceso a objetos se utilizarán WFS u OGC API - Features.</p>
+<h2 id="por-que-getcapabilities-es-importante">¿Por qué GetCapabilities es importante?</h2>
+<p>Permite descubrir de manera interoperable operaciones, capas, estilos, formatos y CRS soportados.</p>
+<h2 id="que-ocurre-si-la-leyenda-no-coincide-con-el-estilo">¿Qué ocurre si la leyenda no coincide con el estilo?</h2>
+<p>El usuario puede interpretar incorrectamente el mapa. La consistencia de representación es parte de la calidad del servicio.</p>
+<hr/>
+<h1>26. Errores frecuentes</h1>
+<ul>
+<li><strong>“Si la capa se ve en GeoServer, el WMS funciona”.</strong> Debe probarse desde un cliente independiente.</li>
+<li><strong>“EPSG:4326 siempre usa el mismo orden de ejes en cualquier versión”.</strong> Debe revisarse la especificación y versión del servicio.</li>
+<li><strong>“GetFeatureInfo equivale a WFS”.</strong> Es una consulta asociada al mapa, no acceso completo a la colección.</li>
+<li><strong>“El estilo es solo decoración”.</strong> Influye en interpretación, legibilidad y rendimiento.</li>
+</ul>
+<hr/>
+<h1>27. Glosario</h1>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WMS</td>
+<td>Web Map Service</td>
+</tr>
+<tr>
+<td>GetCapabilities</td>
+<td>Descubre capacidades del servicio</td>
+</tr>
+<tr>
+<td>GetMap</td>
+<td>Solicita una imagen cartográfica</td>
+</tr>
+<tr>
+<td>GetFeatureInfo</td>
+<td>Consulta información en una posición del mapa</td>
+</tr>
+<tr>
+<td>BBOX</td>
+<td>Rectángulo espacial solicitado</td>
+</tr>
+<tr>
+<td>Style</td>
+<td>Regla de representación cartográfica</td>
+</tr>
+<tr>
+<td>Layer</td>
+<td>Recurso cartográfico publicado</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>28. Trabajo autónomo</h1>
+<p>Preparar una capa vectorial que requiera acceso a objetos y revisar diferencias conceptuales entre WFS y OGC API - Features para Semana 11.</p>
+<hr/>
+<h1>29. Referencias</h1>
+<p><strong>[R1]</strong> Open Geospatial Consortium. <em>Web Map Service 1.3.0 — OGC 06-042</em>.<br/>
+<a href="https://www.ogc.org/standards/wms/">https://www.ogc.org/standards/wms/</a></p>
+<p><strong>[R2]</strong> GeoServer Documentation. <em>Web Map Service</em>.<br/>
+<a href="https://docs.geoserver.org/">https://docs.geoserver.org/</a></p>
+<p><strong>[R3]</strong> QGIS Documentation. <em>Working with OGC services</em>.<br/>
+<a href="https://docs.qgis.org/">https://docs.qgis.org/</a></p>
+<hr/>
+<h1>30. Síntesis</h1>
+<p>WMS desacopla la representación cartográfica de los clientes. La interoperabilidad no se demuestra activando un servicio, sino logrando que distintos clientes descubran capas, soliciten mapas, interpreten estilos y manejen errores de forma consistente.</p>
+<div class="weeknav"><a href="Semana_09_HTTP_Recursos_Solicitudes_Respuestas.html">← Semana 9</a><a href="../index.html">Índice del curso</a><a href="Semana_11_WFS_OGC_API_Features.html">Semana 11 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

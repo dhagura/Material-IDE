@@ -1,0 +1,405 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 16 — Validación operativa, interoperabilidad, documentación y defensa de la IDE</title><style>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
+a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_16_Validacion_Interoperabilidad_Documentacion_Defensa.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="" href="#que-diferencia-existe-entre-que-funcione-y-que-este-validado">¿Qué diferencia existe entre que “funcione” y que esté validado?</a><a class="" href="#por-que-probar-clientes-independientes">¿Por qué probar clientes independientes?</a><a class="" href="#que-debe-ocurrir-si-una-prueba-final-falla">¿Qué debe ocurrir si una prueba final falla?</a></aside><main><h1>Semana 16 — Validación operativa, interoperabilidad, documentación y defensa de la IDE</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 4 — Despliegue, administración y validación operativa</div></div>
+
+
+<h1>1. Marco de la semana</h1>
+<p>La semana final integra pruebas de interoperabilidad y consumo desde SIG de escritorio, aplicaciones web o móviles; documentación de arquitectura, administración, operación, usuario y API; entrega y defensa de una IDE mínima operativa con datos, catálogo, WMS, servicio de objetos o API, seguridad y evidencia de mantenimiento.</p>
+<p>La evaluación sumativa del programa exige precisamente evidencia verificable del conjunto y dominio individual durante la defensa.</p>
+<hr/>
+<h1>2. Propósito</h1>
+<p>La Semana 16 no debe convertirse en una presentación de diapositivas sobre lo que “debería” funcionar. La IDE debe demostrarse mediante casos de uso reales, clientes independientes y evidencias de operación.</p>
+<p>El objetivo es cerrar la cadena completa construida durante el semestre:</p>
+<pre><code class="language-text">Gobernanza → Datos → Metadatos → Catálogo → Servicios → Seguridad → Operación → Usuario
+</code></pre>
+<p>La defensa debe explicar decisiones y limitaciones, no únicamente mostrar resultados exitosos.</p>
+<hr/>
+<h1>3. Resultados de aprendizaje</h1>
+<p>Al finalizar la asignatura, el estudiante deberá demostrar una IDE mínima operativa, probar interoperabilidad desde clientes distintos, entregar documentación suficiente para operación y mantenimiento, analizar riesgos/limitaciones y defender técnicamente sus decisiones.</p>
+<p>También deberá demostrar dominio individual de conceptos y capacidad para diagnosticar un problema simple durante la defensa.</p>
+<hr/>
+<h1>4. ¿Qué significa una IDE mínima operativa?</h1>
+<p>Para el proyecto del curso, una IDE mínima operativa debe articular como mínimo:</p>
+<ul>
+<li>Alcance y gobernanza;</li>
+<li>Base o recursos publicables;</li>
+<li>Metadatos;</li>
+<li>Catálogo;</li>
+<li>WMS;</li>
+<li>Servicio de objetos o API;</li>
+<li>Control de acceso cuando corresponda;</li>
+<li>Monitoreo;</li>
+<li>Respaldo y recuperación;</li>
+<li>Documentación;</li>
+<li>Consumo desde clientes independientes.</li>
+</ul>
+<p>“Mínima” significa que cubre el conjunto esencial de capacidades, no que pueda omitir calidad u operación.</p>
+<hr/>
+<h1>5. Validación versus demostración</h1>
+<p>Una demostración muestra que algo funciona una vez. La validación verifica que cumple requisitos definidos.</p>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Mostrar un mapa en el navegador es una demostración. Confirmar que el WMS cumple el caso de uso, puede ser consumido desde QGIS, utiliza la capa correcta, tiene metadatos y mantiene acceso previsto es una validación más completa.</p>
+<p>Por eso la defensa debe seguir la matriz de trazabilidad construida desde Semana 4.</p>
+<hr/>
+<h1>6. Plan de pruebas final</h1>
+<p>El equipo debe preparar un plan que incluya:</p>
+<ul>
+<li>Identificador de prueba;</li>
+<li>Requisito asociado;</li>
+<li>Precondición;</li>
+<li>Pasos;</li>
+<li>Resultado esperado;</li>
+<li>Resultado obtenido;</li>
+<li>Evidencia;</li>
+<li>Estado.</li>
+</ul>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p><code>T-WMS-01</code>: usuario público consume áreas verdes desde QGIS sin autenticación. El resultado esperado es que la capa se muestre y GetFeatureInfo solo exponga atributos autorizados.</p>
+<hr/>
+<h1>7. Pruebas de descubrimiento</h1>
+<p>El usuario debe poder comenzar desde una necesidad y encontrar el recurso en catálogo.</p>
+<p>Validar:</p>
+<ul>
+<li>Búsqueda temática;</li>
+<li>Vigencia del registro;</li>
+<li>Responsable;</li>
+<li>Licencia;</li>
+<li>Enlace al servicio;</li>
+<li>Relación con el dato correcto.</li>
+</ul>
+<p>La prueba no debería utilizar un bookmark directo que evite el catálogo.</p>
+<hr/>
+<h1>8. Pruebas WMS</h1>
+<p>Validar:</p>
+<ul>
+<li>GetCapabilities;</li>
+<li>GetMap;</li>
+<li>Estilo;</li>
+<li>CRS;</li>
+<li>Leyenda;</li>
+<li>Acceso;</li>
+<li>Consumo en QGIS;</li>
+<li>Consumo en cliente web cuando corresponda.</li>
+</ul>
+<p>También debe probarse al menos un error controlado para demostrar capacidad de diagnóstico.</p>
+<hr/>
+<h1>9. Pruebas de objetos/API</h1>
+<p>Validar:</p>
+<ul>
+<li>Descubrimiento de colección;</li>
+<li>Consulta de objetos;</li>
+<li>Filtro o BBOX;</li>
+<li>Paginación si aplica;</li>
+<li>Formatos;</li>
+<li>Permisos;</li>
+<li>Atributos publicados.</li>
+</ul>
+<p>La prueba debe comprobar que campos internos no aparecen si fueron excluidos por política.</p>
+<hr/>
+<h1>10. Interoperabilidad entre clientes</h1>
+<p>El mismo servicio debe ser consumible desde más de un cliente apropiado.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>QGIS;</li>
+<li>Aplicación web;</li>
+<li>Curl/navegador;</li>
+<li>Script sencillo.</li>
+</ul>
+<p>La prueba demuestra que el resultado no depende de una única aplicación propietaria o interfaz administrativa.</p>
+<hr/>
+<h1>11. Pruebas de seguridad</h1>
+<p>Demostrar al menos:</p>
+<ul>
+<li>Recurso público accesible;</li>
+<li>Recurso restringido bloqueado sin autenticación;</li>
+<li>Usuario autorizado accede;</li>
+<li>Usuario no autorizado recibe rechazo;</li>
+<li>Administración no está expuesta innecesariamente.</li>
+</ul>
+<p>No es necesario realizar pruebas ofensivas avanzadas. El foco es verificar controles implementados.</p>
+<hr/>
+<h1>12. Pruebas de monitoreo</h1>
+<p>Provocar una falla controlada o utilizar una simulación para demostrar que:</p>
+<ul>
+<li>Se detecta la indisponibilidad;</li>
+<li>Existe evidencia en logs;</li>
+<li>Se genera la alerta o registro esperado;</li>
+<li>El equipo puede identificar componente afectado.</li>
+</ul>
+<p>Esto demuestra que la operación no depende únicamente de reportes de usuarios.</p>
+<hr/>
+<h1>13. Prueba de recuperación</h1>
+<p>Seleccionar un componente y restaurarlo desde un respaldo.</p>
+<p>Puede ser una base o configuración, siempre que se demuestre recuperación funcional posterior.</p>
+<p>Registrar tiempo real y comparar con el RTO definido. Si no se cumple, no se oculta el resultado: se documenta como brecha y se propone mejora.</p>
+<hr/>
+<h1>14. Documentación de arquitectura</h1>
+<p>Debe incluir:</p>
+<ul>
+<li>Contexto;</li>
+<li>Requisitos principales;</li>
+<li>Arquitectura lógica;</li>
+<li>Topología física;</li>
+<li>Flujos de datos;</li>
+<li>Componentes;</li>
+<li>Dependencias;</li>
+<li>Decisiones relevantes;</li>
+<li>Riesgos y limitaciones.</li>
+</ul>
+<p>El documento debe permitir a un nuevo integrante comprender el sistema sin reconstruirlo desde conversaciones informales.</p>
+<hr/>
+<h1>15. Documentación de administración</h1>
+<p>Debe explicar tareas de administrador:</p>
+<ul>
+<li>Cuentas y roles;</li>
+<li>Despliegue;</li>
+<li>Configuración;</li>
+<li>Actualización;</li>
+<li>Certificados;</li>
+<li>Respaldo;</li>
+<li>Monitoreo;</li>
+<li>Recuperación.</li>
+</ul>
+<p>No debe incluir secretos reales. Debe indicar cómo se obtienen de forma segura.</p>
+<hr/>
+<h1>16. Documentación de operación</h1>
+<p>La documentación operacional se centra en tareas recurrentes y respuesta a incidentes.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>Qué revisar ante WMS caído;</li>
+<li>Cómo verificar espacio;</li>
+<li>Cómo rotar logs;</li>
+<li>Cómo restaurar;</li>
+<li>Cómo escalar un incidente.</li>
+</ul>
+<p>Un runbook operativo debe ser accionable y ordenado.</p>
+<hr/>
+<h1>17. Documentación de usuario</h1>
+<p>Debe explicar cómo descubrir y consumir recursos sin exponer complejidad interna innecesaria.</p>
+<p>Puede incluir:</p>
+<ul>
+<li>Búsqueda en catálogo;</li>
+<li>Conexión WMS en QGIS;</li>
+<li>Uso de API;</li>
+<li>Formatos;</li>
+<li>Licencia;</li>
+<li>Contacto;</li>
+<li>Limitaciones conocidas.</li>
+</ul>
+<p>La documentación de usuario debe probarse con alguien que no haya configurado la IDE.</p>
+<hr/>
+<h1>18. Documentación de API</h1>
+<p>Una API debe informar:</p>
+<ul>
+<li>Base URL;</li>
+<li>Recursos;</li>
+<li>Parámetros;</li>
+<li>Formatos;</li>
+<li>Autenticación;</li>
+<li>Paginación;</li>
+<li>Errores;</li>
+<li>Ejemplos.</li>
+</ul>
+<p>Cuando la implementación proporciona OpenAPI u otra descripción automática, puede utilizarse como base, pero debe complementarse con contexto y casos de uso.</p>
+<hr/>
+<h1>19. Expediente de evidencia</h1>
+<p>El proyecto debe organizar evidencias para que la evaluación no dependa de una demostración en vivo que podría fallar por causas externas.</p>
+<p>El expediente puede incluir:</p>
+<ul>
+<li>Matrices;</li>
+<li>Scripts;</li>
+<li>URLs;</li>
+<li>Exportaciones;</li>
+<li>Capturas seleccionadas;</li>
+<li>Logs;</li>
+<li>Resultados de pruebas;</li>
+<li>Respaldos de configuración;</li>
+<li>Versiones de documentos.</li>
+</ul>
+<p>La evidencia debe ser rastreable hacia requisitos.</p>
+<hr/>
+<h1>20. Defensa técnica</h1>
+<p>La defensa no consiste en repartir secciones memorizadas. Cada integrante debe comprender la arquitectura completa y poder responder por sus decisiones.</p>
+<p>Preguntas posibles:</p>
+<ul>
+<li>¿Por qué WMS y no descarga directa para este caso?;</li>
+<li>¿Quién es custodio?;</li>
+<li>¿Cómo se protege este dataset?;</li>
+<li>¿Qué ocurre si falla la base?;</li>
+<li>¿Cómo sabe un usuario si el dato está actualizado?;</li>
+<li>¿Qué cambiaría para escalar a diez veces la demanda?;</li>
+<li>¿Qué componente sustituiría si cambia el proveedor?</li>
+</ul>
+<p>La calidad de la respuesta depende del razonamiento, no de recordar términos aislados.</p>
+<hr/>
+<h1>21. Limitaciones y deuda técnica</h1>
+<p>Un proyecto académico no necesita resolver todo. Debe reconocer límites de manera profesional.</p>
+<h3 id="ejemplo-3">Ejemplo</h3>
+<p>“El monitoreo actual verifica disponibilidad cada minuto, pero no incluye trazas distribuidas. Para una operación a mayor escala se recomienda incorporar correlación avanzada”.</p>
+<p>Documentar deuda técnica demuestra comprensión y evita presentar prototipos como soluciones perfectas.</p>
+<hr/>
+<h1>22. Roadmap de evolución</h1>
+<p>La defensa puede cerrar con un roadmap priorizado:</p>
+<ul>
+<li>Corto plazo: resolver brechas críticas;</li>
+<li>Mediano plazo: automatizar despliegue y pruebas;</li>
+<li>Largo plazo: federar catálogos, escalar infraestructura o incorporar nuevas APIs.</li>
+</ul>
+<p>Cada mejora debe relacionarse con una necesidad, no con tendencias tecnológicas genéricas.</p>
+<hr/>
+<h1>23. Demostración sugerida</h1>
+<div class="mermaid">flowchart LR
+    A["1. Usuario busca"] --&gt; B["2. Revisa metadato"]
+    B --&gt; C["3. Consume WMS"]
+    C --&gt; D["4. Consulta API"]
+    D --&gt; E["5. Prueba acceso"]
+    E --&gt; F["6. Observa monitoreo"]
+    F --&gt; G["7. Muestra recuperación"]
+</div>
+<p>Este orden narra la IDE desde la perspectiva del usuario hacia la operación, evitando una demostración fragmentada por productos.</p>
+<hr/>
+<h1>24. Entregable final</h1>
+<p>El expediente final debe contener:</p>
+<ol>
+<li>Resumen ejecutivo del problema y solución.</li>
+<li>Gobernanza y políticas.</li>
+<li>Arquitectura lógica y física.</li>
+<li>Base y recursos publicables.</li>
+<li>Metadatos y catálogo.</li>
+<li>WMS.</li>
+<li>Servicio de objetos o API.</li>
+<li>Seguridad y matriz de acceso.</li>
+<li>Monitoreo y logs.</li>
+<li>Respaldo y recuperación.</li>
+<li>Plan y resultados de pruebas.</li>
+<li>Documentación de administración, operación, usuario y API.</li>
+<li>Riesgos, limitaciones y roadmap.</li>
+<li>Evidencia de defensa/demostración.</li>
+</ol>
+<hr/>
+<h1>25. Rúbrica final sugerida</h1>
+<table>
+<thead>
+<tr>
+<th>Dimensión</th>
+<th>Evidencia principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gobernanza</td>
+<td>Roles, custodios, políticas</td>
+</tr>
+<tr>
+<td>Datos</td>
+<td>Modelo, calidad, trazabilidad</td>
+</tr>
+<tr>
+<td>Metadatos</td>
+<td>Registros completos y vigentes</td>
+</tr>
+<tr>
+<td>Catálogo</td>
+<td>Descubrimiento real</td>
+</tr>
+<tr>
+<td>Interoperabilidad</td>
+<td>WMS + servicio/API + clientes</td>
+</tr>
+<tr>
+<td>Seguridad</td>
+<td>Acceso diferenciado</td>
+</tr>
+<tr>
+<td>Operación</td>
+<td>Monitoreo y diagnóstico</td>
+</tr>
+<tr>
+<td>Continuidad</td>
+<td>Backup y restore probado</td>
+</tr>
+<tr>
+<td>Documentación</td>
+<td>Arquitectura, operación, usuario, API</td>
+</tr>
+<tr>
+<td>Dominio individual</td>
+<td>Defensa técnica</td>
+</tr>
+</tbody>
+</table>
+<p>La ponderación concreta debe ser definida por el docente de acuerdo con el sistema de evaluación institucional.</p>
+<hr/>
+<h1>26. Secuencia sugerida de la semana</h1>
+<ul>
+<li><strong>Bloque 1 — 30 minutos.</strong> Revisión del plan de pruebas y criterios de aceptación.</li>
+<li><strong>Bloque 2 — 30 minutos.</strong> Preparación de documentación y expediente.</li>
+<li><strong>Bloque 3 — 60 minutos.</strong> Pruebas finales y resolución de brechas críticas.</li>
+<li><strong>Bloque 4 — 60 minutos.</strong> Demostraciones de equipos.</li>
+<li><strong>Bloque 5 — 60 minutos.</strong> Defensas técnicas y preguntas individuales.</li>
+</ul>
+<p>La organización exacta dependerá del número de grupos.</p>
+<hr/>
+<h1>27. Preguntas de cierre</h1>
+<h2 id="que-diferencia-existe-entre-que-funcione-y-que-este-validado">¿Qué diferencia existe entre que “funcione” y que esté validado?</h2>
+<p>La validación compara el comportamiento con requisitos y criterios de aceptación previamente definidos.</p>
+<h2 id="por-que-probar-clientes-independientes">¿Por qué probar clientes independientes?</h2>
+<p>Porque demuestra interoperabilidad y reduce dependencia de una única herramienta.</p>
+<h2 id="que-debe-ocurrir-si-una-prueba-final-falla">¿Qué debe ocurrir si una prueba final falla?</h2>
+<p>Debe registrarse evidencia, analizar causa, decidir criticidad y documentar corrección o limitación. Ocultar la falla elimina aprendizaje y trazabilidad.</p>
+<hr/>
+<h1>28. Errores frecuentes</h1>
+<ul>
+<li><strong>“La defensa es una demo de interfaz”.</strong> Debe demostrar toda la infraestructura y decisiones.</li>
+<li><strong>“Si el proyecto académico tiene una limitación, significa que está mal”.</strong> Reconocer límites y proponer mitigación demuestra madurez.</li>
+<li><strong>“La documentación puede escribirse después sin probarla”.</strong> Debe verificarse con usuarios/administradores que no participaron en su redacción.</li>
+</ul>
+<hr/>
+<h1>29. Glosario final</h1>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Validación</td>
+<td>Confirmación de cumplimiento respecto de requisitos</td>
+</tr>
+<tr>
+<td>Plan de pruebas</td>
+<td>Conjunto organizado de verificaciones</td>
+</tr>
+<tr>
+<td>Runbook</td>
+<td>Procedimiento operativo accionable</td>
+</tr>
+<tr>
+<td>Expediente de evidencia</td>
+<td>Conjunto trazable de pruebas y productos</td>
+</tr>
+<tr>
+<td>Deuda técnica</td>
+<td>Decisiones pendientes que aumentan costo/riesgo futuro</td>
+</tr>
+<tr>
+<td>Roadmap</td>
+<td>Secuencia priorizada de evolución</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>30. Referencias</h1>
+<p><strong>[R1]</strong> Programa de asignatura 12436 — Evaluación y evidencia final.</p>
+<p><strong>[R2]</strong> Open Geospatial Consortium. <em>Compliance and Interoperability resources</em>.<br/>
+<a href="https://www.ogc.org/">https://www.ogc.org/</a></p>
+<p><strong>[R3]</strong> ISO/IEC/IEEE 42010:2022. <em>Architecture description</em>.<br/>
+<a href="https://www.iso.org/standard/74393.html">https://www.iso.org/standard/74393.html</a></p>
+<hr/>
+<h1>31. Síntesis final de la asignatura</h1>
+<p>La IDE final debe demostrar que gobernanza, datos, metadatos, catálogo, servicios, seguridad y operación forman una cadena coherente. El resultado más importante no es conocer una herramienta específica, sino ser capaz de diseñar, publicar, validar y mantener información geoespacial mediante principios de interoperabilidad y responsabilidad institucional.</p>
+<div class="weeknav"><a href="Semana_15_Monitoreo_Logs_Backup_Recuperacion.html">← Semana 15</a><a href="../index.html">Índice del curso</a><span></span></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

@@ -1,0 +1,1659 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 2 — Actores, gobernanza y organización de una Infraestructura de Datos Espaciales</title><style>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
+a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_02_Gobernanza_IDE.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#6-1-gobernanza">6.1. Gobernanza</a><a class="" href="#6-2-gestion">6.2. Gestión</a><a class="" href="#6-3-operacion">6.3. Operación</a><a class="" href="#6-4-ejemplo-integrado">6.4. Ejemplo integrado</a><a class="" href="#7-1-responsabilidad-explicita">7.1. Responsabilidad explícita</a><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#evidencia-minima">Evidencia mínima</a><a class="" href="#7-2-autoridad-proporcional-a-la-responsabilidad">7.2. Autoridad proporcional a la responsabilidad</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="sub" href="#riesgo-si-no-se-cumple">Riesgo si no se cumple</a><a class="" href="#7-3-fuente-oficial-identificable">7.3. Fuente oficial identificable</a><a class="sub" href="#ejemplo-3">Ejemplo</a><a class="sub" href="#evidencia-minima-2">Evidencia mínima</a><a class="" href="#7-4-trazabilidad">7.4. Trazabilidad</a><a class="" href="#7-5-separacion-razonable-de-funciones">7.5. Separación razonable de funciones</a><a class="sub" href="#ejemplo-4">Ejemplo</a><a class="sub" href="#criterio-practico">Criterio práctico</a><a class="" href="#7-6-continuidad-institucional">7.6. Continuidad institucional</a><a class="sub" href="#ejemplo-5">Ejemplo</a><a class="sub" href="#evidencia-minima-3">Evidencia mínima</a><a class="" href="#8-1-productor">8.1. Productor</a><a class="sub" href="#ejemplo-6">Ejemplo</a><a class="" href="#8-2-custodio">8.2. Custodio</a><a class="sub" href="#ejemplo-7">Ejemplo</a><a class="" href="#8-3-administrador-tecnologico">8.3. Administrador tecnológico</a><a class="" href="#8-4-publicador">8.4. Publicador</a><a class="" href="#8-5-responsable-de-metadatos">8.5. Responsable de metadatos</a><a class="" href="#8-6-usuario">8.6. Usuario</a><a class="" href="#8-7-organo-coordinador">8.7. Órgano coordinador</a><a class="" href="#9-1-nivel-estrategico">9.1. Nivel estratégico</a><a class="" href="#9-2-nivel-tactico">9.2. Nivel táctico</a><a class="" href="#9-3-nivel-operativo">9.3. Nivel operativo</a><a class="" href="#10-1-necesidad">10.1. Necesidad</a><a class="sub" href="#ejemplo-8">Ejemplo</a><a class="sub" href="#evidencia">Evidencia</a><a class="" href="#10-2-diseno">10.2. Diseño</a><a class="" href="#10-3-produccion">10.3. Producción</a><a class="sub" href="#ejemplo-9">Ejemplo</a><a class="sub" href="#evidencia-2">Evidencia</a><a class="" href="#10-4-validacion">10.4. Validación</a><a class="" href="#10-5-repositorio-oficial">10.5. Repositorio oficial</a><a class="sub" href="#ejemplo-10">Ejemplo</a><a class="sub" href="#evidencia-3">Evidencia</a><a class="" href="#10-6-metadatos">10.6. Metadatos</a><a class="sub" href="#ejemplo-11">Ejemplo</a><a class="sub" href="#evidencia-4">Evidencia</a><a class="" href="#10-7-aprobacion">10.7. Aprobación</a><a class="" href="#10-8-publicacion">10.8. Publicación</a><a class="sub" href="#evidencia-5">Evidencia</a><a class="" href="#10-9-consumo-y-retroalimentacion">10.9. Consumo y retroalimentación</a><a class="sub" href="#ejemplo-12">Ejemplo</a><a class="" href="#10-10-actualizacion">10.10. Actualización</a><a class="sub" href="#ejemplo-13">Ejemplo</a><a class="" href="#10-11-archivo-o-retiro">10.11. Archivo o retiro</a><a class="sub" href="#ejemplo-14">Ejemplo</a><a class="" href="#11-1-fuente-oficial">11.1. Fuente oficial</a><a class="sub" href="#ejemplo-15">Ejemplo</a><a class="" href="#11-2-copia-de-trabajo">11.2. Copia de trabajo</a><a class="" href="#11-3-producto-derivado">11.3. Producto derivado</a><a class="sub" href="#pregunta-de-control">Pregunta de control</a><a class="" href="#12-1-linaje">12.1. Linaje</a><a class="sub" href="#ejemplo-16">Ejemplo</a><a class="sub" href="#relacion-con-metadatos">Relación con metadatos</a><a class="" href="#12-2-versionamiento">12.2. Versionamiento</a><a class="sub" href="#cambios-menores-y-mayores">Cambios menores y mayores</a><a class="" href="#12-3-trazabilidad">12.3. Trazabilidad</a><a class="sub" href="#principio-practico">Principio práctico</a><a class="sub" href="#ejemplo-17">Ejemplo</a><a class="" href="#ejemplo-desarrollado">Ejemplo desarrollado</a><a class="sub" href="#ejemplo-18">Ejemplo</a><a class="" href="#23-1-sostenibilidad-del-conocimiento">23.1. Sostenibilidad del conocimiento</a><a class="sub" href="#que-deberia-documentarse">Qué debería documentarse</a><a class="sub" href="#ejemplo-19">Ejemplo</a><a class="sub" href="#evidencia-de-sostenibilidad">Evidencia de sostenibilidad</a><a class="" href="#23-2-sostenibilidad-de-las-personas-y-transferencia-de-conocimiento">23.2. Sostenibilidad de las personas y transferencia de conocimiento</a><a class="sub" href="#mecanismos-posibles">Mecanismos posibles</a><a class="sub" href="#riesgo-frecuente">Riesgo frecuente</a><a class="" href="#23-3-sostenibilidad-de-recursos-y-financiamiento">23.3. Sostenibilidad de recursos y financiamiento</a><a class="sub" href="#preguntas-que-deberian-responderse">Preguntas que deberían responderse</a><a class="sub" href="#ejemplo-20">Ejemplo</a><a class="sub" href="#idea-clave">Idea clave</a><a class="" href="#23-4-monitoreo-como-capacidad-de-operacion">23.4. Monitoreo como capacidad de operación</a><a class="sub" href="#dimensiones-utiles">Dimensiones útiles</a><a class="sub" href="#ejemplo-21">Ejemplo</a><a class="sub" href="#del-monitoreo-a-la-gestion">Del monitoreo a la gestión</a><a class="" href="#23-5-respaldo-recuperacion-y-continuidad">23.5. Respaldo, recuperación y continuidad</a><a class="sub" href="#que-puede-necesitar-respaldo-en-una-ide">Qué puede necesitar respaldo en una IDE</a><a class="sub" href="#rpo-y-rto-como-conceptos-complementarios">RPO y RTO como conceptos complementarios</a><a class="sub" href="#ejemplo-22">Ejemplo</a><a class="" href="#23-6-pruebas-de-recuperacion">23.6. Pruebas de recuperación</a><a class="sub" href="#ejemplo-23">Ejemplo</a><a class="" href="#23-7-evolucion-tecnologica-y-mantenibilidad">23.7. Evolución tecnológica y mantenibilidad</a><a class="sub" href="#compatibilidad">Compatibilidad</a><a class="sub" href="#neutralidad-tecnologica">Neutralidad tecnológica</a><a class="" href="#23-8-obsolescencia-y-deuda-tecnica">23.8. Obsolescencia y deuda técnica</a><a class="sub" href="#ejemplo-24">Ejemplo</a><a class="" href="#23-9-indicadores-de-sostenibilidad-y-operacion">23.9. Indicadores de sostenibilidad y operación</a><a class="" href="#23-10-plan-minimo-de-sostenibilidad-para-el-proyecto-del-curso">23.10. Plan mínimo de sostenibilidad para el proyecto del curso</a><a class="" href="#28-1-evolucion-de-la-gobernanza-como-proceso-continuo">28.1. Evolución de la gobernanza como proceso continuo</a><a class="sub" href="#preguntas-para-discusion">Preguntas para discusión</a><a class="" href="#28-2-fuente-oficial-como-decision-de-gobernanza">28.2. Fuente oficial como decisión de gobernanza</a><a class="sub" href="#aplicacion-al-proyecto-del-curso">Aplicación al proyecto del curso</a><a class="" href="#29-1-cual-es-el-problema">29.1. ¿Cuál es el problema?</a><a class="" href="#29-2-que-decisiones-se-requieren">29.2. ¿Qué decisiones se requieren?</a><a class="" href="#29-3-la-solucion-es-impedir-toda-copia">29.3. ¿La solución es impedir toda copia?</a><a class="" href="#33-1-parte-a-mapa-de-actores">33.1. Parte A — Mapa de actores</a><a class="" href="#33-2-parte-b-inventario-de-recursos">33.2. Parte B — Inventario de recursos</a><a class="" href="#33-3-parte-c-matriz-raci">33.3. Parte C — Matriz RACI</a><a class="" href="#33-4-parte-d-ciclo-de-vida">33.4. Parte D — Ciclo de vida</a><a class="" href="#33-5-parte-e-acuerdo-de-intercambio">33.5. Parte E — Acuerdo de intercambio</a><a class="" href="#33-6-parte-f-clasificacion-de-acceso">33.6. Parte F — Clasificación de acceso</a><a class="" href="#33-7-parte-g-matriz-de-riesgos">33.7. Parte G — Matriz de riesgos</a><a class="" href="#bloque-1-40-minutos-de-arquitectura-a-gobernanza">Bloque 1 — 40 minutos: de arquitectura a gobernanza</a><a class="" href="#bloque-2-50-minutos-actores-y-responsabilidades">Bloque 2 — 50 minutos: actores y responsabilidades</a><a class="" href="#bloque-3-45-minutos-ciclo-de-vida-y-fuente-oficial">Bloque 3 — 45 minutos: ciclo de vida y fuente oficial</a><a class="" href="#bloque-4-45-minutos-matrices-y-acuerdos">Bloque 4 — 45 minutos: matrices y acuerdos</a><a class="" href="#bloque-5-30-minutos-calidad-acceso-y-seguridad">Bloque 5 — 30 minutos: calidad, acceso y seguridad</a><a class="" href="#bloque-6-30-minutos-sostenibilidad-riesgos-y-caso-chile">Bloque 6 — 30 minutos: sostenibilidad, riesgos y caso Chile</a><a class="" href="#37-1-productor-y-custodio-deben-ser-siempre-la-misma-entidad">37.1. ¿Productor y custodio deben ser siempre la misma entidad?</a><a class="" href="#37-2-ti-debe-ser-custodio-de-todos-los-datos">37.2. ¿TI debe ser custodio de todos los datos?</a><a class="" href="#37-3-por-que-es-importante-identificar-una-fuente-oficial">37.3. ¿Por qué es importante identificar una fuente oficial?</a><a class="" href="#37-4-la-matriz-raci-resuelve-toda-la-gobernanza">37.4. ¿La matriz RACI resuelve toda la gobernanza?</a><a class="" href="#37-5-puede-una-organizacion-pequena-tener-gobernanza-sin-comite-formal">37.5. ¿Puede una organización pequeña tener gobernanza sin comité formal?</a><a class="" href="#37-6-por-que-la-calidad-es-una-decision-de-gobernanza">37.6. ¿Por qué la calidad es una decisión de gobernanza?</a><a class="" href="#37-7-por-que-la-seguridad-depende-de-la-gobernanza">37.7. ¿Por qué la seguridad depende de la gobernanza?</a><a class="" href="#38-1-el-administrador-de-la-base-es-dueno-del-dato">38.1. “El administrador de la base es dueño del dato”</a><a class="" href="#38-2-si-aparece-en-el-geoportal-es-oficial">38.2. “Si aparece en el geoportal, es oficial”</a><a class="" href="#38-3-una-copia-es-equivalente-a-la-fuente">38.3. “Una copia es equivalente a la fuente”</a><a class="" href="#38-4-gobernanza-significa-agregar-aprobaciones-a-todo">38.4. “Gobernanza significa agregar aprobaciones a todo”</a><a class="" href="#38-5-los-metadatos-son-responsabilidad-exclusiva-del-catalogo">38.5. “Los metadatos son responsabilidad exclusiva del catálogo”</a><a class="" href="#38-6-un-respaldo-es-suficiente-para-garantizar-continuidad">38.6. “Un respaldo es suficiente para garantizar continuidad”</a><a class="" href="#41-1-bibliografia-base-del-programa">41.1. Bibliografía base del programa</a><a class="" href="#41-2-referencias-complementarias-oficiales">41.2. Referencias complementarias oficiales</a></aside><main><h1>Semana 2 — Actores, gobernanza y organización de una Infraestructura de Datos Espaciales</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 1 — Gobernanza, arquitectura y estándares de una IDE</div></div>
+
+
+<h1>1. Marco de la semana</h1>
+<p>La segunda semana continúa el trabajo de la <strong>Unidad 1: Gobernanza, arquitectura y estándares de una IDE</strong>, pero cambia el foco desde la comprensión general de la infraestructura hacia la organización de las responsabilidades que permiten que esa infraestructura funcione de manera sostenida.</p>
+<p>El programa de la asignatura señala expresamente la necesidad de trabajar productores, custodios, administradores, usuarios y órganos de coordinación, así como responsabilidades, acuerdos de intercambio y sostenibilidad. Estos elementos no son accesorios a la arquitectura tecnológica. Constituyen una condición para que los datos y servicios geoespaciales puedan ser mantenidos, actualizados, publicados y utilizados con confianza.</p>
+<p>Durante la Semana 1 se estableció que una IDE no equivale a un servidor, una base espacial o un geoportal. Durante esta semana se profundiza una consecuencia directa de esa idea: si una IDE es un sistema sociotécnico, entonces debe existir claridad respecto de <strong>quién toma decisiones, quién ejecuta tareas, quién responde por los resultados y qué reglas permiten coordinar a los distintos participantes</strong>.</p>
+<p>La semana también prepara contenidos posteriores. Cuando se estudien metadatos, será necesario definir quién los crea y quién responde por su actualización. Cuando se publiquen servicios, será necesario saber quién puede autorizar la exposición de una capa. Cuando se configure seguridad, deberá existir una política previa que determine qué usuarios pueden acceder. Cuando se implemente respaldo y recuperación, será necesario definir responsables, frecuencia, evidencias y condiciones de recuperación.</p>
+<blockquote>
+<p><strong>Idea central de la semana:</strong> La tecnología permite ejecutar acciones; la gobernanza determina quién puede realizarlas, por qué, bajo qué reglas y quién responde por sus consecuencias.</p>
+</blockquote>
+<hr/>
+<h1>2. Propósito de la semana</h1>
+<p>El propósito de la Semana 2 es que el estudiante comprenda que la gobernanza transforma un conjunto de componentes técnicos en una capacidad institucional.</p>
+<p>Supongamos que una institución dispone de PostgreSQL/PostGIS, GeoServer, un catálogo y un visor web. Técnicamente, los componentes pueden estar correctamente instalados. Sin embargo, la infraestructura puede seguir siendo débil si no existe respuesta para preguntas como las siguientes:</p>
+<p>¿Quién es responsable de mantener la red vial? ¿Qué ocurre si dos unidades entregan versiones diferentes? ¿Quién puede aprobar una publicación? ¿Quién decide que un dataset debe ser restringido? ¿Quién corrige un error reportado por un usuario? ¿Quién valida que una nueva versión cumple los requisitos mínimos? ¿Qué ocurre si la única persona que conoce las credenciales deja la organización?</p>
+<p>Estas preguntas no se resuelven instalando más software. Requieren gobernanza.</p>
+<p>La gobernanza no debe interpretarse como burocracia añadida al proceso. Su función es reducir incertidumbre. Cuando existen reglas y responsabilidades claras, disminuyen la duplicación, las decisiones contradictorias, la dependencia de personas específicas y los tiempos necesarios para resolver problemas.</p>
+<hr/>
+<h1>3. Resultados de aprendizaje de la semana</h1>
+<p>Al finalizar la semana, el estudiante debería ser capaz de explicar qué significa gobernanza en el contexto de una Infraestructura de Datos Espaciales y por qué es necesaria incluso cuando la plataforma tecnológica funciona correctamente.</p>
+<p>Deberá distinguir claramente los roles de <strong>productor, custodio, administrador tecnológico, publicador, usuario y órgano coordinador</strong>, comprendiendo que dichos roles representan responsabilidades diferentes aunque, en organizaciones pequeñas, una misma persona pueda asumir más de una función.</p>
+<p>También deberá ser capaz de diferenciar <strong>gobernanza, gestión y operación</strong>. La gobernanza determina decisiones y responsabilidades; la gestión organiza recursos y procesos; la operación ejecuta tareas concretas. Estas capas se relacionan, pero no son equivalentes.</p>
+<p>El estudiante deberá poder representar el ciclo de vida de un recurso geoespacial, identificar una fuente oficial, diferenciar copias y productos derivados, y explicar por qué el linaje y el versionamiento son necesarios.</p>
+<p>Finalmente, deberá construir instrumentos básicos de gobernanza aplicados a su proyecto: una matriz de actores, una matriz de gobernanza, una matriz RACI, un acuerdo de intercambio, una clasificación inicial de acceso y una matriz de riesgos.</p>
+<hr/>
+<h1>4. Puente con la Semana 1: una arquitectura sin gobernanza</h1>
+<p>Durante la Semana 1 se presentó una arquitectura conceptual como la siguiente:</p>
+<div class="mermaid">flowchart TB
+    U["Usuarios"] --&gt; A["Aplicaciones"]
+    A --&gt; S["Servicios y APIs"]
+    S --&gt; I["Datos y metadatos"]
+    I --&gt; D["Almacenamiento"]
+    D --&gt; INF["Infraestructura"]
+
+    SEC["Seguridad"] -.-&gt; S
+    MON["Monitoreo"] -.-&gt; INF
+</div>
+<p>El diagrama permite comprender las capas técnicas, pero no responde quién es responsable de cada una.</p>
+<p>Por ejemplo, el bloque “Datos y metadatos” no indica quién define qué versión del dataset es oficial. El bloque “Servicios y APIs” no indica quién autoriza la publicación. El bloque “Seguridad” no define quién decide qué usuarios deben acceder. El bloque “Monitoreo” tampoco indica quién recibe una alerta cuando un servicio deja de responder.</p>
+<p>La gobernanza agrega esa dimensión.</p>
+<div class="mermaid">flowchart LR
+    G["Gobernanza&lt;br/&gt;Decisiones, roles y reglas"] --&gt; D["Datos"]
+    G --&gt; M["Metadatos"]
+    G --&gt; S["Servicios"]
+    G --&gt; A["Acceso"]
+    G --&gt; O["Operación"]
+
+    D --&gt; R1["Custodio"]
+    M --&gt; R2["Responsable de metadatos"]
+    S --&gt; R3["Publicador"]
+    A --&gt; R4["Autoridad de acceso"]
+    O --&gt; R5["Administrador operativo"]
+</div>
+<p>La diferencia entre ambos diagramas es fundamental. La arquitectura indica <strong>qué componentes existen</strong>; la gobernanza indica <strong>quién responde por ellos y cómo se toman decisiones</strong>.</p>
+<hr/>
+<h1>5. ¿Qué significa gobernanza en una IDE?</h1>
+<p>Para efectos de esta asignatura, se utilizará la siguiente definición operacional:</p>
+<blockquote>
+<p><strong>La gobernanza de una IDE es el conjunto de estructuras, roles, responsabilidades, políticas, reglas y mecanismos de decisión mediante los cuales una organización determina cómo se producen, validan, administran, comparten, publican, actualizan, protegen y retiran sus recursos geoespaciales.</strong></p>
+</blockquote>
+<p>Esta definición contiene varios elementos que conviene separar.</p>
+<p>La <strong>estructura</strong> indica cómo se organiza la toma de decisiones. Puede existir un comité, una unidad coordinadora o una combinación de responsabilidades distribuidas.</p>
+<p>Los <strong>roles</strong> indican qué funciones existen. Productor, custodio y administrador son ejemplos.</p>
+<p>Las <strong>responsabilidades</strong> indican quién debe responder por un resultado.</p>
+<p>Las <strong>políticas</strong> establecen principios generales, por ejemplo que ciertos datos deben ser abiertos o que determinada información requiere autenticación.</p>
+<p>Las <strong>reglas</strong> traducen esas políticas en condiciones más concretas.</p>
+<p>Los <strong>mecanismos de decisión</strong> establecen qué ocurre cuando existe una duda, una excepción o un conflicto.</p>
+<p>UN-IGIF sitúa la gobernanza y los arreglos institucionales como una de las trayectorias estratégicas fundamentales para la gestión geoespacial. El marco destaca liderazgo, modelo de gobernanza, arreglos institucionales y una propuesta de valor común como elementos necesarios para fortalecer la participación multisectorial y crear un entorno cooperativo de intercambio [R2][R3].</p>
+<hr/>
+<h1>6. Gobernanza, gestión y operación: conceptos relacionados pero diferentes</h1>
+<p>Estos tres conceptos suelen confundirse.</p>
+<h2 id="6-1-gobernanza">6.1. Gobernanza</h2>
+<p>La gobernanza responde principalmente a preguntas de autoridad y responsabilidad.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li><strong>¿Quién decide que un dataset es oficial?</strong> Esta decisión debe corresponder a una autoridad o custodio claramente identificado, porque la condición de oficialidad no puede inferirse solamente desde el lugar donde está almacenado o publicado el recurso.</li>
+<li><strong>¿Quién aprueba su publicación?</strong> Debe existir un responsable con autoridad suficiente para confirmar que el recurso cumple las condiciones temáticas, legales, de calidad y acceso necesarias antes de exponerlo a otros usuarios.</li>
+<li><strong>¿Qué unidad es responsable de su calidad?</strong> La responsabilidad debe recaer en quien conoce el dominio del dato y puede evaluar si el recurso cumple los requisitos asociados a su propósito, evitando que la calidad quede atribuida únicamente al equipo tecnológico.</li>
+<li><strong>¿Qué política determina el nivel de acceso?</strong> La organización debe definir criterios que permitan distinguir recursos públicos, institucionales, restringidos o confidenciales, de manera que los permisos técnicos respondan a una decisión institucional previa.</li>
+<li><strong>¿Quién resuelve un conflicto entre dos productores?</strong> Cuando dos unidades entregan versiones incompatibles, debe existir una instancia de coordinación o autoridad capaz de determinar la referencia válida, solicitar evidencia y establecer el procedimiento de corrección.</li>
+</ul>
+<p>La gobernanza define <strong>qué debe ocurrir y quién responde</strong>.</p>
+<hr/>
+<h2 id="6-2-gestion">6.2. Gestión</h2>
+<p>La gestión transforma las decisiones en planes, procesos y recursos.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li><strong>Programar una actualización mensual.</strong> La gestión traduce una política de mantenimiento en una actividad periódica concreta, definiendo cuándo debe revisarse el recurso y qué unidad debe iniciar el proceso.</li>
+<li><strong>Asignar personal.</strong> Una responsabilidad formal necesita personas y tiempo disponibles para ejecutarse; por ello, la gestión debe asegurar que las funciones definidas por la gobernanza cuenten con capacidad operativa real.</li>
+<li><strong>Definir indicadores.</strong> La gestión establece métricas que permitan verificar si los procesos funcionan, por ejemplo porcentaje de datasets actualizados a tiempo, servicios disponibles o incidencias resueltas dentro del plazo esperado.</li>
+<li><strong>Mantener un calendario de revisiones.</strong> La planificación periódica permite anticipar vencimientos, actualizaciones, revisiones de metadatos, pruebas de respaldo y otras tareas que no deberían depender de la memoria de una persona.</li>
+<li><strong>Organizar la capacitación.</strong> La gestión debe asegurar que productores, custodios, administradores y usuarios conozcan los procedimientos y herramientas necesarios, reduciendo dependencia de especialistas individuales y fortaleciendo la continuidad institucional.</li>
+</ul>
+<p>La gestión define <strong>cómo se organiza el cumplimiento</strong>.</p>
+<hr/>
+<h2 id="6-3-operacion">6.3. Operación</h2>
+<p>La operación ejecuta tareas concretas.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li><strong>Ejecutar una consulta SQL.</strong> Corresponde a una acción técnica concreta sobre la base de datos y debe realizarse dentro de los permisos y procedimientos definidos para la operación.</li>
+<li><strong>Cargar una nueva capa.</strong> La operación incorpora físicamente un recurso al repositorio o servidor, pero la decisión de qué versión debe cargarse y si está aprobada corresponde a la gobernanza y gestión previas.</li>
+<li><strong>Reiniciar un servicio.</strong> Esta acción busca restablecer una capacidad tecnológica y normalmente se ejecuta cuando existe una incidencia, mantenimiento programado o cambio de configuración.</li>
+<li><strong>Crear una cuenta.</strong> La operación implementa técnicamente el acceso de un usuario, mientras que la autorización para otorgar ese acceso debe provenir de una regla o solicitud previamente aprobada.</li>
+<li><strong>Generar un respaldo.</strong> La tarea crea una copia recuperable de datos o configuraciones siguiendo una frecuencia y alcance definidos por el procedimiento de continuidad.</li>
+<li><strong>Renovar un certificado.</strong> La operación mantiene vigente el componente que permite establecer comunicaciones seguras mediante HTTPS y debe ejecutarse antes de su vencimiento para evitar interrupciones.</li>
+</ul>
+<p>La operación define <strong>cómo se realiza técnicamente una tarea</strong>.</p>
+<hr/>
+<h2 id="6-4-ejemplo-integrado">6.4. Ejemplo integrado</h2>
+<p>Supongamos que una organización quiere publicar su red vial.</p>
+<p>La gobernanza puede establecer que la Dirección de Tránsito es custodio, que la red vial es pública y que toda publicación debe ser aprobada por el custodio.</p>
+<p>La gestión puede establecer un calendario de actualización mensual y un procedimiento de revisión.</p>
+<p>La operación puede consistir en cargar la nueva versión a PostGIS, validar geometrías y actualizar el servicio WMS.</p>
+<pre><code class="language-text">Gobernanza → Define responsabilidad y reglas
+Gestión     → Organiza proceso y recursos
+Operación   → Ejecuta tareas técnicas
+</code></pre>
+<hr/>
+<h1>7. Principios de una buena gobernanza geoespacial</h1>
+<p>Los principios de gobernanza ayudan a evaluar si una organización está administrando sus recursos geoespaciales de manera suficientemente clara y sostenible. No deben interpretarse como una receta rígida ni como una norma universal. Su función es proporcionar criterios para detectar debilidades que luego pueden traducirse en riesgos concretos: datos sin responsable, versiones contradictorias, decisiones que nadie puede aprobar, conocimiento concentrado en una persona o controles excesivos que ralentizan innecesariamente la operación.</p>
+<p>Una buena gobernanza debe ser <strong>proporcional al riesgo y al valor del recurso</strong>. No tiene sentido imponer el mismo nivel de control a una capa cartográfica de referencia utilizada solo para visualización que a un dataset predial o a información de infraestructura crítica. El diseño de gobernanza debe equilibrar control, agilidad, trazabilidad y capacidad real de la organización.</p>
+<h2 id="7-1-responsabilidad-explicita">7.1. Responsabilidad explícita</h2>
+<p>Cada recurso relevante debe tener un responsable institucional identificable. La expresión “el área SIG ve ese tema” no es suficiente, porque no permite saber quién debe responder cuando el dato queda desactualizado, se detecta un error o aparece una disputa respecto de su significado.</p>
+<p>La responsabilidad explícita supone asociar el recurso a una unidad, cargo o función estable, no únicamente al nombre de una persona. Esto es importante porque las personas cambian de cargo o dejan la institución, mientras la responsabilidad debe permanecer.</p>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>Si una capa de áreas verdes contiene un parque que fue eliminado hace seis meses, el usuario debería poder identificar qué unidad debe revisar el reporte. Si la respuesta depende de preguntar informalmente “quién sabe de esa capa”, la gobernanza es débil.</p>
+<h3 id="evidencia-minima">Evidencia mínima</h3>
+<p>Una organización puede demostrar esta responsabilidad mediante un catálogo de custodios, una matriz de gobernanza, una ficha de dataset o un registro equivalente que identifique al menos productor, custodio, contacto y frecuencia de revisión.</p>
+<h2 id="7-2-autoridad-proporcional-a-la-responsabilidad">7.2. Autoridad proporcional a la responsabilidad</h2>
+<p>No es razonable exigir que un actor responda por un resultado si no dispone de autoridad suficiente para tomar las decisiones necesarias. Si el custodio debe garantizar la calidad de un dataset, pero otra unidad puede modificarlo o publicarlo sin consultarlo, la responsabilidad queda separada de la capacidad real de control.</p>
+<p>La autoridad no significa necesariamente control absoluto. Puede consistir en aprobar cambios estructurales, participar en la definición de reglas de calidad, autorizar la publicación o solicitar correcciones cuando un recurso no cumple requisitos.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p>La Unidad de Catastro puede ser custodio de la información predial. TI administra la base y puede técnicamente modificar tablas, pero no debería alterar la definición temática de un atributo sin un procedimiento acordado con Catastro. La autoridad temática y la autoridad tecnológica son diferentes y deben coordinarse.</p>
+<h3 id="riesgo-si-no-se-cumple">Riesgo si no se cumple</h3>
+<p>Cuando la responsabilidad y la autoridad están separadas, es frecuente que aparezcan conflictos del tipo “yo respondo por el dato, pero no controlo lo que se publica”. Ese escenario genera retrasos, disputas y pérdida de confianza.</p>
+<h2 id="7-3-fuente-oficial-identificable">7.3. Fuente oficial identificable</h2>
+<p>Una organización debe poder determinar qué recurso constituye la referencia institucional principal para un tema determinado. La fuente oficial no tiene por qué ser el único archivo o base existente; puede haber copias para análisis, caché, pruebas, históricos o publicación. Lo importante es que todas esas copias puedan relacionarse con una fuente reconocida.</p>
+<p>La condición de oficialidad debe surgir de una decisión institucional y no de circunstancias accidentales. Un archivo no se vuelve oficial porque esté en el servidor más visible, porque sea el más reciente en una carpeta o porque lo utilice una persona con mayor experiencia.</p>
+<h3 id="ejemplo-3">Ejemplo</h3>
+<p>Si Tránsito mantiene la red vial oficial y Planificación genera una copia para análisis, la copia puede contener campos adicionales o correcciones provisionales. Mientras esas modificaciones no hayan sido validadas e incorporadas a la fuente oficial, no deberían reemplazar silenciosamente la referencia institucional.</p>
+<h3 id="evidencia-minima-2">Evidencia mínima</h3>
+<p>La identificación de la fuente oficial puede documentarse mediante un repositorio designado, un identificador persistente, un catálogo institucional o una política que indique qué unidad y sistema mantienen la versión de referencia.</p>
+<h2 id="7-4-trazabilidad">7.4. Trazabilidad</h2>
+<p>La trazabilidad permite reconstruir la historia relevante de un recurso. No se limita a saber quién guardó el último archivo; busca relacionar cambios, versiones, responsables, fechas y decisiones.</p>
+<p>Un sistema con trazabilidad debería permitir responder:</p>
+<ul>
+<li><strong>¿Quién realizó el cambio?</strong> La trazabilidad debe identificar al actor o proceso responsable, de modo que sea posible consultar antecedentes, verificar autorizaciones y reconstruir la secuencia de decisiones.</li>
+<li><strong>¿Cuándo se realizó?</strong> La fecha y, cuando corresponda, la hora permiten ordenar eventos, determinar vigencia y relacionar modificaciones con incidencias, entregas o publicaciones.</li>
+<li><strong>¿Qué cambió?</strong> El registro debe describir qué geometrías, atributos, estructuras, reglas o configuraciones fueron modificados para evaluar sus efectos sobre usuarios y sistemas dependientes.</li>
+<li><strong>¿Por qué se realizó el cambio?</strong> Conocer la causa permite distinguir una corrección, una actualización rutinaria, una nueva necesidad institucional o una respuesta frente a una incidencia.</li>
+<li><strong>¿Qué versión fue reemplazada?</strong> La referencia a la versión anterior permite comparar estados, reproducir análisis históricos y recuperar información si la modificación genera efectos no previstos.</li>
+</ul>
+<p>La profundidad de la trazabilidad debe ser proporcional al riesgo. No todos los datasets necesitan un sistema complejo de control de versiones, pero todos los recursos institucionalmente relevantes deberían permitir reconstruir al menos las actualizaciones principales.</p>
+<h2 id="7-5-separacion-razonable-de-funciones">7.5. Separación razonable de funciones</h2>
+<p>Separar funciones significa evitar que una misma acción concentre innecesariamente producción, validación, aprobación y publicación cuando el riesgo justifica controles independientes. La separación ayuda a detectar errores y reduce la posibilidad de que una modificación incorrecta llegue directamente a producción.</p>
+<p>Sin embargo, una separación excesiva también puede ser perjudicial. Si cada cambio requiere múltiples aprobaciones sin aportar control real, la gobernanza se transforma en burocracia.</p>
+<h3 id="ejemplo-4">Ejemplo</h3>
+<p>Para una capa pública de equipamientos de baja criticidad, puede ser suficiente que el productor actualice, el custodio revise y la Unidad SIG publique. Para información utilizada en procesos legales, emergencias o decisiones financieras, puede ser necesario incorporar controles adicionales.</p>
+<h3 id="criterio-practico">Criterio práctico</h3>
+<p>La pregunta no es “¿cuántas aprobaciones deberíamos tener?”, sino “¿qué error queremos prevenir y qué control resulta proporcional a su impacto?”.</p>
+<h2 id="7-6-continuidad-institucional">7.6. Continuidad institucional</h2>
+<p>La gobernanza debe permitir que la IDE continúe funcionando aunque cambien las personas. Cuando una sola persona concentra credenciales, scripts, configuraciones y conocimiento operativo, la organización no posee realmente una capacidad institucional; posee una dependencia individual.</p>
+<p>La continuidad se fortalece mediante documentación, repositorios compartidos, gestión institucional de credenciales, capacitación cruzada, procedimientos reproducibles y asignación formal de responsabilidades.</p>
+<h3 id="ejemplo-5">Ejemplo</h3>
+<p>Si el administrador de GeoServer se ausenta y nadie sabe cómo renovar un certificado, restaurar un respaldo o actualizar una capa crítica, el riesgo no es tecnológico sino organizacional.</p>
+<h3 id="evidencia-minima-3">Evidencia mínima</h3>
+<p>La organización debería poder demostrar que otra persona o equipo puede ejecutar las tareas críticas utilizando documentación y accesos institucionales, sin depender de información almacenada únicamente en cuentas personales o memoria individual.</p>
+<hr/>
+<h1>8. Actores principales de una IDE</h1>
+<h2 id="8-1-productor">8.1. Productor</h2>
+<p>El productor es la unidad, organización o persona que genera originalmente la información.</p>
+<p>Por ejemplo, una Dirección de Tránsito puede producir una red vial porque su operación cotidiana genera cambios sobre calles, sentidos de circulación o denominaciones.</p>
+<p>El productor conoce el contexto de origen del recurso. Sabe cómo se captura, qué representa cada atributo y bajo qué circunstancias se modifica.</p>
+<p>Sin embargo, producir no implica necesariamente custodiar. Una empresa contratista puede producir un levantamiento, pero la responsabilidad institucional posterior puede pertenecer a otra entidad.</p>
+<h3 id="ejemplo-6">Ejemplo</h3>
+<p>Una consultora realiza un catastro de luminarias mediante trabajo en terreno.</p>
+<p>La consultora es productora en el proceso de levantamiento.</p>
+<p>La municipalidad recibe y valida el resultado.</p>
+<p>La Dirección de Operaciones puede convertirse en custodio institucional del recurso.</p>
+<hr/>
+<h2 id="8-2-custodio">8.2. Custodio</h2>
+<p>El custodio responde institucionalmente por el recurso.</p>
+<p>Su función no consiste simplemente en almacenar una copia. Debe velar por la vigencia, definición, calidad y uso adecuado.</p>
+<p>Un custodio puede:</p>
+<ul>
+<li><strong>Definir la frecuencia de actualización.</strong> El custodio determina cada cuánto debe revisarse o renovarse el recurso según la velocidad de cambio del fenómeno y las necesidades de sus usuarios.</li>
+<li><strong>Aprobar cambios importantes.</strong> Las modificaciones que alteran estructura, significado o cobertura deben ser conocidas y validadas por quien responde institucionalmente por el recurso.</li>
+<li><strong>Establecer reglas de calidad.</strong> El custodio define o aprueba los requisitos mínimos que permiten determinar si el recurso es adecuado para el uso previsto.</li>
+<li><strong>Confirmar qué versión es oficial.</strong> Esta función evita que copias de trabajo o productos derivados se utilicen como referencias equivalentes a la fuente institucional.</li>
+<li><strong>Autorizar la publicación.</strong> El custodio puede participar en la decisión de exponer el recurso una vez verificados calidad, vigencia, restricciones y nivel de acceso.</li>
+<li><strong>Responder consultas temáticas.</strong> Cuando una duda se relaciona con el significado, origen o validez del dato, el custodio debe disponer del conocimiento o del canal necesario para responderla.</li>
+</ul>
+<h3 id="ejemplo-7">Ejemplo</h3>
+<p>La Unidad de Medio Ambiente puede ser custodio de áreas verdes.</p>
+<p>TI administra la base.</p>
+<p>La Unidad SIG configura WMS.</p>
+<p>Medio Ambiente sigue siendo quien responde por la validez temática del dato.</p>
+<hr/>
+<h2 id="8-3-administrador-tecnologico">8.3. Administrador tecnológico</h2>
+<p>El administrador mantiene la plataforma.</p>
+<p>Puede encargarse de:</p>
+<ul>
+<li><strong>Sistema operativo.</strong> El administrador mantiene la plataforma base donde se ejecutan los componentes de la IDE, aplicando configuraciones y actualizaciones que reduzcan riesgos y aseguren compatibilidad.</li>
+<li><strong>Base de datos.</strong> Administra disponibilidad, rendimiento, conexiones, permisos técnicos y mantenimiento del motor donde se almacenan los recursos espaciales.</li>
+<li><strong>Cuentas.</strong> Gestiona técnicamente usuarios, grupos y credenciales de acuerdo con autorizaciones institucionales previamente definidas.</li>
+<li><strong>Certificados.</strong> Mantiene certificados digitales necesarios para comunicaciones seguras y controla sus fechas de expiración y renovación.</li>
+<li><strong>Almacenamiento.</strong> Supervisa capacidad, crecimiento y disponibilidad del espacio requerido para datos, metadatos, configuraciones, logs y respaldos.</li>
+<li><strong>Respaldo.</strong> Ejecuta y verifica copias de seguridad según el alcance, frecuencia y retención definidos por la organización.</li>
+<li><strong>Monitoreo.</strong> Observa disponibilidad, rendimiento y eventos relevantes para detectar fallas antes de que afecten de manera prolongada a los usuarios.</li>
+<li><strong>Actualizaciones.</strong> Aplica parches y nuevas versiones de software de forma controlada, considerando dependencias, pruebas y posibles impactos sobre los servicios.</li>
+</ul>
+<p>Su responsabilidad se relaciona con disponibilidad, integridad técnica y operación de la plataforma.</p>
+<p>No debería suponerse automáticamente que también puede validar el significado temático de la información.</p>
+<hr/>
+<h2 id="8-4-publicador">8.4. Publicador</h2>
+<p>El publicador transforma una fuente autorizada en un recurso consumible.</p>
+<p>Puede configurar:</p>
+<ul>
+<li><strong>WMS.</strong> El publicador puede configurar un Web Map Service cuando el objetivo principal es proporcionar representaciones cartográficas interoperables para clientes SIG o aplicaciones web.</li>
+<li><strong>WFS.</strong> Puede habilitar un Web Feature Service cuando los usuarios necesitan acceder a objetos vectoriales y atributos mediante la familia clásica de servicios OGC.</li>
+<li><strong>OGC API.</strong> Puede publicar interfaces de la familia OGC API cuando se requiere una integración basada en prácticas web contemporáneas y recursos consultables por aplicaciones.</li>
+<li><strong>Estilos.</strong> El publicador configura la representación cartográfica del recurso, procurando que simbología, escalas y leyendas sean coherentes con el uso previsto.</li>
+<li><strong>Descargas.</strong> Define o habilita mecanismos para obtener copias del recurso cuando la política de distribución y las necesidades de los usuarios lo permiten.</li>
+<li><strong>Registros de catálogo.</strong> Publica o actualiza la descripción del recurso para que pueda ser descubierto, evaluado y relacionado con sus servicios o mecanismos de descarga.</li>
+</ul>
+<p>Antes de publicar debería comprobar que utiliza una versión aprobada y que el nivel de acceso corresponde a la política definida.</p>
+<hr/>
+<h2 id="8-5-responsable-de-metadatos">8.5. Responsable de metadatos</h2>
+<p>En algunas organizaciones, la responsabilidad de metadatos puede pertenecer al productor, custodio o equipo de catálogo.</p>
+<p>Lo importante es que no quede sin asignar.</p>
+<p>Los metadatos cambian cuando cambian elementos como:</p>
+<ul>
+<li><strong>Responsable.</strong> Un cambio de custodio, productor o punto de contacto debe reflejarse en los metadatos para que los usuarios sepan a quién acudir.</li>
+<li><strong>Fecha.</strong> Las fechas de creación, revisión o actualización deben mantenerse vigentes porque permiten evaluar temporalmente el recurso.</li>
+<li><strong>Extensión.</strong> Si cambia el territorio o periodo cubierto por el dataset, la descripción de su alcance espacial o temporal también debe actualizarse.</li>
+<li><strong>Frecuencia de mantenimiento.</strong> El metadato debe reflejar la periodicidad real con que la información es revisada o renovada.</li>
+<li><strong>Restricciones.</strong> Cualquier cambio en licencias, privacidad, confidencialidad o condiciones de reutilización debe quedar documentado.</li>
+<li><strong>Distribución.</strong> Si cambia la URL, servicio, formato o mecanismo de acceso, el registro debe actualizarse para evitar enlaces obsoletos.</li>
+</ul>
+<p>Por lo tanto, también requieren mantenimiento.</p>
+<hr/>
+<h2 id="8-6-usuario">8.6. Usuario</h2>
+<p>El usuario no debe considerarse un receptor pasivo.</p>
+<p>Los usuarios generan requisitos y pueden detectar errores.</p>
+<p>Un profesional SIG puede requerir acceso a objetos completos.</p>
+<p>Un ciudadano puede necesitar un visor simple.</p>
+<p>Un desarrollador puede requerir una API.</p>
+<p>Una autoridad puede necesitar indicadores resumidos.</p>
+<p>Comprender a los usuarios ayuda a diseñar servicios y niveles de acceso adecuados.</p>
+<hr/>
+<h2 id="8-7-organo-coordinador">8.7. Órgano coordinador</h2>
+<p>Cuando existe más de un productor, la coordinación se vuelve especialmente importante.</p>
+<p>Un órgano coordinador puede tomar la forma de:</p>
+<ul>
+<li><strong>Consejo.</strong> Puede actuar como instancia estratégica donde autoridades de varias áreas o instituciones acuerdan prioridades, políticas y responsabilidades de alto nivel.</li>
+<li><strong>Comité.</strong> Suele utilizarse para coordinar decisiones técnicas o tácticas de manera periódica entre representantes de las unidades participantes.</li>
+<li><strong>Secretaría.</strong> Puede proporcionar continuidad administrativa, seguimiento de acuerdos, documentación y coordinación entre sesiones o actores.</li>
+<li><strong>Mesa técnica.</strong> Permite resolver asuntos especializados como modelos de datos, estándares, metadatos, interoperabilidad o seguridad.</li>
+<li><strong>Unidad coordinadora.</strong> Puede asumir de manera permanente funciones de articulación, seguimiento y soporte para evitar que la coordinación dependa únicamente de reuniones ocasionales.</li>
+</ul>
+<p>INSPIRE exige precisamente estructuras y mecanismos de coordinación capaces de integrar contribuciones de productores, usuarios, proveedores de servicios y organismos coordinadores [R4].</p>
+<p>El órgano coordinador no necesariamente administra los datos. Su función es lograr coherencia entre participantes.</p>
+<hr/>
+<h1>9. Modelo de gobernanza por niveles</h1>
+<p>Una estructura simple puede distinguir nivel estratégico, táctico y operativo.</p>
+<div class="mermaid">flowchart TB
+    E["Nivel estratégico&lt;br/&gt;Política, prioridades, recursos"] --&gt; T["Nivel táctico&lt;br/&gt;Estándares, modelos, coordinación"]
+    T --&gt; O["Nivel operativo&lt;br/&gt;Carga, publicación, soporte"]
+</div>
+<h2 id="9-1-nivel-estrategico">9.1. Nivel estratégico</h2>
+<p>Decide aspectos de alto nivel.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li><strong>Política institucional.</strong> El nivel estratégico establece principios generales que orientan cómo deben producirse, compartirse, protegerse y reutilizarse los datos geoespaciales.</li>
+<li><strong>Prioridades.</strong> Define qué recursos, procesos o proyectos deben abordarse primero según valor público, riesgo, demanda y disponibilidad de capacidades.</li>
+<li><strong>Financiamiento.</strong> Decide cómo se sostendrán infraestructura, personal, capacitación, licencias cuando correspondan y actividades de mantenimiento.</li>
+<li><strong>Apertura de datos.</strong> Determina criterios institucionales para identificar qué información puede publicarse abiertamente y qué restricciones deben respetarse.</li>
+<li><strong>Acuerdos con otras instituciones.</strong> Establece compromisos de intercambio, coordinación, responsabilidades y cooperación cuando la IDE depende de productores externos.</li>
+</ul>
+<p>No debería intervenir en cada carga de datos.</p>
+<hr/>
+<h2 id="9-2-nivel-tactico">9.2. Nivel táctico</h2>
+<p>Transforma lineamientos en reglas y planes.</p>
+<p>Puede definir:</p>
+<ul>
+<li><strong>Perfil de metadatos.</strong> El nivel táctico puede definir qué elementos descriptivos son obligatorios para asegurar un mínimo común entre los recursos institucionales.</li>
+<li><strong>Estándares de publicación.</strong> Traduce la política de interoperabilidad en reglas concretas sobre servicios, APIs, formatos y documentación.</li>
+<li><strong>Criterios de calidad.</strong> Establece controles verificables que permitan determinar cuándo un recurso está listo para ser utilizado o publicado.</li>
+<li><strong>Calendario.</strong> Organiza revisiones, actualizaciones y entregas para coordinar a productores, custodios y equipos técnicos.</li>
+<li><strong>Arquitectura de referencia.</strong> Define principios y componentes comunes que orientan nuevas implementaciones sin obligar necesariamente a utilizar un único producto tecnológico.</li>
+</ul>
+<hr/>
+<h2 id="9-3-nivel-operativo">9.3. Nivel operativo</h2>
+<p>Ejecuta tareas.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li><strong>Validar geometrías.</strong> El equipo operativo comprueba que los objetos espaciales cumplen las reglas técnicas definidas antes de ingresar o publicar el recurso.</li>
+<li><strong>Cargar datos.</strong> Incorpora la versión aprobada al repositorio correspondiente siguiendo procedimientos que preserven integridad y trazabilidad.</li>
+<li><strong>Configurar capas.</strong> Prepara nombres, estilos, escalas, permisos y parámetros necesarios para exponer correctamente la información.</li>
+<li><strong>Publicar recursos.</strong> Habilita servicios, APIs o descargas una vez que se han cumplido las condiciones de aprobación establecidas.</li>
+<li><strong>Respaldar información.</strong> Ejecuta copias de seguridad de datos y configuraciones para que la infraestructura pueda recuperarse ante una falla.</li>
+<li><strong>Monitorear servicios.</strong> Observa disponibilidad, tiempos de respuesta, errores y otros indicadores que permitan detectar degradación o interrupciones.</li>
+</ul>
+<p>La utilidad de separar niveles consiste en evitar que todos los problemas lleguen a la misma instancia.</p>
+<hr/>
+<h1>10. Ciclo de vida de un recurso geoespacial</h1>
+<p>Un recurso geoespacial debe comprenderse como un activo que cambia en el tiempo. La publicación es solo una etapa dentro de un proceso mayor. Antes de aparecer en un geoportal, el recurso tuvo que responder a una necesidad, ser diseñado, producido, validado, almacenado y documentado. Después de publicarse, seguirá recibiendo actualizaciones, comentarios y eventualmente podrá ser retirado.</p>
+<p>Comprender este ciclo permite asignar responsabilidades y evidencias en cada etapa. También ayuda a detectar un error frecuente: concentrar toda la gobernanza en el momento de publicación y olvidar lo que ocurre antes y después.</p>
+<div class="mermaid">flowchart TB
+    A["Necesidad"] --&gt; B["Diseño"]
+    B --&gt; C["Producción"]
+    C --&gt; D["Validación"]
+    D --&gt; E["Repositorio oficial"]
+    E --&gt; F["Metadatos"]
+    F --&gt; G["Aprobación"]
+    G --&gt; H["Publicación"]
+    H --&gt; I["Consumo"]
+    I --&gt; J["Retroalimentación"]
+    J --&gt; K["Actualización"]
+    K --&gt; D
+    K --&gt; L["Archivo / retiro"]
+</div>
+<p>El flujo no debe interpretarse como una cadena rígida idéntica para todos los recursos. Algunos procesos pueden automatizar etapas o ejecutarlas en paralelo. La utilidad del modelo es mostrar que cada transición necesita una condición de paso y una responsabilidad.</p>
+<h2 id="10-1-necesidad">10.1. Necesidad</h2>
+<p>La creación de un recurso debería comenzar con una necesidad explícita. Esto permite evitar datasets que se producen porque “siempre se han hecho” pero que ya no responden a un proceso real.</p>
+<p>La necesidad debe indicar quién utilizará el recurso, para qué decisión o proceso y con qué frecuencia. Esta información influirá posteriormente en calidad, actualización, nivel de detalle y forma de publicación.</p>
+<h3 id="ejemplo-8">Ejemplo</h3>
+<blockquote>
+<p>“La institución requiere una red oficial de equipamientos para planificación territorial, análisis de cobertura y consulta pública.”</p>
+</blockquote>
+<p>Esta formulación permite anticipar que el recurso necesitará identificadores estables, actualización periódica, una fuente institucional y posiblemente dos formas de consumo: análisis SIG y visualización web.</p>
+<h3 id="evidencia">Evidencia</h3>
+<p>La necesidad puede expresarse mediante un caso de uso, requerimiento funcional, ficha de producto o documento equivalente.</p>
+<h2 id="10-2-diseno">10.2. Diseño</h2>
+<p>Durante el diseño se define cómo será representado el fenómeno. Esta etapa es crítica porque errores de modelamiento se propagan posteriormente a la base, servicios, APIs y aplicaciones.</p>
+<ul>
+<li><strong>Geometría.</strong> Debe definirse qué tipo de representación espacial corresponde al fenómeno y qué reglas geométricas o topológicas debe cumplir.</li>
+<li><strong>Atributos.</strong> Se especifican los campos necesarios, su significado, tipo de dato, obligatoriedad y relación con el uso previsto.</li>
+<li><strong>Identificador.</strong> El diseño debe incorporar una clave estable que permita distinguir y rastrear cada objeto a través de actualizaciones e integraciones.</li>
+<li><strong>Dominios.</strong> Los valores categóricos deben estar controlados y documentados para reducir ambigüedad y mejorar interoperabilidad semántica.</li>
+<li><strong>Sistema de referencia.</strong> Debe establecerse el CRS en que se almacenará o entregará el recurso y cómo se manejarán transformaciones cuando sean necesarias.</li>
+<li><strong>Requisitos de calidad.</strong> Se definen condiciones verificables de completitud, consistencia, precisión u oportunidad de acuerdo con el propósito del dato.</li>
+</ul>
+<p>La etapa de diseño es también donde se deben considerar dependencias con otros datasets. Por ejemplo, si un recurso utiliza códigos de comuna, debe acordarse qué catálogo o fuente de referencia proporcionará esos códigos.</p>
+<h2 id="10-3-produccion">10.3. Producción</h2>
+<p>La producción corresponde al momento en que el recurso comienza a materializarse. Puede provenir de levantamiento en terreno, sensores, digitalización, fotogrametría, imágenes satelitales, sistemas administrativos, encuestas o procesos automáticos.</p>
+<p>La gobernanza debe asegurar que el productor conozca y aplique la metodología definida. No basta con recibir el archivo final; debería ser posible conocer cómo fue construido y qué controles se realizaron durante la captura.</p>
+<h3 id="ejemplo-9">Ejemplo</h3>
+<p>Si un catastro de luminarias se levanta mediante dispositivos GNSS, conviene registrar al menos fecha de captura, responsable, método, precisión esperada y criterios utilizados para identificar cada activo.</p>
+<h3 id="evidencia-2">Evidencia</h3>
+<p>Pueden utilizarse bitácoras, registros de campaña, procedimientos de captura, logs automáticos o documentación técnica.</p>
+<h2 id="10-4-validacion">10.4. Validación</h2>
+<p>La validación comprueba que el recurso cumple las condiciones acordadas antes de convertirse en referencia institucional o ser publicado.</p>
+<ul>
+<li><strong>Geometrías válidas.</strong> La validación comprueba que los objetos no presenten errores geométricos que impidan análisis, publicación o interoperabilidad.</li>
+<li><strong>Campos obligatorios.</strong> Se verifica que los atributos necesarios para identificar e interpretar cada objeto tengan valores cuando corresponda.</li>
+<li><strong>Dominios.</strong> Los valores deben pertenecer a listas o rangos permitidos para evitar categorías no controladas o inconsistentes.</li>
+<li><strong>Ausencia de duplicados.</strong> Se revisa que un mismo objeto no aparezca repetido sin justificación, especialmente cuando existen identificadores únicos.</li>
+<li><strong>Consistencia topológica.</strong> Cuando el producto lo requiere, se comprueba que las relaciones espaciales entre objetos respeten las reglas definidas.</li>
+<li><strong>Cobertura esperada.</strong> La validación revisa que el recurso incluya el territorio, periodo o universo que debía representar y que no existan omisiones relevantes.</li>
+</ul>
+<p>La validación puede combinar controles automáticos y revisión experta. La automatización es útil para reglas repetibles, mientras la revisión temática continúa siendo necesaria para aspectos que requieren conocimiento del dominio.</p>
+<h2 id="10-5-repositorio-oficial">10.5. Repositorio oficial</h2>
+<p>Una vez validado, el recurso puede incorporarse al repositorio reconocido como fuente institucional. Este paso es importante porque separa datos aún en preparación de datos aprobados para uso.</p>
+<p>El repositorio oficial no tiene que ser necesariamente una única base central. En arquitecturas distribuidas, la fuente oficial puede residir en la institución productora. Lo relevante es que la organización pueda identificarla inequívocamente y evitar que copias de trabajo se confundan con ella.</p>
+<h3 id="ejemplo-10">Ejemplo</h3>
+<p>La red vial oficial puede residir en una base PostGIS administrada por Tránsito, mientras una réplica optimizada para visualización se mantiene en otra plataforma. La réplica no debe adquirir condición de fuente principal solo porque sea la utilizada por el geoportal.</p>
+<h3 id="evidencia-3">Evidencia</h3>
+<p>Debe existir una identificación del repositorio, responsable, versión y mecanismo autorizado de actualización.</p>
+<h2 id="10-6-metadatos">10.6. Metadatos</h2>
+<p>La incorporación o actualización de un recurso debe ir acompañada de una revisión de sus metadatos. Un dataset actualizado con metadatos antiguos puede inducir a errores casi tan graves como un dato desactualizado.</p>
+<p>Los metadatos deben reflejar, según corresponda, responsable, fecha, extensión, sistema de referencia, restricciones, frecuencia de mantenimiento y mecanismos de distribución. ISO 19115-1 constituye la referencia base del programa para esta materia [R6].</p>
+<h3 id="ejemplo-11">Ejemplo</h3>
+<p>Si una capa pasa de cobertura comunal a regional, no basta con reemplazar geometrías. Deben revisarse título, resumen, extensión, fechas, calidad y mecanismos de acceso.</p>
+<h3 id="evidencia-4">Evidencia</h3>
+<p>El catálogo debe mostrar un registro coherente con la versión realmente publicada.</p>
+<h2 id="10-7-aprobacion">10.7. Aprobación</h2>
+<p>La aprobación es el punto donde la organización confirma que el recurso puede avanzar hacia distribución o publicación. Su profundidad depende del riesgo.</p>
+<ul>
+<li><strong>Calidad suficiente.</strong> Debe existir evidencia de que el recurso cumple los requisitos mínimos asociados a su uso y no solo una apreciación informal de que “se ve bien”.</li>
+<li><strong>Licencia definida.</strong> Las condiciones de reutilización deben estar claras antes de distribuir el dato, especialmente cuando será accesible a terceros.</li>
+<li><strong>Ausencia de información sensible.</strong> La revisión debe comprobar que la publicación no exponga datos personales, confidenciales o estratégicos fuera de las condiciones autorizadas.</li>
+<li><strong>Custodio identificado.</strong> Todo recurso publicado debería permitir reconocer quién responde institucionalmente por su vigencia, definición y mantenimiento.</li>
+</ul>
+<p>La aprobación puede ser explícita mediante una firma o ticket, o incorporarse dentro de un flujo automatizado. Lo importante es que exista evidencia de que la decisión fue tomada por el rol adecuado.</p>
+<h2 id="10-8-publicacion">10.8. Publicación</h2>
+<p>La publicación convierte el recurso en una capacidad de consumo. Puede realizarse mediante WMS, WFS, OGC API, descarga de archivos, catálogo u otras interfaces.</p>
+<p>La elección debe depender del caso de uso. WMS es adecuado para visualización cartográfica; una API puede ser más apropiada para integración; una descarga puede ser necesaria para análisis desconectado o procesamiento intensivo.</p>
+<p>La publicación debe incluir pruebas desde clientes independientes. No es suficiente comprobar que el recurso “se ve” en la misma herramienta utilizada para publicarlo. El programa de la asignatura exige precisamente pruebas de interoperabilidad desde clientes SIG o web.</p>
+<h3 id="evidencia-5">Evidencia</h3>
+<p>URL del servicio, documento de capacidades, endpoint, registro de catálogo, captura de prueba o resultado automatizado.</p>
+<h2 id="10-9-consumo-y-retroalimentacion">10.9. Consumo y retroalimentación</h2>
+<p>Cuando el recurso comienza a utilizarse aparecen observaciones que pueden no haber sido visibles durante la producción. Los usuarios pueden detectar errores de nombre, objetos faltantes, problemas de rendimiento o necesidades de atributos adicionales.</p>
+<p>La gobernanza debe proporcionar un canal de retroalimentación. Ese canal no tiene que ser complejo: puede ser una mesa de ayuda, formulario, correo funcional o sistema de tickets. Lo importante es que las observaciones no dependan de contactos personales informales.</p>
+<h3 id="ejemplo-12">Ejemplo</h3>
+<p>Un ciudadano reporta que una plaza ya no existe. El reporte debe llegar al custodio correspondiente, no quedar únicamente en manos del administrador del geoportal.</p>
+<h2 id="10-10-actualizacion">10.10. Actualización</h2>
+<p>La actualización incorpora cambios a una nueva versión. Debe preservar trazabilidad y evitar que un reemplazo silencioso elimine información necesaria para comprender análisis anteriores.</p>
+<p>Una actualización debería registrar al menos fecha, responsable, naturaleza del cambio y versión reemplazada. Si modifica estructura o interfaces, también debe evaluarse su impacto en aplicaciones dependientes.</p>
+<h3 id="ejemplo-13">Ejemplo</h3>
+<p>Renombrar un campo utilizado por una API puede romper aplicaciones aunque la geometría siga siendo correcta. Por eso algunos cambios necesitan coordinación antes de publicarse.</p>
+<h2 id="10-11-archivo-o-retiro">10.11. Archivo o retiro</h2>
+<p>Un recurso puede dejar de ser vigente, ser reemplazado por otro o perder justificación operacional. En esos casos, retirarlo de publicación no significa necesariamente eliminarlo.</p>
+<p>Las versiones históricas pueden ser necesarias para reproducir estudios, responder auditorías o analizar evolución territorial. La gobernanza debe definir qué se conserva, por cuánto tiempo y bajo qué condiciones puede consultarse.</p>
+<h3 id="ejemplo-14">Ejemplo</h3>
+<p>Una zonificación derogada puede dejar de mostrarse al público como normativa vigente, pero seguir siendo necesaria para reconstruir el marco regulatorio aplicable a una fecha histórica.</p>
+<hr/>
+<h1>11. Fuente oficial, copias y productos derivados</h1>
+<p>Distinguir entre fuente oficial, copia y producto derivado es esencial para evitar que la circulación de información genere múltiples “verdades” institucionales. Una IDE necesita permitir reutilización y transformación de datos sin perder la capacidad de identificar de dónde proviene cada producto.</p>
+<h2 id="11-1-fuente-oficial">11.1. Fuente oficial</h2>
+<p>La fuente oficial es el recurso reconocido institucionalmente como referencia principal para un dominio determinado. Su condición de oficialidad no depende del formato, software o servidor donde reside, sino de una decisión de gobernanza.</p>
+<p>Una fuente oficial debería contar con custodio, repositorio identificado, reglas de actualización y mecanismos de trazabilidad. Puede existir en una arquitectura centralizada o distribuida.</p>
+<h3 id="ejemplo-15">Ejemplo</h3>
+<p>La División de Tránsito puede mantener la red vial oficial en su propia plataforma. El geoportal consume una réplica optimizada. Aunque la réplica sea más visible, la autoridad sobre el dato continúa perteneciendo a la fuente definida.</p>
+<h2 id="11-2-copia-de-trabajo">11.2. Copia de trabajo</h2>
+<p>Una copia de trabajo reproduce total o parcialmente la fuente para ejecutar análisis, pruebas o tareas locales. Las copias no son necesariamente negativas; muchas operaciones las requieren.</p>
+<p>El riesgo aparece cuando una copia se modifica y comienza a circular sin información suficiente sobre su origen. En ese punto puede transformarse informalmente en una “segunda fuente oficial”.</p>
+<p>Una copia debería registrar, al menos, fecha de extracción, fuente de origen y finalidad. Si se modifica, conviene documentar qué transformaciones recibió.</p>
+<h2 id="11-3-producto-derivado">11.3. Producto derivado</h2>
+<p>Un producto derivado se genera aplicando transformaciones sobre la fuente. Puede simplificar geometrías, agregar datos, calcular indicadores, anonimizar atributos o crear productos cartográficos.</p>
+<div class="mermaid">flowchart LR
+    A["Fuente oficial&lt;br/&gt;Catastro"] --&gt; B["Copia de análisis"]
+    A --&gt; C["Versión simplificada web"]
+    A --&gt; D["Indicadores agregados"]
+    A --&gt; E["Histórico de cierre anual"]
+</div>
+<p>La versión simplificada web puede reducir vértices para mejorar rendimiento; los indicadores agregados pueden perder detalle individual; el histórico congela el estado de un momento específico. Ninguno es “peor” que la fuente, pero cada uno tiene un propósito diferente.</p>
+<h3 id="pregunta-de-control">Pregunta de control</h3>
+<p>Cuando un usuario recibe un producto derivado debería poder responder: <strong>¿de qué fuente proviene, qué transformación recibió y para qué uso fue diseñado?</strong></p>
+<p>Si no puede responder, existe un problema de linaje y gobernanza.</p>
+<hr/>
+<h1>12. Linaje, versionamiento y trazabilidad</h1>
+<p>Estos tres conceptos están relacionados, pero no son sinónimos. El linaje explica de dónde proviene un recurso y qué transformaciones recibió; el versionamiento permite distinguir estados sucesivos; la trazabilidad permite reconstruir quién, cuándo y por qué realizó cambios o tomó decisiones.</p>
+<h2 id="12-1-linaje">12.1. Linaje</h2>
+<p>El linaje documenta la historia de transformación del recurso.</p>
+<div class="mermaid">flowchart LR
+    A["Levantamiento original"] --&gt; B["Corrección geométrica"]
+    B --&gt; C["Normalización de atributos"]
+    C --&gt; D["Generalización"]
+    D --&gt; E["Publicación web"]
+</div>
+<p>Cada etapa puede cambiar propiedades relevantes. Una generalización puede reducir precisión geométrica; una normalización puede convertir categorías; una anonimización puede eliminar atributos. Por ello, conocer únicamente el nombre del archivo final no es suficiente para interpretar el producto.</p>
+<h3 id="ejemplo-16">Ejemplo</h3>
+<p>Si una capa pública de predios fue simplificada para visualización, no debería utilizarse para mediciones detalladas. El linaje permite advertir que su propósito es cartográfico y que la fuente original posee otra precisión.</p>
+<h3 id="relacion-con-metadatos">Relación con metadatos</h3>
+<p>La información de linaje puede formar parte de la documentación de calidad y procedencia del recurso, aspecto que se profundizará en la Unidad 2.</p>
+<h2 id="12-2-versionamiento">12.2. Versionamiento</h2>
+<p>El versionamiento permite distinguir estados sucesivos de un recurso y comunicar la magnitud del cambio.</p>
+<p>Ejemplo didáctico:</p>
+<pre><code class="language-text">Red vial v1.0 — publicación inicial
+Red vial v1.1 — corrección de nombres y atributos
+Red vial v2.0 — cambio del modelo de datos
+</code></pre>
+<p>La organización no tiene que utilizar obligatoriamente versionamiento semántico. Puede utilizar fechas, identificadores de entrega, commits o versiones de base de datos. Lo importante es que cada estado relevante pueda distinguirse inequívocamente.</p>
+<h3 id="cambios-menores-y-mayores">Cambios menores y mayores</h3>
+<p>Un cambio de nombre podría considerarse menor. Eliminar un campo consumido por varias aplicaciones es un cambio mayor porque afecta compatibilidad.</p>
+<p>La gobernanza debe definir qué tipo de modificación exige comunicación, pruebas o coordinación adicional.</p>
+<h2 id="12-3-trazabilidad">12.3. Trazabilidad</h2>
+<p>La trazabilidad conecta versiones, decisiones y responsables.</p>
+<p>Un registro de cambio útil puede incluir:</p>
+<table>
+<thead>
+<tr>
+<th>Fecha</th>
+<th>Versión</th>
+<th>Cambio</th>
+<th>Responsable</th>
+<th>Aprobador</th>
+<th>Evidencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10-03</td>
+<td>1.1</td>
+<td>Corrección de nombres</td>
+<td>Equipo SIG</td>
+<td>Custodio</td>
+<td>Ticket 142</td>
+</tr>
+<tr>
+<td>02-06</td>
+<td>2.0</td>
+<td>Nuevo modelo de atributos</td>
+<td>Productor</td>
+<td>Comité técnico</td>
+<td>Acta 06</td>
+</tr>
+</tbody>
+</table>
+<p>La trazabilidad resulta especialmente importante cuando los datos se utilizan en decisiones que deben justificarse posteriormente. También permite investigar incidentes: si una aplicación comenzó a fallar después de una actualización, el registro facilita identificar qué cambió.</p>
+<h3 id="principio-practico">Principio práctico</h3>
+<p>No se necesita registrar cada movimiento de mouse. Se necesita conservar suficiente evidencia para reconstruir los cambios que puedan afectar significado, calidad, disponibilidad, acceso o compatibilidad.</p>
+<hr/>
+<h1>13. Gobernanza de la calidad de datos</h1>
+<p>La calidad no puede reducirse a “el dato está bien” o “el dato está mal”.</p>
+<p>ISO 19157-1:2023 establece principios para describir, evaluar y reportar la calidad de información geográfica y señala que la calidad debe evaluarse en relación con requisitos y usos [R7].</p>
+<p>Esto permite introducir una idea fundamental:</p>
+<blockquote>
+<p><strong>La calidad es adecuada o inadecuada respecto de un propósito.</strong></p>
+</blockquote>
+<p>Un límite con un error de dos metros puede ser adecuado para un mapa regional y completamente insuficiente para una decisión predial.</p>
+<p>La gobernanza debe definir:</p>
+<ul>
+<li><strong>Quién establece los requisitos.</strong> Debe identificarse la autoridad temática o técnica que determina qué nivel de calidad necesita el recurso para su propósito.</li>
+<li><strong>Quién realiza la evaluación.</strong> La organización debe asignar la responsabilidad de ejecutar o revisar los controles y evitar que la validación quede implícita.</li>
+<li><strong>Qué evidencia debe existir.</strong> Los resultados de las pruebas, métricas o controles deben quedar registrados de forma suficiente para justificar la aceptación del recurso.</li>
+<li><strong>Qué ocurre cuando no se cumple.</strong> Debe definirse si el recurso se corrige, se rechaza, se publica con advertencias o se deriva a otra instancia antes de continuar.</li>
+</ul>
+<h3 id="ejemplo-17">Ejemplo</h3>
+<p>Para una capa de establecimientos educacionales podría exigirse:</p>
+<ul>
+<li><strong>Identificador único.</strong> Cada establecimiento debe poder distinguirse inequívocamente y mantener esa identidad a través de actualizaciones.</li>
+<li><strong>Geometría válida.</strong> La localización debe representarse mediante una geometría técnicamente correcta para evitar errores de análisis o publicación.</li>
+<li><strong>Comuna consistente.</strong> La comuna informada debe coincidir con la ubicación espacial o con la regla institucional definida para asignación territorial.</li>
+<li><strong>Nombre no vacío.</strong> El registro debe contener una denominación mínima que permita reconocer el establecimiento y utilizarlo en búsquedas o visualizaciones.</li>
+<li><strong>Fecha de actualización inferior a un año.</strong> Este criterio introduce una condición de vigencia; si el dato supera ese umbral, debería revisarse antes de considerarlo actualizado.</li>
+</ul>
+<p>El custodio define o aprueba esas condiciones.</p>
+<p>El equipo operativo puede automatizar su validación.</p>
+<hr/>
+<h1>14. Gobernanza de metadatos</h1>
+<p>Los metadatos también requieren responsables.</p>
+<p>Un error frecuente consiste en crearlos una vez y no volver a actualizarlos.</p>
+<p>Sin embargo, pueden cambiar:</p>
+<ul>
+<li><strong>Fecha.</strong> Debe modificarse cuando el recurso se actualiza o cuando cambia la fecha de revisión relevante para los usuarios.</li>
+<li><strong>Responsable.</strong> Debe actualizarse si cambia el productor, custodio, editor o punto de contacto.</li>
+<li><strong>Extensión.</strong> Debe revisarse cuando aumenta, disminuye o cambia el ámbito espacial o temporal cubierto.</li>
+<li><strong>Distribución.</strong> Debe reflejar los mecanismos vigentes mediante los cuales el usuario puede obtener o consumir el recurso.</li>
+<li><strong>Licencia.</strong> Debe registrar las condiciones actuales de uso y reutilización, evitando mantener restricciones obsoletas.</li>
+<li><strong>Frecuencia de mantenimiento.</strong> Debe corresponder al proceso real de actualización y no a una periodicidad que ya no se cumple.</li>
+<li><strong>Sistema de referencia.</strong> Debe reflejar correctamente el CRS utilizado por la versión publicada o distribuida.</li>
+<li><strong>Enlace de servicio.</strong> Debe actualizarse cuando cambia el endpoint, dominio, ruta o mecanismo de publicación para evitar referencias rotas.</li>
+</ul>
+<p>Por lo tanto, el ciclo de publicación debería incluir una revisión de metadatos.</p>
+<div class="mermaid">flowchart LR
+    A["Cambio de dato"] --&gt; B["Validación"]
+    B --&gt; C["Actualización de metadatos"]
+    C --&gt; D["Publicación"]
+</div>
+<p>La Unidad 2 profundizará técnicamente este contenido. En esta semana interesa comprender la responsabilidad organizacional.</p>
+<hr/>
+<h1>15. Gobernanza de acceso y seguridad</h1>
+<p>La seguridad técnica debe implementar decisiones de gobernanza.</p>
+<p>Una clasificación simple puede distinguir:</p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Público</td>
+<td>Sin autenticación</td>
+<td>Áreas verdes</td>
+</tr>
+<tr>
+<td>Institucional</td>
+<td>Usuarios internos</td>
+<td>Inventario de activos</td>
+</tr>
+<tr>
+<td>Restringido</td>
+<td>Grupo autorizado</td>
+<td>Infraestructura crítica</td>
+</tr>
+<tr>
+<td>Confidencial</td>
+<td>Controles especiales</td>
+<td>Información sensible</td>
+</tr>
+</tbody>
+</table>
+<p>La gobernanza determina la categoría.</p>
+<p>La tecnología implementa:</p>
+<ul>
+<li><strong>Autenticación.</strong> Permite verificar la identidad del usuario o sistema que intenta acceder a un recurso protegido.</li>
+<li><strong>Autorización.</strong> Determina qué operaciones puede realizar una identidad autenticada de acuerdo con las decisiones de acceso definidas por la organización.</li>
+<li><strong>Grupos.</strong> Permiten administrar permisos de forma colectiva y asociarlos a funciones o perfiles de uso en lugar de configurar cada cuenta individualmente.</li>
+<li><strong>Permisos.</strong> Implementan técnicamente qué recursos o acciones están permitidos para cada usuario, grupo o rol.</li>
+<li><strong>HTTPS.</strong> Protege la comunicación en tránsito mediante cifrado y ayuda a evitar exposición de credenciales o contenido durante el intercambio.</li>
+<li><strong>Registros de eventos.</strong> Permiten reconstruir accesos, errores y acciones relevantes, proporcionando evidencia para monitoreo, soporte y auditoría.</li>
+</ul>
+<p>Si no existe política previa, los permisos pueden configurarse de forma arbitraria.</p>
+<hr/>
+<h1>16. Gobernanza de publicación</h1>
+<p>Publicar no debe equivaler simplemente a “hacer clic en publicar”.</p>
+<p>Una secuencia razonable puede ser:</p>
+<div class="mermaid">flowchart LR
+    A["Productor entrega"] --&gt; B["Validación técnica"]
+    B --&gt; C["Revisión custodio"]
+    C --&gt; D{"¿Aprobado?"}
+    D -- "No" --&gt; A
+    D -- "Sí" --&gt; E["Metadatos"]
+    E --&gt; F["Clasificación de acceso"]
+    F --&gt; G["Publicación"]
+    G --&gt; H["Prueba desde cliente"]
+</div>
+<p>Cada organización puede simplificar o ampliar este flujo.</p>
+<p>Lo importante es que las decisiones críticas tengan responsable.</p>
+<hr/>
+<h1>17. Acuerdos de intercambio</h1>
+<p>Los acuerdos de intercambio son especialmente importantes cuando dos unidades u organizaciones deben transferir información periódicamente.</p>
+<p>Un acuerdo no tiene por qué ser un contrato complejo. Puede ser una ficha o procedimiento institucional.</p>
+<p>Debe permitir responder:</p>
+<ul>
+<li><strong>Qué recurso se intercambia.</strong> El acuerdo debe identificar inequívocamente el dataset, servicio o producto involucrado para evitar confusiones con versiones o productos similares.</li>
+<li><strong>Quién produce el recurso.</strong> Debe señalarse la unidad que genera la información y conoce la metodología y reglas de origen.</li>
+<li><strong>Quién recibe el recurso.</strong> Debe identificarse el consumidor institucional y la finalidad para la cual necesita la información.</li>
+<li><strong>Con qué frecuencia se intercambia.</strong> La periodicidad debe corresponder a la velocidad de cambio del fenómeno y a las necesidades operativas del receptor.</li>
+<li><strong>Mediante qué mecanismo se realiza el intercambio.</strong> Debe definirse si se utilizará una base compartida, API, servicio, flujo ETL, archivo u otro medio controlado.</li>
+<li><strong>Bajo qué estructura se entrega.</strong> Deben acordarse esquema, campos, tipos, geometría, CRS, identificadores y otras reglas necesarias para que el receptor pueda procesar el recurso.</li>
+<li><strong>Qué calidad se espera.</strong> El acuerdo debe establecer criterios mínimos de aceptación y cómo se comprobarán antes de incorporar una nueva entrega.</li>
+<li><strong>Qué ocurre ante un error.</strong> Debe existir un canal de reporte, responsable de revisión, plazo razonable y procedimiento de corrección o reentrega.</li>
+</ul>
+<h2 id="ejemplo-desarrollado">Ejemplo desarrollado</h2>
+<p><strong>Recurso:</strong> Red vial comunal.<br/>
+<strong>Productor:</strong> Dirección de Tránsito.<br/>
+<strong>Custodio:</strong> Dirección de Tránsito.<br/>
+<strong>Administrador tecnológico:</strong> TI.<br/>
+<strong>Publicador:</strong> Unidad SIG.<br/>
+<strong>Frecuencia:</strong> Mensual y ante cambios críticos.<br/>
+<strong>Repositorio oficial:</strong> Base espacial institucional.<br/>
+<strong>Intercambio:</strong> Actualización controlada sobre repositorio.<br/>
+<strong>Publicación:</strong> WMS y API.<br/>
+<strong>Acceso:</strong> Público.<br/>
+<strong>Calidad mínima:</strong> Geometrías válidas, identificador único, nombre y clasificación vial.<br/>
+<strong>Error:</strong> Se registra incidencia, custodio revisa, productor corrige y publicador actualiza.</p>
+<p>Este acuerdo reduce la dependencia de conversaciones informales.</p>
+<hr/>
+<h1>18. Matriz de gobernanza</h1>
+<p>Una matriz de gobernanza organiza responsabilidades por recurso.</p>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Productor</th>
+<th>Custodio</th>
+<th>Administrador</th>
+<th>Publicador</th>
+<th>Usuario principal</th>
+<th>Frecuencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Red vial</td>
+<td>Tránsito</td>
+<td>Tránsito</td>
+<td>TI</td>
+<td>Unidad SIG</td>
+<td>Planificación</td>
+<td>Mensual</td>
+</tr>
+<tr>
+<td>Predios</td>
+<td>Catastro</td>
+<td>Catastro</td>
+<td>TI</td>
+<td>Unidad SIG</td>
+<td>Obras</td>
+<td>Por evento</td>
+</tr>
+<tr>
+<td>Áreas verdes</td>
+<td>Medio Ambiente</td>
+<td>Medio Ambiente</td>
+<td>TI</td>
+<td>Unidad SIG</td>
+<td>Público</td>
+<td>Trimestral</td>
+</tr>
+</tbody>
+</table>
+<p>La tabla no es un fin en sí misma.</p>
+<p>Su utilidad está en detectar vacíos.</p>
+<p>Por ejemplo:</p>
+<ul>
+<li><strong>Un recurso sin custodio.</strong> Indica que nadie responde formalmente por su vigencia y definición, por lo que el dato corre riesgo de quedar obsoleto o ser interpretado de manera contradictoria.</li>
+<li><strong>Una frecuencia de actualización desconocida.</strong> Impide evaluar si el recurso continúa siendo adecuado y dificulta planificar revisiones o informar a los usuarios sobre su vigencia.</li>
+<li><strong>Una publicación sin responsable.</strong> Hace difícil gestionar errores, permisos, cambios o solicitudes relacionadas con el recurso expuesto.</li>
+<li><strong>Una concentración excesiva de roles.</strong> Puede generar dependencia de una sola persona o unidad y reducir controles independientes cuando el nivel de riesgo justificaría separar funciones.</li>
+</ul>
+<hr/>
+<h1>19. Matriz RACI</h1>
+<p>RACI permite describir responsabilidades por actividad.</p>
+<ul>
+<li><strong>R — Responsible.</strong> Corresponde al actor que ejecuta materialmente la actividad y debe contar con capacidades, acceso y procedimientos suficientes para realizarla.</li>
+<li><strong>A — Accountable.</strong> Corresponde a quien responde finalmente por el resultado y posee la autoridad necesaria para aprobar, rechazar o exigir correcciones; conviene evitar múltiples responsables finales para una misma actividad.</li>
+<li><strong>C — Consulted.</strong> Corresponde a quienes deben aportar conocimiento o validación antes de tomar una decisión o completar la tarea, manteniendo una comunicación bidireccional.</li>
+<li><strong>I — Informed.</strong> Corresponde a quienes deben conocer el resultado, cambio o decisión porque puede afectar sus procesos, aunque no participen directamente en la ejecución.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Actividad</th>
+<th>Catastro</th>
+<th>Unidad SIG</th>
+<th>TI</th>
+<th>Dirección</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Producir dataset</td>
+<td>A/R</td>
+<td>C</td>
+<td>I</td>
+<td>I</td>
+</tr>
+<tr>
+<td>Validar estructura</td>
+<td>A</td>
+<td>R</td>
+<td>I</td>
+<td>I</td>
+</tr>
+<tr>
+<td>Publicar WMS</td>
+<td>C</td>
+<td>A/R</td>
+<td>C</td>
+<td>I</td>
+</tr>
+<tr>
+<td>Administrar servidor</td>
+<td>I</td>
+<td>C</td>
+<td>A/R</td>
+<td>I</td>
+</tr>
+<tr>
+<td>Aprobar política</td>
+<td>C</td>
+<td>C</td>
+<td>C</td>
+<td>A/R</td>
+</tr>
+</tbody>
+</table>
+<p>Una recomendación práctica es evitar demasiados responsables <code>A</code> para una misma actividad.</p>
+<p>Si varias unidades responden “finalmente”, puede no existir una verdadera responsabilidad final.</p>
+<hr/>
+<h1>20. RACI no reemplaza procedimientos ni criterios</h1>
+<p>RACI indica quién participa, pero no explica cómo se ejecuta una tarea.</p>
+<p>Por ejemplo:</p>
+<pre><code class="language-text">Actividad: Respaldo
+R: TI
+A: Jefatura TI
+</code></pre>
+<p>Todavía falta definir:</p>
+<ul>
+<li><strong>Frecuencia.</strong> Debe definirse cada cuánto se ejecutará el respaldo en función de cuánto dato puede perderse razonablemente entre dos copias.</li>
+<li><strong>Alcance.</strong> Debe indicarse si se respaldan datos, metadatos, estilos, configuraciones, certificados, scripts u otros componentes necesarios para recuperar la IDE.</li>
+<li><strong>Ubicación.</strong> Debe establecerse dónde se almacenan las copias y cómo se evita que una falla del entorno principal destruya también el respaldo.</li>
+<li><strong>Retención.</strong> Debe definirse cuánto tiempo se conservan distintas generaciones de copias para poder recuperar estados anteriores.</li>
+<li><strong>Cifrado.</strong> Cuando el contenido lo requiera, las copias deben protegerse para evitar exposición no autorizada durante almacenamiento o transferencia.</li>
+<li><strong>Prueba de recuperación.</strong> Un respaldo no debe considerarse suficiente hasta comprobar periódicamente que puede restaurarse de manera correcta.</li>
+<li><strong>Evidencia.</strong> Deben conservarse registros de ejecución, resultado y pruebas para demostrar que el procedimiento de continuidad se está cumpliendo.</li>
+</ul>
+<p>Por eso la gobernanza debe combinar matrices de responsabilidad con procedimientos y criterios de aceptación.</p>
+<hr/>
+<h1>21. Gestión de cambios</h1>
+<p>Una IDE cambia constantemente.</p>
+<p>Cambian:</p>
+<ul>
+<li><strong>Datos.</strong> Las actualizaciones pueden modificar contenido, geometría, atributos o cobertura y afectar análisis que dependen de versiones anteriores.</li>
+<li><strong>Estilos.</strong> Un cambio de simbología puede alterar la forma en que los usuarios interpretan un mapa aun cuando el dato subyacente no haya cambiado.</li>
+<li><strong>Esquemas.</strong> Agregar, eliminar o renombrar campos puede romper integraciones, consultas o aplicaciones que dependen de la estructura anterior.</li>
+<li><strong>APIs.</strong> Cambiar endpoints, parámetros o formatos de respuesta puede afectar automáticamente a múltiples clientes y requiere coordinación y versionamiento.</li>
+<li><strong>Permisos.</strong> Una modificación puede ampliar o restringir acceso y debe responder a decisiones institucionales justificadas.</li>
+<li><strong>Software.</strong> Actualizar componentes puede introducir nuevas capacidades, correcciones o incompatibilidades que requieren pruebas previas.</li>
+<li><strong>Infraestructura.</strong> Cambios de servidor, red, nube o contenedores pueden afectar disponibilidad, rendimiento, direcciones y mecanismos de recuperación.</li>
+</ul>
+<p>Los cambios de bajo riesgo pueden seguir un flujo simple.</p>
+<p>Los cambios estructurales pueden requerir aprobación.</p>
+<h3 id="ejemplo-18">Ejemplo</h3>
+<p>Agregar una etiqueta cartográfica puede ser un cambio operativo.</p>
+<p>Eliminar un atributo utilizado por varias aplicaciones puede requerir coordinación previa.</p>
+<p>La gobernanza debe considerar el impacto sobre consumidores.</p>
+<hr/>
+<h1>22. Gestión de incidentes y errores</h1>
+<p>Una infraestructura operativa recibirá errores.</p>
+<p>La pregunta no es si ocurrirán, sino cómo se gestionarán.</p>
+<div class="mermaid">sequenceDiagram
+    participant U as Usuario
+    participant M as Mesa / canal
+    participant C as Custodio
+    participant P as Productor
+    participant S as Publicador
+
+    U-&gt;&gt;M: Reporta error
+    M-&gt;&gt;C: Clasifica y deriva
+    C-&gt;&gt;P: Solicita verificación
+    P-&gt;&gt;C: Corrige / confirma
+    C-&gt;&gt;S: Autoriza actualización
+    S-&gt;&gt;U: Recurso corregido
+</div>
+<p>Este flujo evita que el usuario tenga que descubrir por sí mismo quién administra cada componente.</p>
+<hr/>
+<h1>23. Sostenibilidad, continuidad y capacidad institucional</h1>
+<p>Una Infraestructura de Datos Espaciales no termina cuando entra en producción. De hecho, la puesta en producción marca el comienzo de la etapa más larga y costosa de su ciclo de vida: mantener datos actualizados, servicios disponibles, metadatos coherentes, personal capacitado, configuraciones recuperables y una arquitectura capaz de evolucionar.</p>
+<p>La sostenibilidad debe entenderse como la capacidad de la organización para <strong>mantener el valor de la IDE en el tiempo</strong>. No significa conservar indefinidamente la misma tecnología. Una IDE sostenible puede cambiar de software, migrar de infraestructura o incorporar nuevos estándares. Lo que debe preservarse es la capacidad institucional de seguir prestando los servicios necesarios.</p>
+<p>UN-IGIF plantea que la sostenibilidad de la gestión geoespacial depende de múltiples trayectorias que actúan de manera conjunta: gobernanza, financiamiento, datos, innovación, estándares, alianzas, capacidades y comunicación [R2][R12]. La trayectoria de <strong>Capacity and Education</strong> enfatiza especialmente la necesidad de desarrollar conocimiento, competencias, recursos y programas permanentes para sostener la gestión geoespacial a largo plazo [R12].</p>
+<p>Como referencia complementaria de continuidad operacional, ISO 22301:2019 establece un marco de gestión para planificar, implementar, operar, supervisar, mantener y mejorar la capacidad de una organización frente a incidentes disruptivos [R13]. Esta norma no forma parte de la bibliografía obligatoria del programa, pero ayuda a profundizar conceptos de continuidad, respaldo y recuperación que sí aparecen explícitamente en la Unidad 4.</p>
+<h2 id="23-1-sostenibilidad-del-conocimiento">23.1. Sostenibilidad del conocimiento</h2>
+<p>Una IDE depende de conocimiento técnico, institucional y temático. Ese conocimiento incluye mucho más que manuales de instalación: también comprende decisiones de arquitectura, relaciones entre datasets, reglas de calidad, excepciones conocidas, procedimientos de publicación, contactos institucionales y criterios de operación.</p>
+<p>Si ese conocimiento existe únicamente en la memoria de una persona, la organización tiene una vulnerabilidad.</p>
+<h3 id="que-deberia-documentarse">Qué debería documentarse</h3>
+<ul>
+<li><strong>Arquitectura.</strong> Debe existir una representación actualizada de los componentes, dependencias, flujos y puntos de integración para que otro equipo pueda comprender cómo funciona la plataforma.</li>
+<li><strong>Configuración.</strong> Deben registrarse parámetros relevantes, archivos de configuración, variables de entorno, versiones de software y decisiones que afecten el comportamiento de los servicios.</li>
+<li><strong>Procedimientos operativos.</strong> Tareas como publicar una nueva capa, restaurar una base, renovar un certificado o actualizar metadatos deberían poder ejecutarse siguiendo instrucciones reproducibles.</li>
+<li><strong>Decisiones y excepciones.</strong> Las configuraciones que se apartan de la arquitectura estándar deben explicar por qué existen, evitando que futuras personas “corrijan” algo que en realidad respondía a una necesidad.</li>
+<li><strong>Inventario de dependencias.</strong> Debe conocerse qué servicios, bases, dominios, certificados, APIs o aplicaciones externas necesita cada componente.</li>
+</ul>
+<h3 id="ejemplo-19">Ejemplo</h3>
+<p>Supongamos que un GeoServer utiliza un estilo complejo y una conexión particular a una base. El administrador original conoce de memoria la razón de esa configuración. Si deja la organización y nadie la documentó, una actualización posterior puede romper el servicio.</p>
+<h3 id="evidencia-de-sostenibilidad">Evidencia de sostenibilidad</h3>
+<p>Una buena prueba consiste en pedir a otra persona capacitada que ejecute una tarea crítica utilizando únicamente la documentación institucional. Si necesita llamar al autor original para conocer pasos esenciales, existe una brecha.</p>
+<h2 id="23-2-sostenibilidad-de-las-personas-y-transferencia-de-conocimiento">23.2. Sostenibilidad de las personas y transferencia de conocimiento</h2>
+<p>La continuidad requiere más de una persona capaz de comprender y operar los componentes críticos. Esto no significa que todos deban saber todo, sino que las funciones esenciales no queden concentradas en un único individuo.</p>
+<p>La transferencia de conocimiento debe planificarse. Una charla informal realizada cuando alguien está a punto de dejar su cargo no es suficiente.</p>
+<h3 id="mecanismos-posibles">Mecanismos posibles</h3>
+<ul>
+<li><strong>Capacitación cruzada.</strong> Al menos dos personas conocen las tareas críticas o existen mecanismos de relevo entre equipos.</li>
+<li><strong>Acompañamiento práctico.</strong> La persona que aprende ejecuta la tarea con supervisión, en lugar de limitarse a observar.</li>
+<li><strong>Comunidades de práctica.</strong> Productores, custodios y especialistas SIG comparten problemas, estándares y aprendizajes de manera periódica.</li>
+<li><strong>Documentación viva.</strong> Los procedimientos se actualizan durante la operación y no solamente al finalizar un proyecto.</li>
+<li><strong>Ejercicios de recuperación.</strong> El equipo practica escenarios de falla para comprobar que el conocimiento puede aplicarse bajo presión.</li>
+</ul>
+<p>UN-IGIF dedica una trayectoria completa a <strong>Capacity and Education</strong>, orientada a fortalecer conocimientos, competencias, procesos y recursos de gobiernos y organizaciones [R12]. Esto permite mostrar que la formación no debe tratarse como una actividad final de “transferencia”, sino como una capacidad permanente.</p>
+<h3 id="riesgo-frecuente">Riesgo frecuente</h3>
+<p>La organización puede contar formalmente con tres personas en el equipo, pero si solo una conoce las credenciales, scripts y arquitectura real, la redundancia es aparente.</p>
+<h2 id="23-3-sostenibilidad-de-recursos-y-financiamiento">23.3. Sostenibilidad de recursos y financiamiento</h2>
+<p>Una IDE requiere recursos para operar después de que termina el proyecto inicial. El costo de sostenibilidad puede incluir infraestructura, almacenamiento, redes, certificados, soporte, personal, capacitación, renovación de equipamiento, servicios de nube o licencias cuando corresponda.</p>
+<p>La gobernanza debe evitar que la IDE sea diseñada como una inversión de una sola vez.</p>
+<h3 id="preguntas-que-deberian-responderse">Preguntas que deberían responderse</h3>
+<ul>
+<li><strong>¿Quién financia la operación?</strong> Debe existir una unidad o mecanismo presupuestario responsable del costo recurrente.</li>
+<li><strong>¿Qué costos crecen con el uso?</strong> Almacenamiento, tráfico, cómputo y soporte pueden aumentar a medida que se incorporan usuarios y datasets.</li>
+<li><strong>¿Qué componentes tienen fecha de renovación?</strong> Certificados, dominios, contratos, licencias y servicios deben incorporarse a un calendario.</li>
+<li><strong>¿Qué capacidad humana se necesita?</strong> Un sistema puede ser técnicamente económico y, al mismo tiempo, requerir tiempo significativo de administración especializada.</li>
+<li><strong>¿Qué ocurrirá cuando termine un contrato externo?</strong> La organización debe definir si mantendrá internamente la plataforma, renovará el servicio o realizará una transición.</li>
+</ul>
+<h3 id="ejemplo-20">Ejemplo</h3>
+<p>Una arquitectura basada en software abierto puede reducir costos de licenciamiento, pero no elimina costos de operación. Continúan siendo necesarios servidores, actualizaciones, monitoreo, respaldo y personal competente.</p>
+<h3 id="idea-clave">Idea clave</h3>
+<p><strong>Software libre no significa operación gratuita, y una plataforma en la nube no significa operación automática.</strong></p>
+<h2 id="23-4-monitoreo-como-capacidad-de-operacion">23.4. Monitoreo como capacidad de operación</h2>
+<p>Monitorear no significa solamente “saber si el servidor está encendido”. Una IDE puede responder a la red y, sin embargo, entregar errores, tiempos de respuesta excesivos o resultados incompletos.</p>
+<p>El monitoreo debe observar aquello que es relevante para el usuario y para la operación.</p>
+<h3 id="dimensiones-utiles">Dimensiones útiles</h3>
+<ul>
+<li><strong>Disponibilidad.</strong> Verificar si servicios, APIs, catálogo y aplicaciones responden.</li>
+<li><strong>Rendimiento.</strong> Observar tiempos de respuesta, consumo de recursos y degradación.</li>
+<li><strong>Capacidad.</strong> Vigilar espacio en disco, conexiones, memoria, CPU y crecimiento de bases.</li>
+<li><strong>Errores.</strong> Registrar excepciones, respuestas fallidas, problemas de autenticación y errores de base.</li>
+<li><strong>Uso.</strong> Conocer qué servicios reciben mayor demanda puede orientar capacidad y prioridades.</li>
+<li><strong>Vigencia de componentes.</strong> Certificados, dominios y credenciales técnicas también pueden monitorearse para evitar fallas previsibles.</li>
+</ul>
+<h3 id="ejemplo-21">Ejemplo</h3>
+<p>Un WMS puede estar disponible, pero comenzar a tardar 40 segundos en responder debido a una consulta ineficiente. Un control binario “arriba/abajo” indicará que el servicio funciona, mientras los usuarios percibirán que es inutilizable.</p>
+<h3 id="del-monitoreo-a-la-gestion">Del monitoreo a la gestión</h3>
+<p>Una alerta sin responsable no resuelve nada. Debe definirse quién recibe la alerta, qué severidad tiene, qué plazo de respuesta se espera y cuándo debe escalarse.</p>
+<h2 id="23-5-respaldo-recuperacion-y-continuidad">23.5. Respaldo, recuperación y continuidad</h2>
+<p>Realizar copias de seguridad no es lo mismo que tener capacidad de recuperación. Una organización puede ejecutar respaldos diariamente durante años y descubrir, durante una emergencia, que nunca comprobó si podían restaurarse.</p>
+<p>La continuidad exige considerar qué elementos deben recuperarse y en qué orden.</p>
+<h3 id="que-puede-necesitar-respaldo-en-una-ide">Qué puede necesitar respaldo en una IDE</h3>
+<ul>
+<li><strong>Datos espaciales.</strong> Bases, archivos y objetos que constituyen las fuentes o productos administrados.</li>
+<li><strong>Metadatos.</strong> Registros de catálogo y configuraciones asociadas.</li>
+<li><strong>Configuraciones.</strong> Parámetros de servidores, conexiones, estilos, workspaces, APIs y aplicaciones.</li>
+<li><strong>Estilos y recursos cartográficos.</strong> SLD, iconos, fuentes o plantillas que forman parte de la publicación.</li>
+<li><strong>Credenciales y secretos.</strong> Deben gestionarse con mecanismos seguros; no simplemente copiarse en documentos de texto.</li>
+<li><strong>Automatizaciones.</strong> Scripts, pipelines, tareas programadas y archivos de despliegue.</li>
+<li><strong>Documentación.</strong> Procedimientos de recuperación, arquitectura e inventarios.</li>
+</ul>
+<h3 id="rpo-y-rto-como-conceptos-complementarios">RPO y RTO como conceptos complementarios</h3>
+<p>Para profundizar la continuidad pueden introducirse dos conceptos utilizados habitualmente en gestión de continuidad:</p>
+<ul>
+<li><strong>RPO — Recovery Point Objective.</strong> Representa cuánta información podría perderse, medida normalmente como tiempo entre el último estado recuperable y el incidente. Si el RPO es de 24 horas, la organización acepta potencialmente perder hasta un día de cambios.</li>
+<li><strong>RTO — Recovery Time Objective.</strong> Representa cuánto tiempo puede permanecer interrumpido un servicio antes de que la recuperación sea necesaria para evitar impactos inaceptables.</li>
+</ul>
+<p>Estos conceptos no aparecen explícitamente en el programa, pero son útiles para convertir expresiones vagas como “debe haber respaldo” en requisitos verificables. ISO 22301:2019 proporciona un marco complementario para continuidad y recuperación frente a incidentes [R13].</p>
+<h3 id="ejemplo-22">Ejemplo</h3>
+<p>Un catálogo público podría tolerar varias horas de interrupción. Un servicio utilizado durante una emergencia puede requerir un objetivo de recuperación mucho más exigente. La gobernanza debe relacionar criticidad y esfuerzo de recuperación.</p>
+<h2 id="23-6-pruebas-de-recuperacion">23.6. Pruebas de recuperación</h2>
+<p>Un respaldo solo demuestra que se generó una copia. Una prueba de recuperación demuestra que la organización sabe utilizarla.</p>
+<p>Las pruebas pueden ejecutarse periódicamente en un entorno controlado y verificar:</p>
+<ol>
+<li>que la copia existe;</li>
+<li>que puede leerse;</li>
+<li>que la restauración completa funciona;</li>
+<li>que las dependencias necesarias también están disponibles;</li>
+<li>que el servicio restaurado entrega resultados correctos;</li>
+<li>que el procedimiento y el tiempo real de recuperación quedan registrados.</li>
+</ol>
+<h3 id="ejemplo-23">Ejemplo</h3>
+<p>Restaurar únicamente PostgreSQL no garantiza que el geoportal vuelva a funcionar si se perdieron estilos, certificados, configuración de GeoServer o variables de entorno de la aplicación.</p>
+<p>Por eso el respaldo debe pensarse a nivel de <strong>servicio recuperable</strong>, no solamente de archivo individual.</p>
+<h2 id="23-7-evolucion-tecnologica-y-mantenibilidad">23.7. Evolución tecnológica y mantenibilidad</h2>
+<p>Una IDE sostenible debe poder evolucionar sin reconstruirse completamente cada vez que aparece una nueva necesidad. Esto exige modularidad, documentación de interfaces y reducción de dependencias innecesarias.</p>
+<p>La evolución puede incluir:</p>
+<ul>
+<li>Incorporación de nuevos datasets;</li>
+<li>Nuevos usuarios o niveles de acceso;</li>
+<li>Migración de infraestructura local a nube o viceversa;</li>
+<li>Actualización de estándares;</li>
+<li>Incorporación de APIs modernas;</li>
+<li>Cambios de software;</li>
+<li>Aumento de volumen o demanda.</li>
+</ul>
+<h3 id="compatibilidad">Compatibilidad</h3>
+<p>Los cambios deben analizar su impacto sobre consumidores existentes. Una nueva versión de API puede requerir un periodo de coexistencia con la versión anterior. Un cambio de esquema puede necesitar una estrategia de migración.</p>
+<h3 id="neutralidad-tecnologica">Neutralidad tecnológica</h3>
+<p>El programa exige neutralidad respecto del proveedor. Esto favorece enseñar principios de arquitectura, interfaces y datos antes que productos. Una arquitectura sostenible debería poder reemplazar componentes sin perder necesariamente todos los demás.</p>
+<h2 id="23-8-obsolescencia-y-deuda-tecnica">23.8. Obsolescencia y deuda técnica</h2>
+<p>La sostenibilidad también implica reconocer cuándo una solución deja de ser adecuada.</p>
+<p>La deuda técnica aparece cuando decisiones que permitieron avanzar rápidamente generan posteriormente mayores costos de mantenimiento. Ejemplos comunes son scripts sin documentación, configuraciones manuales irreproducibles, dependencias antiguas o integraciones punto a punto.</p>
+<p>No toda deuda técnica debe eliminarse inmediatamente. Debe identificarse, evaluar su riesgo y priorizar su tratamiento.</p>
+<h3 id="ejemplo-24">Ejemplo</h3>
+<p>Una aplicación web consume directamente tablas internas de la base. La solución funciona, pero cualquier cambio de esquema puede romperla. Incorporar una API estable puede requerir esfuerzo inicial, pero reducir el acoplamiento futuro.</p>
+<h2 id="23-9-indicadores-de-sostenibilidad-y-operacion">23.9. Indicadores de sostenibilidad y operación</h2>
+<p>La sostenibilidad debe poder observarse mediante evidencias. Algunos indicadores didácticos útiles son:</p>
+<table>
+<thead>
+<tr>
+<th>Dimensión</th>
+<th>Indicador posible</th>
+<th>Qué permite observar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disponibilidad</td>
+<td>% de tiempo disponible</td>
+<td>Continuidad del servicio</td>
+</tr>
+<tr>
+<td>Rendimiento</td>
+<td>Tiempo de respuesta</td>
+<td>Experiencia y capacidad</td>
+</tr>
+<tr>
+<td>Datos</td>
+<td>% de datasets actualizados en plazo</td>
+<td>Cumplimiento de mantenimiento</td>
+</tr>
+<tr>
+<td>Metadatos</td>
+<td>% de registros revisados</td>
+<td>Coherencia del catálogo</td>
+</tr>
+<tr>
+<td>Respaldo</td>
+<td>% de respaldos exitosos</td>
+<td>Ejecución del procedimiento</td>
+</tr>
+<tr>
+<td>Recuperación</td>
+<td>Tiempo real de restauración</td>
+<td>Capacidad efectiva de continuidad</td>
+</tr>
+<tr>
+<td>Incidencias</td>
+<td>Tiempo medio de resolución</td>
+<td>Capacidad de soporte</td>
+</tr>
+<tr>
+<td>Capacitación</td>
+<td>Nº de personas capaces de ejecutar tareas críticas</td>
+<td>Reducción de dependencia individual</td>
+</tr>
+<tr>
+<td>Obsolescencia</td>
+<td>Nº de componentes fuera de soporte</td>
+<td>Riesgo tecnológico</td>
+</tr>
+</tbody>
+</table>
+<p>Estos indicadores no constituyen una norma obligatoria. Son un modelo didáctico para mostrar cómo una organización puede transformar conceptos de sostenibilidad en evidencia verificable.</p>
+<h2 id="23-10-plan-minimo-de-sostenibilidad-para-el-proyecto-del-curso">23.10. Plan mínimo de sostenibilidad para el proyecto del curso</h2>
+<p>Para el proyecto incremental, cada equipo debería comenzar a construir un plan simple de sostenibilidad que responda:</p>
+<ul>
+<li><strong>Qué debe mantenerse.</strong> Identificar datos, metadatos, servicios, configuraciones y aplicaciones críticas.</li>
+<li><strong>Quién lo mantiene.</strong> Asignar responsables temáticos y técnicos.</li>
+<li><strong>Con qué frecuencia.</strong> Definir ciclos de revisión y actualización.</li>
+<li><strong>Cómo se monitorea.</strong> Establecer qué indicadores o señales permiten saber que algo está fallando.</li>
+<li><strong>Cómo se recupera.</strong> Definir qué se respalda, con qué frecuencia y cómo se prueba la restauración.</li>
+<li><strong>Cómo se documenta.</strong> Indicar dónde reside la documentación y quién debe actualizarla.</li>
+<li><strong>Cómo se transfiere conocimiento.</strong> Identificar tareas que necesitan capacitación cruzada.</li>
+<li><strong>Cómo se financia.</strong> Reconocer los principales costos recurrentes, aunque el ejercicio no requiera todavía un presupuesto detallado.</li>
+<li><strong>Cómo puede evolucionar.</strong> Identificar qué partes de la arquitectura pueden crecer o reemplazarse sin reconstruir toda la solución.</li>
+</ul>
+<p>Este plan se profundizará en la Unidad 4, cuando el programa aborde explícitamente monitoreo, respaldo, recuperación, versionamiento, actualización y continuidad operativa.</p>
+<hr/>
+<h1>24. Riesgos de gobernanza y controles</h1>
+<table>
+<thead>
+<tr>
+<th>Riesgo</th>
+<th>Consecuencia</th>
+<th>Control posible</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sin custodio</td>
+<td>Desactualización</td>
+<td>Asignar responsable</td>
+</tr>
+<tr>
+<td>Múltiples fuentes</td>
+<td>Resultados contradictorios</td>
+<td>Fuente oficial</td>
+</tr>
+<tr>
+<td>Dependencia de una persona</td>
+<td>Discontinuidad</td>
+<td>Documentación y capacitación</td>
+</tr>
+<tr>
+<td>Publicación sin autorización</td>
+<td>Exposición indebida</td>
+<td>Flujo de aprobación</td>
+</tr>
+<tr>
+<td>Sin versionamiento</td>
+<td>Pérdida de trazabilidad</td>
+<td>Registro de versiones</td>
+</tr>
+<tr>
+<td>Metadatos obsoletos</td>
+<td>Uso incorrecto</td>
+<td>Revisión en cada publicación</td>
+</tr>
+<tr>
+<td>Permisos excesivos</td>
+<td>Riesgo de seguridad</td>
+<td>Roles y mínimo privilegio</td>
+</tr>
+<tr>
+<td>Sin canal de incidencias</td>
+<td>Errores persistentes</td>
+<td>Flujo de reporte</td>
+</tr>
+</tbody>
+</table>
+<p>La matriz de riesgos debe utilizarse para decidir controles proporcionales.</p>
+<p>No todos los recursos necesitan el mismo nivel de control.</p>
+<hr/>
+<h1>25. Gobernanza en una IDE distribuida</h1>
+<p>La gobernanza se vuelve especialmente importante cuando los datos permanecen en múltiples instituciones.</p>
+<div class="mermaid">flowchart TB
+    A["Institución A&lt;br/&gt;Custodia sus datos"] --&gt; C["Coordinación común"]
+    B["Institución B&lt;br/&gt;Custodia sus datos"] --&gt; C
+    D["Institución C&lt;br/&gt;Custodia sus datos"] --&gt; C
+
+    C --&gt; E["Estándares comunes"]
+    C --&gt; F["Catálogo común"]
+    C --&gt; G["Políticas de intercambio"]
+
+    E --&gt; U["Usuarios"]
+    F --&gt; U
+    G --&gt; U
+</div>
+<p>En este modelo no existe necesariamente una base central que controle todo.</p>
+<p>La coherencia surge de acuerdos comunes.</p>
+<p>Esto ayuda a comprender por qué la gobernanza es inseparable de la interoperabilidad.</p>
+<hr/>
+<h1>26. UN-IGIF como marco de gobernanza</h1>
+<p>UN-IGIF establece como primera trayectoria estratégica <strong>Governance and Institutions</strong>.</p>
+<p>El marco señala la necesidad de liderazgo, modelo de gobernanza, arreglos institucionales y una propuesta de valor que permita fortalecer la participación y construir un entorno cooperativo de intercambio [R2].</p>
+<p>Su guía de implementación explica además que los arreglos institucionales corresponden a estructuras formales e informales de cooperación que permiten vincular organizaciones y sostener la gestión geoespacial [R3].</p>
+<p>La utilidad de UN-IGIF para esta clase no consiste en memorizar el marco. Consiste en mostrar que, a escala nacional o institucional, la gobernanza geoespacial requiere estructuras deliberadas y sostenibles.</p>
+<hr/>
+<h1>27. INSPIRE como ejemplo de coordinación institucional</h1>
+<p>INSPIRE constituye un ejemplo particularmente útil porque su infraestructura opera entre múltiples niveles de gobierno y organizaciones.</p>
+<p>La Comisión Europea señala que la Directiva requiere que los Estados miembros designen estructuras y mecanismos para coordinar las contribuciones de usuarios, productores, proveedores de servicios de valor agregado y órganos de coordinación [R4].</p>
+<p>Este elemento muestra que una IDE distribuida no puede sostenerse únicamente mediante estándares técnicos. También necesita mecanismos institucionales para acordar prioridades, necesidades y prácticas.</p>
+<hr/>
+<h1>28. IDE Chile / SNIT como caso nacional de gobernanza</h1>
+<p>IDE Chile y el Sistema Nacional de Coordinación de Información Territorial (SNIT) permiten observar cómo los principios de gobernanza se aplican a una infraestructura distribuida a escala nacional. Las instituciones públicas continúan siendo productoras y custodias de numerosos recursos, mientras existen mecanismos de coordinación, estándares y plataformas comunes para facilitar acceso e interoperabilidad [R8][R9].</p>
+<p>Este caso es útil porque muestra que una IDE nacional no necesariamente concentra todos los datos en una única base. La coordinación se construye mediante responsabilidades institucionales, referencias comunes, metadatos, servicios y acuerdos.</p>
+<h2 id="28-1-evolucion-de-la-gobernanza-como-proceso-continuo">28.1. Evolución de la gobernanza como proceso continuo</h2>
+<p>La gobernanza no se diseña una sola vez. Debe adaptarse cuando cambian instituciones, prioridades, tecnologías o necesidades de usuarios.</p>
+<p>Como ejemplo contemporáneo, en agosto de 2026 el Consejo de Ministros de la Información Territorial informó acuerdos orientados a fortalecer la coordinación del Estado y un nuevo modelo de gobernanza para la información territorial-geoespacial [R10].</p>
+<p>Este ejemplo debe utilizarse como <strong>caso actual</strong>, no como reemplazo del marco conceptual permanente del curso. Su valor pedagógico consiste en mostrar que incluso una infraestructura consolidada necesita revisar periódicamente sus mecanismos de coordinación.</p>
+<h3 id="preguntas-para-discusion">Preguntas para discusión</h3>
+<ul>
+<li><strong>¿Qué problema intenta resolver un nuevo modelo de gobernanza?</strong> La respuesta debería relacionarse con coordinación, claridad de responsabilidades, priorización y coherencia entre instituciones.</li>
+<li><strong>¿Por qué una IDE nacional necesita instancias políticas y técnicas?</strong> Porque algunas decisiones requieren autoridad institucional y otras requieren conocimiento especializado.</li>
+<li><strong>¿Qué elementos deberían mantenerse estables aunque cambie el modelo?</strong> Los datos oficiales, responsabilidades, estándares e interfaces deben conservar suficiente continuidad para no afectar a los usuarios.</li>
+</ul>
+<h2 id="28-2-fuente-oficial-como-decision-de-gobernanza">28.2. Fuente oficial como decisión de gobernanza</h2>
+<p>En la misma sesión se informó el reconocimiento del liderazgo técnico de SUBDERE respecto de la cartografía digital de la División Político-Administrativa del país [R10].</p>
+<p>Este ejemplo permite explicar concretamente la diferencia entre “tener muchas copias” y “contar con una referencia oficial”. Distintas instituciones pueden necesitar reproducir o integrar límites administrativos, pero la gobernanza debe permitir identificar la fuente técnica de referencia y el mecanismo mediante el cual las actualizaciones se distribuyen.</p>
+<h3 id="aplicacion-al-proyecto-del-curso">Aplicación al proyecto del curso</h3>
+<p>Cada equipo debería preguntarse si en su caso existe un recurso equivalente que necesite una fuente oficial clara. Puede ser la red vial, el catastro, los límites, los equipamientos o un catálogo de identificadores.</p>
+<p>La pregunta no es solamente dónde está almacenado, sino quién tiene autoridad para definir su versión vigente y cómo los demás actores reciben los cambios.</p>
+<hr/>
+<h1>29. Caso profundo 1 — Red vial municipal</h1>
+<p>Supongamos que la Dirección de Tránsito produce una red vial.</p>
+<p>La Unidad SIG recibe una copia cada cierto tiempo.</p>
+<p>Planificación corrige nombres directamente en su copia.</p>
+<p>El geoportal publica una versión anterior.</p>
+<p>Después de tres meses:</p>
+<div class="mermaid">flowchart TB
+    A["Tránsito&lt;br/&gt;v3"] --&gt; B["SIG&lt;br/&gt;v2"]
+    B --&gt; C["Geoportal&lt;br/&gt;v1"]
+    B --&gt; D["Planificación&lt;br/&gt;v2 modificada"]
+</div>
+<h2 id="29-1-cual-es-el-problema">29.1. ¿Cuál es el problema?</h2>
+<p>No existe un ciclo formal de actualización ni una fuente oficial suficientemente controlada.</p>
+<h2 id="29-2-que-decisiones-se-requieren">29.2. ¿Qué decisiones se requieren?</h2>
+<p>Debe definirse:</p>
+<ul>
+<li><strong>Custodio.</strong> Debe identificarse la unidad que responde institucionalmente por la red vial y puede validar qué información se considera correcta.</li>
+<li><strong>Repositorio oficial.</strong> Debe existir una fuente reconocida desde la cual se generen publicaciones y productos derivados, evitando que una copia secundaria se transforme accidentalmente en referencia.</li>
+<li><strong>Frecuencia de actualización.</strong> Debe definirse cuándo la Unidad SIG debe recibir o consumir cambios y qué eventos obligan a actualizar antes del ciclo regular.</li>
+<li><strong>Mecanismo de corrección.</strong> Debe establecerse cómo se reportan diferencias, quién las verifica y cómo vuelven a incorporarse a la fuente oficial.</li>
+<li><strong>Responsable de publicación.</strong> Debe existir una unidad que ejecute y verifique la actualización de los servicios una vez aprobada la nueva versión.</li>
+<li><strong>Versionamiento.</strong> Debe permitir distinguir claramente qué versión utiliza Tránsito, cuál está publicada y cuándo una versión anterior dejó de estar vigente.</li>
+</ul>
+<h2 id="29-3-la-solucion-es-impedir-toda-copia">29.3. ¿La solución es impedir toda copia?</h2>
+<p>No.</p>
+<p>Planificación puede necesitar una copia para análisis.</p>
+<p>La solución consiste en que esa copia sea reconocible como derivada y no sustituya informalmente la fuente oficial.</p>
+<hr/>
+<h1>30. Caso profundo 2 — Áreas verdes y reporte ciudadano</h1>
+<p>La Unidad de Medio Ambiente mantiene áreas verdes.</p>
+<p>Un ciudadano informa que una plaza fue eliminada.</p>
+<p>La Unidad SIG recibe el reporte porque aparece como contacto del visor.</p>
+<p>La gobernanza debe definir qué ocurre después.</p>
+<div class="mermaid">sequenceDiagram
+    participant U as Ciudadano
+    participant S as Unidad SIG
+    participant C as Custodio
+    participant P as Productor
+    participant PUB as Publicador
+
+    U-&gt;&gt;S: Reporta inconsistencia
+    S-&gt;&gt;C: Registra y deriva
+    C-&gt;&gt;P: Solicita verificación
+    P-&gt;&gt;C: Confirma cambio
+    C-&gt;&gt;PUB: Aprueba actualización
+    PUB-&gt;&gt;U: Publicación corregida
+</div>
+<p>La infraestructura técnica facilita la corrección, pero el flujo organizacional determina responsabilidades.</p>
+<hr/>
+<h1>31. Caso profundo 3 — Información para emergencias</h1>
+<p>Una situación de emergencia permite observar cómo cambian las prioridades de gobernanza.</p>
+<p>Supongamos que diferentes instituciones producen:</p>
+<ul>
+<li><strong>Zonas afectadas.</strong> Representan áreas donde el evento ya produjo impactos y requieren actualización frecuente para apoyar respuesta y comunicación.</li>
+<li><strong>Rutas interrumpidas.</strong> Informan cambios en conectividad y pueden condicionar evacuación, logística y acceso de equipos de emergencia.</li>
+<li><strong>Albergues.</strong> Identifican instalaciones disponibles para atención de población y requieren atributos de capacidad, estado y localización.</li>
+<li><strong>Infraestructura crítica.</strong> Incluye activos cuya falla puede afectar servicios esenciales y puede requerir niveles de acceso diferenciados por razones de seguridad.</li>
+<li><strong>Población expuesta.</strong> Permite estimar personas potencialmente afectadas y apoyar priorización, pero su nivel de detalle debe considerar restricciones de privacidad y propósito.</li>
+</ul>
+<p>En este caso, la información puede cambiar rápidamente.</p>
+<p>La gobernanza debe responder:</p>
+<ul>
+<li><strong>¿Qué fuentes son oficiales?</strong> Debe existir una referencia reconocida para cada recurso crítico, especialmente cuando varias instituciones actualizan información durante el evento.</li>
+<li><strong>¿Qué frecuencia se exige?</strong> La periodicidad debe responder al ritmo de cambio; un dato útil en condiciones normales puede necesitar actualización mucho más frecuente durante una emergencia.</li>
+<li><strong>¿Qué información puede ser pública?</strong> La publicación debe equilibrar utilidad para ciudadanía y respuesta operativa con protección de información sensible.</li>
+<li><strong>¿Qué datos requieren restricción?</strong> La localización detallada de determinados activos o información individual puede necesitar controles de acceso específicos.</li>
+<li><strong>¿Cómo se resuelven discrepancias?</strong> Debe existir un procedimiento rápido para contrastar evidencia, identificar la fuente competente y comunicar correcciones.</li>
+<li><strong>¿Quién coordina?</strong> Una instancia claramente reconocida debe facilitar acuerdos entre productores, custodios y organismos de respuesta cuando las decisiones no pueden resolverse de forma bilateral.</li>
+</ul>
+<p>Este ejemplo muestra que gobernanza, calidad y oportunidad están relacionadas.</p>
+<p>Un dato muy preciso pero actualizado hace tres días puede ser menos útil durante una emergencia que un dato reciente con menor precisión.</p>
+<hr/>
+<h1>32. Modelo didáctico de madurez de gobernanza</h1>
+<p>El siguiente modelo es pedagógico y no corresponde a una norma oficial.</p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Característica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 — Informal</td>
+<td>Responsabilidades dependen de personas</td>
+</tr>
+<tr>
+<td>1 — Identificado</td>
+<td>Se conocen actores y fuentes</td>
+</tr>
+<tr>
+<td>2 — Documentado</td>
+<td>Existen matrices y procedimientos</td>
+</tr>
+<tr>
+<td>3 — Controlado</td>
+<td>Cambios y publicaciones siguen reglas</td>
+</tr>
+<tr>
+<td>4 — Medido</td>
+<td>Se monitorean calidad y operación</td>
+</tr>
+<tr>
+<td>5 — Sostenible</td>
+<td>Existe mejora continua y continuidad</td>
+</tr>
+</tbody>
+</table>
+<p>La utilidad del modelo consiste en mostrar que una organización puede mejorar gradualmente.</p>
+<p>No es necesario diseñar desde el primer día una estructura excesivamente compleja.</p>
+<hr/>
+<h1>33. Laboratorio 2 — Diseño de gobernanza del proyecto</h1>
+<p>El laboratorio transforma el caso definido durante la Semana 1 en una estructura mínima de responsabilidades y decisiones.</p>
+<h2 id="33-1-parte-a-mapa-de-actores">33.1. Parte A — Mapa de actores</h2>
+<p>Cada equipo deberá identificar actores concretos.</p>
+<table>
+<thead>
+<tr>
+<th>Actor</th>
+<th>Rol</th>
+<th>Función</th>
+<th>Responsabilidad</th>
+<th>Recursos asociados</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>No se aceptará una columna de roles sin explicación.</p>
+<p>Por ejemplo, “TI — administrador” debe explicar qué administra y qué no administra.</p>
+<hr/>
+<h2 id="33-2-parte-b-inventario-de-recursos">33.2. Parte B — Inventario de recursos</h2>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Descripción</th>
+<th>Productor</th>
+<th>Custodio</th>
+<th>Frecuencia</th>
+<th>Acceso</th>
+<th>Prioridad</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>Se recomienda trabajar con al menos cinco datasets.</p>
+<p>La frecuencia puede ser:</p>
+<ul>
+<li><strong>Por evento.</strong> Se utiliza cuando el recurso debe actualizarse cada vez que ocurre un cambio relevante, por ejemplo la aprobación de un nuevo permiso o modificación de un activo.</li>
+<li><strong>Diaria.</strong> Resulta adecuada para información que cambia con alta frecuencia y cuyo valor depende de mantenerse cercana al estado actual.</li>
+<li><strong>Mensual.</strong> Puede utilizarse cuando los cambios son frecuentes pero no justifican una actualización diaria y existe un ciclo institucional de consolidación.</li>
+<li><strong>Anual.</strong> Es apropiada para recursos relativamente estables o productos que se generan mediante procesos de cierre periódico.</li>
+<li><strong>Según levantamiento.</strong> Se utiliza cuando la actualización depende de campañas, vuelos, censos, catastros u otras actividades cuya fecha no sigue necesariamente una periodicidad fija.</li>
+</ul>
+<p>Debe justificarse.</p>
+<hr/>
+<h2 id="33-3-parte-c-matriz-raci">33.3. Parte C — Matriz RACI</h2>
+<p>Seleccionar como mínimo:</p>
+<ul>
+<li><strong>Producción.</strong> Identificar quién genera el recurso y bajo qué reglas o metodología lo hace.</li>
+<li><strong>Validación.</strong> Definir quién comprueba que el recurso cumple requisitos temáticos y técnicos antes de avanzar.</li>
+<li><strong>Almacenamiento.</strong> Establecer quién incorpora la versión aprobada al repositorio oficial y quién administra ese repositorio.</li>
+<li><strong>Metadatos.</strong> Determinar quién crea y mantiene la descripción del recurso para que refleje correctamente su estado y condiciones de uso.</li>
+<li><strong>Publicación.</strong> Especificar quién autoriza y quién ejecuta la exposición mediante servicios, APIs, catálogo o descargas.</li>
+<li><strong>Actualización.</strong> Definir quién inicia, revisa y aprueba una nueva versión cuando cambia la información.</li>
+<li><strong>Respaldo.</strong> Asignar quién ejecuta y verifica las copias necesarias para recuperar datos y configuraciones.</li>
+<li><strong>Retiro.</strong> Determinar quién puede despublicar o archivar un recurso y cómo se conserva la trazabilidad histórica.</li>
+</ul>
+<p>Cada actividad debe tener una interpretación escrita.</p>
+<hr/>
+<h2 id="33-4-parte-d-ciclo-de-vida">33.4. Parte D — Ciclo de vida</h2>
+<p>Elegir un recurso crítico y representar:</p>
+<pre><code class="language-text">Necesidad
+↓
+Producción
+↓
+Validación
+↓
+Fuente oficial
+↓
+Metadatos
+↓
+Aprobación
+↓
+Publicación
+↓
+Consumo
+↓
+Actualización
+</code></pre>
+<p>En cada transición indicar:</p>
+<ul>
+<li><strong>Responsable.</strong> Debe indicarse qué rol o unidad ejecuta o responde por la transición entre una etapa y la siguiente.</li>
+<li><strong>Evidencia.</strong> Debe registrarse qué documento, validación, log, versión o resultado demuestra que la actividad fue realizada.</li>
+<li><strong>Condición de aprobación.</strong> Debe explicarse qué requisito debe cumplirse antes de permitir que el recurso continúe hacia la siguiente etapa del ciclo.</li>
+</ul>
+<hr/>
+<h2 id="33-5-parte-e-acuerdo-de-intercambio">33.5. Parte E — Acuerdo de intercambio</h2>
+<p>Completar:</p>
+<pre><code class="language-text">Nombre del recurso:
+Propósito:
+Productor:
+Custodio:
+Administrador:
+Publicador:
+Frecuencia:
+Repositorio oficial:
+Formato / modelo:
+CRS:
+Identificador:
+Método de intercambio:
+Calidad mínima:
+Nivel de acceso:
+Licencia o condición de uso:
+Canal de errores:
+Procedimiento de actualización:
+</code></pre>
+<p>El acuerdo debe ser suficientemente claro para que otra persona pueda comprender el proceso sin depender de explicaciones orales.</p>
+<hr/>
+<h2 id="33-6-parte-f-clasificacion-de-acceso">33.6. Parte F — Clasificación de acceso</h2>
+<p>Cada dataset deberá clasificarse preliminarmente como:</p>
+<ul>
+<li><strong>Público.</strong> El recurso puede ser consultado o descargado sin autenticación porque su difusión está autorizada y no presenta restricciones incompatibles con el acceso abierto.</li>
+<li><strong>Institucional.</strong> El acceso se limita a usuarios internos porque el recurso apoya procesos de trabajo y no está destinado necesariamente a distribución externa.</li>
+<li><strong>Restringido.</strong> Solo determinados grupos pueden acceder debido a funciones, sensibilidad, acuerdos o riesgos específicos asociados al contenido.</li>
+<li><strong>Confidencial.</strong> El acceso requiere controles reforzados y autorización explícita debido a la naturaleza sensible del recurso y a las consecuencias de una divulgación no autorizada.</li>
+</ul>
+<p>La clasificación debe incluir justificación.</p>
+<hr/>
+<h2 id="33-7-parte-g-matriz-de-riesgos">33.7. Parte G — Matriz de riesgos</h2>
+<table>
+<thead>
+<tr>
+<th>Riesgo</th>
+<th>Causa</th>
+<th>Probabilidad</th>
+<th>Impacto</th>
+<th>Responsable</th>
+<th>Mitigación</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>Se debe incluir, al menos:</p>
+<ul>
+<li><strong>Desactualización.</strong> Evaluar el riesgo de que el recurso deje de representar la realidad por falta de una frecuencia de mantenimiento o responsable claramente definido.</li>
+<li><strong>Duplicidad.</strong> Analizar la posibilidad de que existan varias copias que evolucionen de manera independiente y generen discrepancias.</li>
+<li><strong>Pérdida de información.</strong> Considerar fallas humanas o tecnológicas que puedan eliminar datos, configuraciones o versiones necesarias para la continuidad.</li>
+<li><strong>Publicación incorrecta.</strong> Evaluar el riesgo de exponer una versión no aprobada, información sensible o un recurso que no cumple requisitos mínimos de calidad.</li>
+<li><strong>Dependencia de una persona.</strong> Identificar conocimiento, credenciales o procedimientos que se encuentren concentrados y cuya ausencia pueda interrumpir la operación.</li>
+<li><strong>Metadatos obsoletos.</strong> Analizar la posibilidad de que la descripción deje de coincidir con el recurso real y conduzca a decisiones incorrectas por parte de los usuarios.</li>
+</ul>
+<hr/>
+<h1>34. Entregable de la Semana 2</h1>
+<p><strong>Extensión sugerida:</strong> 7 a 10 páginas.</p>
+<p>El documento deberá contener:</p>
+<ol>
+<li><p><strong>Descripción revisada del proyecto.</strong> Debe incorporar las observaciones de la Semana 1.</p>
+</li>
+<li><p><strong>Mapa de actores.</strong> Cada actor debe tener rol, función y responsabilidad explicados.</p>
+</li>
+<li><p><strong>Inventario preliminar de datos.</strong> Debe incluir fuente, custodio, frecuencia y acceso.</p>
+</li>
+<li><p><strong>Matriz de gobernanza.</strong> Debe mostrar responsabilidades por recurso.</p>
+</li>
+<li><p><strong>Matriz RACI.</strong> Debe cubrir actividades relevantes del ciclo de vida.</p>
+</li>
+<li><p><strong>Ciclo de vida de un recurso crítico.</strong> Debe incluir responsables y condiciones de paso.</p>
+</li>
+<li><p><strong>Acuerdo de intercambio.</strong> Debe ser suficientemente operativo.</p>
+</li>
+<li><p><strong>Clasificación preliminar de acceso.</strong> Debe justificarse.</p>
+</li>
+<li><p><strong>Matriz de riesgos.</strong> Debe relacionar causas, impactos y mitigaciones.</p>
+</li>
+<li><p><strong>Diagrama de gobernanza.</strong> Debe representar cómo se coordinan los actores.</p>
+</li>
+<li><p><strong>Conclusión.</strong> Debe responder qué decisiones organizacionales deben estar claras antes de cerrar la arquitectura técnica.</p>
+</li>
+</ol>
+<hr/>
+<h1>35. Rúbrica formativa</h1>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Insuficiente</th>
+<th>En desarrollo</th>
+<th>Adecuado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Actores</td>
+<td>Nombres sin función</td>
+<td>Algunos roles claros</td>
+<td>Roles y responsabilidades justificadas</td>
+</tr>
+<tr>
+<td>Custodia</td>
+<td>No identificada</td>
+<td>Parcial</td>
+<td>Cada recurso crítico tiene custodio</td>
+</tr>
+<tr>
+<td>Fuente oficial</td>
+<td>No existe</td>
+<td>Se infiere</td>
+<td>Se identifica y justifica</td>
+</tr>
+<tr>
+<td>Actualización</td>
+<td>No considerada</td>
+<td>Frecuencia sin responsable</td>
+<td>Frecuencia, responsable y flujo</td>
+</tr>
+<tr>
+<td>RACI</td>
+<td>Letras sin explicación</td>
+<td>Parcial</td>
+<td>Coherente con responsabilidades</td>
+</tr>
+<tr>
+<td>Acceso</td>
+<td>No clasificado</td>
+<td>Clasificación sin fundamento</td>
+<td>Nivel justificado</td>
+</tr>
+<tr>
+<td>Calidad</td>
+<td>No considerada</td>
+<td>Reglas genéricas</td>
+<td>Criterios relacionados con uso</td>
+</tr>
+<tr>
+<td>Trazabilidad</td>
+<td>No existe</td>
+<td>Parcial</td>
+<td>Versiones y cambios identificables</td>
+</tr>
+<tr>
+<td>Riesgos</td>
+<td>Genéricos</td>
+<td>Relevantes sin controles</td>
+<td>Riesgo, causa y mitigación</td>
+</tr>
+<tr>
+<td>Sostenibilidad</td>
+<td>No considerada</td>
+<td>Mencionada</td>
+<td>Documentación, continuidad y responsables</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>36. Secuencia sugerida para las 4 horas teóricas</h1>
+<h2 id="bloque-1-40-minutos-de-arquitectura-a-gobernanza">Bloque 1 — 40 minutos: de arquitectura a gobernanza</h2>
+<p>Se retoma el diagrama de la Semana 1.</p>
+<p>El docente pregunta:</p>
+<blockquote>
+<p>¿Quién responde por cada caja del diagrama?</p>
+</blockquote>
+<p>La discusión debe conducir a la necesidad de roles.</p>
+<hr/>
+<h2 id="bloque-2-50-minutos-actores-y-responsabilidades">Bloque 2 — 50 minutos: actores y responsabilidades</h2>
+<p>Se desarrollan productor, custodio, administrador, publicador, usuario y coordinador.</p>
+<p>Conviene utilizar un único dataset como ejemplo para no fragmentar la explicación.</p>
+<hr/>
+<h2 id="bloque-3-45-minutos-ciclo-de-vida-y-fuente-oficial">Bloque 3 — 45 minutos: ciclo de vida y fuente oficial</h2>
+<p>Se construye en pizarra el ciclo completo.</p>
+<p>Debe enfatizarse que la publicación es solo una etapa.</p>
+<hr/>
+<h2 id="bloque-4-45-minutos-matrices-y-acuerdos">Bloque 4 — 45 minutos: matrices y acuerdos</h2>
+<p>Se construye una RACI conjunta.</p>
+<p>Después se traduce a un acuerdo de intercambio.</p>
+<hr/>
+<h2 id="bloque-5-30-minutos-calidad-acceso-y-seguridad">Bloque 5 — 30 minutos: calidad, acceso y seguridad</h2>
+<p>Se analiza cómo decisiones organizacionales se transforman posteriormente en controles técnicos.</p>
+<hr/>
+<h2 id="bloque-6-30-minutos-sostenibilidad-riesgos-y-caso-chile">Bloque 6 — 30 minutos: sostenibilidad, riesgos y caso Chile</h2>
+<p>Se utiliza IDE Chile/SNIT como ejemplo de coordinación y evolución de gobernanza.</p>
+<hr/>
+<h1>37. Preguntas de cierre con respuestas orientativas</h1>
+<h2 id="37-1-productor-y-custodio-deben-ser-siempre-la-misma-entidad">37.1. ¿Productor y custodio deben ser siempre la misma entidad?</h2>
+<p>No. El productor genera el recurso. El custodio responde institucionalmente por su definición, vigencia y calidad.</p>
+<hr/>
+<h2 id="37-2-ti-debe-ser-custodio-de-todos-los-datos">37.2. ¿TI debe ser custodio de todos los datos?</h2>
+<p>No. TI puede administrar la infraestructura, pero no necesariamente posee la autoridad temática para validar todos los recursos.</p>
+<hr/>
+<h2 id="37-3-por-que-es-importante-identificar-una-fuente-oficial">37.3. ¿Por qué es importante identificar una fuente oficial?</h2>
+<p>Porque reduce ambigüedad y permite distinguirla de copias y productos derivados.</p>
+<hr/>
+<h2 id="37-4-la-matriz-raci-resuelve-toda-la-gobernanza">37.4. ¿La matriz RACI resuelve toda la gobernanza?</h2>
+<p>No. RACI resume participación, pero debe complementarse con políticas, procedimientos, criterios y evidencias.</p>
+<hr/>
+<h2 id="37-5-puede-una-organizacion-pequena-tener-gobernanza-sin-comite-formal">37.5. ¿Puede una organización pequeña tener gobernanza sin comité formal?</h2>
+<p>Sí. La gobernanza puede ser simple. Lo esencial es que las responsabilidades y decisiones estén claras.</p>
+<hr/>
+<h2 id="37-6-por-que-la-calidad-es-una-decision-de-gobernanza">37.6. ¿Por qué la calidad es una decisión de gobernanza?</h2>
+<p>Porque alguien debe definir qué nivel de calidad es suficiente para un uso y quién puede aprobar un recurso.</p>
+<hr/>
+<h2 id="37-7-por-que-la-seguridad-depende-de-la-gobernanza">37.7. ¿Por qué la seguridad depende de la gobernanza?</h2>
+<p>Porque la tecnología implementa permisos, pero la gobernanza determina quién debería tenerlos.</p>
+<hr/>
+<h1>38. Errores conceptuales frecuentes</h1>
+<h2 id="38-1-el-administrador-de-la-base-es-dueno-del-dato">38.1. “El administrador de la base es dueño del dato”</h2>
+<p><strong>Corrección:</strong> Administrar la plataforma no equivale a responder por la validez temática.</p>
+<hr/>
+<h2 id="38-2-si-aparece-en-el-geoportal-es-oficial">38.2. “Si aparece en el geoportal, es oficial”</h2>
+<p><strong>Corrección:</strong> La oficialidad debe definirse institucionalmente.</p>
+<hr/>
+<h2 id="38-3-una-copia-es-equivalente-a-la-fuente">38.3. “Una copia es equivalente a la fuente”</h2>
+<p><strong>Corrección:</strong> La copia puede quedar desactualizada o haber sido transformada.</p>
+<hr/>
+<h2 id="38-4-gobernanza-significa-agregar-aprobaciones-a-todo">38.4. “Gobernanza significa agregar aprobaciones a todo”</h2>
+<p><strong>Corrección:</strong> La gobernanza debe ser proporcional al riesgo. No todos los cambios requieren el mismo nivel de control.</p>
+<hr/>
+<h2 id="38-5-los-metadatos-son-responsabilidad-exclusiva-del-catalogo">38.5. “Los metadatos son responsabilidad exclusiva del catálogo”</h2>
+<p><strong>Corrección:</strong> El catálogo almacena o expone registros, pero la información del metadato debe mantenerse en relación con el recurso y sus responsables.</p>
+<hr/>
+<h2 id="38-6-un-respaldo-es-suficiente-para-garantizar-continuidad">38.6. “Un respaldo es suficiente para garantizar continuidad”</h2>
+<p><strong>Corrección:</strong> También se necesita saber cómo recuperar, quién puede hacerlo y si la recuperación fue probada.</p>
+<hr/>
+<h1>39. Glosario de la semana</h1>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición de trabajo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gobernanza</td>
+<td>Estructuras y reglas para tomar decisiones y asignar responsabilidades</td>
+</tr>
+<tr>
+<td>Productor</td>
+<td>Actor que genera el recurso</td>
+</tr>
+<tr>
+<td>Custodio</td>
+<td>Responsable institucional del recurso</td>
+</tr>
+<tr>
+<td>Administrador</td>
+<td>Responsable de la plataforma técnica</td>
+</tr>
+<tr>
+<td>Publicador</td>
+<td>Actor que expone un recurso autorizado</td>
+</tr>
+<tr>
+<td>Fuente oficial</td>
+<td>Recurso reconocido como referencia institucional</td>
+</tr>
+<tr>
+<td>Copia</td>
+<td>Reproducción para un uso específico</td>
+</tr>
+<tr>
+<td>Producto derivado</td>
+<td>Recurso transformado desde una fuente</td>
+</tr>
+<tr>
+<td>Linaje</td>
+<td>Historia de origen y transformaciones</td>
+</tr>
+<tr>
+<td>Trazabilidad</td>
+<td>Capacidad de reconstruir cambios y decisiones</td>
+</tr>
+<tr>
+<td>RACI</td>
+<td>Matriz de responsables, accountable, consultados e informados</td>
+</tr>
+<tr>
+<td>Acuerdo de intercambio</td>
+<td>Regla documentada para transferir o compartir un recurso</td>
+</tr>
+<tr>
+<td>Continuidad</td>
+<td>Capacidad de mantener o recuperar una operación</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>40. Trabajo autónomo para la Semana 3</h1>
+<p>Cada equipo deberá comenzar a analizar las políticas y condiciones de uso de sus recursos.</p>
+<p>Se deberá revisar:</p>
+<ul>
+<li><strong>Qué datasets podrían ser públicos.</strong> El equipo deberá justificar qué recursos pueden difundirse abiertamente considerando propósito, normativa, sensibilidad y valor para usuarios externos.</li>
+<li><strong>Cuáles podrían necesitar restricción.</strong> Se deberá identificar información cuya exposición requiera autenticación, grupos específicos o condiciones adicionales de acceso.</li>
+<li><strong>Si existen datos personales o sensibles.</strong> El análisis deberá reconocer atributos o niveles de detalle que puedan involucrar privacidad, confidencialidad o riesgos para personas e infraestructura.</li>
+<li><strong>Qué licencias podrían utilizarse.</strong> Se deberán revisar alternativas que expresen claramente las condiciones de reutilización cuando el recurso pueda compartirse con terceros.</li>
+<li><strong>Qué riesgos pueden aparecer por publicación o reutilización.</strong> El equipo deberá considerar posibles usos incorrectos, pérdida de contexto, exposición de información o conflictos derivados de condiciones poco claras.</li>
+</ul>
+<p>También deberá revisarse si la organización estudiada dispone de políticas de datos abiertos, seguridad de la información, privacidad o intercambio que puedan condicionar la IDE.</p>
+<hr/>
+<h1>41. Referencias técnicas</h1>
+<h2 id="41-1-bibliografia-base-del-programa">41.1. Bibliografía base del programa</h2>
+<p><strong>[R1]</strong> Bernabé-Poveda, M. A., &amp; López-Vázquez, C. M. (Eds.). (2012). <em>Fundamentos de las Infraestructuras de Datos Espaciales</em>. UPM Press.</p>
+<p><strong>[R5]</strong> Sjoukema, J. W., Bregt, A. K., &amp; Crompvoets, J. (2022). The Governance of INSPIRE: Evaluating and Exploring Governance Scenarios. <em>ISPRS International Journal of Geo-Information, 11</em>(2), 141.<br/>
+<a href="https://doi.org/10.3390/ijgi11020141">https://doi.org/10.3390/ijgi11020141</a></p>
+<p><strong>[R6]</strong> International Organization for Standardization. (2014). <em>ISO 19115-1:2014 Geographic information — Metadata — Part 1: Fundamentals</em>.<br/>
+<a href="https://www.iso.org/standard/53798.html">https://www.iso.org/standard/53798.html</a></p>
+<h2 id="41-2-referencias-complementarias-oficiales">41.2. Referencias complementarias oficiales</h2>
+<p><strong>[R2]</strong> United Nations Committee of Experts on Global Geospatial Information Management. <em>United Nations Integrated Geospatial Information Framework — Overarching Strategy</em>.<br/>
+<a href="https://ggim.un.org/UN-IGIF/">https://ggim.un.org/UN-IGIF/</a></p>
+<p><strong>[R3]</strong> UN-GGIM. <em>Strategic Pathway 1: Governance and Institutions — Implementation Guide</em>.<br/>
+<a href="https://ggim.un.org/UN-IGIF/documents/SP1_Governance_and_Institutions_Refined.pdf">https://ggim.un.org/UN-IGIF/documents/SP1_Governance_and_Institutions_Refined.pdf</a></p>
+<p><strong>[R4]</strong> European Commission. <em>INSPIRE — Coordination</em>.<br/>
+<a href="https://knowledge-base.inspire.ec.europa.eu/overview/coordination_en">https://knowledge-base.inspire.ec.europa.eu/overview/coordination_en</a></p>
+<p><strong>[R7]</strong> International Organization for Standardization. (2023). <em>ISO 19157-1:2023 Geographic information — Data quality — Part 1: General requirements</em>.<br/>
+<a href="https://www.iso.org/standard/78900.html">https://www.iso.org/standard/78900.html</a></p>
+<p><strong>[R8]</strong> IDE Chile. <em>SNIT e institucionalidad de la información territorial</em>.<br/>
+<a href="https://www.ide.cl/">https://www.ide.cl/</a></p>
+<p><strong>[R9]</strong> IDE Chile. <em>Infraestructura común para la información territorial del Estado</em>.<br/>
+<a href="https://www.ide.cl/">https://www.ide.cl/</a></p>
+<p><strong>[R10]</strong> IDE Chile. (27 de agosto de 2026). <em>Consejo de Ministros de la Información Territorial aprueba acuerdos para fortalecer la coordinación del Estado</em>.<br/>
+<a href="https://www.ide.cl/noticias/2026-08-consejo-de-ministros-de-la-informacion-territorial-aprueba-acuerdos/">https://www.ide.cl/noticias/2026-08-consejo-de-ministros-de-la-informacion-territorial-aprueba-acuerdos/</a></p>
+<p><strong>[R11]</strong> IDE Chile. (1 de junio de 2026). <em>CIREN y SNIT fortalecen su colaboración para mejorar el acceso a la información geoespacial del país</em>.<br/>
+<a href="https://www.ide.cl/noticias/2026-06-ciren-y-snit-fortalecen-su-colaboracion-para-mejorar-el-acceso-a-la/">https://www.ide.cl/noticias/2026-06-ciren-y-snit-fortalecen-su-colaboracion-para-mejorar-el-acceso-a-la/</a></p>
+<p><strong>[R12]</strong> United Nations Committee of Experts on Global Geospatial Information Management. <em>UN-IGIF Strategic Pathway 8: Capacity and Education</em>. Referencia complementaria para sostenibilidad de capacidades y educación geoespacial.<br/>
+<a href="https://ggim.un.org/UN-IGIF/documents/SP8_Capacity_and_Education_Refined.pdf">https://ggim.un.org/UN-IGIF/documents/SP8_Capacity_and_Education_Refined.pdf</a></p>
+<p><strong>[R13]</strong> International Organization for Standardization. (2019). <em>ISO 22301:2019 Security and resilience — Business continuity management systems — Requirements</em>. Referencia complementaria para continuidad operacional y recuperación.<br/>
+<a href="https://www.iso.org/standard/75106.html">https://www.iso.org/standard/75106.html</a></p>
+<hr/>
+<h1>42. Síntesis final de la Semana 2</h1>
+<p>La principal idea que debería quedar al finalizar esta semana es que una Infraestructura de Datos Espaciales no se sostiene únicamente porque sus servidores estén disponibles.</p>
+<p>Debe existir claridad respecto de quién produce la información, quién responde por ella, quién administra la plataforma, quién puede publicarla y quién decide las condiciones de acceso.</p>
+<p>También debe ser posible distinguir la fuente oficial de sus copias, reconstruir cambios y comprender el ciclo de vida de un recurso.</p>
+<p>La gobernanza no busca aumentar innecesariamente el número de controles. Busca que el nivel de control sea proporcional al riesgo y que las decisiones dejen de depender de conocimiento informal.</p>
+<p>Un estudiante que ha comprendido la Semana 2 debería comenzar a mirar cualquier dataset institucional y formular preguntas como:</p>
+<blockquote>
+<p>¿Quién lo produce?<br/>
+¿Quién lo custodia?<br/>
+¿Cuál es la fuente oficial?<br/>
+¿Cómo se actualiza?<br/>
+¿Quién aprueba su publicación?<br/>
+¿Qué ocurre si aparece un error?<br/>
+¿Cómo se mantiene la continuidad si cambian las personas?</p>
+</blockquote>
+<p>Cuando esas preguntas tienen respuestas explícitas, la IDE comienza a transformarse en una capacidad institucional sostenible.</p>
+<div class="weeknav"><a href="Semana_01_Introduccion_IDE.html">← Semana 1</a><a href="../index.html">Índice del curso</a><a href="Semana_03_Politicas_Licencias_Privacidad_Etica_IDE.html">Semana 3 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

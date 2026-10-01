@@ -1,0 +1,350 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 14 — Seguridad, identidad, autenticación, autorización, roles y HTTPS</title><style>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
+a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_14_Seguridad_Identidad_Roles_HTTPS.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="sub" href="#principio">Principio</a><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#prueba">Prueba</a><a class="sub" href="#rotacion">Rotación</a><a class="" href="#23-1-matriz-de-permisos">23.1. Matriz de permisos</a><a class="" href="#23-2-cuentas">23.2. Cuentas</a><a class="" href="#23-3-servicios">23.3. Servicios</a><a class="" href="#23-4-https">23.4. HTTPS</a><a class="" href="#23-5-pruebas-negativas">23.5. Pruebas negativas</a><a class="" href="#23-6-logs">23.6. Logs</a><a class="" href="#autenticacion-correcta-significa-acceso-permitido">¿Autenticación correcta significa acceso permitido?</a><a class="" href="#por-que-no-debe-compartirse-una-cuenta-administrativa">¿Por qué no debe compartirse una cuenta administrativa?</a><a class="" href="#https-hace-segura-una-aplicacion">¿HTTPS hace segura una aplicación?</a></aside><main><h1>Semana 14 — Seguridad, identidad, autenticación, autorización, roles y HTTPS</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 4 — Despliegue, administración y validación operativa</div></div>
+
+
+<h1>1. Marco de la semana</h1>
+<p>La Semana 14 desarrolla identidad, autenticación, autorización, roles, permisos, HTTPS, gestión de credenciales, exposición de servicios y protección de datos. El programa exige que la IDE operativa incorpore controles de acceso y seguridad coherentes con el tipo de información y los usuarios.</p>
+<p>La semana toma las decisiones de clasificación realizadas en Semana 3 y las convierte en controles técnicos verificables.</p>
+<hr/>
+<h1>2. Propósito</h1>
+<p>La seguridad no consiste únicamente en “poner contraseña” a un servidor. Una IDE tiene múltiples superficies: base de datos, servicios, APIs, catálogo, aplicaciones, administración y redes. Cada componente necesita comprender quién accede, a qué recurso y con qué privilegios.</p>
+<p>El objetivo de la semana es diseñar una cadena de confianza: <strong>identidad → autenticación → autorización → acción → registro</strong>.</p>
+<hr/>
+<h1>3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá distinguir identidad, autenticación y autorización; diseñar roles y permisos; aplicar mínimo privilegio; proteger comunicaciones con HTTPS; gestionar credenciales de manera segura; identificar superficies expuestas y demostrar acceso diferenciado entre perfiles.</p>
+<p>También deberá reconocer que la seguridad debe combinar controles preventivos, detectivos y de recuperación.</p>
+<hr/>
+<h1>4. Identidad</h1>
+<p>Una identidad representa a una persona, sistema o servicio dentro de la infraestructura. No todas las identidades son usuarios humanos.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>Analista SIG;</li>
+<li>Administrador;</li>
+<li>Ciudadano autenticado;</li>
+<li>Aplicación web;</li>
+<li>Servicio de integración;</li>
+<li>Cuenta de respaldo.</li>
+</ul>
+<p>Separar identidades permite atribuir acciones y evitar credenciales compartidas difíciles de auditar.</p>
+<hr/>
+<h1>5. Autenticación</h1>
+<p>La autenticación verifica que una identidad es quien afirma ser. Puede utilizar contraseñas, certificados, tokens, llaves u otros mecanismos.</p>
+<p>La elección depende del tipo de cliente y riesgo. Una aplicación automatizada no debería autenticarse necesariamente igual que una persona.</p>
+<h3 id="principio">Principio</h3>
+<p>Las credenciales deben pertenecer a identidades concretas y gestionarse institucionalmente. Compartir una única cuenta administrativa entre varias personas elimina trazabilidad.</p>
+<hr/>
+<h1>6. Autorización</h1>
+<p>La autorización determina qué puede hacer una identidad ya autenticada.</p>
+<p>Ejemplo:</p>
+<pre><code class="language-text">Usuario A → Puede visualizar áreas verdes
+Usuario B → Puede editar datos internos
+Servicio público → Puede leer vista pública
+Administrador → Puede configurar capas
+</code></pre>
+<p>La autorización debe derivarse de roles y políticas, no de permisos asignados de manera improvisada usuario por usuario.</p>
+<hr/>
+<h1>7. Autenticación versus autorización</h1>
+<p>Un usuario puede autenticarse correctamente y seguir sin autorización para acceder a un recurso.</p>
+<div class="mermaid">flowchart LR
+    U["Identidad"] --&gt; A["Autenticación"]
+    A --&gt; B{"¿Autenticado?"}
+    B -- "No" --&gt; X["Acceso rechazado"]
+    B -- "Sí" --&gt; C["Autorización"]
+    C --&gt; D{"¿Permiso?"}
+    D -- "No" --&gt; X
+    D -- "Sí" --&gt; R["Recurso"]
+</div>
+<p>Esta separación es importante para interpretar códigos 401 y 403 y para diseñar sistemas de roles.</p>
+<hr/>
+<h1>8. Roles</h1>
+<p>Un rol agrupa permisos asociados a una función.</p>
+<p>Ejemplo didáctico:</p>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Capacidades principales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Público</td>
+<td>Consultar capas abiertas</td>
+</tr>
+<tr>
+<td>Analista</td>
+<td>Consumir servicios internos</td>
+</tr>
+<tr>
+<td>Productor</td>
+<td>Editar datasets asignados</td>
+</tr>
+<tr>
+<td>Publicador</td>
+<td>Configurar servicios autorizados</td>
+</tr>
+<tr>
+<td>Administrador</td>
+<td>Gestionar plataforma</td>
+</tr>
+</tbody>
+</table>
+<p>Los roles deben corresponder a responsabilidades reales y mantenerse simples. Crear decenas de roles casi idénticos aumenta errores de administración.</p>
+<hr/>
+<h1>9. Mínimo privilegio</h1>
+<p>El principio de mínimo privilegio indica que cada identidad debe recibir únicamente los permisos necesarios y durante el tiempo necesario.</p>
+<h3 id="ejemplo">Ejemplo</h3>
+<p>La cuenta usada por un visor público necesita leer una vista de publicación. No necesita crear tablas, editar usuarios ni acceder a campos internos.</p>
+<p>Reducir privilegios disminuye el impacto de errores y compromisos de credenciales.</p>
+<hr/>
+<h1>10. Matriz de acceso</h1>
+<p>La matriz de acceso traduce clasificación de datos en permisos.</p>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th style="text-align:right">Público</th>
+<th style="text-align:right">Analista</th>
+<th style="text-align:right">Productor</th>
+<th style="text-align:right">Administrador</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Áreas verdes públicas</td>
+<td style="text-align:right">Leer</td>
+<td style="text-align:right">Leer</td>
+<td style="text-align:right">Editar fuente</td>
+<td style="text-align:right">Administrar</td>
+</tr>
+<tr>
+<td>Predios internos</td>
+<td style="text-align:right">No</td>
+<td style="text-align:right">Leer</td>
+<td style="text-align:right">Editar</td>
+<td style="text-align:right">Administrar</td>
+</tr>
+<tr>
+<td>Configuración servidor</td>
+<td style="text-align:right">No</td>
+<td style="text-align:right">No</td>
+<td style="text-align:right">No</td>
+<td style="text-align:right">Administrar</td>
+</tr>
+</tbody>
+</table>
+<p>Esta matriz debe coincidir con la gobernanza de Semana 2 y la política de Semana 3.</p>
+<hr/>
+<h1>11. Seguridad en la base de datos</h1>
+<p>Los permisos de base deben separar lectura, escritura, administración y cuentas de servicio.</p>
+<p>Medidas recomendadas:</p>
+<ul>
+<li>Cuentas individuales o de servicio identificables;</li>
+<li>Contraseñas o secretos gestionados fuera del código;</li>
+<li>Privilegios mínimos;</li>
+<li>Esquemas separados cuando sea útil;</li>
+<li>Restricciones de red;</li>
+<li>Auditoría de operaciones relevantes.</li>
+</ul>
+<p>La aplicación pública no debería conectarse con una cuenta superusuario.</p>
+<hr/>
+<h1>12. Seguridad en servicios geoespaciales</h1>
+<p>Los servidores de mapas y APIs deben proteger capas, endpoints y funciones administrativas.</p>
+<p>No basta con ocultar una URL. Un endpoint “secreto” pero accesible públicamente sigue expuesto.</p>
+<h3 id="prueba">Prueba</h3>
+<p>Intentar acceder con un usuario autorizado, uno no autorizado y sin autenticación. Documentar diferencias y códigos de respuesta.</p>
+<hr/>
+<h1>13. HTTPS y TLS</h1>
+<p>HTTPS protege la comunicación mediante TLS. Esto evita que credenciales y contenido viajen en texto claro por la red.</p>
+<p>Los certificados deben:</p>
+<ul>
+<li>Corresponder al dominio;</li>
+<li>Estar vigentes;</li>
+<li>Renovarse antes de expirar;</li>
+<li>Utilizar una cadena de confianza apropiada;</li>
+<li>Configurarse con versiones y cifrados aceptables.</li>
+</ul>
+<p>RFC 8446 define TLS 1.3 [R2]. La configuración concreta depende de la plataforma y políticas institucionales.</p>
+<hr/>
+<h1>14. Reverse proxy y terminación TLS</h1>
+<p>El reverse proxy de Semana 13 puede centralizar HTTPS para varios servicios internos.</p>
+<div class="mermaid">flowchart LR
+    U["Cliente HTTPS"] --&gt; P["Reverse proxy TLS"]
+    P --&gt; G["GeoServer"]
+    P --&gt; A["API"]
+    P --&gt; C["Catálogo"]
+</div>
+<p>Esto simplifica certificados, pero el tráfico interno también debe evaluarse según el riesgo. Además, el proxy no reemplaza autorización dentro de las aplicaciones.</p>
+<hr/>
+<h1>15. Gestión de credenciales</h1>
+<p>Las credenciales no deberían almacenarse en:</p>
+<ul>
+<li>Repositorios públicos;</li>
+<li>Imágenes de contenedor;</li>
+<li>Scripts compartidos;</li>
+<li>Documentos de laboratorio;</li>
+<li>URLs visibles.</li>
+</ul>
+<p>La organización debe definir cómo crear, rotar, revocar y recuperar credenciales.</p>
+<h3 id="rotacion">Rotación</h3>
+<p>Cambiar periódicamente o tras incidentes reduce exposición, pero debe realizarse sin interrumpir servicios. Las cuentas de servicio necesitan procesos especialmente controlados.</p>
+<hr/>
+<h1>16. Tokens y APIs</h1>
+<p>Las APIs pueden utilizar tokens u otros mecanismos. El token representa autorización y debe protegerse igual que una contraseña cuando permite acceder a recursos.</p>
+<p>No debe registrarse completo en logs ni enviarse por canales inseguros.</p>
+<p>Los tokens pueden tener expiración y alcances limitados, reduciendo riesgo frente a credenciales permanentes.</p>
+<hr/>
+<h1>17. Exposición de servicios</h1>
+<p>La arquitectura debe distinguir servicios públicos y administrativos.</p>
+<div class="mermaid">flowchart TB
+    INTERNET["Internet"] --&gt; PUB["Servicios públicos"]
+    ADMIN["Red/VPN administrativa"] --&gt; ADM["Interfaces de administración"]
+    PUB --&gt; DBR["Cuenta lectura"]
+    ADM --&gt; DBW["Cuenta administración"]
+</div>
+<p>La interfaz administrativa no debería estar expuesta únicamente porque comparte aplicación con un servicio público.</p>
+<hr/>
+<h1>18. Segmentación</h1>
+<p>Separar redes o zonas limita movimiento lateral y reduce superficie expuesta.</p>
+<p>Una topología puede distinguir:</p>
+<ul>
+<li>Zona pública;</li>
+<li>Servicios de aplicación;</li>
+<li>Datos;</li>
+<li>Administración.</li>
+</ul>
+<p>La complejidad debe ser proporcional al entorno. En laboratorio puede representarse lógicamente mediante redes de contenedores y puertos no publicados.</p>
+<hr/>
+<h1>19. Logs de seguridad</h1>
+<p>Los eventos relevantes deberían permitir detectar intentos fallidos, cambios administrativos y accesos anómalos.</p>
+<p>El registro debe equilibrar trazabilidad con privacidad: no conviene almacenar contraseñas, tokens completos o datos sensibles innecesarios.</p>
+<p>Semana 15 utilizará logs como fuente de monitoreo y diagnóstico.</p>
+<hr/>
+<h1>20. Amenazas básicas en APIs y servicios</h1>
+<p>OWASP API Security Top 10 es una referencia complementaria útil para analizar riesgos de autorización, autenticación, consumo de recursos y configuración [R3].</p>
+<p>La asignatura no busca realizar pentesting ofensivo, sino aprender a reconocer controles básicos:</p>
+<ul>
+<li>Autorización por objeto y función;</li>
+<li>Límites de solicitudes;</li>
+<li>Validación de entrada;</li>
+<li>Gestión de inventario de APIs;</li>
+<li>Configuración segura.</li>
+</ul>
+<hr/>
+<h1>21. Disponibilidad como parte de seguridad</h1>
+<p>La seguridad también incluye mantener capacidades disponibles. Una API sin límites puede agotarse por consultas demasiado grandes aun sin existir un ataque sofisticado.</p>
+<p>Límites de registros, timeouts, caché y monitoreo ayudan a proteger recursos.</p>
+<p>Esto conecta seguridad con rendimiento y continuidad.</p>
+<hr/>
+<h1>22. Caso integrador</h1>
+<p>El proyecto define:</p>
+<ul>
+<li>WMS de áreas verdes público;</li>
+<li>WFS/API de predios restringido;</li>
+<li>Catálogo público;</li>
+<li>Administración solo desde red segura;</li>
+<li>Cuentas de base separadas;</li>
+<li>HTTPS en el proxy;</li>
+<li>Logs de autenticación.</li>
+</ul>
+<p>Se prueban tres identidades y se documenta qué operaciones puede realizar cada una.</p>
+<hr/>
+<h1>23. Laboratorio 14 — Roles y acceso</h1>
+<h2 id="23-1-matriz-de-permisos">23.1. Matriz de permisos</h2>
+<p>Construir matriz recurso × rol y justificar al menos cinco decisiones.</p>
+<h2 id="23-2-cuentas">23.2. Cuentas</h2>
+<p>Crear identidades de prueba para público/analista/publicador o equivalentes.</p>
+<h2 id="23-3-servicios">23.3. Servicios</h2>
+<p>Aplicar acceso diferenciado a al menos un recurso.</p>
+<h2 id="23-4-https">23.4. HTTPS</h2>
+<p>Configurar o verificar el punto de entrada seguro del entorno.</p>
+<h2 id="23-5-pruebas-negativas">23.5. Pruebas negativas</h2>
+<p>Intentar acceder a un recurso sin permisos y comprobar rechazo adecuado.</p>
+<h2 id="23-6-logs">23.6. Logs</h2>
+<p>Identificar dónde queda evidencia de autenticación o denegación sin exponer secretos.</p>
+<hr/>
+<h1>24. Entregable</h1>
+<p>Matriz de acceso, diagrama de seguridad, evidencia de roles, prueba de acceso permitido/denegado, configuración HTTPS, inventario de credenciales sin valores secretos y procedimiento de rotación/revocación.</p>
+<hr/>
+<h1>25. Secuencia sugerida</h1>
+<ul>
+<li><strong>Bloque 1 — 40 minutos.</strong> Identidad, autenticación y autorización.</li>
+<li><strong>Bloque 2 — 45 minutos.</strong> Roles, mínimo privilegio y matriz de acceso.</li>
+<li><strong>Bloque 3 — 40 minutos.</strong> HTTPS, TLS y proxy.</li>
+<li><strong>Bloque 4 — 35 minutos.</strong> Credenciales, tokens y secretos.</li>
+<li><strong>Bloque 5 — 35 minutos.</strong> Exposición, segmentación y logs.</li>
+<li><strong>Bloque 6 — 45 minutos.</strong> Laboratorio y pruebas negativas.</li>
+</ul>
+<hr/>
+<h1>26. Preguntas de cierre</h1>
+<h2 id="autenticacion-correcta-significa-acceso-permitido">¿Autenticación correcta significa acceso permitido?</h2>
+<p>No. La autorización se evalúa después y puede denegar un recurso a un usuario autenticado.</p>
+<h2 id="por-que-no-debe-compartirse-una-cuenta-administrativa">¿Por qué no debe compartirse una cuenta administrativa?</h2>
+<p>Porque elimina trazabilidad individual y dificulta revocar acceso de una sola persona.</p>
+<h2 id="https-hace-segura-una-aplicacion">¿HTTPS hace segura una aplicación?</h2>
+<p>Protege la comunicación en tránsito, pero no reemplaza permisos, validación, configuración segura ni monitoreo.</p>
+<hr/>
+<h1>27. Errores frecuentes</h1>
+<ul>
+<li><strong>“Una URL difícil de adivinar está protegida”.</strong> La seguridad no debe depender de ocultar rutas.</li>
+<li><strong>“La cuenta del servicio puede ser superusuario porque solo la usa la aplicación”.</strong> Si se compromete, el impacto sería máximo.</li>
+<li><strong>“Los tokens se pueden escribir en logs para depurar”.</strong> Deben protegerse y evitar exposición innecesaria.</li>
+</ul>
+<hr/>
+<h1>28. Glosario</h1>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identidad</td>
+<td>Representación de persona o sistema</td>
+</tr>
+<tr>
+<td>Autenticación</td>
+<td>Verificación de identidad</td>
+</tr>
+<tr>
+<td>Autorización</td>
+<td>Decisión sobre permisos</td>
+</tr>
+<tr>
+<td>Rol</td>
+<td>Agrupación de privilegios por función</td>
+</tr>
+<tr>
+<td>Mínimo privilegio</td>
+<td>Otorgar solo capacidades necesarias</td>
+</tr>
+<tr>
+<td>TLS</td>
+<td>Protocolo de protección de comunicaciones</td>
+</tr>
+<tr>
+<td>Secreto</td>
+<td>Credencial o material sensible de autenticación</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>29. Trabajo autónomo</h1>
+<p>Preparar un inventario de logs, métricas, respaldos y servicios críticos para Semana 15. Definir qué fallas deberían generar una alerta y qué componentes deben poder recuperarse.</p>
+<hr/>
+<h1>30. Referencias</h1>
+<p><strong>[R1]</strong> NIST. <em>Digital Identity Guidelines — SP 800-63</em>.<br/>
+<a href="https://pages.nist.gov/800-63-4/">https://pages.nist.gov/800-63-4/</a></p>
+<p><strong>[R2]</strong> IETF. <em>RFC 8446 — TLS 1.3</em>.<br/>
+<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a></p>
+<p><strong>[R3]</strong> OWASP. <em>API Security Top 10</em>.<br/>
+<a href="https://owasp.org/www-project-api-security/">https://owasp.org/www-project-api-security/</a></p>
+<hr/>
+<h1>31. Síntesis</h1>
+<p>La Semana 14 transforma políticas de acceso en controles técnicos. Una IDE segura identifica quién accede, limita lo que puede hacer, protege comunicaciones, gestiona credenciales y conserva evidencia suficiente para detectar y analizar eventos.</p>
+<div class="weeknav"><a href="Semana_13_Despliegue_Contenedores_Ambientes.html">← Semana 13</a><a href="../index.html">Índice del curso</a><a href="Semana_15_Monitoreo_Logs_Backup_Recuperacion.html">Semana 15 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>

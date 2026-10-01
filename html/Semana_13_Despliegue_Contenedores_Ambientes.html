@@ -1,0 +1,271 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Semana 13 — Despliegue, ambientes, dependencias, contenedores y reproducibilidad</title><style>
+:root{--ink:#19252d;--muted:#5c6870;--line:#dbe2e6;--paper:#ffffff;--bg:#f4f6f7;--nav:#123c55;--accent:#006f8b;--soft:#eaf2f5;--code:#f1f4f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.66}
+a{color:#006784}a:hover{color:#004a60}.topbar{background:var(--nav);color:#fff;border-bottom:4px solid #9db6c3}.topbar-inner{max-width:1320px;margin:auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.course-mark{font-size:.86rem;letter-spacing:.04em;text-transform:uppercase;color:#dce9ef}.top-actions a{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:8px 11px;border-radius:4px;font-size:.86rem}.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:30px 28px 70px}.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid var(--line);padding:18px 16px;max-height:calc(100vh - 40px);overflow:auto}.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;color:#44545e}.toc a{display:block;text-decoration:none;color:#4e5c64;font-size:.84rem;line-height:1.35;padding:5px 4px;border-left:2px solid transparent}.toc a.sub{padding-left:16px;font-size:.8rem}.toc a:hover{border-left-color:var(--accent);color:var(--accent)}main{background:var(--paper);border:1px solid var(--line);padding:48px 58px;min-width:0}h1{font-size:2.25rem;line-height:1.15;margin:0 0 24px;color:#143a51}h2{font-size:1.45rem;line-height:1.25;margin:42px 0 14px;color:#173e54;border-bottom:1px solid var(--line);padding-bottom:7px}h3{font-size:1.15rem;margin:28px 0 10px;color:#225269}h4{font-size:1rem;color:#2d5b70}p{margin:10px 0 16px}strong{color:#183f54}blockquote{margin:20px 0;padding:13px 18px;border-left:4px solid var(--accent);background:var(--soft);color:#30444f}table{border-collapse:collapse;width:100%;margin:20px 0 28px;font-size:.92rem}th,td{border:1px solid #d5dde1;padding:9px 11px;text-align:left;vertical-align:top}th{background:#edf3f5;color:#244756}pre{overflow:auto;background:var(--code);border:1px solid var(--line);padding:15px 17px}code{font-family:Consolas,'Courier New',monospace;font-size:.9em}.mermaid{background:#fff;border:1px solid var(--line);padding:20px;margin:22px 0;overflow:auto}.doc-meta{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:4px;background:#f7f9fa;border:1px solid var(--line);padding:16px 18px;margin:0 0 30px;font-size:.92rem}.doc-meta .label{font-weight:bold;color:#315367}.weeknav{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:52px;padding-top:22px}.weeknav a{text-decoration:none;background:var(--soft);padding:10px 13px;border:1px solid #d3e1e7;border-radius:4px}.footer{max-width:1320px;margin:0 auto 30px;padding:0 28px;color:#687780;font-size:.82rem;text-align:center}@media(max-width:900px){.layout{grid-template-columns:1fr;padding:18px}.toc{position:relative;top:0;max-height:none}.topbar-inner{padding:16px 18px}.layout main{padding:30px 24px}h1{font-size:1.8rem}}
+</style><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'neutral'});</script></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a><a href="../markdown/Semana_13_Despliegue_Contenedores_Ambientes.md">Markdown</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#desarrollo">Desarrollo</a><a class="" href="#prueba-qa">Prueba / QA</a><a class="" href="#produccion">Producción</a><a class="sub" href="#beneficio">Beneficio</a><a class="sub" href="#ejemplo">Ejemplo</a><a class="sub" href="#ejemplo-2">Ejemplo</a><a class="" href="#22-1-inventario">22.1. Inventario</a><a class="" href="#22-2-ambientes">22.2. Ambientes</a><a class="" href="#22-3-contenedores">22.3. Contenedores</a><a class="" href="#22-4-persistencia">22.4. Persistencia</a><a class="" href="#22-5-configuracion">22.5. Configuración</a><a class="" href="#22-6-reproduccion">22.6. Reproducción</a><a class="" href="#contenedor-significa-que-no-necesito-respaldos">¿Contenedor significa que no necesito respaldos?</a><a class="" href="#por-que-fijar-versiones">¿Por qué fijar versiones?</a><a class="" href="#todo-servicio-debe-exponer-su-puerto-a-internet">¿Todo servicio debe exponer su puerto a internet?</a></aside><main><h1>Semana 13 — Despliegue, ambientes, dependencias, contenedores y reproducibilidad</h1><div class="doc-meta"><div class="label">Asignatura</div><div>Infraestructura de Datos Espaciales</div><div class="label">Código</div><div>12436</div><div class="label">Carrera</div><div>Ingeniería Civil en Geomensura y Geomática</div><div class="label">Departamento</div><div>Departamento de Ingeniería Geoespacial y Ambiental</div><div class="label">Unidad</div><div>Unidad 4 — Despliegue, administración y validación operativa</div></div>
+
+
+<h1>1. Marco de la semana</h1>
+<p>La Semana 13 inicia la Unidad 4 con topología de despliegue, ambientes, dependencias, configuración, contenedores o virtualización cuando corresponda y neutralidad respecto del proveedor.</p>
+<p>El proyecto deja de ser una colección de componentes configurados manualmente y comienza a tratarse como una infraestructura que debe poder desplegarse, mantenerse y recuperarse de manera reproducible.</p>
+<hr/>
+<h1>2. Propósito</h1>
+<p>Durante semanas anteriores se publicaron servicios y se construyó una arquitectura lógica. La siguiente pregunta es operacional: ¿podría otro equipo instalar y ejecutar esta IDE a partir de la documentación y artefactos disponibles?</p>
+<p>Si la respuesta depende de recordar comandos ejecutados meses atrás, existe una debilidad de mantenibilidad. El despliegue reproducible busca reducir configuración manual, registrar dependencias y separar ambientes.</p>
+<hr/>
+<h1>3. Resultados de aprendizaje</h1>
+<p>Al finalizar la semana, el estudiante deberá distinguir arquitectura lógica de topología de despliegue, definir ambientes de desarrollo/prueba/producción, documentar dependencias, utilizar contenedores o virtualización de manera fundamentada y construir un despliegue reproducible del proyecto.</p>
+<p>También deberá gestionar configuración y secretos sin incorporarlos directamente al código o archivos públicos.</p>
+<hr/>
+<h1>4. ¿Qué es un despliegue?</h1>
+<p>Desplegar significa llevar una aplicación o servicio desde sus artefactos y configuración hacia un entorno donde puede ejecutarse.</p>
+<p>En una IDE, el despliegue puede involucrar:</p>
+<ul>
+<li>Base de datos;</li>
+<li>Servidor de mapas;</li>
+<li>Catálogo;</li>
+<li>API;</li>
+<li>Aplicación web;</li>
+<li>Proxy;</li>
+<li>Monitoreo;</li>
+<li>Almacenamiento.</li>
+</ul>
+<p>Un despliegue reproducible documenta cómo se conectan y qué configuración requiere cada uno.</p>
+<hr/>
+<h1>5. Ambientes</h1>
+<p>Separar ambientes reduce el riesgo de probar cambios directamente sobre producción.</p>
+<h2 id="desarrollo">Desarrollo</h2>
+<p>Permite experimentar y modificar componentes con alta frecuencia. Puede utilizar datos reducidos o sintéticos.</p>
+<h2 id="prueba-qa">Prueba / QA</h2>
+<p>Busca parecerse a producción y se utiliza para validar versiones antes de liberar cambios.</p>
+<h2 id="produccion">Producción</h2>
+<p>Es el entorno utilizado por usuarios y debe priorizar estabilidad, seguridad, respaldo y control de cambios.</p>
+<p>No todas las organizaciones necesitan tres infraestructuras físicas completas; el principio puede implementarse con separación lógica proporcional al proyecto.</p>
+<hr/>
+<h1>6. Configuración por ambiente</h1>
+<p>El código o imagen de aplicación debería mantenerse lo más estable posible entre ambientes; lo que cambia es la configuración.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>URL de base de datos;</li>
+<li>Dominio;</li>
+<li>Credenciales;</li>
+<li>Nivel de logging;</li>
+<li>Tamaño de caché;</li>
+<li>Endpoints externos.</li>
+</ul>
+<p>Esta separación reduce cambios manuales y facilita promoción entre ambientes.</p>
+<hr/>
+<h1>7. Dependencias</h1>
+<p>Cada componente depende de versiones de software, bibliotecas, sistema operativo, base, red y configuración.</p>
+<p>Un inventario de dependencias debería registrar:</p>
+<ul>
+<li>Componente;</li>
+<li>Versión;</li>
+<li>Origen;</li>
+<li>Requisito de compatibilidad;</li>
+<li>Responsable de actualización.</li>
+</ul>
+<p>La frase “instalar la última versión” no es reproducible, porque la “última” cambia con el tiempo.</p>
+<hr/>
+<h1>8. Virtualización</h1>
+<p>Una máquina virtual encapsula un sistema operativo completo sobre un hipervisor. Puede proporcionar aislamiento fuerte y compatibilidad con aplicaciones tradicionales.</p>
+<p>Las VMs son útiles cuando los componentes requieren sistemas operativos diferentes, aislamiento de recursos o integración con infraestructura corporativa existente.</p>
+<p>Su costo incluye mayor consumo y mantenimiento de sistemas operativos invitados.</p>
+<hr/>
+<h1>9. Contenedores</h1>
+<p>Los contenedores empaquetan aplicación y dependencias en imágenes que se ejecutan con aislamiento de procesos sobre el host.</p>
+<p>Para el curso, Docker puede utilizarse como herramienta docente porque permite describir servicios, redes y volúmenes de forma reproducible. Sin embargo, el concepto importante es <strong>contenedorización</strong>, no Docker como requisito permanente.</p>
+<h3 id="beneficio">Beneficio</h3>
+<p>Otro equipo puede ejecutar una imagen equivalente sin repetir manualmente cada instalación.</p>
+<hr/>
+<h1>10. Imagen versus contenedor</h1>
+<p>La imagen es una plantilla inmutable con software y dependencias. El contenedor es una instancia en ejecución.</p>
+<p>Los datos persistentes no deberían depender exclusivamente del sistema de archivos efímero del contenedor. Deben utilizarse volúmenes o almacenamiento externo según la plataforma.</p>
+<p>Esta distinción es especialmente importante para PostGIS, catálogos y configuraciones que deben sobrevivir a recreación de contenedores.</p>
+<hr/>
+<h1>11. Docker Compose como herramienta docente</h1>
+<p>Un archivo Compose puede describir varios servicios y sus relaciones.</p>
+<pre><code class="language-yaml">services:
+  db:
+    image: postgis/postgis:...
+  geoserver:
+    image: ...
+    depends_on:
+      - db
+</code></pre>
+<p>El ejemplo es conceptual. Las versiones deben fijarse y las imágenes deben provenir de fuentes evaluadas.</p>
+<p>Compose ayuda a visualizar arquitectura física, redes, puertos, volúmenes y variables.</p>
+<hr/>
+<h1>12. Redes y puertos</h1>
+<p>No todos los componentes deben exponerse directamente a internet.</p>
+<p>Una topología típica puede mantener base y servicios internos en una red privada y exponer únicamente un proxy o gateway.</p>
+<div class="mermaid">flowchart LR
+    U["Usuarios"] --&gt; P["Reverse proxy / HTTPS"]
+    P --&gt; G["GeoServer / API / Catálogo"]
+    G --&gt; D["Base de datos privada"]
+</div>
+<p>Reducir superficie expuesta mejora seguridad y simplifica certificados.</p>
+<hr/>
+<h1>13. Reverse proxy</h1>
+<p>Un reverse proxy recibe solicitudes externas y las dirige a servicios internos. Puede centralizar TLS, dominios, cabeceras, límites y rutas.</p>
+<p>No sustituye autenticación ni seguridad de las aplicaciones, pero simplifica un punto de entrada consistente.</p>
+<h3 id="ejemplo">Ejemplo</h3>
+<p><code>https://ide.example.cl/maps/</code> puede dirigir a GeoServer y <code>/api/</code> a una API distinta sin exponer puertos internos.</p>
+<hr/>
+<h1>14. Configuración y secretos</h1>
+<p>Las contraseñas, tokens y claves no deberían incorporarse directamente al repositorio de código o imágenes públicas.</p>
+<p>Los secretos pueden gestionarse mediante variables protegidas, archivos fuera de control de versiones o servicios especializados según el entorno.</p>
+<p>La documentación debe explicar cómo proporcionar secretos sin incluir sus valores reales.</p>
+<hr/>
+<h1>15. Volúmenes y persistencia</h1>
+<p>Los datos, configuraciones, estilos y catálogos deben identificar qué elementos necesitan persistencia.</p>
+<h3 id="ejemplo-2">Ejemplo</h3>
+<p>Recrear el contenedor de base no debe eliminar el volumen de datos. Del mismo modo, estilos de GeoServer o registros de catálogo deben incluirse en una estrategia de persistencia y respaldo.</p>
+<p>El inventario de persistencia es una entrada directa para Semana 15.</p>
+<hr/>
+<h1>16. Health checks</h1>
+<p>Un proceso puede estar en ejecución y no estar listo para responder. Los health checks permiten verificar condiciones básicas.</p>
+<p>Pueden comprobar:</p>
+<ul>
+<li>Servicio HTTP;</li>
+<li>Conexión a base;</li>
+<li>Disponibilidad de un endpoint;</li>
+<li>Dependencia crítica.</li>
+</ul>
+<p>Un health check no reemplaza monitoreo completo, pero mejora despliegue y recuperación automatizada.</p>
+<hr/>
+<h1>17. Logs en contenedores</h1>
+<p>Los logs deben salir de los contenedores hacia mecanismos que puedan persistirlos y consultarlos. Si quedan únicamente dentro de una instancia efímera, se perderán al recrearla.</p>
+<p>La estrategia debe identificar logs de aplicación, servidor web, base y proxy.</p>
+<p>Semana 15 trabajará observabilidad de manera más completa.</p>
+<hr/>
+<h1>18. Actualización de versiones</h1>
+<p>Fijar versiones mejora reproducibilidad, pero también crea obligación de actualización. La organización necesita un ciclo de revisión de vulnerabilidades, compatibilidad y soporte.</p>
+<p>Actualizar directamente producción es riesgoso. El cambio debería probarse primero en un ambiente controlado y disponer de estrategia de rollback.</p>
+<hr/>
+<h1>19. Reproducibilidad</h1>
+<p>Un despliegue es reproducible cuando otra persona puede reconstruirlo utilizando artefactos y documentación versionada.</p>
+<p>Evidencias:</p>
+<ul>
+<li>Archivo Compose o equivalente;</li>
+<li>Variables documentadas;</li>
+<li>Script de inicialización;</li>
+<li>Migraciones de base;</li>
+<li>Instrucciones de arranque;</li>
+<li>Pruebas de salud.</li>
+</ul>
+<p>La reproducibilidad es una forma concreta de transferencia de conocimiento.</p>
+<hr/>
+<h1>20. Infraestructura como código</h1>
+<p>El principio de infraestructura como código consiste en describir recursos mediante archivos versionables en lugar de configurarlos únicamente de forma manual.</p>
+<p>En el curso puede aplicarse a Compose y scripts. En entornos más avanzados puede extenderse a herramientas de provisión de nube u orquestación.</p>
+<p>El valor pedagógico es registrar decisiones y permitir revisión de cambios.</p>
+<hr/>
+<h1>21. Caso integrador</h1>
+<p>El proyecto empaqueta:</p>
+<ul>
+<li>PostGIS;</li>
+<li>GeoServer o servidor equivalente;</li>
+<li>Catálogo;</li>
+<li>API;</li>
+<li>Proxy.</li>
+</ul>
+<p>Los datos persistentes utilizan volúmenes. La base no publica su puerto a internet. El proxy expone HTTPS y las variables sensibles no se guardan en Git.</p>
+<p>El equipo puede reconstruir el entorno de prueba en una máquina nueva siguiendo el README.</p>
+<hr/>
+<h1>22. Laboratorio 13 — Despliegue reproducible</h1>
+<h2 id="22-1-inventario">22.1. Inventario</h2>
+<p>Listar componentes, versiones, puertos, dependencias y persistencia.</p>
+<h2 id="22-2-ambientes">22.2. Ambientes</h2>
+<p>Definir diferencias entre desarrollo/prueba/producción para el proyecto.</p>
+<h2 id="22-3-contenedores">22.3. Contenedores</h2>
+<p>Construir un Compose o equivalente con al menos base y un servicio.</p>
+<h2 id="22-4-persistencia">22.4. Persistencia</h2>
+<p>Demostrar que recrear un contenedor no elimina datos importantes.</p>
+<h2 id="22-5-configuracion">22.5. Configuración</h2>
+<p>Separar valores de ambiente y secretos.</p>
+<h2 id="22-6-reproduccion">22.6. Reproducción</h2>
+<p>Otro integrante debe desplegar siguiendo instrucciones desde cero o en un entorno limpio.</p>
+<hr/>
+<h1>23. Entregable</h1>
+<p>Archivo de despliegue, README, inventario de dependencias, diagrama físico, matriz de persistencia, procedimiento de actualización y evidencia de reproducción en un entorno limpio.</p>
+<hr/>
+<h1>24. Secuencia sugerida</h1>
+<ul>
+<li><strong>Bloque 1 — 40 minutos.</strong> Despliegue y ambientes.</li>
+<li><strong>Bloque 2 — 45 minutos.</strong> VMs versus contenedores.</li>
+<li><strong>Bloque 3 — 45 minutos.</strong> Compose, redes, puertos y persistencia.</li>
+<li><strong>Bloque 4 — 35 minutos.</strong> Configuración, secretos y proxy.</li>
+<li><strong>Bloque 5 — 30 minutos.</strong> Versiones, health checks y reproducibilidad.</li>
+<li><strong>Bloque 6 — 45 minutos.</strong> Laboratorio.</li>
+</ul>
+<hr/>
+<h1>25. Preguntas de cierre</h1>
+<h2 id="contenedor-significa-que-no-necesito-respaldos">¿Contenedor significa que no necesito respaldos?</h2>
+<p>No. Los contenedores son reemplazables; precisamente por eso los datos persistentes deben estar separados y respaldados.</p>
+<h2 id="por-que-fijar-versiones">¿Por qué fijar versiones?</h2>
+<p>Permite reproducir un entorno conocido. Debe combinarse con un proceso de actualización planificado.</p>
+<h2 id="todo-servicio-debe-exponer-su-puerto-a-internet">¿Todo servicio debe exponer su puerto a internet?</h2>
+<p>No. Reducir componentes expuestos disminuye superficie de ataque y simplifica control.</p>
+<hr/>
+<h1>26. Errores frecuentes</h1>
+<ul>
+<li><strong>“Docker es la arquitectura”.</strong> Es una herramienta de despliegue; la arquitectura existe a nivel lógico y físico más amplio.</li>
+<li><strong>“Si está en Compose, es producción-ready”.</strong> Se necesitan seguridad, respaldo, observabilidad y operación.</li>
+<li><strong>“Guardar contraseñas en .env y subirlo al repositorio es aceptable”.</strong> Los secretos deben excluirse y gestionarse de manera segura.</li>
+</ul>
+<hr/>
+<h1>27. Glosario</h1>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ambiente</td>
+<td>Entorno de desarrollo, prueba o producción</td>
+</tr>
+<tr>
+<td>Imagen</td>
+<td>Plantilla de software para contenedor</td>
+</tr>
+<tr>
+<td>Contenedor</td>
+<td>Instancia aislada de una imagen</td>
+</tr>
+<tr>
+<td>Volumen</td>
+<td>Almacenamiento persistente asociado</td>
+</tr>
+<tr>
+<td>Reverse proxy</td>
+<td>Punto de entrada que dirige solicitudes</td>
+</tr>
+<tr>
+<td>Health check</td>
+<td>Prueba simple de salud/estado</td>
+</tr>
+<tr>
+<td>Infraestructura como código</td>
+<td>Configuración versionable de infraestructura</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h1>28. Trabajo autónomo</h1>
+<p>Preparar la matriz de usuarios, grupos y permisos para Semana 14. Identificar qué servicios son públicos, cuáles requieren autenticación y qué operaciones administrativas deben quedar restringidas.</p>
+<hr/>
+<h1>29. Referencias</h1>
+<p><strong>[R1]</strong> Docker Documentation.<br/>
+<a href="https://docs.docker.com/">https://docs.docker.com/</a></p>
+<p><strong>[R2]</strong> PostgreSQL Documentation.<br/>
+<a href="https://www.postgresql.org/docs/current/">https://www.postgresql.org/docs/current/</a></p>
+<p><strong>[R3]</strong> NIST. <em>Application Container Security Guide — SP 800-190</em>.<br/>
+<a href="https://csrc.nist.gov/publications/detail/sp/800-190/final">https://csrc.nist.gov/publications/detail/sp/800-190/final</a></p>
+<hr/>
+<h1>30. Síntesis</h1>
+<p>La Semana 13 convierte la IDE en un sistema desplegable. El objetivo no es dominar una herramienta de contenedores, sino aprender a separar configuración, persistencia y dependencias para que la infraestructura pueda reproducirse, actualizarse y recuperarse sin depender de memoria individual.</p>
+<div class="weeknav"><a href="Semana_12_Coberturas_Teselas_Cache_Rendimiento.html">← Semana 12</a><a href="../index.html">Índice del curso</a><a href="Semana_14_Seguridad_Identidad_Roles_HTTPS.html">Semana 14 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
