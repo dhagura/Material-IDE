@@ -16,7 +16,42 @@
   height:auto;
   margin:0 auto;
 }
-</style></head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-qué-es-un-metadato">4. ¿Qué es un metadato?</a><a class="" href="#5-metadatos-de-descubrimiento">5. Metadatos de
+</style><style>
+
+/* CONTROL_DIAGRAMAS_IDE_V1 — tamaño predeterminado del 70%, ajustable por imagen */
+.diagram-static { overflow: visible; }
+.diagram-static .ide-diagram-controls {
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+    gap:8px;margin:0 0 12px;padding:9px 12px;
+    border:1px solid #dbe3e7;border-radius:6px;background:#f7fafb;
+    color:#29485a;font:13px/1.4 Arial,Helvetica,sans-serif;
+}
+.diagram-static .ide-diagram-controls button {
+    color:#174f67;background:#fff;border:1px solid #bfcfd7;border-radius:5px;
+    padding:5px 11px;cursor:pointer;font:inherit;
+}
+.diagram-static .ide-diagram-controls button:hover,
+.diagram-static .ide-diagram-controls button:focus-visible {
+    background:#eaf2f5;outline:2px solid #80bbce;outline-offset:1px;
+}
+.diagram-static .ide-diagram-controls input[type=range] { width:125px;accent-color:#00708b;cursor:pointer; }
+.diagram-static .ide-diagram-percent {min-width:45px;font-weight:bold;}
+.diagram-static .ide-diagram-viewport { width:100%;overflow-x:auto;overflow-y:visible; }
+.diagram-static .ide-diagram-viewport > img {
+    display:block;width:70%;max-width:none;height:auto;margin:0 auto;
+}
+@media (max-width:600px) {
+    .diagram-static .ide-diagram-controls {gap:5px;padding:8px;}
+    .diagram-static .ide-diagram-controls input[type=range] {width:90px;}
+}
+@media print {
+    .diagram-static .ide-diagram-controls {display:none!important;}
+    .diagram-static .ide-diagram-viewport {overflow:visible;}
+    .diagram-static .ide-diagram-viewport > img {width:90%!important;max-width:100%;}
+}
+
+</style>
+</head><body><header class="topbar"><div class="topbar-inner"><div><div class="course-mark">Universidad de Santiago de Chile · Facultad de Ingeniería</div><strong>12436 · Infraestructura de Datos Espaciales</strong></div><div class="top-actions"><a href="../index.html">Índice</a></div></div></header><div class="layout"><aside class="toc"><h2>Contenido</h2><a class="" href="#1-marco-de-la-semana">1. Marco de la semana</a><a class="" href="#2-propósito-de-la-semana">2. Propósito de la semana</a><a class="" href="#3-resultados-de-aprendizaje">3. Resultados de aprendizaje</a><a class="" href="#4-qué-es-un-metadato">4. ¿Qué es un metadato?</a><a class="" href="#5-metadatos-de-descubrimiento">5. Metadatos de
 descubrimiento</a><a class="" href="#6-metadatos-para-evaluación">6. Metadatos para evaluación</a><a class="" href="#7-metadatos-para-uso-y-distribución">7. Metadatos para uso y
 distribución</a><a class="" href="#8-iso-19115-1-como-marco-de-referencia">8. ISO 19115-1 como
 marco de referencia</a><a class="" href="#9-identificación-del-recurso">9. Identificación del recurso</a><a class="" href="#10-responsables-y-contactos">10. Responsables y contactos</a><a class="" href="#11-fechas-y-temporalidad">11. Fechas y temporalidad</a><a class="" href="#12-extensión-espacial-y-temporal">12. Extensión espacial y
@@ -733,4 +768,46 @@ descubrirlo, comprenderlo y evaluar si sirve para su propósito. Los
 metadatos convierten conocimiento implícito en información institucional
 reutilizable y deben mantenerse como parte del producto, no como
 documentación separada y estática.</p>
-<div class="weeknav"><a href="Semana_05_Preparacion_Datos_Base_Espacial.html">← Semana 05</a><a href="Semana_07_Catalogos_Descubrimiento_OGC_API_Records.html">Semana 07 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer></body></html>
+<div class="weeknav"><a href="Semana_05_Preparacion_Datos_Base_Espacial.html">← Semana 05</a><a href="Semana_07_Catalogos_Descubrimiento_OGC_API_Records.html">Semana 07 →</a></div></main></div><footer class="footer">Universidad de Santiago de Chile · Facultad de Ingeniería · Departamento de Ingeniería Geoespacial y Ambiental</footer><script>
+
+/* CONTROL_DIAGRAMAS_IDE_V1 — controles individuales para cada diagrama */
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('figure.diagram-static').forEach(function(fig, i) {
+    if (fig.querySelector('.ide-diagram-controls')) return;
+    var img = fig.querySelector('img');
+    if (!img) return;
+    var viewport = document.createElement('div');
+    viewport.className = 'ide-diagram-viewport';
+    img.parentNode.insertBefore(viewport, img);
+    viewport.appendChild(img);
+    var tools = document.createElement('div');
+    tools.className = 'ide-diagram-controls';
+    tools.innerHTML = '<label>Diagrama '+(i+1)+' · Tamaño</label>'+
+      '<button type="button" data-ide-action="less" aria-label="Reducir el diagrama">−</button>'+
+      '<input type="range" min="30" max="170" step="5" value="70" aria-label="Tamaño del diagrama '+(i+1)+'">'+
+      '<button type="button" data-ide-action="more" aria-label="Ampliar el diagrama">+</button>'+
+      '<output class="ide-diagram-percent">70%</output>'+
+      '<button type="button" data-ide-action="reset">Restablecer</button>';
+    fig.insertBefore(tools, viewport);
+    var slider = tools.querySelector('input[type=range]');
+    var label = tools.querySelector('output');
+    var zoom = function(v) {
+      var amount = Math.max(30, Math.min(170, Number(v) || 70));
+      img.style.width = amount+'%';
+      img.style.maxWidth = 'none';
+      slider.value = String(amount);
+      label.textContent = amount+'%';
+    };
+    slider.addEventListener('input', function() {zoom(slider.value);});
+    tools.querySelectorAll('button').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var action = button.getAttribute('data-ide-action');
+        zoom(action==='reset' ? 70 : Number(slider.value)+(action==='more' ? 10 : -10));
+      });
+    });
+    zoom(70);
+  });
+});
+
+</script>
+</body></html>
